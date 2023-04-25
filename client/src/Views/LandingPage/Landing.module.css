@@ -1,0 +1,34 @@
+.conteiner {
+  background-image: url("../../img/landing.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  height: 99vh;
+  width: 98.4vw;
+  position: absolute;
+}
+
+.conteiner h1 {
+  color: rgb(0, 0, 0);
+  font-family: "Times New Roman", Times;
+  /* font-style: italic; */
+  font-size: 60px;
+  text-shadow: 0 0 2px rgb(0, 171, 151);
+  margin-left: 8%;
+  margin-top: 20%;
+}
+
+.conteiner h3 {
+  color: rgb(0, 0, 0);
+  font-family: Circular Std;
+  margin-left: 8%;
+}
+
+.conteiner button {
+  background-color: rgba(0, 171, 151, 0.907);
+  border-radius: 10px;
+  margin-left: 8%;
+  margin-top: 2%;
+  height: 5vh;
+  width: 5vw;
+}
