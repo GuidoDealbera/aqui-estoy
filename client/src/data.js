@@ -1,6 +1,6 @@
 const prueba = [
     {
-        profileImage: 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.tuexperto.com%2F2015%2F07%2F29%2Ffacebook-prueba-etiquetas-en-el-perfil%2F&psig=AOvVaw0QMjrZ4rj-R-ViZHqemJ_-&ust=1682521059264000&source=images&cd=vfe&ved=0CBEQjRxqFwoTCLiDhMKlxf4CFQAAAAAdAAAAABAE',
+        profileImage: 'https://www.tuexperto.com/wp-content/uploads/2015/07/perfil_01.jpg',
         name: 'Chiringuito',
         lastName: 'Vega',
         birthDate: '2022/04/25',
