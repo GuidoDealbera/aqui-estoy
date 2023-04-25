@@ -18,6 +18,7 @@ const PrivateRoute = ({ element: Element, ...rest }) => {
 const App = () => {
   return (
     <Routes>
+      <Route path="/" element={<LandingPage />}/>
       <Route path="/private" element={<PrivateRoute />} />
       <Route path="/protected" element={<PrivateRoute component={ProtectedPage} />} />
     </Routes>

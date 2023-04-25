@@ -9,6 +9,7 @@ const initialState = {
 };
 
 const authReducer = (state = initialState, action) => {
+  console.log(state);
   switch (action.type) {
     case LOGIN_SUCCESS:
       return {
@@ -27,7 +28,7 @@ const authReducer = (state = initialState, action) => {
     case LOGOUT:
       return initialState;
     default:
-      return state;
+      return {...state};
   }
 };
 
