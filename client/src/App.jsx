@@ -7,6 +7,8 @@ import Landing from './Views/LandingPage/Landing';
 import NavBar from './Components/NavBar/NavBar';
 import Register from './Views/Register/Register';
 
+
+
 // const PrivateRoute = ({ element: Element, ...rest }) => {
 //   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 //   const navigate = useNavigate();
