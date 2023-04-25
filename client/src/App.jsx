@@ -5,7 +5,7 @@ import {Routes, Route} from 'react-router-dom';
 import Profile from './Components/Profile/Profile';
 import Landing from './Views/LandingPage/Landing';
 import NavBar from './Components/NavBar/NavBar';
-
+import Register from './Views/Register/Register';
 
 // const PrivateRoute = ({ element: Element, ...rest }) => {
 //   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
@@ -24,6 +24,7 @@ const App = () => {
       <NavBar/> 
     <Routes>
       <Route exact path='/' element={<Landing/>}/>
+      <Route path='/register' element={<Register/>}/>
       <Route path='/profile/:name' element={<Profile/>}/>
     </Routes>
     </div>
