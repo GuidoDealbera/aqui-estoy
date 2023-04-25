@@ -6,7 +6,6 @@ import Profile from './Components/Profile/Profile';
 import Landing from './Views/LandingPage/Landing';
 import NavBar from './Components/NavBar/NavBar';
 
-
 // const PrivateRoute = ({ element: Element, ...rest }) => {
 //   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 //   const navigate = useNavigate();
