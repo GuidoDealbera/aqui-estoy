@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // src/components/LandingPage.js
 import React from 'react';
 import { useDispatch } from 'react-redux';
@@ -42,3 +43,19 @@ export default LandingPage;
 // El componente LandingPage define una función handleLogin que maneja la autenticación del usuario. Simula la autenticación con datos estáticos y, si la autenticación es exitosa, se llama a la acción loginSuccess y se redirecciona al usuario a la página de inicio de la aplicación (/dashboard). Si la autenticación falla, se llama a la acción loginFail.
 
 // Finalmente, el componente LandingPage renderiza el formulario de inicio de sesión utilizando el componente LoginForm y también puede incluir un enlace o botón para recuperar la contraseña.
+=======
+import { useParams, useNavigate } from "react-router-dom";
+
+export default function Landing (props){
+    const navigate = useNavigate();
+    const toProfile = () => {
+        navigate(`/profile/Chiringuito`)
+    }
+    return (
+        <div>
+            <h1>Landing Component</h1>
+            <button onClick={toProfile}>Log In</button>
+        </div>
+    )
+}
+>>>>>>> 2ddc6a96a693395985e8212ec04d25073182617c

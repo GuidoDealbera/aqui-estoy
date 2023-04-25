@@ -1,26 +1,27 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { Route, Routes, Navigate, useNavigate } from 'react-router-dom';
-import LandingPage from './Views/LandingPage/Landing';
-import ProtectedPage from './Components/ProtectedPage/ProtectedPage';
 
-const PrivateRoute = ({ element: Element, ...rest }) => {
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-  const navigate = useNavigate();
+import {Routes, Route} from 'react-router-dom';
+import Profile from './Components/Profile/Profile';
+import Landing from './Views/LandingPage/Landing';
 
-  if (isAuthenticated) {
-    return <Route {...rest} element={<Element />} />;
-  } else {
-    return <Navigate to="/" state={{ from: rest.location }} />;
-  }
-};
+
+// const PrivateRoute = ({ element: Element, ...rest }) => {
+//   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+//   const navigate = useNavigate();
+
+//   if (isAuthenticated) {
+//     return <Route {...rest} element={<Element />} />;
+//   } else {
+//     return <Navigate to="/" state={{ from: rest.location }} />;
+//   }
+// };
 
 const App = () => {
   return (
     <Routes>
-      <Route path="/" element={<LandingPage />}/>
-      <Route path="/private" element={<PrivateRoute />} />
-      <Route path="/protected" element={<PrivateRoute component={ProtectedPage} />} />
+
+      <Route exact path='/' element={<Landing/>}/>
+      <Route path='/profile/:name' element={<Profile/>}/>
+
     </Routes>
   );
 };
