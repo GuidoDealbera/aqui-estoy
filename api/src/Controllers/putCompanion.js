@@ -1,6 +1,6 @@
 const Companion = require("../Models/Companion");
 const putCompanion = async (req, res) => {
-  const [
+  const {
     name,
     lastName,
     profilePhoto,
@@ -12,7 +12,7 @@ const putCompanion = async (req, res) => {
     profession,
     studies,
     gender,
-  ] = req.body;
+  } = req.body;
   const { id } = req.params;
   try {
     const result = await Companion.update(
