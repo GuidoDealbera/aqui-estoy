@@ -1,0 +1,28 @@
+.navBar {
+    flex-direction: row;
+    justify-content: space-between;
+}
+.navBar img {
+    display: inline-block;
+}
+.navBar button{
+    flex-shrink: 0;
+    align-items: center;
+}
+.logincontainer {
+    position: relative;
+}
+
+.logincontainer form {
+    display: none; /* Oculta el formulario LoginForm por defecto */
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #fff;
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+.logincontainer button:hover + form {
+    display: block; /* Muestra el formulario LoginForm cuando se coloca el cursor sobre el botón */
+}
