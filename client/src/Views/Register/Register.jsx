@@ -1,8 +1,26 @@
 import React, { useState } from 'react'
+import axios from "axios"
+import { Image } from "cloudinary-react"
 
 export default function Register() {
 
+    const [imageUpload, setImageUpload] = useState("");
+
     const [state, setState] = useState({
+        form: {
+            foto_perfil: "",
+            nombre: "",
+            apellido: "",
+            fecha_nacimiento: "",
+            nacionalidad: "",
+            pais_residencia: "",
+            huso_horario: "",
+            mail: "",
+            telefono: "",
+            estudios_relaciondos: "",
+            estudios_alcanzados: "",
+            genero: ""
+        },
         index: 0
     });
 
@@ -29,6 +47,24 @@ export default function Register() {
         }
     }
 
+    const changeHandler = (event) => {
+    }
+
+    const uploadImage = async (event) => {
+        event.preventDefault()
+        const formData = new FormData();
+        formData.append("file", imageUpload)
+        formData.append("upload_preset", "mzntwjvh")
+
+        const response = await axios.post("https://api.cloudinary.com/v1_1/dqvz1juaf/image/upload", formData)
+        setState({
+            ...state, form: {
+                ...state.form,
+                foto_perfil: response.data.url
+            }
+        })
+    }
+
     switch (state.index) {
         case 0:
             return (
@@ -36,7 +72,9 @@ export default function Register() {
                     <form>
                         <div>
                             <label>Foto de Perfil</label>
-                            <input></input>
+                            <input type='file' onChange={(event) => { setImageUpload(event.target.files[0]) }}>
+                            </input>
+                            <Image style={{width:200}} cloudName="dqvz1juaf" publicId={state.form.foto_perfil}/>
                         </div>
                         <div>
                             <label>Nombre</label>
@@ -102,7 +140,7 @@ export default function Register() {
                             <input></input>
                         </div>
                         <button name="Anterior" onClick={clickHandler}>Volver</button>
-                        <button name="Submit" type='submit'>Finalizar</button>
+                        <button name="Submit" onClick={uploadImage}>Finalizar</button>
                     </form>
                 </div>
             )
