@@ -1,10 +1,8 @@
-
-import { LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT } from '../Actions/action-types';
-
+import { LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT } from "../Actions/action-types";
 
 const initialState = {
   isAuthenticated: false,
-  user: null,
+  user: {},
   error: null,
 };
 
@@ -28,7 +26,7 @@ const authReducer = (state = initialState, action) => {
     case LOGOUT:
       return initialState;
     default:
-      return {...state};
+      return { ...state };
   }
 };
 
