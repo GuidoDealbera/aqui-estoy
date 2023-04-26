@@ -8,14 +8,12 @@ export default function NavBar(props) {
   const location = useLocation();
   const navigate = useNavigate();
   const [showLogin, setShowLogin] = useState(false);
-  
   const handleMouseEnter = () => {
-    setShowLogin(true);
+    setShowLogin(true)
   };
   const handleMouseLeave = () => {
-    setShowLogin(false);
-  };
-
+    setShowLogin(false)
+  }
   const handleClick = (event) => {
     //const { name } = event.target;
     // switch (name) {
@@ -46,12 +44,11 @@ export default function NavBar(props) {
         <button
           name="session"
           onMouseEnter={handleMouseEnter}
-          //onMouseLeave={handleMouseLeave} 
         >
           Iniciar sesión
         </button>
       )}
-      {showLogin && <LoginForm setShowLogin={setShowLogin} />}
+      {showLogin && <LoginForm handleMouseLeave={handleMouseLeave}/>}
       {location.pathname !== "/profile/Chiringuito" && (
         <button name="register" onClick={handleClick}>
           Registrate

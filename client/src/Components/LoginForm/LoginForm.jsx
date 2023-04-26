@@ -7,14 +7,8 @@ const validationSchema = Yup.object().shape({
   password: Yup.string().min(6, 'Must be at least 6 characters').required('Required'),
 });
 
-const LoginForm = ({ onSubmit, setShowLogin }) => {
-  const handleOutsideClick = (event) => {
-    if(event.target.name !== 'session'){
-      setShowLogin(false)
-    }
-  }
+const LoginForm = ({ onSubmit, handleMouseLeave }) => {
   return (
-    <div onClick={handleOutsideClick}>
     <Formik
       initialValues={{ email: '', password: '' }}
       validationSchema={validationSchema}
@@ -23,24 +17,24 @@ const LoginForm = ({ onSubmit, setShowLogin }) => {
       {({ isSubmitting }) => (
         <Form>
           <div>
-            <label htmlFor="email">Email</label>
+            <label htmlFor="email">E-mail</label>
             <Field type="email" name="email" />
             <ErrorMessage name="email" component="div" />
           </div>
           <div>
-            <label htmlFor="password">Password</label>
+            <label htmlFor="password">Contraseña</label>
             <Field type="password" name="password" />
             <ErrorMessage name="password" component="div" />
           </div>
           <div>
             <button type="submit" disabled={isSubmitting}>
-              Login
+              Iniciar Sesión
             </button>
+            <button onClick={() => handleMouseLeave()}>Cancelar</button>
           </div>
         </Form>
       )}
     </Formik>
-    </div>
   );
 };
 
