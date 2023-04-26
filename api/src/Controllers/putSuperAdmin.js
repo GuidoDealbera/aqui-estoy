@@ -1,4 +1,5 @@
 const { Supervisor } = require("../db");
+const bcrypt = require("bcrypt");
 //Funcion para pasar un usuario tipo Supervisor a superAdmin
 
 //Funcion a probar
@@ -20,13 +21,24 @@ const putSuperAdmin = async (req, res) => {
     res.status(500).send("Error al actualizar el supervisor");
   }
 };
-const requireSuperAdmin = (req, res, next) => {
-    const {user}= req.body
-    if (!user || !user.isSuperAdmin) {
-      return res.status(401).send("No autorizado");
-    }
-  
-    // Si el usuario es un superAdmin, permitir el acceso al controlador
-    next();
-  };
+const requireSuperAdmin = async (req, res, next) => {
+  const { email, password } = req.body;
+
+  // Busca el usuario en la base de datos
+  const user = await Supervisor.findOne({
+    where: { email: email }
+  });
+  if (!user) {
+    return res.status(401).json({ error: 'Credenciales inválidas' });
+  }
+  const match = await bcrypt.compare(password, user.password);
+  if (!match) {
+    return res.status(401).json({ error: 'Credenciales inválidas' });
+  }
+  if (!user.isSuperAdmin) {
+    return res.status(401).send("No autorizado");
+  }
+  // Si el usuario es un SuperAdmin y la contraseña es correcta, permitir el acceso al controlador
+  next();
+};
   module.exports = {putSuperAdmin, requireSuperAdmin};

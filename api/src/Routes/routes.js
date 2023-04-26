@@ -17,6 +17,6 @@ router.post("/postCompanion", postCompanion);
 router.post("/postSupervisor", postSupervisor);
 router.put("/putCompanion/:id", putCompanion);
 router.put("/putSupervisor/:id", putSupervisor);
-router.put("/isSuperAdmin", requireSuperAdmin, putSuperAdmin);
+router.put("/isSuperAdmin/:id", requireSuperAdmin, putSuperAdmin);
 
 module.exports = router;
