@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 
 const postSupervisor = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, password, isSuperAdmin } = req.body;
 
     if (email && password) {
       // Generar hash de la contraseña
@@ -12,6 +12,7 @@ const postSupervisor = async (req, res) => {
       const newSupervisor = await Supervisor.create({
         email: email,
         password: passwordHash,
+        isSuperAdmin: isSuperAdmin,
       });
       res.status(201).json(newSupervisor);
     }else{

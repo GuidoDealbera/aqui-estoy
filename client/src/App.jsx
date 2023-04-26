@@ -1,8 +1,5 @@
-
-
-
 import {Routes, Route} from 'react-router-dom';
-import Profile from './Components/Profile/Profile';
+import Profiles from './Views/Profiles/Profiles';
 import Landing from './Views/LandingPage/Landing';
 import NavBar from './Components/NavBar/NavBar';
 
@@ -23,7 +20,7 @@ const App = () => {
       <NavBar/> 
     <Routes>
       <Route exact path='/' element={<Landing/>}/>
-      <Route path='/profile/:name' element={<Profile/>}/>
+      <Route path='/profile/:email' element={<Profiles/>}/>
     </Routes>
     </div>
   );

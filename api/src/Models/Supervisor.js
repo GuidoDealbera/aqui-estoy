@@ -30,28 +30,33 @@ module.exports = (sequelize) => {
       birthdayDate: {
         type: DataTypes.DATEONLY,
       },
-      nationality: {
-        type: DataTypes.STRING,
+      
+    nationality: {
+        type: DataTypes.STRING,  
       },
-      country: {
-        type: DataTypes.STRING,
+    country: {
+        type: DataTypes.STRING,  
       },
-      cityTimeZone: {
-        type: DataTypes.STRING,
+    cityTimeZone: {
+        type: DataTypes.STRING,  
+      },   
+    phone: {
+        type: DataTypes.STRING,  
+      },   
+    profession: {
+        type: DataTypes.STRING,  
       },
-      phone: {
-        type: DataTypes.STRING,
+    studies: {
+        type: DataTypes.TEXT,  
       },
-      profession: {
-        type: DataTypes.STRING,
+    gender: {
+        type: DataTypes.STRING,  
       },
-      studies: {
-        type: DataTypes.TEXT,
-      },
-      gender: {
-          type: DataTypes.STRING,
-      },
+    isSuperAdmin:{
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
     },
-    { timestamps: false }
+  },
+    {timestamps: false} 
   );
 };
