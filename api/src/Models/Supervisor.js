@@ -50,7 +50,10 @@ module.exports = (sequelize) => {
     gender: {
         type: DataTypes.STRING,  
       },
-   
+    isSuperAdmin:{
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
   },
     {timestamps: false} 
   );
