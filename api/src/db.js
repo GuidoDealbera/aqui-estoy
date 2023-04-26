@@ -14,6 +14,8 @@ const {
 
 const basename = path.basename(__filename);
 
+console.log(basename);
+
 const modelDefiners = [];
 
 // Leemos todos los archivos de la carpeta Models, los requerimos y agregamos al arreglo modelDefiners
