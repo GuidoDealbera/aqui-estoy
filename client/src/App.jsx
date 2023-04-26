@@ -23,12 +23,8 @@ const App = () => {
       <NavBar/> 
     <Routes>
       <Route exact path='/' element={<Landing/>}/>
-<<<<<<< HEAD
       <Route path='/register' element={<Register/>}/>
-      <Route path='/profile/:name' element={<Profile/>}/>
-=======
       <Route path='/profile/:email' element={<Profiles/>}/>
->>>>>>> f1ab7ec4c2a4c9462f6b5c90c3b47620318efa56
     </Routes>
     </div>
   );
