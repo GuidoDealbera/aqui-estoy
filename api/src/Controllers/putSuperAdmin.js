@@ -12,9 +12,10 @@ const putSuperAdmin = async (req, res) => {
     if (!supervisor) {
       return res.status(404).send("Supervisor no encontrado");
     }
-    await supervisor.save();
     //Se busca el supervisor por id y se setea isSuperAdmin en el valor opuesto
     supervisor.isSuperAdmin = !supervisor.isSuperAdmin;
+    
+    await supervisor.save();
 
     res.status(200).json(supervisor);
   } catch (error) {
