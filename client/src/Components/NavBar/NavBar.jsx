@@ -2,8 +2,7 @@ import image from "../../img/aquiestoy.jpg";
 import { useNavigate, useLocation } from "react-router-dom";
 import LoginForm from "../LoginForm/LoginForm";
 import { useState } from "react";
-import styles from './NavBar.module.css'
-
+import styles from "./NavBar.module.css";
 
 export default function NavBar(props) {
   const location = useLocation();
@@ -41,13 +40,20 @@ export default function NavBar(props) {
         Calendario
       </button>
       <img src={image} alt="aquiEstoy" />
-      {location.pathname !== '/profile/Chiringuito' && <button name='session' onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-        Iniciar sesión
-      </button>}
-      {showLogin && <LoginForm setShowLogin={setShowLogin}/>}
-      {location.pathname !== '/profile/Chiringuito' && <button name="register" onClick={handleClick}>
-        Registrate
-      </button>}
+      {location.pathname !== "/profile/Chiringuito" && (
+        <button
+          name="session"
+          onMouseEnter={handleMouseEnter}
+        >
+          Iniciar sesión
+        </button>
+      )}
+      {showLogin && <LoginForm handleMouseLeave={handleMouseLeave}/>}
+      {location.pathname !== "/profile/Chiringuito" && (
+        <button name="register" onClick={handleClick}>
+          Registrate
+        </button>
+      )}
     </div>
   );
 }
