@@ -1,45 +1,22 @@
 import React, { useState } from 'react'
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
 import axios from "axios"
-import { Image } from "cloudinary-react"
 
 export default function Register() {
 
-    const [imageUpload, setImageUpload] = useState("");
+    const [index, setIndex] = useState(0) //Estado del "paginado" de los inputs (Mirar Figma).
 
-    const [state, setState] = useState({
-        form: {
-            foto_perfil: "",
-            nombre: "",
-            apellido: "",
-            fecha_nacimiento: "",
-            nacionalidad: "",
-            pais_residencia: "",
-            huso_horario: "",
-            mail: "",
-            telefono: "",
-            estudios_relaciondos: "",
-            estudios_alcanzados: "",
-            genero: ""
-        },
-        index: 0
-    });
-
-    const clickHandler = (event) => {
+    const clickHandler = (event) => { //Handler que modifica el estado de arriba.
         const { target } = event;
         const { name } = target;
         switch (name) {
             case "Siguiente":
-                setState({
-                    ...state,
-                    index: state.index + 1
-                })
+                setIndex(index + 1)
                 break;
 
             case "Anterior":
-                setState({
-                    ...state,
-                    index: state.index - 1
-                })
+                setIndex(index - 1)
                 break;
 
             default:
@@ -47,105 +24,178 @@ export default function Register() {
         }
     }
 
-    const changeHandler = (event) => {
+    const submitHandler = (values) => { //Submit Handler del formulario (Aún no interactúa con el Back-End)
+        console.log(values);
     }
 
-    const uploadImage = async (event) => {
-        event.preventDefault()
-        const formData = new FormData();
-        formData.append("file", imageUpload)
-        formData.append("upload_preset", "mzntwjvh")
+    const validationSchema = Yup.object().shape({ //Validaciones de Yup (Aún en desarrollo)
+        profilePhoto: Yup.string().url('URL de la imágen inválida'),
+        name: Yup.string().required('Este campo es obligatorio'),
+        lastName: Yup.string().required('Este campo es obligatorio'),
+        birthdayDate: Yup.string().required('Este campo es obligatorio'),
+        nationality: Yup.string(),
+        country: Yup.string(),
+        cityTimeZone: Yup.string(),
+        email: Yup.string().email('El e-mail proporcionado no es válido').required('Este campo es obligatorio'),
+        phone: Yup.string()
+            .matches(/^\+?[0-9\s]*[1-9][0-9]*$/, 'El número de teléfono debe contener solo números y espacios en blanco')
+            .test('is-positive', 'El número de teléfono debe ser positivo', (value) => !value || parseInt(value.replace(/\s+/g, '')) > 0),
+        studies: Yup.string(),
+        gender: Yup.string(),
+    });
 
-        const response = await axios.post("https://api.cloudinary.com/v1_1/dqvz1juaf/image/upload", formData)
-        setState({
-            ...state, form: {
-                ...state.form,
-                foto_perfil: response.data.url
-            }
-        })
-    }
+    //Estas 3 páginas es simplemente código html dividido en 3 partes, para hacer el paginado de "Siguiente", "Anterior" (Mirar Figma)
 
-    switch (state.index) {
-        case 0:
-            return (
-                <div>
-                    <form>
-                        <div>
-                            <label>Foto de Perfil</label>
-                            <input type='file' onChange={(event) => { setImageUpload(event.target.files[0]) }}>
-                            </input>
-                            <Image style={{width:200}} cloudName="dqvz1juaf" publicId={state.form.foto_perfil}/>
-                        </div>
-                        <div>
-                            <label>Nombre</label>
-                            <input></input>
-                        </div>
-                        <div>
-                            <label>Apellido</label>
-                            <input></input>
-                        </div>
-                        <div>
-                            <label>Fecha de Nacimiento</label>
-                            <input></input>
-                        </div>
-                    </form>
-                    <button name="Siguiente" onClick={clickHandler}>Continuar</button>
-                </div>
-            )
+    const firstPage = <>
+        <div>
 
-        case 1:
-            return (
-                <div>
-                    <form>
-                        <div>
-                            <label>Nacionalidad</label>
-                            <input></input>
-                        </div>
-                        <div>
-                            <label>Pais de residencia actual</label>
-                            <input></input>
-                        </div>
-                        <div>
-                            <label>Ciudad / huso horario de residencia</label>
-                            <input></input>
-                        </div>
-                        <div>
-                            <label>*E-mail</label>
-                            <input></input>
-                        </div>
-                    </form>
-                    <button name="Anterior" onClick={clickHandler}>Volver</button>
-                    <button name="Siguiente" onClick={clickHandler}>Continuar</button>
-                </div>
-            )
+            <label>Foto de Perfil</label>
 
-        case 2:
-            return (
-                <div>
-                    <form>
-                        <div>
-                            <label>Teléfono</label>
-                            <input></input>
-                        </div>
-                        <div>
-                            <label>¿Estudias o trabajas en alguna de estas areas?</label>
-                            <input></input>
-                        </div>
-                        <div>
-                            <label>Estudios alcanzados</label>
-                            <input></input>
-                        </div>
-                        <div>
-                            <label>¿Con qué genero te identificas?</label>
-                            <input></input>
-                        </div>
-                        <button name="Anterior" onClick={clickHandler}>Volver</button>
-                        <button name="Submit" onClick={uploadImage}>Finalizar</button>
-                    </form>
-                </div>
-            )
+            <Field name="profilePhoto">
+                {({ field, form }) => (
+                    <>
+                        <input
+                            id={field.name}
+                            name={field.name}
+                            type="file"
+                            onChange={async (event) => {
+                                const file = event.target.files[0];
+                                // Aquí puedes hacer lo que necesites con el archivo (subirlo a un servidor, procesarlo, etc.)
+                                const formData = new FormData();
+                                formData.append("file", file)
+                                formData.append("upload_preset", "mzntwjvh")
 
-        default:
-            break;
-    }
+                                const response = await axios.post("https://api.cloudinary.com/v1_1/dqvz1juaf/image/upload", formData)
+                                form.setFieldValue(field.name, response.data.url);
+                            }}
+                        />
+                        <ErrorMessage name={field.name} />
+                    </>
+                )}
+            </Field>
+
+            <ErrorMessage name="profilePhoto" />
+
+        </div>
+        <div>
+            <label>Nombre</label>
+            <Field name="name" />
+            <ErrorMessage name="name" />
+        </div>
+        <div>
+            <label>Apellido</label>
+            <Field name="lastName" />
+            <ErrorMessage name="lastName" />
+        </div>
+        <div>
+            <label>Fecha de Nacimiento</label>
+            <Field name="birthdayDate" type="date" />
+            <ErrorMessage name="birthdayDate" />
+        </div>
+        <button name="Siguiente" onClick={clickHandler}>Continuar</button>
+    </>
+
+    const secondPage = <>
+        <div>
+            <label>Nacionalidad</label>
+            <Field as="select" name="nationality">
+                <option value="">Select an option</option>
+                <option value="Argentino">Argentino</option>
+            </Field>
+            <ErrorMessage name='nationality' />
+        </div>
+        <div>
+            <label>Pais de residencia actual</label>
+            <Field as="select" name="country">
+                <option value="">Select an option</option>
+                <option value="Argentina">Argentina</option>
+            </Field>
+            <ErrorMessage name='country' />
+        </div>
+        <div>
+            <label>Ciudad / huso horario de residencia</label>
+            <Field as="select" name="cityTimeZone">
+                <option value="">Select an option</option>
+                <option value="Santa Rosa">Santa Rosa</option>
+            </Field>
+            <ErrorMessage name='cityTimeZone' />
+        </div>
+        <div>
+            <label>*E-mail</label>
+            <Field name='email' />
+            <ErrorMessage name='email' />
+        </div>
+        <button name="Anterior" onClick={clickHandler}>Volver</button>
+        <button name="Siguiente" onClick={clickHandler}>Continuar</button>
+    </>
+
+    const thirdPage = <>
+        <div>
+            <label>Teléfono</label>
+            <Field name='phone' />
+            <ErrorMessage name='phone' />
+        </div>
+        <div>
+            <label>¿Estudias o trabajas en alguna de estas areas?</label>
+            <Field as="select" name="profession">
+                <option value="">Select an option</option>
+                <option value="Yes">Sí</option>
+                <option value="No">No</option>
+
+            </Field>
+            <ErrorMessage name='profession' />
+        </div>
+        <div>
+            <label>Estudios alcanzados</label>
+            <Field as="select" name="studies">
+                <option value="">Select an option</option>
+                <option value="Primario">Educación Inicial</option>
+                <option value="Secundario">Educación Primaria</option>
+                <option value="Terciario">Educación Secundaria</option>
+                <option value="Superior">Educación Superior</option>
+            </Field>
+            <ErrorMessage name='studies' />
+        </div>
+        <div>
+            <label>¿Con qué genero te identificas?</label>
+            <Field as="select" name="gender">
+                <option value="">Select an option</option>
+                <option value="Femenino">Femenino</option>
+                <option value="Masculino">Masculino</option>
+                <option value="No binario">No binario</option>
+                <option value="Otro">Otro</option>
+            </Field>
+            <ErrorMessage name='gender' />
+        </div>
+        <button name="Anterior" onClick={clickHandler}>Volver</button>
+        <button type='submit' >Finalizar</button>
+    </>
+
+    return (
+        <Formik
+            initialValues={{ //Valores iniciales de Formik, la equivalencia Vanilla sería ir almacenando los datos en el estado local...
+                profilePhoto: "",
+                name: "",
+                lastName: "",
+                birthdayDate: "",
+                nationality: "",
+                country: "",
+                cityTimeZone: "",
+                email: "",
+                phone: "",
+                profession: "",
+                studies: "",
+                gender: ""
+            }}
+            validationSchema={validationSchema}
+            onSubmit={submitHandler}
+
+        >
+            <Form>
+                {index === 0 ? firstPage : null}
+                {index === 1 ? secondPage : null}
+                {index === 2 ? thirdPage : null}
+            </Form>
+        </Formik>
+    )
 }
