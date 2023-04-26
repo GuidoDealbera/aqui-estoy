@@ -1,4 +1,4 @@
-const Companion = require("../Models/Companion");
+const { Companion } = require("../db");
 const putCompanion = async (req, res) => {
   const {
     name,
