@@ -1,16 +1,20 @@
 import image from "../../img/aquiestoy.jpg";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import LoginForm from "../LoginForm/LoginForm";
 import { useState } from "react";
+import styles from './NavBar.module.css'
+
 
 export default function NavBar(props) {
+  const location = useLocation();
   const navigate = useNavigate();
   const [showLogin, setShowLogin] = useState(false);
-  const handleFormClick = (event) => {
-    setShowLogin(!showLogin)
+  const handleMouseEnter = () => {
+    setShowLogin(true)
   };
-  window.addEventListener('click', (event) => {
-    if(event.target.name !== 'session') setShowLogin(false)})
+  const handleMouseLeave = () => {
+    setShowLogin(false)
+  }
   const handleClick = (event) => {
     //const { name } = event.target;
     // switch (name) {
@@ -37,13 +41,13 @@ export default function NavBar(props) {
         Calendario
       </button>
       <img src={image} alt="aquiEstoy" />
-      <button name='session' onClick={handleFormClick}>
+      {location.pathname !== '/profile/Chiringuito' && <button name='session' onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
         Iniciar sesión
-      </button>
-      {showLogin && <LoginForm/>}
-      <button name="register" onClick={handleClick}>
+      </button>}
+      {showLogin && <LoginForm setShowLogin={setShowLogin}/>}
+      {location.pathname !== '/profile/Chiringuito' && <button name="register" onClick={handleClick}>
         Registrate
-      </button>
+      </button>}
     </div>
   );
 }

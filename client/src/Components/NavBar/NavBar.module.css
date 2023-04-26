@@ -1,14 +1,3 @@
-.navBar {
-    flex-direction: row;
-    justify-content: space-between;
-}
-.navBar img {
-    display: inline-block;
-}
-.navBar button{
-    flex-shrink: 0;
-    align-items: center;
-}
 .logincontainer {
     position: relative;
 }

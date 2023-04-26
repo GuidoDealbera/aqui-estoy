@@ -7,8 +7,14 @@ const validationSchema = Yup.object().shape({
   password: Yup.string().min(6, 'Must be at least 6 characters').required('Required'),
 });
 
-const LoginForm = ({ onSubmit }) => {
+const LoginForm = ({ onSubmit, setShowLogin }) => {
+  const handleOutsideClick = (event) => {
+    if(event.target.name !== 'session'){
+      setShowLogin(false)
+    }
+  }
   return (
+    <div onClick={handleOutsideClick}>
     <Formik
       initialValues={{ email: '', password: '' }}
       validationSchema={validationSchema}
@@ -34,6 +40,7 @@ const LoginForm = ({ onSubmit }) => {
         </Form>
       )}
     </Formik>
+    </div>
   );
 };
 
