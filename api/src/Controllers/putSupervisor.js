@@ -1,4 +1,4 @@
-const Supervisor = require("../Models/Supervisor");
+const { Supervisor } = require("../db");
 const putSupervisor = async (req, res) => {
   const {
     name,

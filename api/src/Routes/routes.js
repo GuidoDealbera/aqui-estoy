@@ -6,15 +6,17 @@ const putCompanion = require("../Controllers/putCompanion");
 const putSupervisor = require("../Controllers/putSupervisor");
 const getSupervisor = require("../Controllers/getSupervisor");
 const getCompanion = require("../Controllers/getCompanion");
-const {requireSuperAdmin,putSuperAdmin}= require("../Controllers/putSuperAdmin")
-
+const {
+  requireSuperAdmin,
+  putSuperAdmin,
+} = require("../Controllers/putSuperAdmin");
 
 router.get("/getSupervisor", getSupervisor);
 router.get("/getCompanion", getCompanion);
 router.post("/postCompanion", postCompanion);
 router.post("/postSupervisor", postSupervisor);
-router.put("/putCompanion", putCompanion);
-router.put("/putSupervisor", putSupervisor);
-router.put("/isSuperAdmin", requireSuperAdmin,putSuperAdmin)
+router.put("/putCompanion/:id", putCompanion);
+router.put("/putSupervisor/:id", putSupervisor);
+router.put("/isSuperAdmin", requireSuperAdmin, putSuperAdmin);
 
 module.exports = router;
