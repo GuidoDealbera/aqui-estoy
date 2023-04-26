@@ -46,11 +46,11 @@ const { Companion, Supervisor, SupervisorShift, VolunteerShift } =
 //* RELATIONS N-1:
 Supervisor.hasMany(Companion);
 Companion.belongsTo(Supervisor);
-
+//* RELATIONS N-N SHIFT:
 Companion.belongsToMany(VolunteerShift, { through: "CompaShift" });
 Supervisor.belongsToMany(SupervisorShift, { through: "SupervShift" });
 
-//* RELACIONES N-N TURNOS:
+
 
 module.exports = {
   ...sequelize.models,
