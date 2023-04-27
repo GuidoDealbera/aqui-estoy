@@ -22,7 +22,7 @@ router.post("/postCompanion", postCompanion);
 router.post("/postSupervisor", postSupervisor);
 router.put("/putCompanion/:id", putCompanion);
 router.put("/putSupervisor/:id", putSupervisor);
-router.put("/isSuperAdmin/:id", requireSuperAdmin, putSuperAdmin);
+router.put("/putIsSuperAdmin/:id", requireSuperAdmin, putSuperAdmin);
 router.get("/getOneSupervisor", getOneSupervisor);
 router.get("/getOneCompanion", getOneCompanion);
 router.get("/getSupervisorShift", getSupervisorShift); // Ruta para traer todos los shift de Supervisor cada 1 hs.
