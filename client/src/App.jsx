@@ -2,6 +2,7 @@ import {Routes, Route} from 'react-router-dom';
 import Profiles from './Views/Profiles/Profiles';
 import Landing from './Views/LandingPage/Landing';
 import NavBar from './Components/NavBar/NavBar';
+import Register from './Views/Register/Register';
 import SuperAdmin from './Components/Perfiles/SuperAdmin/SuperAdmin'; //Dev import
 
 // const PrivateRoute = ({ element: Element, ...rest }) => {
@@ -21,6 +22,7 @@ const App = () => {
       <NavBar/> 
     <Routes>
       <Route exact path='/' element={<Landing/>}/>
+      <Route path='/register' element={<Register/>}/>
       <Route path='/profile/:email' element={<Profiles/>}/>
       <Route exact path='/superadmindev' element={<SuperAdmin/>}/>
     </Routes>
