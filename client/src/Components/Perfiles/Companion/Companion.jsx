@@ -6,7 +6,7 @@ export default function Companion(props) {
   return (
     <Box
       sx={{
-        background: "linear-gradient(to right, #ffffff, #b70808)",
+        background: "linear-gradient(to right, #ffffff, #00C8B2)",
         height: "100vh",
       }}
     >
