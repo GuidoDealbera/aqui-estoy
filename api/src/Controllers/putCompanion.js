@@ -1,4 +1,6 @@
 const { Companion } = require("../db");
+
+//Controlador para actualizar datos de un usuario
 const putCompanion = async (req, res) => {
   const {
     name,
@@ -13,8 +15,10 @@ const putCompanion = async (req, res) => {
     studies,
     gender,
   } = req.body;
+//Requiere el id del usuario
   const { id } = req.params;
   try {
+    
     const result = await Companion.update(
       {
         name,
