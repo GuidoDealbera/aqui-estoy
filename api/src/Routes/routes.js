@@ -14,6 +14,9 @@ const getOneCompanion = require("../Controllers/getOneCompanion");
 const getOneSupervisor = require("../Controllers/getOneSupervisor")
 const {getSupervisorShift} = require ("../Controllers/getSupervisorShift");
 const {getCompanionShift} = require ("../Controllers/getCompanionShift");
+const postCityTimeZone = require("../Controllers/postCityTimeZone.js");
+
+
 
 
 router.get("/getSupervisor", getSupervisor);
@@ -27,6 +30,9 @@ router.get("/getOneSupervisor", getOneSupervisor);
 router.get("/getOneCompanion", getOneCompanion);
 router.get("/getSupervisorShift", getSupervisorShift); // Ruta para traer todos los shift de Supervisor cada 1 hs.
 router.get("/getCompanionShift", getCompanionShift); // Ruta para traer todos los shift de Companion cada 1 hs.
+router.post("/postCityTimeZone", postCityTimeZone);
+
+
 
 
 module.exports = router;

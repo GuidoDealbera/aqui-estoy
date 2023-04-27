@@ -3,6 +3,7 @@ const { conn } = require("./src/db.js");
 const { fillSupervisorShifts } = require("./src/Controllers/getSupervisorShift.js");
 const { fillCompanionShifts } = require("./src/Controllers/getCompanionShift.js");
 
+
 conn.sync({ force: true }).then(async () => {
   await fillCompanionShifts();
   await fillSupervisorShifts(); 
