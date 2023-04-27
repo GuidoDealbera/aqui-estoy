@@ -12,10 +12,10 @@ async function fillCompanionShifts() {
       for (let hour = startHour; hour <= endHour; hour++) {
         
         if(hour == 23){
-            hs = '23 -1'
+            hs = '23-1'
         }
         if(hour == 24){
-            hs = '24 -2'
+            hs = '24-2'
         } 
         if(hour <23){
             hs = hour.toString() + - + (hour+2).toString(); 
