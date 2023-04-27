@@ -8,8 +8,19 @@ async function fillCompanionShifts() {
     const shifts = [];
   
     for (let day = 0; day < 7; day++) {
+        let hs = '';
       for (let hour = startHour; hour <= endHour; hour++) {
-        let hs = hour.toString() + - + (hour+2).toString(); 
+        
+        if(hour == 23){
+            hs = '23 -1'
+        }
+        if(hour == 24){
+            hs = '24 -2'
+        } 
+        if(hour <23){
+            hs = hour.toString() + - + (hour+2).toString(); 
+        }
+
         const shift = {
           day: day,
           time: hs,

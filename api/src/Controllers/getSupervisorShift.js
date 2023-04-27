@@ -8,8 +8,13 @@ async function fillSupervisorShifts() {
     const shifts = [];
   
     for (let day = 0; day < 7; day++) {
+      let hs ='';
       for (let hour = startHour; hour <= endHour; hour++) {
-        let hs = hour.toString() + - + (hour+1).toString(); 
+        if(hour == 24){
+          hs = '24-1'
+        } else{
+          hs = hour.toString() + - + (hour+1).toString();
+        }
         const shift = {
           day: day,
           time: hs,
