@@ -2,14 +2,23 @@ const { DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
   sequelize.define(
-    "VolunteerShift",
+    "CompanionShift",
     {
       id: {
-        type: DataTypes.UUID,
+        type: DataTypes.INTEGER,
         primaryKey: true,
+        autoIncrement: true
+      },
+      day: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate: {
+          min: 0,
+          max: 6
+        }
       },
       time: {
-        type: DataTypes.TIME,
+        type: DataTypes.STRING,
         allowNull: false,
       },
       timezone: {
@@ -18,4 +27,5 @@ module.exports = (sequelize) => {
       },
     },
     { timestamps: false }
-  )}
+  );
+}

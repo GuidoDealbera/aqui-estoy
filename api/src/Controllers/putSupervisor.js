@@ -1,5 +1,8 @@
 const { Supervisor } = require("../db");
+
+//Controlador para modificar un supervisor
 const putSupervisor = async (req, res) => {
+  //Recibe la info por body desde el front
   const {
     name,
     lastName,
@@ -13,8 +16,10 @@ const putSupervisor = async (req, res) => {
     studies,
     gender,
   } = req.body;
+  //Recibe id por params
   const { id } = req.params;
   try {
+    //Realiza un update del supervisor con ese id en la bd
     const result = await Supervisor.update(
       {
         name,
@@ -31,7 +36,13 @@ const putSupervisor = async (req, res) => {
       },
       { where: { id: id } }
     );
-    res.status(200).json(result);
+    
+    // Encuentra el supervisor actualizado
+    const supervisor = await Supervisor.findOne({ where: { id: id } });
+
+    // Devuelve el supervisor actualizado
+    res.status(200).json(supervisor);
+   
   } catch (error) {
     res.status(400).json(error.message);
   }
