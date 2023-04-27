@@ -2,8 +2,10 @@ import {
   GET_ALL_COMPANIONS,
   GET_ALL_SUPERVISORS,
   GET_COMPANIONS_AT_CHARGE,
+  POST_COMPANION,
+  POST_SUPERVISOR
 } from "../Actions/action-types";
-
+//Acá van los POST modificando a allCompanions y allSupervisors
 const initialState = {
     allCompanions: [],
     allSupervisors: [],
@@ -25,6 +27,16 @@ const viewReducer = (state = initialState, {type, payload}) => {
             return {
                 ...state,
                 companionAtCharge: payload
+            }
+        case POST_COMPANION:
+            return{
+                ...state,
+                allCompanions: [...allCompanions, payload]
+            }
+        case POST_SUPERVISOR:
+            return{
+                ...state,
+                allSupervisors: [...allSupervisors, payload]
             }
         default:
             return {

@@ -3,6 +3,8 @@ import {
   GET_ALL_COMPANIONS,
   GET_ALL_SUPERVISORS,
   GET_COMPANIONS_AT_CHARGE,
+  GET_ONE_COMPANION,
+  GET_ONE_SUPERVISOR,
 } from "./action-types";
 import axios from 'axios'
 
@@ -38,6 +40,28 @@ export const getAllSupervisors = () => {
 //         }
 //     }
 // };
+
+export const getOneCompanion = () => {
+    return async function (dispatch){
+        try {
+            const response = await axios.get('http://localhost:3001/getOneCompanion');
+            dispatch({type: GET_ONE_COMPANION, payload: response.data})
+        } catch (error) {
+            alert('No se pudo cargar el ACOMPAÑANTE')
+        }
+    }
+};
+
+export const getOneSupervisor = () => {
+    return async function (dispatch){
+        try {
+            const response = await axios.get('http://localhost:3001/getOneSupervisor');
+            dispatch({type: GET_ONE_SUPERVISOR, payload: response.data})
+        } catch (error) {
+            alert('No se pudo cargar el SUPERVISOR')
+        }
+    }
+}
 
 export const logOut = () => {
    return {
