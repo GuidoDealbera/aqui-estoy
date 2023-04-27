@@ -14,7 +14,7 @@ const getBothRoles = async (req, res) => {
     //Si existe el supervisor y la contraseña coincide se procede a responder
     if (supervisor && match) {
       //Retorna un supervisor con todos sus datos (Sirve para cargar el perfil)
-      return res.status(200).json({ supervisor });
+      return res.status(200).json(supervisor);
     } 
   } catch (error) {
     //Si no se encuentra un supervisor, buscar en la tabla de acompañantes
