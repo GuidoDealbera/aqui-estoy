@@ -1,18 +1,70 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import axios from "axios";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email address').required('Required'),
   password: Yup.string().min(6, 'Must be at least 6 characters').required('Required'),
 });
 
-const LoginForm = ({ onSubmit, handleMouseLeave }) => {
+const submitHandler = async (values) => {
+
+  const [ loginRequests, setLoginRequests ] = useState({
+    companion: {
+      response: {},
+      error: {}
+    },
+    supervisor: {
+      response: {},
+      error: {}
+    }
+  })
+
+  const { email, password } = values;
+
+  try {
+    const response1 = await axios("http://localhost:3001/getOneCompanion", {
+      "email": email,
+      "password": password
+    });
+    setLoginRequests({
+      ...loginRequests,
+      companion: {
+        ...companion.error,
+        response: response1
+      }
+    })
+  } catch (error1) {
+    console.log('Error en axios1:', error1);
+  }
+  
+  try {
+    const response2 = await axios("http://localhost:3001/getOneSupervisor", {
+      "email": email,
+      "password": password
+    });
+
+    setLoginRequests({
+      ...loginRequests,
+      supervisor: {
+        ...companion.error,
+        response: response1
+      }
+    })
+
+  } catch (error2) {
+    console.log('Error en axios2:', error2);
+  }
+  
+}
+
+const LoginForm = ({ handleMouseLeave }) => {
   return (
     <Formik
       initialValues={{ email: '', password: '' }}
       validationSchema={validationSchema}
-      onSubmit={onSubmit}
+      onSubmit={submitHandler}
     >
       {({ isSubmitting }) => (
         <Form>

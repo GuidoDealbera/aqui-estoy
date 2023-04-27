@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import axios from "axios"
+import Box from '@mui/material/Box'
+import { Button, Input, InputLabel, TextField, Typography, Stepper, StepLabel, Step } from '@mui/material';
 
 export default function Register() {
 
@@ -29,14 +31,22 @@ export default function Register() {
     }
 
     const validationSchema = Yup.object().shape({ //Validaciones de Yup (Aún en desarrollo)
-        profilePhoto: Yup.string().url('URL de la imágen inválida'),
-        name: Yup.string().required('Este campo es obligatorio'),
-        lastName: Yup.string().required('Este campo es obligatorio'),
-        birthdayDate: Yup.string().required('Este campo es obligatorio'),
+        profilePhoto: Yup.string()
+            .url('URL de la imágen inválida'),
+        name: Yup.string()
+            .max(15, "Debe ser menor a 15 caracteres")
+            .required('Este campo es obligatorio'),
+        lastName: Yup.string()
+            .max(20, "Debe ser menor a 20 caracteres")
+            .required('Este campo es obligatorio'),
+        birthdayDate: Yup.date()
+            .required('Este campo es obligatorio'),
         nationality: Yup.string(),
         country: Yup.string(),
         cityTimeZone: Yup.string(),
-        email: Yup.string().email('El e-mail proporcionado no es válido').required('Este campo es obligatorio'),
+        email: Yup.string()
+            .email('El e-mail proporcionado no es válido')
+            .required('Este campo es obligatorio'),
         phone: Yup.string()
             .matches(/^\+?[0-9\s]*[1-9][0-9]*$/, 'El número de teléfono debe contener solo números y espacios en blanco')
             .test('is-positive', 'El número de teléfono debe ser positivo', (value) => !value || parseInt(value.replace(/\s+/g, '')) > 0),
@@ -47,57 +57,69 @@ export default function Register() {
     //Estas 3 páginas es simplemente código html dividido en 3 partes, para hacer el paginado de "Siguiente", "Anterior" (Mirar Figma)
 
     const firstPage = <>
-        <div>
+        <Box>
+            <InputLabel>Foto de Perfil</InputLabel>
+            <Input type="file">
+                <Field name="profilePhoto">
+                    {({ field, form }) => (
+                        <>
+                            <input
+                                id={field.name}
+                                name={field.name}
+                                type="file"
+                                onChange={async (event) => {
+                                    const file = event.target.files[0];
+                                    const formData = new FormData();
+                                    formData.append("file", file)
+                                    formData.append("upload_preset", "mzntwjvh")
 
-            <label>Foto de Perfil</label>
-
-            <Field name="profilePhoto">
-                {({ field, form }) => (
-                    <>
-                        <input
-                            id={field.name}
-                            name={field.name}
-                            type="file"
-                            onChange={async (event) => {
-                                const file = event.target.files[0];
-                                // Aquí puedes hacer lo que necesites con el archivo (subirlo a un servidor, procesarlo, etc.)
-                                const formData = new FormData();
-                                formData.append("file", file)
-                                formData.append("upload_preset", "mzntwjvh")
-
-                                const response = await axios.post("https://api.cloudinary.com/v1_1/dqvz1juaf/image/upload", formData)
-                                form.setFieldValue(field.name, response.data.url);
-                            }}
-                        />
-                        <ErrorMessage name={field.name} />
-                    </>
-                )}
-            </Field>
-
-            <ErrorMessage name="profilePhoto" />
-
-        </div>
-        <div>
-            <label>Nombre</label>
-            <Field name="name" />
-            <ErrorMessage name="name" />
-        </div>
-        <div>
-            <label>Apellido</label>
-            <Field name="lastName" />
-            <ErrorMessage name="lastName" />
-        </div>
-        <div>
-            <label>Fecha de Nacimiento</label>
-            <Field name="birthdayDate" type="date" />
-            <ErrorMessage name="birthdayDate" />
-        </div>
-        <button name="Siguiente" onClick={clickHandler}>Continuar</button>
+                                    const response = await axios.post("https://api.cloudinary.com/v1_1/dqvz1juaf/image/upload", formData)
+                                    form.setFieldValue(field.name, response.data.url);
+                                }}
+                            />
+                        </>
+                    )}
+                </Field>
+            </Input>
+            <Typography>
+                <ErrorMessage name="profilePhoto" />
+            </Typography>
+        </Box>
+        <Box>
+            <InputLabel>Nombre</InputLabel>
+            <TextField>
+                <Field name="name" />
+            </TextField>
+            <Typography>
+                <ErrorMessage name="name" />
+            </Typography>
+        </Box>
+        <Box>
+            <InputLabel>Apellido</InputLabel>
+            <TextField>
+                <Field name="lastName" />
+            </TextField>
+            <Typography>
+                <ErrorMessage name="lastName" />
+            </Typography>
+        </Box>
+        <Box>
+            <InputLabel>Fecha de Nacimiento</InputLabel>
+            <Input type='date'>
+                <Field name="birthdayDate" type="date" />
+            </Input>
+            <Typography>
+                <ErrorMessage name="birthdayDate" />
+            </Typography>
+        </Box>
+        <Button sx={{
+            marginTop: "10px"
+        }} variant="outlined" name="Siguiente" onClick={clickHandler}>Continuar</Button>
     </>
 
     const secondPage = <>
         <div>
-            <label>Nacionalidad</label>
+            <InputLabel>Nacionalidad</InputLabel>
             <Field as="select" name="nationality">
                 <option value="">Select an option</option>
                 <option value="Argentino">Argentino</option>
@@ -168,7 +190,7 @@ export default function Register() {
             <ErrorMessage name='gender' />
         </div>
         <button name="Anterior" onClick={clickHandler}>Volver</button>
-        <button type='submit' >Finalizar</button>
+        <button type='submit'>Finalizar</button>
     </>
 
     return (
@@ -189,13 +211,19 @@ export default function Register() {
             }}
             validationSchema={validationSchema}
             onSubmit={submitHandler}
-
         >
-            <Form>
-                {index === 0 ? firstPage : null}
-                {index === 1 ? secondPage : null}
-                {index === 2 ? thirdPage : null}
-            </Form>
+            {(formik) => {
+                return (
+                    <Form>
+                        {index === 0 ? firstPage : null}
+                        {index === 1 ? secondPage : null}
+                        {index === 2 ? thirdPage : null}
+                        {formik.errors && Object.keys(formik.errors).length > 0 &&
+                            <div>Hay errores en los campos. Por favor, revíselos.</div>
+                        }
+                    </Form>
+                )
+            }}
         </Formik>
     )
 }
