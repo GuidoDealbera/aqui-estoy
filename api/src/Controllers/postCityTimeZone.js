@@ -21,10 +21,8 @@ const postCityTimeZone = async (req, res) => {
     });
     //?creo las TimeZone en la db
     await CityTimeZone.bulkCreate(timeZones);
-
-    res.status(200).json(timeZones);
   } catch (error) {
-    res.status(404).json(error.message);
+    return error.message;
   }
 };
 
