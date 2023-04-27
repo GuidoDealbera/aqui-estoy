@@ -17,10 +17,11 @@ const getOneSupervisor = async (req, res) => {
       return res.status(200).json({ supervisor });
     } else {
       //Devuelve error si alguno de los datos no coincide
-      res.status(404).json("Supervisor no encontrado");
+      res.status(404).json("El Supervisor no se encontro");
     }
   } catch (error) {
-    res.status(404).json("Supervisor no encontrado");
+    res.status(404).json("El Supervisor no se encontro");
+
   }
 };
 

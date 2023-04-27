@@ -36,8 +36,13 @@ const putSupervisor = async (req, res) => {
       },
       { where: { id: id } }
     );
-    //Devuelve un supervisor con todos sus datos actualizados
-    res.status(200).json(result);
+    
+    // Encuentra el supervisor actualizado
+    const supervisor = await Supervisor.findOne({ where: { id: id } });
+
+    // Devuelve el supervisor actualizado
+    res.status(200).json(supervisor);
+   
   } catch (error) {
     res.status(400).json(error.message);
   }
