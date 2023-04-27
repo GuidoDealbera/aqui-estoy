@@ -2,7 +2,8 @@ import image from "../../img/aquiestoy.jpg";
 import { useNavigate, useLocation } from "react-router-dom";
 import LoginForm from "../LoginForm/LoginForm";
 import { useState } from "react";
-import styles from "./NavBar.module.css";
+// import styles from "./NavBar.module.css";
+import { CardMedia } from "@mui/material";
 
 export default function NavBar(props) {
   const location = useLocation();
@@ -39,7 +40,13 @@ export default function NavBar(props) {
       <button name="calendar" onClick={handleClick}>
         Calendario
       </button>
-      <img src={image} alt="aquiEstoy" />
+      <CardMedia
+      component="img"
+      height="auto"
+      image={image}
+      alt="aquiEstoy"
+    />
+      {/* <img src={image} alt="aquiEstoy" /> */}
       {location.pathname !== "/profile/Chiringuito" && (
         <button
           name="session"
