@@ -40,14 +40,14 @@ let capsEntries = entries.map((entry) => [
 sequelize.models = Object.fromEntries(capsEntries);
 
 //*MODELS:
-const { Companion, Supervisor, SupervisorShift, VolunteerShift } =
+const { Companion, Supervisor, SupervisorShift, CompanionShift } =
   sequelize.models;
 
 //* RELATIONS N-1:
 Supervisor.hasMany(Companion);
 Companion.belongsTo(Supervisor);
 //* RELATIONS N-N SHIFT:
-Companion.belongsToMany(VolunteerShift, { through: "CompaShift" });
+Companion.belongsToMany(CompanionShift, { through: "CompaShift" });
 Supervisor.belongsToMany(SupervisorShift, { through: "SupervShift" });
 
 
