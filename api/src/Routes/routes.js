@@ -12,7 +12,7 @@ const {
 } = require("../Controllers/putSuperAdmin");
 const getOneCompanion = require("../Controllers/getOneCompanion");
 const getOneSupervisor = require("../Controllers/getOneSupervisor")
-
+const {getSupervisorShift} = require ("../Controllers/getSupervisorShift");
 
 router.get("/getSupervisor", getSupervisor);
 router.get("/getCompanion", getCompanion);
@@ -23,6 +23,7 @@ router.put("/putSupervisor/:id", putSupervisor);
 router.put("/isSuperAdmin/:id", requireSuperAdmin, putSuperAdmin);
 router.get("/getOneSupervisor", getOneSupervisor);
 router.get("/getOneCompanion", getOneCompanion);
+router.get("/getSupervisorShift", getSupervisorShift); // Ruta para traer todos los shift de Supervisor cada 1 hs.
 
 
 module.exports = router;
