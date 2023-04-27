@@ -5,12 +5,25 @@ module.exports = (sequelize) => {
     "SupervisorShift",
     {
       id: {
-        type: DataTypes.UUID,
+        type: DataTypes.INTEGER,
         primaryKey: true,
+        autoIncrement: true
+      },
+      day: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate: {
+          min: 0,
+          max: 6
+        }
       },
       time: {
-        type: DataTypes.TIME,
+        type: DataTypes.STRING,
         allowNull: false,
+   /*     validate: {
+          min: 1,
+          max: 24
+        }*/
       },
       timezone: {
         type: DataTypes.INTEGER,
@@ -18,4 +31,5 @@ module.exports = (sequelize) => {
       },
     },
     { timestamps: false }
-  )}
+  );
+}
