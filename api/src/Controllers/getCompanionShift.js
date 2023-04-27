@@ -8,19 +8,17 @@ async function fillCompanionShifts() {
     const shifts = [];
   
     for (let day = 0; day < 7; day++) {
-        let hs = '';
       for (let hour = startHour; hour <= endHour; hour++) {
-        
-        if(hour == 23){
-            hs = '23-1'
+        let hs;
+        if (hour === 23) {
+          hs = '23:00-01:00';
+        } else if (hour === 24) {
+          hs = '24:00-02:00';
+        } else {
+          const start = hour.toString().padStart(2, '0') + ':00';
+          const end = (hour + 2).toString().padStart(2, '0') + ':00';
+          hs = `${start}-${end}`;
         }
-        if(hour == 24){
-            hs = '24-2'
-        } 
-        if(hour <23){
-            hs = hour.toString() + - + (hour+2).toString(); 
-        }
-
         const shift = {
           day: day,
           time: hs,
@@ -29,10 +27,10 @@ async function fillCompanionShifts() {
         shifts.push(shift);
       }
     }
- 
+  
     await CompanionShift.bulkCreate(shifts);
-    
   }
+  
   //* Ruta que trae la tabla CompanionShift con todos los turnos creados
   const getCompanionShift= async(req,res) => {
     try {
