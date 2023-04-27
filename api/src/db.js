@@ -40,8 +40,8 @@ let capsEntries = entries.map((entry) => [
 sequelize.models = Object.fromEntries(capsEntries);
 
 //*MODELS:
-const { Companion, Supervisor, SupervisorShift, VolunteerShift, CityTimeZone } =
-  sequelize.models;
+
+const { Companion, Supervisor, SupervisorShift, CompanionShift, CityTimeZone } =  sequelize.models;
 
 //* RELATIONS N-1:
 Supervisor.hasMany(Companion);
@@ -52,7 +52,7 @@ Companion.belongsTo(CityTimeZone);
 CityTimeZone.hasMany(Supervisor);
 Supervisor.belongsTo(CityTimeZone);
 //* RELATIONS N-N SHIFT:
-Companion.belongsToMany(VolunteerShift, { through: "CompaShift" });
+Companion.belongsToMany(CompanionShift, { through: "CompaShift" });
 Supervisor.belongsToMany(SupervisorShift, { through: "SupervShift" });
 
 module.exports = {
