@@ -99,7 +99,7 @@ export default function Register() {
         </Box>
         <Box>
             <InputLabel>Nombre</InputLabel>
-            <Field as={TextField}name="name" />
+            <Field as={TextField} name="name" />
             <ErrorMessage name='name'>
                 {msg => <Typography color="error">{msg}</Typography>}
             </ErrorMessage>
@@ -124,19 +124,13 @@ export default function Register() {
     const secondPage = <>
         <Box>
             <InputLabel>Nacionalidad</InputLabel>
-            {/* <Field as="select" name="nationality">
-                <option value="">Select an option</option>
-                {allCountries.map((country) => {
-                    return <option value={country}>{country}</option>
-                })}
-            </Field> */}
             <Field
                 as={Select}
                 name="country"
             >
-                <MenuItem value="">Select an option</MenuItem>
-                {allCountries.map((country) => (
-                    <MenuItem key={country} value={country}>
+                <MenuItem value="" disabled>Select an option</MenuItem>
+                {allCountries.map((country, i) => (
+                    <MenuItem key={i} value={country}>
                         {country}
                     </MenuItem>
                 ))}
@@ -148,9 +142,9 @@ export default function Register() {
         <Box>
             <InputLabel>Pais de residencia actual</InputLabel>
             <Field as={Select} name="residence">
-                <MenuItem value="">Select an option</MenuItem>
-                {allCountries.map((country) => {
-                    return <MenuItem value={country}>{country}</MenuItem>
+                <MenuItem value="" disabled>Select an option</MenuItem>
+                {allCountries.map((country, i) => {
+                    return <MenuItem key={i} value={country}>{country}</MenuItem>
                 })}
             </Field>
             <ErrorMessage name='country'>
@@ -160,9 +154,9 @@ export default function Register() {
         <Box>
             <InputLabel>Ciudad / huso horario de residencia</InputLabel>
             <Field as={Select} name="cityTimeZone">
-                <MenuItem value="">Select an option</MenuItem>
-                {timezones.map((timezone) => {
-                    return <MenuItem value={timezone}>{timezone}</MenuItem>
+                <MenuItem value="" disabled>Select an option</MenuItem>
+                {timezones.map((timezone, i) => {
+                    return <MenuItem value={timezone} key={i}>{timezone}</MenuItem>
                 })}
             </Field>
             <ErrorMessage name='cityTimeZone'>
@@ -171,7 +165,7 @@ export default function Register() {
         </Box>
         <Box>
             <InputLabel>E-mail</InputLabel>
-            <Field as={TextField} name='email'/>
+            <Field as={TextField} name='email' />
             <ErrorMessage name='email'>
                 {msg => <Typography color="error">{msg}</Typography>}
             </ErrorMessage>
@@ -183,7 +177,7 @@ export default function Register() {
     const thirdPage = <>
         <Box>
             <InputLabel>Teléfono</InputLabel>
-            <Field name='phone' as={TextField}/>
+            <Field name='phone' as={TextField} />
             <ErrorMessage name='phone'>
                 {msg => <Typography color="error">{msg}</Typography>}
             </ErrorMessage>

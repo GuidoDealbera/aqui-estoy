@@ -3,7 +3,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import axios from "axios"
 import { useDispatch, useSelector } from "react-redux"
-import { getBothRoles } from '../../Redux/Actions/viewActions';
+import { getOneCompanion, getOneSupervisor } from '../../Redux/Actions/viewActions';
 import { useNavigate } from "react-router-dom"
 import {
   TextField,
@@ -34,46 +34,52 @@ const LoginForm = ({ handleMouseLeave }) => {
 
   const dispatch = useDispatch();
 
-  const submitHandler = async (values) => {
-
-    // const { email, password } = values;
-    // if (rol === "Supervisor") {
-    //   dispatch(getBothRoles(email, password))
-    //   try {
-    //     const response = await axios.post("http://localhost:3001/getBothRoles", {
-    //       email, password
-    //     })
-    //     const { data } = response;
-    //     const { name } = data;
-    //     console.log(name);
-    //   } catch (error) {
-
-    //   }
-    // } else {
-    //   dispatch(getBothRoles(email, password))
-    //   const response = await axios.post("http://localhost:3001/getBothRoles", {
-    //     email, password
-    //   })
-    //   const { data } = response;
-    //   const { name } = data;
-    //   console.log(name);
-    // }
-
-    // // if (typeof user !== "string") {
-    // //   const { name } = user;
-    // //   if (name) {
-    // //     navigate("/profile/Chiringuito")
-    // //   } else {
-    // //     navigate("/register")
-    // //   }
-    // //   handleMouseLeave()
-    // // }
-
-  }
-
   const user = useSelector((state) => {
     return state.auth.user
   })
+
+  const submitHandler = async (values) => {
+
+    const { email, password } = values;
+
+    if (rol === "Supervisor") {
+      dispatch(getOneSupervisor(email, password)) //Register
+      try {
+        const response = await axios.post("http://localhost:3001/getOneSupervisor",{
+          email, password
+        })
+        const { data } = response;
+        const { name } = data;
+        if (name) {
+          navigate("/profile/Chiringuito")
+        } else {
+          navigate("/register")
+        }
+        handleMouseLeave()
+      } catch (error) {
+        alert("Datos Incorrectos")
+      }
+
+
+    } else { // Companion
+      dispatch(getOneCompanion(email, password))
+      try {
+        const response = await axios.post("http://localhost:3001/getOneCompanion",{
+          email, password
+        })
+        const { data } = response;
+        const { name } = data;
+        if (name) {
+          navigate("/profile/Chiringuito")
+        } else {
+          navigate("/register")
+        }
+        handleMouseLeave()
+      } catch (error) {
+        alert("Datos Incorrectos")
+      }
+    }
+  }
 
   return (
     <Formik
