@@ -1,4 +1,15 @@
 import React, { useState } from 'react';
+import TextField from '@mui/material/TextField';
+import Box from '@mui/material/Box';
+import { styled } from '@mui/material/styles';
+
+const StyledInputContainer = styled('div')(({ theme }) => ({
+  marginBottom: theme.spacing(2),
+}));
+
+const StyledLabel = styled('h3')(({ theme }) => ({
+  fontWeight: 'bold',
+}));
 
 const GeneralSettings = () => {
   // Datos de ejemplo, reemplaza esto con las configuraciones reales de tu aplicación
@@ -23,47 +34,59 @@ const GeneralSettings = () => {
   };
 
   return (
-    <div>
+    <Box>
       <h2>Configuración General</h2>
-      <div>
-        <h3>Número máximo de acompañantes por turno</h3>
-        <input
+      <StyledInputContainer>
+        <StyledLabel>Número máximo de acompañantes por turno</StyledLabel>
+        <TextField
           type="number"
           value={maxAccompanists}
           onChange={handleMaxAccompanistsChange}
+          fullWidth
         />
-      </div>
-      <div>
-        <h3>Número máximo de acompañantes en un turno específico</h3>
-        <label>
-          Día:
-          <input
-            type="text"
-            name="day"
-            value={specificMaxAccompanists.day}
-            onChange={handleSpecificMaxAccompanistsChange}
-          />
-        </label>
-        <label>
-          Horario:
-          <input
-            type="text"
-            name="hours"
-            value={specificMaxAccompanists.hours}
-            onChange={handleSpecificMaxAccompanistsChange}
-          />
-        </label>
-        <label>
-          Máximo:
-          <input
-            type="number"
-            name="max"
-            value={specificMaxAccompanists.max}
-            onChange={handleSpecificMaxAccompanistsChange}
-          />
-        </label>
-      </div>
-    </div>
+      </StyledInputContainer>
+      <StyledInputContainer>
+        <StyledLabel>
+          Número máximo de acompañantes en un turno específico
+        </StyledLabel>
+        <div>
+          <label>
+            <StyledLabel>Día:</StyledLabel>
+            <TextField
+              type="text"
+              name="day"
+              value={specificMaxAccompanists.day}
+              onChange={handleSpecificMaxAccompanistsChange}
+              fullWidth
+            />
+          </label>
+        </div>
+        <div>
+          <label>
+            <StyledLabel>Horario:</StyledLabel>
+            <TextField
+              type="text"
+              name="hours"
+              value={specificMaxAccompanists.hours}
+              onChange={handleSpecificMaxAccompanistsChange}
+              fullWidth
+            />
+          </label>
+        </div>
+        <div>
+          <label>
+            <StyledLabel>Máximo:</StyledLabel>
+            <TextField
+              type="number"
+              name="max"
+              value={specificMaxAccompanists.max}
+              onChange={handleSpecificMaxAccompanistsChange}
+              fullWidth
+            />
+          </label>
+        </div>
+      </StyledInputContainer>
+    </Box>
   );
 };
 

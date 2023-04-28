@@ -1,3 +1,4 @@
+
 import {
   POST_COMPANION,
   POST_SUPERVISOR,
@@ -20,13 +21,14 @@ export const postCompanion = (companion) => {
 export const postSupervisor = (supervisor) => {
     return async function (dispatch){
         try {
-            const response = await axios.post('http://localhost:3001/postCompanion', supervisor);
+            const response = await axios.post('http://localhost:3001/postSupervisor', supervisor);
             dispatch({type: POST_SUPERVISOR, payload: response.data})
         } catch (error) {
             alert('No se pudo crear el SUPERVISOR')
         }
     }
 };
+
 
 export const putCompanion = (id, companion) => {
     return async function (dispatch){
