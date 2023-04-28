@@ -10,7 +10,11 @@ const assignCompanionShift = async (req, res) => {
 
     if (companion.isSuperCompanion) {
       await companion.addCompanionShifts(shift);
-      res.json(companion);
+      const updatedCompanion = await Companion.findOne({
+        where: { id: idCompanion },
+        include: [{ model: CompanionShift, through: { attributes: [] } }],
+      });
+      res.json(updatedCompanion);
     }
 
     const hasShifts = await Companion.findOne({
