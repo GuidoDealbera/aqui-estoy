@@ -8,55 +8,44 @@ const validationSchema = Yup.object().shape({
   password: Yup.string().min(6, 'Must be at least 6 characters').required('Required'),
 });
 
-const submitHandler = async (values) => {
+const submitHandler = (values) => {
 
-  const [ loginRequests, setLoginRequests ] = useState({
-    companion: {
-      response: {},
-      error: {}
-    },
-    supervisor: {
-      response: {},
-      error: {}
-    }
-  })
+  // const [info, setInfo] = useState({
+  //   data: {},
+  //   error: ""
+  // })
 
   const { email, password } = values;
 
-  try {
-    const response1 = await axios("http://localhost:3001/getOneCompanion", {
-      "email": email,
-      "password": password
-    });
-    setLoginRequests({
-      ...loginRequests,
-      companion: {
-        ...companion.error,
-        response: response1
+    axios.get('http://localhost:3001/getBothRoles', {
+      data: {
+        email,
+      password
       }
     })
-  } catch (error1) {
-    console.log('Error en axios1:', error1);
-  }
-  
-  try {
-    const response2 = await axios("http://localhost:3001/getOneSupervisor", {
-      "email": email,
-      "password": password
+    .then(response => {
+      console.log(response.data);
+    })
+    .catch(error => {
+      console.error(error);
     });
 
-    setLoginRequests({
-      ...loginRequests,
-      supervisor: {
-        ...companion.error,
-        response: response1
-      }
-    })
+  // try {
+  //   const response = await axios.get(`http://localhost:3001/getBothRoles?email=${email}&password=${password}`)
+  //   const { data } = response;
+  //   setInfo({
+  //     ...info,
+  //     data,
+  //   })
 
-  } catch (error2) {
-    console.log('Error en axios2:', error2);
-  }
-  
+  //   } catch (error) {
+  //   const { response } = error;
+  //   const { data } = response;
+  //   setInfo({
+  //     ...info,
+  //     error: data
+  //   })
+  // }
 }
 
 const LoginForm = ({ handleMouseLeave }) => {
