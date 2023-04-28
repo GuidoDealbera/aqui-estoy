@@ -3,6 +3,8 @@ import {
   POST_SUPERVISOR,
   PUT_COMPANION,
   PUT_SUPERVISOR,
+  POST_ASSIGN_SUPERVISOR_SHIFT,
+  POST_ASSIGN_COMPANION_SHIFT,
 } from "./action-types";
 import axios from "axios";
 
@@ -64,3 +66,25 @@ export const putSupervisor = (id, supervisor) => {
     }
   };
 };
+
+export const postAssignSupervisorShift = (idSupervisor, idShift)=>{
+  return async function(dispatch){
+    try{
+      const response = (await axios.post(`http://localhost:3001/postAssignSupervisorShift/${idSupervisor}`, idShift)).data
+      dispatch({type:POST_ASSIGN_SUPERVISOR_SHIFT, payload:response})
+    }catch(error){
+      error.message
+    }
+  }
+}
+
+export const postAssignCompanionShift = (idCompanion, idShift)=>{
+  return async function(dispatch){
+    try{
+      const response = (await axios.post(`http://localhost:3001/postAssignCompanionShift/${idCompanion}`, idShift)).data
+      dispatch({type:POST_ASSIGN_COMPANION_SHIFT, payload:response})
+    }catch(error){
+      error.message
+    }
+  }
+}
