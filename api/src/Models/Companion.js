@@ -48,6 +48,10 @@ module.exports = (sequelize) => {
       gender: {
         type: DataTypes.STRING,
       },
+      isSuperCompanion: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+      },
     },
     { timestamps: false }
   );
