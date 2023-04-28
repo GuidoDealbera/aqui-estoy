@@ -29,6 +29,7 @@ export const postSupervisor = (supervisor) => {
     }
 };
 
+
 export const putCompanion = (id, companion) => {
     return async function (dispatch){
         try {
