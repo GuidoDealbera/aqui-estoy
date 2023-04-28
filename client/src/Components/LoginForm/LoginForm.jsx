@@ -1,51 +1,18 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import axios from "axios";
+import axios from "axios"
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email address').required('Required'),
   password: Yup.string().min(6, 'Must be at least 6 characters').required('Required'),
 });
 
-const submitHandler = (values) => {
-
-  // const [info, setInfo] = useState({
-  //   data: {},
-  //   error: ""
-  // })
-
-  const { email, password } = values;
-
-    axios.get('http://localhost:3001/getBothRoles', {
-      data: {
-        email,
-      password
-      }
-    })
-    .then(response => {
-      console.log(response.data);
-    })
-    .catch(error => {
-      console.error(error);
-    });
-
-  // try {
-  //   const response = await axios.get(`http://localhost:3001/getBothRoles?email=${email}&password=${password}`)
-  //   const { data } = response;
-  //   setInfo({
-  //     ...info,
-  //     data,
-  //   })
-
-  //   } catch (error) {
-  //   const { response } = error;
-  //   const { data } = response;
-  //   setInfo({
-  //     ...info,
-  //     error: data
-  //   })
-  // }
+const submitHandler = async (values) => {
+ 
+    const { email, password } = values;
+    console.log(email, password);
+  
 }
 
 const LoginForm = ({ handleMouseLeave }) => {

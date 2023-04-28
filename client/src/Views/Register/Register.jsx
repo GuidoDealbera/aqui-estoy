@@ -1,11 +1,25 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import axios from "axios"
-import Box from '@mui/material/Box'
-import { Button, Input, InputLabel, TextField, Typography, Stepper, StepLabel, Step } from '@mui/material';
+import allCountries from './data';
+import { Select, MenuItem, InputLabel, Button, Typography, TextField, Box, Input } from '@mui/material';
 
 export default function Register() {
+
+    const [timezones, setTimezones] = useState([]);
+
+    useEffect(() => {
+        axios("http://localhost:3001/getCityTimeZone").then(
+            (response) => {
+                const { data } = response;
+                const result = data.map((timezone) => {
+                    return `${timezone.offSet} ${timezone.zoneName}`
+                })
+                setTimezones(result)
+            }
+        )
+    }, [])
 
     const [index, setIndex] = useState(0) //Estado del "paginado" de los inputs (Mirar Figma).
 
@@ -59,138 +73,160 @@ export default function Register() {
     const firstPage = <>
         <Box>
             <InputLabel>Foto de Perfil</InputLabel>
-            <Input type="file">
-                <Field name="profilePhoto">
-                    {({ field, form }) => (
-                        <>
-                            <input
-                                id={field.name}
-                                name={field.name}
-                                type="file"
-                                onChange={async (event) => {
-                                    const file = event.target.files[0];
-                                    const formData = new FormData();
-                                    formData.append("file", file)
-                                    formData.append("upload_preset", "mzntwjvh")
+            <Field name="profilePhoto">
+                {({ field, form }) => (
+                    <>
+                        <Input
+                            id={field.name}
+                            name={field.name}
+                            type="file"
+                            onChange={async (event) => {
+                                const file = event.target.files[0];
+                                const formData = new FormData();
+                                formData.append("file", file)
+                                formData.append("upload_preset", "mzntwjvh")
 
-                                    const response = await axios.post("https://api.cloudinary.com/v1_1/dqvz1juaf/image/upload", formData)
-                                    form.setFieldValue(field.name, response.data.url);
-                                }}
-                            />
-                        </>
-                    )}
-                </Field>
-            </Input>
-            <Typography>
-                <ErrorMessage name="profilePhoto" />
-            </Typography>
+                                const response = await axios.post("https://api.cloudinary.com/v1_1/dqvz1juaf/image/upload", formData)
+                                form.setFieldValue(field.name, response.data.url);
+                            }}
+                        />
+                    </>
+                )}
+            </Field>
+            <ErrorMessage name='profilePhoto'>
+                {msg => <Typography color="error">{msg}</Typography>}
+            </ErrorMessage>
         </Box>
         <Box>
             <InputLabel>Nombre</InputLabel>
-            <TextField>
-                <Field name="name" />
-            </TextField>
-            <Typography>
-                <ErrorMessage name="name" />
-            </Typography>
+            <Field as={TextField}name="name" />
+            <ErrorMessage name='name'>
+                {msg => <Typography color="error">{msg}</Typography>}
+            </ErrorMessage>
         </Box>
         <Box>
             <InputLabel>Apellido</InputLabel>
-            <TextField>
-                <Field name="lastName" />
-            </TextField>
-            <Typography>
-                <ErrorMessage name="lastName" />
-            </Typography>
+            <Field as={TextField} name="lastName" />
+            <ErrorMessage name='lastName'>
+                {msg => <Typography color="error">{msg}</Typography>}
+            </ErrorMessage>
         </Box>
         <Box>
             <InputLabel>Fecha de Nacimiento</InputLabel>
-            <Input type='date'>
-                <Field name="birthdayDate" type="date" />
-            </Input>
-            <Typography>
-                <ErrorMessage name="birthdayDate" />
-            </Typography>
+            <Field as={TextField} name="birthdayDate" type="date" />
+            <ErrorMessage name='birthdayDate'>
+                {msg => <Typography color="error">{msg}</Typography>}
+            </ErrorMessage>
         </Box>
-        <Button sx={{
-            marginTop: "10px"
-        }} variant="outlined" name="Siguiente" onClick={clickHandler}>Continuar</Button>
+        <Button name="Siguiente" onClick={clickHandler}>Continuar</Button>
     </>
 
     const secondPage = <>
-        <div>
+        <Box>
             <InputLabel>Nacionalidad</InputLabel>
-            <Field as="select" name="nationality">
+            {/* <Field as="select" name="nationality">
                 <option value="">Select an option</option>
-                <option value="Argentino">Argentino</option>
+                {allCountries.map((country) => {
+                    return <option value={country}>{country}</option>
+                })}
+            </Field> */}
+            <Field
+                as={Select}
+                name="country"
+            >
+                <MenuItem value="">Select an option</MenuItem>
+                {allCountries.map((country) => (
+                    <MenuItem key={country} value={country}>
+                        {country}
+                    </MenuItem>
+                ))}
             </Field>
-            <ErrorMessage name='nationality' />
-        </div>
-        <div>
-            <label>Pais de residencia actual</label>
-            <Field as="select" name="country">
-                <option value="">Select an option</option>
-                <option value="Argentina">Argentina</option>
+            <ErrorMessage name='nationality'>
+                {msg => <Typography color="error">{msg}</Typography>}
+            </ErrorMessage>
+        </Box>
+        <Box>
+            <InputLabel>Pais de residencia actual</InputLabel>
+            <Field as={Select} name="residence">
+                <MenuItem value="">Select an option</MenuItem>
+                {allCountries.map((country) => {
+                    return <MenuItem value={country}>{country}</MenuItem>
+                })}
             </Field>
-            <ErrorMessage name='country' />
-        </div>
-        <div>
-            <label>Ciudad / huso horario de residencia</label>
-            <Field as="select" name="cityTimeZone">
-                <option value="">Select an option</option>
-                <option value="Santa Rosa">Santa Rosa</option>
+            <ErrorMessage name='country'>
+                {msg => <Typography color="error">{msg}</Typography>}
+            </ErrorMessage>
+        </Box>
+        <Box>
+            <InputLabel>Ciudad / huso horario de residencia</InputLabel>
+            <Field as={Select} name="cityTimeZone">
+                <MenuItem value="">Select an option</MenuItem>
+                {timezones.map((timezone) => {
+                    return <MenuItem value={timezone}>{timezone}</MenuItem>
+                })}
             </Field>
-            <ErrorMessage name='cityTimeZone' />
-        </div>
-        <div>
-            <label>*E-mail</label>
-            <Field name='email' />
-            <ErrorMessage name='email' />
-        </div>
-        <button name="Anterior" onClick={clickHandler}>Volver</button>
-        <button name="Siguiente" onClick={clickHandler}>Continuar</button>
+            <ErrorMessage name='cityTimeZone'>
+                {msg => <Typography color="error">{msg}</Typography>}
+            </ErrorMessage>
+        </Box>
+        <Box>
+            <InputLabel>E-mail</InputLabel>
+            <Field as={TextField} name='email'/>
+            <ErrorMessage name='email'>
+                {msg => <Typography color="error">{msg}</Typography>}
+            </ErrorMessage>
+        </Box>
+        <Button name="Anterior" onClick={clickHandler}>Volver</Button>
+        <Button name="Siguiente" onClick={clickHandler}>Continuar</Button>
     </>
 
     const thirdPage = <>
-        <div>
-            <label>Teléfono</label>
-            <Field name='phone' />
-            <ErrorMessage name='phone' />
-        </div>
-        <div>
-            <label>¿Estudias o trabajas en alguna de estas areas?</label>
-            <Field as="select" name="profession">
-                <option value="">Select an option</option>
-                <option value="Yes">Sí</option>
-                <option value="No">No</option>
-
+        <Box>
+            <InputLabel>Teléfono</InputLabel>
+            <Field name='phone' as={TextField}/>
+            <ErrorMessage name='phone'>
+                {msg => <Typography color="error">{msg}</Typography>}
+            </ErrorMessage>
+        </Box>
+        <Box>
+            <InputLabel>¿Estudias o trabajas en alguna de estas areas?</InputLabel>
+            <Field as={Select} name="profession">
+                <MenuItem value="">Select an option</MenuItem>
+                <MenuItem value="Yes">Sí</MenuItem>
+                <MenuItem value="No">No</MenuItem>
             </Field>
-            <ErrorMessage name='profession' />
-        </div>
-        <div>
-            <label>Estudios alcanzados</label>
-            <Field as="select" name="studies">
-                <option value="">Select an option</option>
-                <option value="Primario">Educación Inicial</option>
-                <option value="Secundario">Educación Primaria</option>
-                <option value="Terciario">Educación Secundaria</option>
-                <option value="Superior">Educación Superior</option>
+            <ErrorMessage name='profession'>
+                {msg => <Typography color="error">{msg}</Typography>}
+            </ErrorMessage>
+        </Box>
+        <Box>
+            <InputLabel>Estudios alcanzados</InputLabel>
+            <Field as={Select} name="studies">
+                <MenuItem value="">Select an option</MenuItem>
+                <MenuItem value="Primario">Educación Inicial</MenuItem>
+                <MenuItem value="Secundario">Educación Primaria</MenuItem>
+                <MenuItem value="Terciario">Educación Secundaria</MenuItem>
+                <MenuItem value="Superior">Educación Superior</MenuItem>
             </Field>
-            <ErrorMessage name='studies' />
-        </div>
-        <div>
-            <label>¿Con qué genero te identificas?</label>
-            <Field as="select" name="gender">
-                <option value="">Select an option</option>
-                <option value="Femenino">Femenino</option>
-                <option value="Masculino">Masculino</option>
-                <option value="No binario">No binario</option>
-                <option value="Otro">Otro</option>
+            <ErrorMessage name='studies'>
+                {msg => <Typography color="error">{msg}</Typography>}
+            </ErrorMessage>
+        </Box>
+        <Box>
+            <InputLabel>¿Con qué genero te identificas?</InputLabel>
+            <Field as={Select} name="gender">
+                <MenuItem value="">Select an option</MenuItem>
+                <MenuItem value="Femenino">Femenino</MenuItem>
+                <MenuItem value="Masculino">Masculino</MenuItem>
+                <MenuItem value="No binario">No binario</MenuItem>
+                <MenuItem value="Otro">Otro</MenuItem>
             </Field>
-            <ErrorMessage name='gender' />
-        </div>
-        <button name="Anterior" onClick={clickHandler}>Volver</button>
-        <button type='submit'>Finalizar</button>
+            <ErrorMessage name='gender'>
+                {msg => <Typography color="error">{msg}</Typography>}
+            </ErrorMessage>
+        </Box>
+        <Button name="Anterior" onClick={clickHandler}>Volver</Button>
+        <Button type='submit'>Finalizar</Button>
     </>
 
     return (
@@ -219,7 +255,7 @@ export default function Register() {
                         {index === 1 ? secondPage : null}
                         {index === 2 ? thirdPage : null}
                         {formik.errors && Object.keys(formik.errors).length > 0 &&
-                            <div>Hay errores en los campos. Por favor, revíselos.</div>
+                            <Typography>Hay errores en los campos. Por favor, revíselos.</Typography>
                         }
                     </Form>
                 )
