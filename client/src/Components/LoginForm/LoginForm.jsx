@@ -1,6 +1,14 @@
 import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import {
+  TextField,
+  Button,
+  Box,
+  Grid,
+  Typography,
+  Container,
+} from '@mui/material';
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email address').required('Required'),
@@ -16,22 +24,50 @@ const LoginForm = ({ onSubmit, handleMouseLeave }) => {
     >
       {({ isSubmitting }) => (
         <Form>
-          <div>
-            <label htmlFor="email">E-mail</label>
-            <Field type="email" name="email" />
-            <ErrorMessage name="email" component="div" />
-          </div>
-          <div>
-            <label htmlFor="password">Contraseña</label>
-            <Field type="password" name="password" />
-            <ErrorMessage name="password" component="div" />
-          </div>
-          <div>
-            <button type="submit" disabled={isSubmitting}>
-              Iniciar Sesión
-            </button>
-            <button onClick={() => handleMouseLeave()}>Cancelar</button>
-          </div>
+          <Container maxWidth="sm">
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <Typography variant="h5">Iniciar sesión</Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <Field
+                  as={TextField}
+                  fullWidth
+                  id="email"
+                  label="E-mail"
+                  name="email"
+                  type="email"
+                  error={!!(ErrorMessage.name)}
+                  helperText={<ErrorMessage name="email" />}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Field
+                  as={TextField}
+                  fullWidth
+                  id="password"
+                  label="Contraseña"
+                  name="password"
+                  type="password"
+                  error={!!(ErrorMessage.name)}
+                  helperText={<ErrorMessage name="password" />}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Box display="flex" justifyContent="space-between">
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    type="submit"
+                    disabled={isSubmitting}
+                  >
+                    Iniciar Sesión
+                  </Button>
+                  <Button onClick={() => handleMouseLeave()}>Cancelar</Button>
+                </Box>
+              </Grid>
+            </Grid>
+          </Container>
         </Form>
       )}
     </Formik>
