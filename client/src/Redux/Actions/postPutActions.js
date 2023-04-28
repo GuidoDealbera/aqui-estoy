@@ -29,7 +29,7 @@ export const postSupervisor = (supervisor) => {
         supervisor
       );
       dispatch({ type: POST_SUPERVISOR, payload: response.data });
-      alert("ACOMPAÑANTE creado");
+      alert("SUPERVISOR creado");
     } catch (error) {
       console.log(error.message);
       alert("No se pudo crear el SUPERVISOR");
