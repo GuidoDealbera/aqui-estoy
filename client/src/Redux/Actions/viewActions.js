@@ -5,6 +5,8 @@ import {
   GET_COMPANIONS_AT_CHARGE,
   GET_ONE_COMPANION,
   GET_ONE_SUPERVISOR,
+  GET_ALL_SUPERVISOR_SHIFT,
+  GET_ALL_COMPANION_SHIFT,
 } from "./action-types";
 import axios from 'axios'
 
@@ -81,3 +83,24 @@ export const logOut = () => {
     type: LOGOUT
    }
 };
+
+export const getAllSupervisorShift = ()=>{
+    return async function(dispatch){
+        try{
+            const response = (await axios.get('http://localhost:3001/getSupervisorShift')).data;
+            dispatch({type: GET_ALL_SUPERVISOR_SHIFT, payload:response})
+        }catch(error){
+            alert('No se pudieron cargar los turnos de SUPERVISORES')
+        }
+    }
+}
+export const getAllCompanionShift = ()=>{
+    return async function(dispatch){
+        try{
+            const response = (await axios.get('http://localhost:3001/getCompanionShift')).data;
+            dispatch({type: GET_ALL_COMPANION_SHIFT, payload:response})
+        }catch(error){
+            alert('No se pudieron cargar los turnos de ACOMPAÑANTE')
+        }
+    }
+}
