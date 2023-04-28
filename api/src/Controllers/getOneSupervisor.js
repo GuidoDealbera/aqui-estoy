@@ -4,24 +4,24 @@ const bcrypt = require("bcrypt");
 //Controlador para verificar login de un Supervisor y llenar el perfil
 const getOneSupervisor = async (req, res) => {
   try {
+    let supervisor;
+    let rol;
     //Se obtiene el email y contraseña desde el formulario
-    const { email, password } = req.body;
-
+    const { email } = req.body;
     //Se busca el supervisor por email
-    let supervisor = await Supervisor.findOne({ where: { email } });
-    //Se compara la contraseña enviada en el formulario contra la hasheada en bd
-    const match = await bcrypt.compare(password, supervisor.password);
-    //Si existe el acompañante y la contraseña coincide se procede a responder
-    if (supervisor && match) {
-      const timeZoneData = await CityTimeZone.findOne({
-        where: { id: supervisor.CityTimeZoneId },
-      });
-      supervisor = {
-        ...supervisor.dataValues,
-        timeZoneData: timeZoneData,
-      };
+    supervisor = await Supervisor.findOne({ where: { email } });
+    rol = "Supervisor";
+    if(supervisor.isSuperAdmin){
+      rol = "SuperAdmin"
+    }
+    //Si existe el supervisor y la contraseña coincide se procede a responder
+    if (supervisor) {
       //Retorna un supervisor con todos sus datos (Sirve para cargar el perfil)
-      return res.status(200).json({ supervisor });
+      const response = {
+        ...supervisor.toJSON(),
+        rol: rol,
+      };
+      res.status(200).json(response);
     } else {
       //Devuelve error si alguno de los datos no coincide
       res.status(404).json("El Supervisor no se encontro");

@@ -12,6 +12,9 @@ const getBothRoles = async (req, res) => {
     //Se busca el supervisor por email
     supervisor = await Supervisor.findOne({ where: { email } });
     rol = "Supervisor";
+    if(supervisor.isSuperAdmin){
+      rol = "SuperAdmin"
+    }
     //Si existe el supervisor y la contraseña coincide se procede a responder
     if (supervisor) {
       //Retorna un supervisor con todos sus datos (Sirve para cargar el perfil)
@@ -23,7 +26,6 @@ const getBothRoles = async (req, res) => {
     } else {
       const { email } = req.body;
       let companion;
-      let rol;
       companion = await Companion.findOne({ where: { email } });
       rol = "Companion";
       if (companion) {
