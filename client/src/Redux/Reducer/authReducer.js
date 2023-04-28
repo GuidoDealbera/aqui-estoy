@@ -46,13 +46,18 @@ const authReducer = (state = initialState, action) => {
     case PUT_COMPANION:
       return {
         ...state,
-        user: { ...user, ...action.payload },
+        user: action.payload
       };
     case PUT_SUPERVISOR:
       return {
         ...state,
-        user: { ...user, ...action.payload },
+        user: action.payload
       };
+    case 'GET_BOTH_ROLES':
+      return {
+        ...state,
+        user: action.payload
+      }
     default:
       return { ...state };
   }
