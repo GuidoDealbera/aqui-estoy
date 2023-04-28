@@ -46,7 +46,10 @@ export const getAllSupervisors = () => {
 export const getOneCompanion = (email, password) => {
     return async function (dispatch){
         try {
-            const response = await axios.get('http://localhost:3001/getOneCompanion', {email, password});
+            const response = await axios.post('http://localhost:3001/getOneCompanion', {email, password},
+            {
+                headers: {"Content-Type": "application/json"}
+            });
             dispatch({type: GET_ONE_COMPANION, payload: response.data})
         } catch (error) {
             alert('No se pudo cargar el ACOMPAÑANTE')
@@ -57,7 +60,10 @@ export const getOneCompanion = (email, password) => {
 export const getOneSupervisor = (email, password) => {
     return async function (dispatch){
         try {
-            const response = await axios.get('http://localhost:3001/getOneSupervisor', {email, password});
+            const response = await axios.post('http://localhost:3001/getOneSupervisor', {email, password},
+            {
+                headers: {"Content-Type": "application/json"}
+            });
             dispatch({type: GET_ONE_SUPERVISOR, payload: response.data})
         } catch (error) {
             alert('No se pudo cargar el SUPERVISOR')
