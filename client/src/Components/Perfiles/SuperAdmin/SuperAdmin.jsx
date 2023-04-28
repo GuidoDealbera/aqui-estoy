@@ -7,7 +7,7 @@ import GeneralSettings from './superAdminComponents/GeneralSettings';
 
 // Importar componentes y utilidades de MUI
 import { Box, Button, IconButton, Tab, Tabs, Hidden, Menu, MenuItem } from '@mui/material';
-// import MenuIcon from "@material-ui/icons/Menu";
+import MenuIcon from '@mui/icons-material/Menu';
 
 const SuperAdmin = (props) => {
   const [activeTab, setActiveTab] = useState('createUser');
@@ -59,7 +59,7 @@ const SuperAdmin = (props) => {
       <Hidden smDown>{renderTabs()}</Hidden>
       <Hidden mdUp>
         <IconButton onClick={handleMenuClick}>
-          {/* <MenuIcon /> */}
+          <MenuIcon />
         </IconButton>
         <Menu
           anchorEl={menuAnchorEl}
