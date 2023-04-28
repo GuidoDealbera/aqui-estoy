@@ -77,6 +77,7 @@ export const getBothRoles = (email, password) => {
             const response = await axios.post('http://localhost:3001/getBothRoles', {email, password});
             dispatch({type: "GET_BOTH_ROLES", payload: response.data})
         } catch (error) {
+            dispatch({type: "GET_BOTH_ROLES", payload: "No se encontro"})
             alert('No se pudo cargar el USUARIO')
         }
     }

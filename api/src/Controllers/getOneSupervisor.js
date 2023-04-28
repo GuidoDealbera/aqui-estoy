@@ -28,6 +28,7 @@ const getOneSupervisor = async (req, res) => {
     }
   } catch (error) {
     res.status(404).json("El Supervisor no se encontro");
+
   }
 };
 

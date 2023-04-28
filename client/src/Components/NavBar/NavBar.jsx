@@ -12,7 +12,7 @@ import {
   MenuItem,
   IconButton,
 } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
+// import MenuIcon from "@material-ui/icons/Menu";
 
 export default function NavBar(props) {
   const location = useLocation();
@@ -62,7 +62,7 @@ export default function NavBar(props) {
             </Hidden>
             <Hidden mdUp>
               <IconButton onClick={handleMenuClick}>
-                <MenuIcon />
+                {/* <MenuIcon /> */}
               </IconButton>
               <Menu
                 anchorEl={anchorEl}
@@ -98,7 +98,7 @@ export default function NavBar(props) {
         <Grid item>
           <Box>
             {location.pathname !== "/profile/Chiringuito" && (
-              <Button name="session" onMouseEnter={handleMouseEnter}>
+              <Button name="session" onClick={handleMouseEnter}>
                 Iniciar sesión
               </Button>
             )}

@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import axios from "axios"
+import { useDispatch, useSelector } from "react-redux"
+import { getOneCompanion, getOneSupervisor } from '../../Redux/Actions/viewActions';
+import { useNavigate } from "react-router-dom"
 import {
   TextField,
   Button,
@@ -15,20 +19,73 @@ const validationSchema = Yup.object().shape({
   password: Yup.string().min(6, 'Must be at least 6 characters').required('Required'),
 });
 
-const LoginForm = ({ onSubmit, handleMouseLeave }) => {
-  const [rol,setRol]=useState("Acompañante")
-  const toggle=(event)=>{
-  if(event.target.value==="Acompañante"){
-    setRol("Supervisor")
-  }else{
-    setRol("Acompañante")
+const LoginForm = ({ handleMouseLeave }) => {
+
+  const [rol, setRol] = useState("Acompañante")
+  const toggle = (event) => {
+    if (event.target.value === "Acompañante") {
+      setRol("Supervisor")
+    } else {
+      setRol("Acompañante")
+    }
   }
+
+  const navigate = useNavigate()
+
+  const dispatch = useDispatch();
+
+  const user = useSelector((state) => {
+    return state.auth.user
+  })
+
+  const submitHandler = async (values) => {
+
+    const { email, password } = values;
+
+    if (rol === "Supervisor") {
+      dispatch(getOneSupervisor(email, password)) //Register
+      try {
+        const response = await axios.post("http://localhost:3001/getOneSupervisor",{
+          email, password
+        })
+        const { data } = response;
+        const { name } = data;
+        if (name) {
+          navigate("/profile/Chiringuito")
+        } else {
+          navigate("/register")
+        }
+        handleMouseLeave()
+      } catch (error) {
+        alert("Datos Incorrectos")
+      }
+
+
+    } else { // Companion
+      dispatch(getOneCompanion(email, password))
+      try {
+        const response = await axios.post("http://localhost:3001/getOneCompanion",{
+          email, password
+        })
+        const { data } = response;
+        const { name } = data;
+        if (name) {
+          navigate("/profile/Chiringuito")
+        } else {
+          navigate("/register")
+        }
+        handleMouseLeave()
+      } catch (error) {
+        alert("Datos Incorrectos")
+      }
+    }
   }
-    return (
+
+  return (
     <Formik
       initialValues={{ email: '', password: '' }}
       validationSchema={validationSchema}
-      onSubmit={onSubmit}
+      onSubmit={submitHandler}
     >
       {({ isSubmitting }) => (
         <Form>
@@ -36,7 +93,7 @@ const LoginForm = ({ onSubmit, handleMouseLeave }) => {
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <Typography variant="h5">Iniciar sesión</Typography>
-          <button value={rol} type='button' onClick={toggle} name="Acompañante">{rol}</button>
+                <button value={rol} type='button' onClick={toggle} name="Acompañante">{rol}</button>
               </Grid>
               <Grid item xs={12}>
                 <Field
@@ -68,7 +125,7 @@ const LoginForm = ({ onSubmit, handleMouseLeave }) => {
                     variant="contained"
                     color="primary"
                     type="submit"
-                    disabled={isSubmitting}
+                  // disabled={isSubmitting}
                   >
                     Iniciar Sesión
                   </Button>

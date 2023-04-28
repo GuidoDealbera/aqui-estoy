@@ -1,9 +1,25 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import axios from "axios"
+import allCountries from './data';
+import { Select, MenuItem, InputLabel, Button, Typography, TextField, Box, Input } from '@mui/material';
 
 export default function Register() {
+
+    const [timezones, setTimezones] = useState([]);
+
+    useEffect(() => {
+        axios("http://localhost:3001/getCityTimeZone").then(
+            (response) => {
+                const { data } = response;
+                const result = data.map((timezone) => {
+                    return `${timezone.offSet} ${timezone.zoneName}`
+                })
+                setTimezones(result)
+            }
+        )
+    }, [])
 
     const [index, setIndex] = useState(0) //Estado del "paginado" de los inputs (Mirar Figma).
 
@@ -29,14 +45,22 @@ export default function Register() {
     }
 
     const validationSchema = Yup.object().shape({ //Validaciones de Yup (Aún en desarrollo)
-        profilePhoto: Yup.string().url('URL de la imágen inválida'),
-        name: Yup.string().required('Este campo es obligatorio'),
-        lastName: Yup.string().required('Este campo es obligatorio'),
-        birthdayDate: Yup.string().required('Este campo es obligatorio'),
+        profilePhoto: Yup.string()
+            .url('URL de la imágen inválida'),
+        name: Yup.string()
+            .max(15, "Debe ser menor a 15 caracteres")
+            .required('Este campo es obligatorio'),
+        lastName: Yup.string()
+            .max(20, "Debe ser menor a 20 caracteres")
+            .required('Este campo es obligatorio'),
+        birthdayDate: Yup.date()
+            .required('Este campo es obligatorio'),
         nationality: Yup.string(),
         country: Yup.string(),
         cityTimeZone: Yup.string(),
-        email: Yup.string().email('El e-mail proporcionado no es válido').required('Este campo es obligatorio'),
+        email: Yup.string()
+            .email('El e-mail proporcionado no es válido')
+            .required('Este campo es obligatorio'),
         phone: Yup.string()
             .matches(/^\+?[0-9\s]*[1-9][0-9]*$/, 'El número de teléfono debe contener solo números y espacios en blanco')
             .test('is-positive', 'El número de teléfono debe ser positivo', (value) => !value || parseInt(value.replace(/\s+/g, '')) > 0),
@@ -47,20 +71,17 @@ export default function Register() {
     //Estas 3 páginas es simplemente código html dividido en 3 partes, para hacer el paginado de "Siguiente", "Anterior" (Mirar Figma)
 
     const firstPage = <>
-        <div>
-
-            <label>Foto de Perfil</label>
-
+        <Box>
+            <InputLabel>Foto de Perfil</InputLabel>
             <Field name="profilePhoto">
                 {({ field, form }) => (
                     <>
-                        <input
+                        <Input
                             id={field.name}
                             name={field.name}
                             type="file"
                             onChange={async (event) => {
                                 const file = event.target.files[0];
-                                // Aquí puedes hacer lo que necesites con el archivo (subirlo a un servidor, procesarlo, etc.)
                                 const formData = new FormData();
                                 formData.append("file", file)
                                 formData.append("upload_preset", "mzntwjvh")
@@ -69,106 +90,137 @@ export default function Register() {
                                 form.setFieldValue(field.name, response.data.url);
                             }}
                         />
-                        <ErrorMessage name={field.name} />
                     </>
                 )}
             </Field>
-
-            <ErrorMessage name="profilePhoto" />
-
-        </div>
-        <div>
-            <label>Nombre</label>
-            <Field name="name" />
-            <ErrorMessage name="name" />
-        </div>
-        <div>
-            <label>Apellido</label>
-            <Field name="lastName" />
-            <ErrorMessage name="lastName" />
-        </div>
-        <div>
-            <label>Fecha de Nacimiento</label>
-            <Field name="birthdayDate" type="date" />
-            <ErrorMessage name="birthdayDate" />
-        </div>
-        <button name="Siguiente" onClick={clickHandler}>Continuar</button>
+            <ErrorMessage name='profilePhoto'>
+                {msg => <Typography color="error">{msg}</Typography>}
+            </ErrorMessage>
+        </Box>
+        <Box>
+            <InputLabel>Nombre</InputLabel>
+            <Field as={TextField} name="name" />
+            <ErrorMessage name='name'>
+                {msg => <Typography color="error">{msg}</Typography>}
+            </ErrorMessage>
+        </Box>
+        <Box>
+            <InputLabel>Apellido</InputLabel>
+            <Field as={TextField} name="lastName" />
+            <ErrorMessage name='lastName'>
+                {msg => <Typography color="error">{msg}</Typography>}
+            </ErrorMessage>
+        </Box>
+        <Box>
+            <InputLabel>Fecha de Nacimiento</InputLabel>
+            <Field as={TextField} name="birthdayDate" type="date" />
+            <ErrorMessage name='birthdayDate'>
+                {msg => <Typography color="error">{msg}</Typography>}
+            </ErrorMessage>
+        </Box>
+        <Button name="Siguiente" onClick={clickHandler}>Continuar</Button>
     </>
 
     const secondPage = <>
-        <div>
-            <label>Nacionalidad</label>
-            <Field as="select" name="nationality">
-                <option value="">Select an option</option>
-                <option value="Argentino">Argentino</option>
+        <Box>
+            <InputLabel>Nacionalidad</InputLabel>
+            <Field
+                as={Select}
+                name="country"
+            >
+                <MenuItem value="" disabled>Select an option</MenuItem>
+                {allCountries.map((country, i) => (
+                    <MenuItem key={i} value={country}>
+                        {country}
+                    </MenuItem>
+                ))}
             </Field>
-            <ErrorMessage name='nationality' />
-        </div>
-        <div>
-            <label>Pais de residencia actual</label>
-            <Field as="select" name="country">
-                <option value="">Select an option</option>
-                <option value="Argentina">Argentina</option>
+            <ErrorMessage name='nationality'>
+                {msg => <Typography color="error">{msg}</Typography>}
+            </ErrorMessage>
+        </Box>
+        <Box>
+            <InputLabel>Pais de residencia actual</InputLabel>
+            <Field as={Select} name="residence">
+                <MenuItem value="" disabled>Select an option</MenuItem>
+                {allCountries.map((country, i) => {
+                    return <MenuItem key={i} value={country}>{country}</MenuItem>
+                })}
             </Field>
-            <ErrorMessage name='country' />
-        </div>
-        <div>
-            <label>Ciudad / huso horario de residencia</label>
-            <Field as="select" name="cityTimeZone">
-                <option value="">Select an option</option>
-                <option value="Santa Rosa">Santa Rosa</option>
+            <ErrorMessage name='country'>
+                {msg => <Typography color="error">{msg}</Typography>}
+            </ErrorMessage>
+        </Box>
+        <Box>
+            <InputLabel>Ciudad / huso horario de residencia</InputLabel>
+            <Field as={Select} name="cityTimeZone">
+                <MenuItem value="" disabled>Select an option</MenuItem>
+                {timezones.map((timezone, i) => {
+                    return <MenuItem value={timezone} key={i}>{timezone}</MenuItem>
+                })}
             </Field>
-            <ErrorMessage name='cityTimeZone' />
-        </div>
-        <div>
-            <label>*E-mail</label>
-            <Field name='email' />
-            <ErrorMessage name='email' />
-        </div>
-        <button name="Anterior" onClick={clickHandler}>Volver</button>
-        <button name="Siguiente" onClick={clickHandler}>Continuar</button>
+            <ErrorMessage name='cityTimeZone'>
+                {msg => <Typography color="error">{msg}</Typography>}
+            </ErrorMessage>
+        </Box>
+        <Box>
+            <InputLabel>E-mail</InputLabel>
+            <Field as={TextField} name='email' />
+            <ErrorMessage name='email'>
+                {msg => <Typography color="error">{msg}</Typography>}
+            </ErrorMessage>
+        </Box>
+        <Button name="Anterior" onClick={clickHandler}>Volver</Button>
+        <Button name="Siguiente" onClick={clickHandler}>Continuar</Button>
     </>
 
     const thirdPage = <>
-        <div>
-            <label>Teléfono</label>
-            <Field name='phone' />
-            <ErrorMessage name='phone' />
-        </div>
-        <div>
-            <label>¿Estudias o trabajas en alguna de estas areas?</label>
-            <Field as="select" name="profession">
-                <option value="">Select an option</option>
-                <option value="Yes">Sí</option>
-                <option value="No">No</option>
-
+        <Box>
+            <InputLabel>Teléfono</InputLabel>
+            <Field name='phone' as={TextField} />
+            <ErrorMessage name='phone'>
+                {msg => <Typography color="error">{msg}</Typography>}
+            </ErrorMessage>
+        </Box>
+        <Box>
+            <InputLabel>¿Estudias o trabajas en alguna de estas areas?</InputLabel>
+            <Field as={Select} name="profession">
+                <MenuItem value="">Select an option</MenuItem>
+                <MenuItem value="Yes">Sí</MenuItem>
+                <MenuItem value="No">No</MenuItem>
             </Field>
-            <ErrorMessage name='profession' />
-        </div>
-        <div>
-            <label>Estudios alcanzados</label>
-            <Field as="select" name="studies">
-                <option value="">Select an option</option>
-                <option value="Primario">Educación Inicial</option>
-                <option value="Secundario">Educación Primaria</option>
-                <option value="Terciario">Educación Secundaria</option>
-                <option value="Superior">Educación Superior</option>
+            <ErrorMessage name='profession'>
+                {msg => <Typography color="error">{msg}</Typography>}
+            </ErrorMessage>
+        </Box>
+        <Box>
+            <InputLabel>Estudios alcanzados</InputLabel>
+            <Field as={Select} name="studies">
+                <MenuItem value="">Select an option</MenuItem>
+                <MenuItem value="Primario">Educación Inicial</MenuItem>
+                <MenuItem value="Secundario">Educación Primaria</MenuItem>
+                <MenuItem value="Terciario">Educación Secundaria</MenuItem>
+                <MenuItem value="Superior">Educación Superior</MenuItem>
             </Field>
-            <ErrorMessage name='studies' />
-        </div>
-        <div>
-            <label>¿Con qué genero te identificas?</label>
-            <Field as="select" name="gender">
-                <option value="">Select an option</option>
-                <option value="Femenino">Femenino</option>
-                <option value="Masculino">Masculino</option>
-                <option value="No binario">No binario</option>
-                <option value="Otro">Otro</option>
+            <ErrorMessage name='studies'>
+                {msg => <Typography color="error">{msg}</Typography>}
+            </ErrorMessage>
+        </Box>
+        <Box>
+            <InputLabel>¿Con qué genero te identificas?</InputLabel>
+            <Field as={Select} name="gender">
+                <MenuItem value="">Select an option</MenuItem>
+                <MenuItem value="Femenino">Femenino</MenuItem>
+                <MenuItem value="Masculino">Masculino</MenuItem>
+                <MenuItem value="No binario">No binario</MenuItem>
+                <MenuItem value="Otro">Otro</MenuItem>
             </Field>
-            <ErrorMessage name='gender' />
-        </div>
-        <button name="Anterior" onClick={clickHandler}>Volver</button>
-        <button type='submit' >Finalizar</button>
+            <ErrorMessage name='gender'>
+                {msg => <Typography color="error">{msg}</Typography>}
+            </ErrorMessage>
+        </Box>
+        <Button name="Anterior" onClick={clickHandler}>Volver</Button>
+        <Button type='submit'>Finalizar</Button>
     </>
 
     return (
@@ -189,13 +241,19 @@ export default function Register() {
             }}
             validationSchema={validationSchema}
             onSubmit={submitHandler}
-
         >
-            <Form>
-                {index === 0 ? firstPage : null}
-                {index === 1 ? secondPage : null}
-                {index === 2 ? thirdPage : null}
-            </Form>
+            {(formik) => {
+                return (
+                    <Form>
+                        {index === 0 ? firstPage : null}
+                        {index === 1 ? secondPage : null}
+                        {index === 2 ? thirdPage : null}
+                        {formik.errors && Object.keys(formik.errors).length > 0 &&
+                            <Typography>Hay errores en los campos. Por favor, revíselos.</Typography>
+                        }
+                    </Form>
+                )
+            }}
         </Formik>
     )
 }
