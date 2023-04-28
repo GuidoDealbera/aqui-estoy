@@ -15,6 +15,7 @@ const assignCompanionShift = async (req, res) => {
         include: [{ model: CompanionShift, through: { attributes: [] } }],
       });
       res.json(updatedCompanion);
+      return;
     }
 
     const hasShifts = await Companion.findOne({
@@ -24,6 +25,7 @@ const assignCompanionShift = async (req, res) => {
 
     if (hasShifts.CompanionShifts.length > 0) {
       res.status(400).send("El acompañante ya cuenta con 1 turno asignado");
+      return;
     } else {
       await companion.addCompanionShifts(shift);
       const updatedCompanion = await Companion.findOne({
@@ -31,6 +33,7 @@ const assignCompanionShift = async (req, res) => {
         include: [{ model: CompanionShift, through: { attributes: [] } }],
       });
       res.json(updatedCompanion);
+      return;
     }
   } catch (error) {
     console.error(error);
