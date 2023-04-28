@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import axios from "axios"
@@ -16,15 +16,16 @@ const validationSchema = Yup.object().shape({
   password: Yup.string().min(6, 'Must be at least 6 characters').required('Required'),
 });
 
-const submitHandler = async (values) => {
- 
-    const { email, password } = values;
-    console.log(email, password);
-  
-}
-
-const LoginForm = ({ handleMouseLeave }) => {
-  return (
+const LoginForm = ({ onSubmit, handleMouseLeave }) => {
+  const [rol,setRol]=useState("Acompañante")
+  const toggle=(event)=>{
+  if(event.target.value==="Acompañante"){
+    setRol("Supervisor")
+  }else{
+    setRol("Acompañante")
+  }
+  }
+    return (
     <Formik
       initialValues={{ email: '', password: '' }}
       validationSchema={validationSchema}
@@ -36,6 +37,7 @@ const LoginForm = ({ handleMouseLeave }) => {
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <Typography variant="h5">Iniciar sesión</Typography>
+          <button value={rol} type='button' onClick={toggle} name="Acompañante">{rol}</button>
               </Grid>
               <Grid item xs={12}>
                 <Field
