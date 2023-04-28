@@ -1,5 +1,11 @@
-import React from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import React, { useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import {
+  getAllCompanions,
+  getAllSupervisors,
+} from "../../Redux/Actions/viewActions";
+import landingImage from "../../img/landing.png";
 import {
   Button,
   Container,
@@ -7,21 +13,27 @@ import {
   Box,
   CardMedia,
   Grid,
-} from '@mui/material';
-import landingImage from '../../img/landing.png';
+} from "@mui/material";
 
 export default function Landing(props) {
   const navigate = useNavigate();
-  const toProfile = () => {
-    navigate(`/profile/Chiringuito`);
-  };
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getAllCompanions());
+    dispatch(getAllSupervisors());
+  }, []);
+
+  // const toProfile = () => {
+  //   navigate(`/profile/Chiringuito`);
+  // };
 
   return (
     <Grid
       container
       sx={{
-        minHeight: '100vh',
-        width: '100%',
+        minHeight: "100vh",
+        width: "100%",
       }}
     >
       <Grid
@@ -30,17 +42,17 @@ export default function Landing(props) {
         md={6}
         sx={{
           order: { xs: 2, md: 1 },
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
         }}
       >
         <Container
           maxWidth="md"
           sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
           }}
         >
           <Typography variant="h3" align="left" gutterBottom>
@@ -56,11 +68,11 @@ export default function Landing(props) {
             voluntarios a tu cargo.
           </Typography>
 
-          <Box mt={4} textAlign="left">
+          {/* <Box mt={4} textAlign="left">
             <Button variant="contained" color="primary" onClick={toProfile}>
               Comenzar
             </Button>
-          </Box>
+          </Box> */}
         </Container>
       </Grid>
       <Grid
@@ -69,8 +81,8 @@ export default function Landing(props) {
         md={6}
         sx={{
           order: { xs: 1, md: 2 },
-          position: 'relative',
-          overflow: 'hidden',
+          position: "relative",
+          overflow: "hidden",
         }}
       >
         <CardMedia
@@ -78,12 +90,12 @@ export default function Landing(props) {
           image={landingImage}
           alt="Landing illustration"
           sx={{
-            position: 'absolute',
+            position: "absolute",
             top: 0,
             right: 0,
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
           }}
         />
       </Grid>
