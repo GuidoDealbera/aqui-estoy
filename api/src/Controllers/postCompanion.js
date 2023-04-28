@@ -16,8 +16,8 @@ const postCompanion = async (req, res) => {
       });
       //Retorna un objeto de tipo Acompañante con todos sus datos
       res.status(201).json(newCompanion);
-    }else{
-        res.status(400).json({ error: "Faltan datos obligatorios" });
+    } else {
+      res.status(400).json({ error: "Faltan datos obligatorios" });
     }
   } catch (error) {
     res.status(500).json({ error: "Error del servidor al postear" });
