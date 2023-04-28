@@ -9,7 +9,7 @@ const putCompanion = async (req, res) => {
     birthdayDate,
     nationality,
     country,
-    cityTimeZone,
+    CityTimeZoneId,
     phone,
     profession,
     studies,
@@ -17,6 +17,7 @@ const putCompanion = async (req, res) => {
   } = req.body;
   //Requiere el id del usuario enviado por parametro
   const { id } = req.params;
+  const newDate = new Date(birthdayDate);
   try {
     //Modifica los datos del Acompañante con los datos enviados desde el front
     const result = await Companion.update(
@@ -24,10 +25,10 @@ const putCompanion = async (req, res) => {
         name,
         lastName,
         profilePhoto,
-        birthdayDate,
+        birthdayDate: newDate,
         nationality,
         country,
-        cityTimeZone,
+        CityTimeZoneId,
         phone,
         profession,
         studies,

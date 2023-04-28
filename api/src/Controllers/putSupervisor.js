@@ -10,7 +10,7 @@ const putSupervisor = async (req, res) => {
     birthdayDate,
     nationality,
     country,
-    cityTimeZone,
+    CityTimeZoneId,
     phone,
     profession,
     studies,
@@ -18,6 +18,8 @@ const putSupervisor = async (req, res) => {
   } = req.body;
   //Recibe id por params
   const { id } = req.params;
+  const newDate = new Date(birthdayDate);
+  console.log();
   try {
     //Realiza un update del supervisor con ese id en la bd
     const result = await Supervisor.update(
@@ -25,10 +27,10 @@ const putSupervisor = async (req, res) => {
         name,
         lastName,
         profilePhoto,
-        birthdayDate,
+        birthdayDate: newDate,
         nationality,
         country,
-        cityTimeZone,
+        CityTimeZoneId,
         phone,
         profession,
         studies,
@@ -36,13 +38,12 @@ const putSupervisor = async (req, res) => {
       },
       { where: { id: id } }
     );
-    
+
     // Encuentra el supervisor actualizado
     const supervisor = await Supervisor.findOne({ where: { id: id } });
 
     // Devuelve el supervisor actualizado
     res.status(200).json(supervisor);
-   
   } catch (error) {
     res.status(400).json(error.message);
   }
