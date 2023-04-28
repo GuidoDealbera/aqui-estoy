@@ -7,7 +7,7 @@ const {
   fillCompanionShifts,
 } = require("./src/Controllers/getCompanionShift.js");
 const postCityTimeZone = require("./src/Controllers/postCityTimeZone.js");
-
+// conn.sync({ alter: true }).then(async () => {
 conn.sync({ force: true }).then(async () => {
   await fillCompanionShifts();
   await fillSupervisorShifts();
