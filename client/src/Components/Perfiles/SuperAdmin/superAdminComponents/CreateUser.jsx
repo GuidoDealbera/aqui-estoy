@@ -6,9 +6,11 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import Box from '@mui/material/Box';
-
+import { useDispatch } from 'react-redux'
+import { postCompanion,postSupervisor } from '../../../../Redux/Actions/postPutActions';
 
 const CreateUser = () => {
+  const dispatch=useDispatch()
   const [userData, setUserData] = useState({
     username: '',
     email: '',
@@ -24,8 +26,14 @@ const CreateUser = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     //  implementar la lógica para crear el usuario, como llamar a una API o usar acciones de Redux
-    console.log(userData);
-  };
+    // console.log(userData);
+    if(userData.role==="volunteer"){
+      dispatch(postCompanion({email:userData.email,password:userData.password}))
+    }else{
+      dispatch(postSupervisor({email:userData.email,password:userData.password}))
+    }
+    }
+
 
   return (
     <Box>
