@@ -1,4 +1,12 @@
 import React, { useState } from 'react';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import Box from '@mui/material/Box';
+
 
 const CreateUser = () => {
   const [userData, setUserData] = useState({
@@ -20,52 +28,61 @@ const CreateUser = () => {
   };
 
   return (
-    <div>
+    <Box>
       <h2>Crear Usuario</h2>
       <form onSubmit={handleSubmit}>
-        <label>
-          Nombre de usuario:
-          <input
-            type="text"
+        <Box marginBottom={2}>
+          <TextField
+            label="Nombre de usuario"
             name="username"
             value={userData.username}
             onChange={handleChange}
+            fullWidth
           />
-        </label>
-        <br />
-        <label>
-          Email:
-          <input
+        </Box>
+        <Box marginBottom={2}>
+          <TextField
+            label="Email"
             type="email"
             name="email"
             value={userData.email}
             onChange={handleChange}
+            fullWidth
           />
-        </label>
-        <br />
-        <label>
-          Contraseña:
-          <input
+        </Box>
+        <Box marginBottom={2}>
+          <TextField
+            label="Contraseña"
             type="password"
             name="password"
             value={userData.password}
             onChange={handleChange}
+            fullWidth
           />
-        </label>
-        <br />
-        <label>
-          Rol:
-          <select name="role" value={userData.role} onChange={handleChange}>
-            <option value="">Selecciona un rol</option>
-            <option value="supervisor">Supervisor</option>
-            <option value="volunteer">Voluntario</option>
-          </select>
-        </label>
-        <br />
-        <button type="submit">Crear Usuario</button>
+        </Box>
+        <Box marginBottom={2}>
+          <FormControl fullWidth>
+            <InputLabel>Rol</InputLabel>
+            <Select
+              name="role"
+              value={userData.role}
+              onChange={handleChange}
+              label="Rol"
+            >
+              <MenuItem value="">
+                <em>Selecciona un rol</em>
+              </MenuItem>
+              <MenuItem value="supervisor">Supervisor</MenuItem>
+              <MenuItem value="volunteer">Voluntario</MenuItem>
+            </Select>
+          </FormControl>
+        </Box>
+        <Button type="submit" variant="contained" color="primary">
+          Crear Usuario
+        </Button>
       </form>
-    </div>
+    </Box>
   );
 };
 
-export default CreateUser;
+export default CreateUser;

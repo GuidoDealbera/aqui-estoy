@@ -4,18 +4,14 @@ import CreateUser from './superAdminComponents/CreateUser';
 import CsvImportExport from './superAdminComponents/CsvImportExport';
 import AssignShifts from './superAdminComponents/AssignShifts';
 import GeneralSettings from './superAdminComponents/GeneralSettings';
-import { Button, Box } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
 
-// Importar las acciones relevantes
-import { LOGOUT } from '../../../Redux/Actions/action-types';
-import { loginSuccess, loginFail } from '../../../Redux/Actions/actions';
+// Importar componentes y utilidades de MUI
+import { Box, Button, IconButton, Tab, Tabs, Hidden, Menu, MenuItem } from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
 
 const SuperAdmin = (props) => {
   const [activeTab, setActiveTab] = useState('createUser');
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const [menuAnchorEl, setMenuAnchorEl] = useState(null);
 
   const renderTabContent = () => {
     switch (activeTab) {
@@ -32,42 +28,59 @@ const SuperAdmin = (props) => {
     }
   };
 
+  const handleTabChange = (event, newValue) => {
+    setActiveTab(newValue);
+  };
+
+  const handleMenuClick = (event) => {
+    setMenuAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setMenuAnchorEl(null);
+  };
+
+  const handleMenuItemClick = (event, newValue) => {
+    setActiveTab(newValue);
+    handleMenuClose();
+  };
+
   const renderTabs = () => (
-    <Box
-      sx={{
-        display: 'flex',
-        justifyContent: 'space-around',
-        flexWrap: isMobile ? 'wrap' : 'nowrap',
-        gap: isMobile ? '10px' : '0',
-      }}
-    >
-      <Button variant="outlined" onClick={() => setActiveTab('createUser')}>
-        Crear Usuario
-      </Button>
-      <Button variant="outlined" onClick={() => setActiveTab('csvImportExport')}>
-        Importar/Exportar CSV
-      </Button>
-      <Button variant="outlined" onClick={() => setActiveTab('assignShifts')}>
-        Asignar Turnos
-      </Button>
-      <Button variant="outlined" onClick={() => setActiveTab('generalSettings')}>
-        Configuración General
-      </Button>
-    </Box>
+    <Tabs value={activeTab} onChange={handleTabChange}>
+      <Tab value="createUser" label="Crear Usuario" />
+      <Tab value="csvImportExport" label="Importar/Exportar CSV" />
+      <Tab value="assignShifts" label="Asignar Turnos" />
+      <Tab value="generalSettings" label="Configuración General" />
+    </Tabs>
   );
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        width: '100%',
-        padding: '20px',
-      }}
-    >
-      {renderTabs()}
-      <Box sx={{ width: '100%', marginTop: '20px' }}>{renderTabContent()}</Box>
+    <Box className="super-admin">
+      <Hidden smDown>{renderTabs()}</Hidden>
+      <Hidden mdUp>
+        <IconButton onClick={handleMenuClick}>
+          <MenuIcon />
+        </IconButton>
+        <Menu
+          anchorEl={menuAnchorEl}
+          open={Boolean(menuAnchorEl)}
+          onClose={handleMenuClose}
+        >
+          <MenuItem onClick={(event) => handleMenuItemClick(event, 'createUser')}>
+            Crear Usuario
+          </MenuItem>
+          <MenuItem onClick={(event) => handleMenuItemClick(event, 'csvImportExport')}>
+            Importar/Exportar CSV
+          </MenuItem>
+          <MenuItem onClick={(event) => handleMenuItemClick(event, 'assignShifts')}>
+            Asignar Turnos
+          </MenuItem>
+          <MenuItem onClick={(event) => handleMenuItemClick(event, 'generalSettings')}>
+            Configuración General
+          </MenuItem>
+        </Menu>
+      </Hidden>
+      <Box className="tab-content">{renderTabContent()}</Box>
     </Box>
   );
 };
@@ -81,6 +94,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    // Mapea las acciones relevantes al componente
     loginSuccess: (userData) => dispatch(loginSuccess(userData)),
     loginFail: (error) => dispatch(loginFail(error)),
     logout: () => dispatch({ type: LOGOUT }),
