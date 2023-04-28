@@ -16,7 +16,7 @@ const { getSupervisorShift } = require("../Controllers/getSupervisorShift");
 const { getCompanionShift } = require("../Controllers/getCompanionShift");
 const getCityTimeZone = require("../Controllers/getCityTimeZone");
 const assignCompanionShift = require("../Controllers/postAssignCompanionShift")
-const getBothRoles = require("../Controllers/getBothRoles")
+const {getBothRoles, requireLogin} = require("../Controllers/getBothRoles")
 
 router.get("/getSupervisor", getSupervisor);
 router.get("/getCompanion", getCompanion);
@@ -31,6 +31,6 @@ router.get("/getSupervisorShift", getSupervisorShift); // Ruta para traer todos 
 router.get("/getCompanionShift", getCompanionShift); // Ruta para traer todos los shift de Companion cada 1 hs.
 router.get("/getCityTimeZone", getCityTimeZone);
 router.post("/postAssignCompanionShift/:idCompanion", assignCompanionShift);
-router.get("/getBothRoles", getBothRoles);
+router.post("/getBothRoles", requireLogin, getBothRoles);
 
 module.exports = router;
