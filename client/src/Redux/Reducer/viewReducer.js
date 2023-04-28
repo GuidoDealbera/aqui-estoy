@@ -3,13 +3,17 @@ import {
   GET_ALL_SUPERVISORS,
   GET_COMPANIONS_AT_CHARGE,
   POST_COMPANION,
-  POST_SUPERVISOR
+  POST_SUPERVISOR,
+  GET_ALL_SUPERVISOR_SHIFT,
+  GET_ALL_COMPANION_SHIFT,
 } from "../Actions/action-types";
 //Acá van los POST modificando a allCompanions y allSupervisors
 const initialState = {
     allCompanions: [],
     allSupervisors: [],
     companionAtCharge: [],
+    allSupervisorShift: [],
+    allCompanionShift: [],
 }
 const viewReducer = (state = initialState, {type, payload}) => {
     switch(type){
@@ -37,6 +41,16 @@ const viewReducer = (state = initialState, {type, payload}) => {
             return{
                 ...state,
                 allSupervisors: [...allSupervisors, payload]
+            }
+        case GET_ALL_SUPERVISOR_SHIFT:
+            return{
+                ...state,
+                allSupervisorShift: payload,
+            }
+        case GET_ALL_COMPANION_SHIFT:
+            return{
+                ...state,
+                allCompanionShift: payload,
             }
         default:
             return {
