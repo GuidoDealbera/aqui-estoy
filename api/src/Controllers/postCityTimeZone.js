@@ -20,7 +20,10 @@ const postCityTimeZone = async (req, res) => {
       };
     });
     //?creo las TimeZone en la db
-    await CityTimeZone.bulkCreate(timeZones);
+    const cityTimeZone = await CityTimeZone.findAll();
+    if (cityTimeZone.length === 0) {
+      await CityTimeZone.bulkCreate(timeZones);
+    }
   } catch (error) {
     return error.message;
   }
