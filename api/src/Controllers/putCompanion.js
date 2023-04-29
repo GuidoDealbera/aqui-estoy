@@ -14,6 +14,7 @@ const putCompanion = async (req, res) => {
     profession,
     studies,
     gender,
+    rol,
   } = req.body;
   //Requiere el id del usuario enviado por parametro
   const { id } = req.params;
@@ -41,9 +42,12 @@ const putCompanion = async (req, res) => {
     );
     // Encuentra el acompañante actualizado
     const companion = await Companion.findOne({ where: { id: id } });
-
+    const response = {
+      ...companion.toJSON(),
+      rol: rol,
+    };
     // Devuelve el acompañante actualizado
-    res.status(200).json(companion);
+    res.status(200).json(response);
   } catch (error) {
     res.status(400).json(error.message);
   }
