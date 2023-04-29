@@ -6,6 +6,8 @@ import {
   GET_ONE_SUPERVISOR,
   PUT_COMPANION,
   PUT_SUPERVISOR,
+  POST_ASSIGN_SUPERVISOR_SHIFT,
+  POST_ASSIGN_COMPANION_SHIFT,
 } from "../Actions/action-types";
 //Acá pongo los GET_ONE y los PUT modificando user;
 const initialState = {
@@ -58,6 +60,17 @@ const authReducer = (state = initialState, action) => {
         ...state,
         user: action.payload
       }
+    case POST_ASSIGN_SUPERVISOR_SHIFT:
+      return{
+        ...state,
+        user: action.payload
+      }
+    case POST_ASSIGN_COMPANION_SHIFT:
+      return{
+        ...state,
+        user: action.payload
+      }
+       
     default:
       return { ...state };
   }

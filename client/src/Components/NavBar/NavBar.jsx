@@ -12,7 +12,7 @@ import {
   MenuItem,
   IconButton,
 } from "@mui/material";
-// import MenuIcon from "@material-ui/icons/Menu";
+import MenuIcon from "@mui/icons-material/Menu";
 
 export default function NavBar(props) {
   const location = useLocation();
@@ -62,7 +62,7 @@ export default function NavBar(props) {
             </Hidden>
             <Hidden mdUp>
               <IconButton onClick={handleMenuClick}>
-                {/* <MenuIcon /> */}
+                <MenuIcon />
               </IconButton>
               <Menu
                 anchorEl={anchorEl}

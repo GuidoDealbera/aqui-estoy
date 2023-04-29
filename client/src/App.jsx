@@ -25,10 +25,11 @@ const App = () => {
     <Routes>
       <Route exact path='/' element={<Landing/>}/>
       <Route path='/register' element={<Register/>}/>
-      <Route path='/profile/:email' element={<Profiles/>}/>
       <Route path='/Calendary' element={<Calendary/>}/>
-
+      <Route path='/profile/:id' element={<Profiles/>}/>
       <Route exact path='/superadmindev' element={<SuperAdmin/>}/>
+
+
 
     </Routes>
     </div>
