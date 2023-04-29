@@ -19,7 +19,6 @@ const putSupervisor = async (req, res) => {
   //Recibe id por params
   const { id } = req.params;
   const newDate = new Date(birthdayDate);
-  console.log();
   try {
     //Realiza un update del supervisor con ese id en la bd
     const result = await Supervisor.update(

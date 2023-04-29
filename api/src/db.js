@@ -41,7 +41,8 @@ sequelize.models = Object.fromEntries(capsEntries);
 
 //*MODELS:
 
-const { Companion, Supervisor, SupervisorShift, CompanionShift, CityTimeZone } =  sequelize.models;
+const { Companion, Supervisor, SupervisorShift, CompanionShift, CityTimeZone } =
+  sequelize.models;
 
 //* RELATIONS N-1:
 Supervisor.hasMany(Companion);
