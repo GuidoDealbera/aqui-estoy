@@ -38,7 +38,7 @@ const putSupervisor = async (req, res) => {
       },
       { where: { id: id } }
     );
-
+      
     // Encuentra el supervisor actualizado
     const supervisor = await Supervisor.findOne({ where: { id: id } });
     const response = {
