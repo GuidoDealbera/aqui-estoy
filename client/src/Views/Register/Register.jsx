@@ -4,11 +4,18 @@ import * as Yup from 'yup';
 import axios from "axios"
 import allCountries from './data';
 import { Select, MenuItem, InputLabel, Button, Typography, TextField, Box, Input } from '@mui/material';
+import { putCompanion, putSupervisor } from '../../Redux/Actions/postPutActions';
+import {useDispatch, useSelector} from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+
 
 export default function Register() {
 
     const [timezones, setTimezones] = useState([]);
-
+    const dispatch = useDispatch();
+    const {user} = useSelector(state=> state.auth)
+    const navigate = useNavigate();   
+  
     useEffect(() => {
         axios("http://localhost:3001/getCityTimeZone").then(
             (response) => {
@@ -41,7 +48,14 @@ export default function Register() {
     }
 
     const submitHandler = (values) => { //Submit Handler del formulario (Aún no interactúa con el Back-End)
-        console.log(values);
+  
+     if(user.rol === 'Companion' || user.rol === "Acompañante2"){
+        dispatch(putCompanion(user.id, values)) //trae el id del user y lo actualiza 
+     } else{
+        dispatch(putSupervisor(user.id, values))
+     }
+      alert('Datos actualizados');
+      navigate(`/profile/${user.id}`);
     }
 
     const validationSchema = Yup.object().shape({ //Validaciones de Yup (Aún en desarrollo)
@@ -239,7 +253,7 @@ export default function Register() {
                 studies: "",
                 gender: ""
             }}
-            validationSchema={validationSchema}
+    validationSchema={validationSchema}
             onSubmit={submitHandler}
         >
             {(formik) => {
