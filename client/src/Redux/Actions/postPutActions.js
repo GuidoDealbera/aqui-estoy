@@ -44,8 +44,9 @@ export const putCompanion = (id, companion) => {
     try {
       const response = await axios.put(
         `http://localhost:3001/putCompanion/${id}`,
-        companion
-      );
+        companion,  {
+          headers: {"Content-Type": "application/json"}
+      });
       dispatch({ type: PUT_COMPANION, payload: response.data });
     } catch (error) {
       alert("No se pudo actualizar el ACOMPAÑANTE");
