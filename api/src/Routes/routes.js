@@ -18,6 +18,8 @@ const getCityTimeZone = require("../Controllers/getCityTimeZone");
 const assignCompanionShift = require("../Controllers/postAssignCompanionShift");
 const assignSupervisorShift = require("../Controllers/postAssignSupervisorShift");
 const { getBothRoles, requireLogin } = require("../Controllers/getBothRoles");
+const deleteCompanionShift = require("../Controllers/deleteCompanionShift");
+const deleteSupervisorShift = require("../Controllers/deleteSupervisorShift");
 
 router.get("/getSupervisor", getSupervisor);
 router.get("/getCompanion", getCompanion);
@@ -34,5 +36,6 @@ router.get("/getCityTimeZone", getCityTimeZone);
 router.post("/postAssignCompanionShift/:idCompanion", assignCompanionShift);
 router.post("/postAssignSupervisorShift/:idSupervisor", assignSupervisorShift);
 router.post("/getBothRoles", requireLogin, getBothRoles);
-
+router.delete("/deleteCompanionShift", deleteCompanionShift);
+router.delete("/deleteSupervisorShift", deleteSupervisorShift);
 module.exports = router;
