@@ -1,5 +1,6 @@
 import { voluntario } from "../../../data";
-import { Button, Box, Avatar } from "@mui/material";
+import { Button, Box, Avatar, Typography, Grid, Container } from "@mui/material";
+
 
 export default function Companion(props) {
   const user = voluntario[0];
@@ -8,29 +9,61 @@ export default function Companion(props) {
       sx={{
         background: "linear-gradient(to right, #ffffff, #00C8B2)",
         height: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
       }}
     >
-      <Avatar
-        alt={user.name}
-        src={user.profileImage}
-        sx={{ width: 250, height: 250 }}
-      />
+      <Container maxWidth="sm">
+        <Grid container spacing={2} justifyContent="center">
+          <Grid item xs={12} alignItems="center" display="flex" flexDirection="column">
+            <Avatar
+              alt={user.name}
+              src={user.profileImage}
+              sx={{ width: 250, height: 250, marginBottom: 2 }}
+            />
 
-      <h2>
-        {user.lastName}, {user.name}
-      </h2>
-      <div>
-        <h3>{user.birthDate}</h3>
-        <h3>{user.nacionality}</h3>
-        <h3>{user.country}</h3>
-        <h3>{user.timeZone}</h3>
-        <h3>{user.phone}</h3>
-        <h3>{user.profession}</h3>
-        <h3>{user.studies}</h3>
-        <h3>{user.gender}</h3>
-      </div>
-      <Button>Reserva de turno de voluntariado</Button>
-      <Button>Centro de aprendizaje</Button>
+            <Typography variant="h4">
+              {user.lastName}, {user.name}
+            </Typography>
+          </Grid>
+
+          <Grid item xs={12} sm={6}>
+            <Typography variant="h6">{user.birthDate}</Typography>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Typography variant="h6">{user.nacionality}</Typography>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Typography variant="h6">{user.country}</Typography>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Typography variant="h6">{user.timeZone}</Typography>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Typography variant="h6">{user.phone}</Typography>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Typography variant="h6">{user.profession}</Typography>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Typography variant="h6">{user.studies}</Typography>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Typography variant="h6">{user.gender}</Typography>
+          </Grid>
+
+          <Grid item xs={12} display="flex" justifyContent="center" sx={{ marginTop: 3 }}>
+            <Button variant="contained" color="primary" sx={{ marginRight: 2 }}>
+              Reserva de turno de voluntariado
+            </Button>
+            <Button variant="contained" color="secondary">
+              Centro de aprendizaje
+            </Button>
+          </Grid>
+        </Grid>
+      </Container>
     </Box>
   );
 }
