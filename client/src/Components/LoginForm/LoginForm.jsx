@@ -34,9 +34,7 @@ const LoginForm = ({ handleMouseLeave }) => {
 
   const dispatch = useDispatch();
 
-  const user = useSelector((state) => {
-    return state.auth.user
-  })
+  //const {user} = useSelector((state) => state.auth)
 
   const submitHandler = async (values) => {
 
@@ -49,9 +47,9 @@ const LoginForm = ({ handleMouseLeave }) => {
           email, password
         })
         const { data } = response;
-        const { name } = data;
+        const { name, id } = data;
         if (name) {
-          navigate("/profile/Chiringuito")
+          navigate(`/profile/${id}`)
         } else {
           navigate("/register")
         }
@@ -68,9 +66,9 @@ const LoginForm = ({ handleMouseLeave }) => {
           email, password
         })
         const { data } = response;
-        const { name } = data;
+        const { name, id } = data;
         if (name) {
-          navigate("/profile/Chiringuito")
+          navigate(`/profile/${id}`)
         } else {
           navigate("/register")
         }
