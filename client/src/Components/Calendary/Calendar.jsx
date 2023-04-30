@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Button, Modal } from 'react-bootstrap';
 import './Calendar.css';
-
+import { useSelector } from 'react-redux'
 const Calendar = () => {
-  const days = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
-  const hours = Array.from({ length: 24 }, (_, i) => `${i}:00 - ${i===23?"00":i+1}:00`);
   const [bookings, setBookings] = useState({});
   const [shifts, setShifts] = useState([]);
   const [selectedShift, setSelectedShift] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
+  const days = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
+  let hours=[]
+  const user=useSelector(state=>state.auth.user)
+  if(user&&user.rol==="Supervisor"||user.isSuperAdmin){
+   hours = Array.from({ length: 24 }, (_, i) => `${i}:00 - ${i===23?"00":i+1}:00`);
+
+}
 
   const toggleBooking = (day, hour) => {
     const key = `${day}_${hour}`;

@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 export default function NavBar(props) {
   const {user} = useSelector((state) => state.auth);
@@ -21,6 +22,7 @@ export default function NavBar(props) {
   const location = useLocation();
   const [showLogin, setShowLogin] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
+  const navigate = useNavigate();
 
   const handleMouseEnter = () => {
     setShowLogin(true);
@@ -29,7 +31,11 @@ export default function NavBar(props) {
     setShowLogin(false);
   };
   const handleClick = (event) => {
-    // ...
+  if(Object.entries(user).length === 0){
+  alert("Debes iniciar sesion para acceder al calendario")
+  }else{
+    navigate("/calendary")
+  }
   };
 
   const handleMenuClick = (event) => {
