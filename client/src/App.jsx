@@ -5,7 +5,7 @@ import NavBar from './Components/NavBar/NavBar';
 
 import Register from './Views/Register/Register';
 import SuperAdmin from './Components/Perfiles/SuperAdmin/SuperAdmin'; //Dev import
-import Calendary from './Components/Calendary/CompanionCalendary';
+import Calendary from './Components/Calendary/Calendar';
 
 // const PrivateRoute = ({ element: Element, ...rest }) => {
 //   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
