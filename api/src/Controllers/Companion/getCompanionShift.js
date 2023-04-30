@@ -2,8 +2,8 @@ const {CompanionShift} = require("../../db");
 
 //* Funcion que setea la tabla CompanionShift con turnos cada 2 hs(interpuestas entre si), por 24 hs, 7 dias.
 async function fillCompanionShifts() {
-    const startHour = 1; // hora de inicio de los turnos
-    const endHour = 24; // hora de fin de los turnos
+    const startHour = 0; // hora de inicio de los turnos
+    const endHour = 23; // hora de fin de los turnos
     const timeZone = -3; // timezone para Argentina
     const shifts = [];
   
@@ -12,9 +12,7 @@ async function fillCompanionShifts() {
         let hs;
         if (hour === 23) {
           hs = '23:00-01:00';
-        } else if (hour === 24) {
-          hs = '24:00-02:00';
-        } else {
+        }else {
           const start = hour.toString().padStart(2, '0') + ':00';
           const end = (hour + 2).toString().padStart(2, '0') + ':00';
           hs = `${start}-${end}`;
