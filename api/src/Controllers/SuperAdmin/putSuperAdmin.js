@@ -1,4 +1,4 @@
-const { Supervisor } = require("../db");
+const { Supervisor } = require("../../db");
 const bcrypt = require("bcrypt");
 
 //Controlador para convertir un usuario tipo Supervisor a SuperAdmin

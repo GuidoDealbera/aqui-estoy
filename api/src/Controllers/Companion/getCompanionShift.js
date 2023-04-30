@@ -1,4 +1,4 @@
-const {CompanionShift} = require("../db");
+const {CompanionShift} = require("../../db");
 
 //* Funcion que setea la tabla CompanionShift con turnos cada 2 hs(interpuestas entre si), por 24 hs, 7 dias.
 async function fillCompanionShifts() {

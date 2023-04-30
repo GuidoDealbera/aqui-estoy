@@ -1,4 +1,4 @@
-const { Supervisor } = require("../db");
+const { Supervisor } = require("../../db");
 const deleteCompanionShift = async (req, res) => {
   try {
     const { id, idShift } = req.body;

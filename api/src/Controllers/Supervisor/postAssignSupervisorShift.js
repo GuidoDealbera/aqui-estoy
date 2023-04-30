@@ -1,5 +1,5 @@
-const {SupervisorShift} = require("../db");
-const { Supervisor } = require("../db");
+const {SupervisorShift} = require("../../db");
+const { Supervisor } = require("../../db");
 
 const assignSupervisorShift = async (req, res) => {
     try {

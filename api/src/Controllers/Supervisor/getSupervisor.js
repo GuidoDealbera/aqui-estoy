@@ -1,4 +1,4 @@
-const { Supervisor } = require("../db");
+const { Supervisor } = require("../../db");
 
 //Controlador para traer todos los Supervisores de la bd
 const getSupervisor = async (req,res)=>{

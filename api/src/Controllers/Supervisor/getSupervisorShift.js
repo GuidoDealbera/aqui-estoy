@@ -1,4 +1,4 @@
-const {SupervisorShift} = require("../db");
+const {SupervisorShift} = require("../../db");
 
 //* Funcion que setea la tabla SuperiorShift con turnos cada 1 hs, por 24 hs, 7 dias.
 async function fillSupervisorShifts() {

@@ -1,4 +1,4 @@
-const { Companion } = require("../db");
+const { Companion } = require("../../db");
 const bcrypt = require("bcrypt");
 
 const postCompanion = async (req, res) => {

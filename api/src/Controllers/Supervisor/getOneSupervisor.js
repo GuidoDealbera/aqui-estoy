@@ -1,4 +1,4 @@
-const { Supervisor, CityTimeZone } = require("../db");
+const { Supervisor, CityTimeZone } = require("../../db");
 const bcrypt = require("bcrypt");
 
 //Controlador para verificar login de un Supervisor y llenar el perfil
