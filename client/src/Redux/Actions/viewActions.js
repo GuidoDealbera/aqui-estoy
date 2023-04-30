@@ -7,6 +7,8 @@ import {
     GET_ONE_SUPERVISOR,
     GET_ALL_SUPERVISOR_SHIFT,
     GET_ALL_COMPANION_SHIFT,
+    GET_ALL_COMPANION_SHIFT_ASSIGN,
+    GET_ALL_SUPERVISOR_SHIFT_ASSIGN,
   } from "./action-types";
   import axios from 'axios'
   
@@ -111,3 +113,24 @@ import {
           }
       }
   }
+  export const getAllSupervisorShiftAssign = ()=>{
+    return async function(dispatch){
+        try{
+            const response = (await axios.get('http://localhost:3001/getAllSupervisorShift')).data;
+            dispatch({type: GET_ALL_SUPERVISOR_SHIFT_ASSIGN, payload:response})
+        }catch(error){
+            alert('No se pudieron cargar los turnos de SUPERVISORES')
+        }
+    }
+}
+
+export const getAllCompanionShiftAssign = ()=>{
+    return async function(dispatch){
+        try{
+            const response = (await axios.get('http://localhost:3001/getAllCompanionShift')).data;
+            dispatch({type: GET_ALL_COMPANION_SHIFT_ASSIGN, payload:response})
+        }catch(error){
+            alert('No se pudieron cargar los turnos de ACOMPAÑANTES')
+        }
+    }
+}

@@ -7,6 +7,8 @@ import {
 
   GET_ALL_SUPERVISOR_SHIFT,
   GET_ALL_COMPANION_SHIFT,
+  GET_ALL_COMPANION_SHIFT_ASSIGN,
+  GET_ALL_SUPERVISOR_SHIFT_ASSIGN,
 } from "../Actions/action-types";
 //Acá van los POST modificando a allCompanions y allSupervisors
 const initialState = {
@@ -15,6 +17,8 @@ const initialState = {
     companionAtCharge: [],
     allSupervisorShift: [],
     allCompanionShift: [],
+    allSupervisorShiftAssign : [],
+    allCompanionShiftAssign: [],
 }
 const viewReducer = (state = initialState, {type, payload}) => {
     switch(type){
@@ -53,6 +57,17 @@ const viewReducer = (state = initialState, {type, payload}) => {
                 ...state,
                 allCompanionShift: payload,
             }
+        case GET_ALL_SUPERVISOR_SHIFT_ASSIGN:
+                return{
+                    ...state,
+                    allSupervisorShiftAssign: payload,
+                }
+         case GET_ALL_COMPANION_SHIFT_ASSIGN:
+                return{
+                    ...state,
+                    allCompanionShiftAssign: payload,
+                }
+                          
         default:
             return {
                 ...state
