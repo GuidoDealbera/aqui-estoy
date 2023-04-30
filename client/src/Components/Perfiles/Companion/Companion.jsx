@@ -1,9 +1,8 @@
-import { voluntario } from "../../../data";
 import { Button, Box, Avatar, Typography, Grid, Container } from "@mui/material";
 
 
 export default function Companion(props) {
-  const user = voluntario[0];
+  const {user} = props
   return (
     <Box
       sx={{
@@ -20,7 +19,7 @@ export default function Companion(props) {
           <Grid item xs={12} alignItems="center" display="flex" flexDirection="column">
             <Avatar
               alt={user.name}
-              src={user.profileImage}
+              src={user.profilePhoto}
               sx={{ width: 250, height: 250, marginBottom: 2 }}
             />
 

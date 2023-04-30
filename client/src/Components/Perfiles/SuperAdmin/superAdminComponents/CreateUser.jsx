@@ -27,7 +27,7 @@ const CreateUser = () => {
     e.preventDefault();
     //  implementar la lógica para crear el usuario, como llamar a una API o usar acciones de Redux
     // console.log(userData);
-    if(userData.role==="volunteer"){
+    if(userData.role==="Companion"){
       dispatch(postCompanion({email:userData.email,password:userData.password}))
     }else{
       dispatch(postSupervisor({email:userData.email,password:userData.password}))
@@ -39,7 +39,7 @@ const CreateUser = () => {
     <Box>
       <h2>Crear Usuario</h2>
       <form onSubmit={handleSubmit}>
-        <Box marginBottom={2}>
+        {/* <Box marginBottom={2}>
           <TextField
             label="Nombre de usuario"
             name="username"
@@ -47,7 +47,7 @@ const CreateUser = () => {
             onChange={handleChange}
             fullWidth
           />
-        </Box>
+        </Box> */}
         <Box marginBottom={2}>
           <TextField
             label="Email"
@@ -80,8 +80,8 @@ const CreateUser = () => {
               <MenuItem value="">
                 <em>Selecciona un rol</em>
               </MenuItem>
-              <MenuItem value="supervisor">Supervisor</MenuItem>
-              <MenuItem value="volunteer">Voluntario</MenuItem>
+              <MenuItem value="Supervisor">Supervisor</MenuItem>
+              <MenuItem value="Companion">Acompañante</MenuItem>
             </Select>
           </FormControl>
         </Box>
