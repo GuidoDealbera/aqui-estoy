@@ -14,6 +14,10 @@ const Calendar = () => {
    hours = Array.from({ length: 24 }, (_, i) => `${i}:00 - ${i===23?"00":i+1}:00`);
 
 }
+if(user&&user.rol==="Acompañante"
+||user.isSuperCompanion ){
+  hours = Array.from({ length: 12 }, (_, i) => `${i}:00 - ${i===23?"00":i+2}:00`);
+}
 
   const toggleBooking = (day, hour) => {
     const key = `${day}_${hour}`;
