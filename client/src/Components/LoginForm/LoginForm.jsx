@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import axios from "axios"
@@ -34,50 +34,26 @@ const LoginForm = ({ handleMouseLeave }) => {
 
   const dispatch = useDispatch();
 
-  const user = useSelector((state) => {
-    return state.auth.user
-  })
-
+  const {user} = useSelector((state) => state.auth)
+  const {name, id} = user
+  useEffect(() => {
+    if(Object.entries(user).length){
+      if (name) {
+        navigate(`/profile/${id}`)
+      } else {
+        navigate("/register")
+      }
+      handleMouseLeave()
+    } 
+  }, [user])
   const submitHandler = async (values) => {
-
+    
     const { email, password } = values;
-
+    
     if (rol === "Supervisor") {
       dispatch(getOneSupervisor(email, password)) //Register
-      try {
-        const response = await axios.post("http://localhost:3001/getOneSupervisor",{
-          email, password
-        })
-        const { data } = response;
-        const { name } = data;
-        if (name) {
-          navigate("/profile/Chiringuito")
-        } else {
-          navigate("/register")
-        }
-        handleMouseLeave()
-      } catch (error) {
-        alert("Datos Incorrectos")
-      }
-
-
     } else { // Companion
       dispatch(getOneCompanion(email, password))
-      try {
-        const response = await axios.post("http://localhost:3001/getOneCompanion",{
-          email, password
-        })
-        const { data } = response;
-        const { name } = data;
-        if (name) {
-          navigate("/profile/Chiringuito")
-        } else {
-          navigate("/register")
-        }
-        handleMouseLeave()
-      } catch (error) {
-        alert("Datos Incorrectos")
-      }
     }
   }
 

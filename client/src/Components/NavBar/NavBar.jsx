@@ -1,5 +1,5 @@
 import image from "../../img/aquiestoy.jpg";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import LoginForm from "../LoginForm/LoginForm";
 import { useState } from "react";
 import {
@@ -13,10 +13,12 @@ import {
   IconButton,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
+import { useSelector } from "react-redux";
 
 export default function NavBar(props) {
+  const {user} = useSelector((state) => state.auth);
+  const {id} = user;
   const location = useLocation();
-  const navigate = useNavigate();
   const [showLogin, setShowLogin] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -97,17 +99,12 @@ export default function NavBar(props) {
         </Grid>
         <Grid item>
           <Box>
-            {location.pathname !== "/profile/Chiringuito" && (
+            {location.pathname !== `/profile/${id}` && (
               <Button name="session" onClick={handleMouseEnter}>
                 Iniciar sesión
               </Button>
             )}
             {showLogin && <LoginForm handleMouseLeave={handleMouseLeave} />}
-            {location.pathname !== "/profile/Chiringuito" && (
-              <Button name="register" onClick={handleClick}>
-                Registrate
-              </Button>
-            )}
           </Box>
         </Grid>
       </Grid>
