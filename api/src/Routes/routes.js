@@ -23,7 +23,7 @@ const { getSupervisorShift } = require("../Controllers/Supervisor/getSupervisorS
 const assignSupervisorShift = require("../Controllers/Supervisor/postAssignSupervisorShift");
 const deleteSupervisorShift = require("../Controllers/Supervisor/deleteSupervisorShift");
 const downgradeSupervisor = require("../Controllers/Supervisor/postDowngradeSupervisor")
-const getAllSupervisorShift = require("../Controllers/Supervisor/getAllSupervisorShift")
+const getAllSupervisorShift = require("../Controllers/Supervisor/getAllSupervisorShift") //Trae todos los shift ASIGNADOS
 
 const getCityTimeZone = require("../Controllers/TimeZone/getCityTimeZone");
 //* Both
