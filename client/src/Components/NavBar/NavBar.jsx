@@ -1,5 +1,5 @@
 import image from "../../img/aquiestoy.jpg";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import LoginForm from "../LoginForm/LoginForm";
 import { useState } from "react";
 import {
@@ -96,18 +96,20 @@ export default function NavBar(props) {
           </Box>
         </Grid>
         <Grid item>
+          <Link to="/">
           <CardMedia
             component="img"
             style={{ height: "20%", width: "20%" }}
             image={image}
             alt="aquiEstoy"
           />
+          </Link>
         </Grid>
         <Grid item>
           <Box>
             {location.pathname !== `/profile/${id}` && (
               <Button name="session" onClick={handleMouseEnter}>
-                Iniciar sesión
+              {Object.entries(user).length === 0?"Iniciar sesión":"Perfil"}
               </Button>
             )}
             {showLogin && <LoginForm handleMouseLeave={handleMouseLeave} />}
