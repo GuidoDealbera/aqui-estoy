@@ -1,5 +1,5 @@
 import { Button, Box, Avatar, Typography, Grid, Container } from "@mui/material";
-
+import { Link } from "react-router-dom";
 
 export default function Companion(props) {
   const {user} = props
@@ -54,9 +54,12 @@ export default function Companion(props) {
           </Grid>
 
           <Grid item xs={12} display="flex" justifyContent="center" sx={{ marginTop: 3 }}>
-            <Button variant="contained" color="primary" sx={{ marginRight: 2 }}>
+            <Link to="/calendary">
+               <Button variant="contained" color="primary" sx={{ marginRight: 2 }}>
               Reserva de turno de voluntariado
             </Button>
+            </Link>
+         
             <Button variant="contained" color="secondary">
               Centro de aprendizaje
             </Button>
