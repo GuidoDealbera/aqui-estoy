@@ -11,7 +11,8 @@ export default function TimezoneSelect(props) {
     const [timezones, setTimezones] = useState([{ id: '', label: '' }]);
 
     useEffect(() => {
-        axios("http://localhost:3001/getCityTimeZone").then(
+        if(timezones.length===1){
+               axios("http://localhost:3001/getCityTimeZone").then(
             (response) => {
                 const { data } = response;
                 const result = data.map((timezone) => {
@@ -23,6 +24,8 @@ export default function TimezoneSelect(props) {
                 setTimezones([...timezones, ...result])
             }
         )
+        }
+     
     }, [])
 
     const handleChange = (event, value) => {
