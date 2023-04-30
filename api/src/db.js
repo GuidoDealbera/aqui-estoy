@@ -54,7 +54,10 @@ CityTimeZone.hasMany(Supervisor);
 Supervisor.belongsTo(CityTimeZone);
 //* RELATIONS N-N SHIFT:
 Companion.belongsToMany(CompanionShift, { through: "CompaShift" });
+CompanionShift.belongsToMany(Companion, { through: "CompaShift" });
+
 Supervisor.belongsToMany(SupervisorShift, { through: "SupervShift" });
+SupervisorShift.belongsToMany(Supervisor, { through: "SupervShift" });
 
 module.exports = {
   ...sequelize.models,

@@ -20,8 +20,8 @@ const assignSupervisorShift = require("../Controllers/postAssignSupervisorShift"
 const { getBothRoles, requireLogin } = require("../Controllers/getBothRoles");
 const deleteCompanionShift = require("../Controllers/deleteCompanionShift");
 const deleteSupervisorShift = require("../Controllers/deleteSupervisorShift");
-const postRankUpCompanion = require("../Controllers/postRankUpCompanion")
-
+const postRankUpCompanion = require("../Controllers/postRankUpCompanion");
+const getCompanionShiftById=  require("../Controllers/getCompanionByIdShift");
 
 router.get("/getSupervisor", getSupervisor);
 router.get("/getCompanion", getCompanion);
@@ -41,5 +41,5 @@ router.post("/getBothRoles", requireLogin, getBothRoles);
 router.delete("/deleteCompanionShift", deleteCompanionShift);
 router.delete("/deleteSupervisorShift", deleteSupervisorShift);
 router.post("/postRankUpCompanion/:id",requireSuperAdmin, postRankUpCompanion);
-
+router.get("/getCompanion/:idShift", getCompanionShiftById);
 module.exports = router;
