@@ -25,7 +25,7 @@ const App = () => {
     <Routes>
       <Route exact path='/' element={<Landing/>}/>
       <Route path='/register' element={<Register/>}/>
-      <Route path='/Calendary' element={<Calendary/>}/>
+      <Route path='/calendary' element={<Calendary/>}/>
       <Route path='/profile/:id' element={<Profiles/>}/>
       <Route exact path='/superadmindev' element={<SuperAdmin/>}/>
 
