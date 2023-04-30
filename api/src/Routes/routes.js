@@ -22,7 +22,7 @@ const { getSupervisorShift } = require("../Controllers/Supervisor/getSupervisorS
 const assignSupervisorShift = require("../Controllers/Supervisor/postAssignSupervisorShift");
 const deleteSupervisorShift = require("../Controllers/Supervisor/deleteSupervisorShift");
 const downgradeSupervisor = require("../Controllers/Supervisor/postDowngradeSupervisor")
-
+const getAllSupervisorShift = require("../Controllers/Supervisor/getAllSupervisorShift")
 
 const getCityTimeZone = require("../Controllers/TimeZone/getCityTimeZone");
 const { getBothRoles, requireLogin } = require("../Controllers/getBothRoles");
@@ -51,6 +51,6 @@ router.post("/postAssignSupervisorShift/:idSupervisor", assignSupervisorShift);
 
 router.get("/getCityTimeZone", getCityTimeZone);
 router.post("/getBothRoles", requireLogin, getBothRoles);
-
+router.get("/getAllSupervisorShift", getAllSupervisorShift)
 
 module.exports = router;
