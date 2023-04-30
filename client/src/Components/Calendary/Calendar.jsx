@@ -4,7 +4,7 @@ import './Calendar.css';
 
 const Calendar = () => {
   const days = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
-  const hours = Array.from({ length: 24 }, (_, i) => i);
+  const hours = Array.from({ length: 24 }, (_, i) => `${i}:00 - ${i===23?"00":i+1}:00`);
   const [bookings, setBookings] = useState({});
   const [shifts, setShifts] = useState([]);
   const [selectedShift, setSelectedShift] = useState(null);
@@ -46,7 +46,7 @@ const Calendar = () => {
         <tbody>
           {hours.map((hour) => (
             <tr key={hour}>
-              <td className="hour">{hour}:00</td>
+              <td className="hour">{hour}</td>
               {days.map((day, index) => (
                 <td
                   key={index}
