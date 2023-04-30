@@ -1,7 +1,8 @@
-const { Companion } = require("../db");
+const { Supervisor } = require("../../db");
 
-//Controlador para actualizar datos de un usuario
-const putCompanion = async (req, res) => {
+//Controlador para modificar un supervisor
+const putSupervisor = async (req, res) => {
+  //Recibe la info por body desde el front
   const {
     name,
     lastName,
@@ -16,12 +17,12 @@ const putCompanion = async (req, res) => {
     gender,
     rol,
   } = req.body;
-  //Requiere el id del usuario enviado por parametro
+  //Recibe id por params
   const { id } = req.params;
   const newDate = new Date(birthdayDate);
   try {
-    //Modifica los datos del Acompañante con los datos enviados desde el front
-    const result = await Companion.update(
+    //Realiza un update del supervisor con ese id en la bd
+    const result = await Supervisor.update(
       {
         name,
         lastName,
@@ -35,22 +36,21 @@ const putCompanion = async (req, res) => {
         studies,
         gender,
       },
-      {
-        where: { id: id },
-        returning: true, // Agregamos este parámetro para que devuelva el objeto actualizado
-      }
+      { where: { id: id } }
     );
-    // Encuentra el acompañante actualizado
-    const companion = await Companion.findOne({ where: { id: id } });
+      
+    // Encuentra el supervisor actualizado
+    const supervisor = await Supervisor.findOne({ where: { id: id } });
     const response = {
-      ...companion.toJSON(),
+      ...supervisor.toJSON(),
       rol: rol,
     };
-    // Devuelve el acompañante actualizado
+
+    // Devuelve el supervisor actualizado
     res.status(200).json(response);
   } catch (error) {
     res.status(400).json(error.message);
   }
 };
 
-module.exports = putCompanion;
+module.exports = putSupervisor;

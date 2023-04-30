@@ -1,5 +1,5 @@
 const moment = require("moment-timezone");
-const { CityTimeZone } = require("../db");
+const { CityTimeZone } = require("../../db");
 
 const postCityTimeZone = async (req, res) => {
   try {

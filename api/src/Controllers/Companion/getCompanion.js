@@ -1,4 +1,4 @@
-const { Companion } = require("../db");
+const { Companion } = require("../../db");
 
 //Controlador para traer todos los Acompañantes de la bd
 const getCompanion = async (req, res) => {

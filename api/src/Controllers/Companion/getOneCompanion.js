@@ -1,4 +1,4 @@
-const { Companion, CityTimeZone } = require("../db");
+const { Companion, CityTimeZone } = require("../../db");
 const bcrypt = require("bcrypt");
 
 //Controlador para verificar login de un acompañante y llenar el perfil

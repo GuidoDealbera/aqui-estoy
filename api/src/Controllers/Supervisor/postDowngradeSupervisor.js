@@ -1,5 +1,5 @@
-const { Companion } = require("../db");
-const { Supervisor } = require("../db");
+const { Companion } = require("../../db");
+const { Supervisor } = require("../../db");
 const bcrypt = require("bcrypt");
 
 const downgradeSupervisor = async (req, res) => {

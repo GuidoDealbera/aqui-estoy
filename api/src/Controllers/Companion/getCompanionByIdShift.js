@@ -1,5 +1,5 @@
-const { CompanionShift } = require("../db"); 
-const { Companion } = require("../db"); 
+const { CompanionShift } = require("../../db"); 
+const { Companion } = require("../../db"); 
 
 const getCompanionShiftById = async(req, res)=>{
     try {

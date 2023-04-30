@@ -1,4 +1,4 @@
-const { Companion } = require("../db");
+const { Companion } = require("../../db");
 const deleteCompanionShift = async (req, res) => {
   try {
     const { id, idShift } = req.body;
