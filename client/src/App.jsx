@@ -2,9 +2,7 @@ import {Routes, Route} from 'react-router-dom';
 import Profiles from './Views/Profiles/Profiles';
 import Landing from './Views/LandingPage/Landing';
 import NavBar from './Components/NavBar/NavBar';
-
 import Register from './Views/Register/Register';
-import SuperAdmin from './Components/Perfiles/SuperAdmin/SuperAdmin'; //Dev import
 import Calendary from './Components/Calendary/Calendar';
 
 // const PrivateRoute = ({ element: Element, ...rest }) => {
@@ -27,7 +25,6 @@ const App = () => {
       <Route path='/register' element={<Register/>}/>
       <Route path='/calendary' element={<Calendary/>}/>
       <Route path='/profile/:id' element={<Profiles/>}/>
-      <Route exact path='/superadmindev' element={<SuperAdmin/>}/>
 
 
 
