@@ -22,6 +22,8 @@ const deleteCompanionShift = require("../Controllers/deleteCompanionShift");
 const deleteSupervisorShift = require("../Controllers/deleteSupervisorShift");
 const postRankUpCompanion = require("../Controllers/postRankUpCompanion");
 const getCompanionShiftById=  require("../Controllers/getCompanionByIdShift");
+const downgradeSupervisor = require("../Controllers/postDowngradeSupervisor")
+
 
 router.get("/getSupervisor", getSupervisor);
 router.get("/getCompanion", getCompanion);
@@ -42,4 +44,7 @@ router.delete("/deleteCompanionShift", deleteCompanionShift);
 router.delete("/deleteSupervisorShift", deleteSupervisorShift);
 router.post("/postRankUpCompanion/:id",requireSuperAdmin, postRankUpCompanion);
 router.get("/getCompanion/:idShift", getCompanionShiftById);
+router.post("/postDowngradeSupervisor/:id", requireSuperAdmin, downgradeSupervisor);
+
+
 module.exports = router;
