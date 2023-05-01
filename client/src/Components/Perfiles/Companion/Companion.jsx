@@ -1,71 +1,115 @@
-import { Button, Box, Avatar, Typography, Grid, Container } from "@mui/material";
+import {
+  Button,
+  Box,
+  Avatar,
+  Typography,
+  Grid,
+  Container,
+} from "@mui/material";
 import { Link } from "react-router-dom";
 
 export default function Companion(props) {
-  const {user} = props
+
+  const estilos = {
+    color: "#151515",
+    background: "#C8E8C7",
+    borderRadius: "10px",
+    width: "100%",
+    height: "100%",
+
+  };
+  
+  const { user } = props;
   return (
-    <Box
+    <Grid
+      container
       sx={{
-        background: "linear-gradient(to right, #ffffff, #00C8B2)",
-        height: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
+        background:
+          "linear-gradient(to right top, #ffffff, #ffffff , #ffffff, #77DED2, #00C8B2, #1CB4E4)",
       }}
+      height="100%"
     >
-      <Container maxWidth="sm">
-        <Grid container spacing={2} justifyContent="center">
-          <Grid item xs={12} alignItems="center" display="flex" flexDirection="column">
-            <Avatar
-              alt={user.name}
-              src={user.profilePhoto}
-              sx={{ width: 250, height: 250, marginBottom: 2 }}
-            />
+      <Grid
+        item
+        sx={{
+          flexDirection: "column",
+          marginTop: "1rem",
+        }}
+        xs={12}
+        md={3.5}
+      >
+        <Grid item marginTop={7}>
+          <Avatar
+            alt={user.name}
+            src={user.profileImage}
+            sx={{ width: 190, height: 190 }}
+          />
+          <Typography variant="h3">
+            {user.name?.charAt(0).toUpperCase() +
+              user.name?.slice(1) +
+              ", " +
+              user.lastName?.charAt(0).toUpperCase() +
+              user.lastName?.slice(1)}
+          </Typography>
+        </Grid>
 
-            <Typography variant="h4">
-              {user.lastName}, {user.name}
-            </Typography>
-          </Grid>
-
-          <Grid item xs={12} sm={6}>
-            <Typography variant="h6">{user.birthDate}</Typography>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <Typography variant="h6">{user.nacionality}</Typography>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <Typography variant="h6">{user.country}</Typography>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <Typography variant="h6">{user.timeZone}</Typography>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <Typography variant="h6">{user.phone}</Typography>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <Typography variant="h6">{user.profession}</Typography>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <Typography variant="h6">{user.studies}</Typography>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <Typography variant="h6">{user.gender}</Typography>
-          </Grid>
-
-          <Grid item xs={12} display="flex" justifyContent="center" sx={{ marginTop: 3 }}>
-            <Link to="/calendary">
-               <Button variant="contained" color="primary" sx={{ marginRight: 2 }}>
+        <Typography variant="h5" marginTop={2}>
+          {user.birthDate}
+        </Typography>
+        <Typography variant="h5" marginTop={1}>
+          {user.nacionality}
+        </Typography>
+        <Typography variant="h5" marginTop={1}>
+          {user.country}
+        </Typography>
+        <Typography variant="h5" marginTop={1}>
+          {user.timeZone}
+        </Typography>
+        <Typography variant="h5" marginTop={1}>
+          {user.email}
+        </Typography>
+        <Typography variant="h5" marginTop={1}>
+          {user.phone}
+        </Typography>
+        <Typography variant="h5" marginTop={1}>
+          {user.profession}
+        </Typography>
+        <Typography variant="h5" marginTop={1}>
+          {user.studies}
+        </Typography>
+        <Typography variant="h5" marginTop={1}>
+          {user.gender}
+        </Typography>
+      </Grid>
+      <Grid
+        container
+        xs={12}
+        md={8.5}
+        sx={{
+          marginTop: "1rem",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-around",
+        }}
+      >
+        <Grid
+          container
+          sx={{
+            justifyContent: "space-around",
+          }}
+        >
+          <Grid item md={5} xs={12} height="100%" marginTop={3}>
+            <Button variant="contained" style={estilos}>
               Reserva de turno de voluntariado
             </Button>
-            </Link>
-         
-            <Button variant="contained" color="secondary">
+          </Grid>
+          <Grid item md={5} xs={12} height="100%" marginTop={3}>
+            <Button variant="contained" style={estilos}>
               Centro de aprendizaje
             </Button>
           </Grid>
         </Grid>
-      </Container>
-    </Box>
+      </Grid>
+    </Grid>
   );
 }
