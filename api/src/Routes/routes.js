@@ -53,7 +53,7 @@ router.post("/postAssignSupervisorShift/:idSupervisor", assignSupervisorShift);
 router.get("/getCityTimeZone", getCityTimeZone);
 router.post("/getBothRoles", requireLogin, getBothRoles);
 router.get("/getAllSupervisorShift", getAllSupervisorShift)
-router.post("/postSupervisorCharge/:idSupervisor", postSupervisorCharge);
+router.post("/postSupervisorCharge/:idSupervisor",requireSuperAdmin, postSupervisorCharge);
 router.get("/getSupervisorCharge/:idSupervisor", getSupervisorCharge);
 
 module.exports = router;
