@@ -3,8 +3,22 @@ const { conn } = require("./src/db.js");
 const {fillSupervisorShifts} = require("./src/Controllers/Supervisor/getSupervisorShift.js");
 const {fillCompanionShifts} = require("./src/Controllers/Companion/getCompanionShift.js");
 const postCityTimeZone = require("./src/Controllers/TimeZone/postCityTimeZone.js");
+const postSupervisor = require("./src/Controllers/Supervisor/postSupervisor.js")
 // conn.sync({ alter: true }).then(async () => {
-conn.sync({ force: false }).then(async () => {
+
+conn.sync({ force: true }).then(async () => {
+  await postSupervisor({}, {
+    status: function(code) {
+      console.log('Status:', code);
+    },
+    json: function(response) {
+      console.log('Response:', response);
+    },
+    send: function(error) {
+      console.log('Error:', error);
+    }
+  });
+  console.log("Codigo 500 pero creó el administrador");
   await fillCompanionShifts();
   await fillSupervisorShifts();
   await postCityTimeZone();
