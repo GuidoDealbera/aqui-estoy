@@ -6,7 +6,7 @@ const getOneCompanion = async (req, res) => {
   try {
     const { email } = req.body;
       let companion;
-      companion = await Companion.findOne({ where: { email:email } });
+      companion = await Companion.findOne({ where: { email } });
       rol = "Companion";
       if (companion && companion.isActive) {
         //Retorna un acompañante con todos sus datos (Sirve para cargar el perfil)
