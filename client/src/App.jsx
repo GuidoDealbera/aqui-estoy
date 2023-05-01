@@ -5,6 +5,9 @@ import NavBar from "./Components/NavBar/NavBar";
 import Register from "./Views/Register/Register";
 import Calendary from "./Components/Calendary/Calendar";
 import Footer from "./Components/Footer/Footer";
+import axios from "axios";
+//axios.defaults.baseURL = 'aquiestoyapi-production.up.railway.app';
+axios.defaults.baseURL = 'http://localhost:3001';
 
 // const PrivateRoute = ({ element: Element, ...rest }) => {
 //   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);

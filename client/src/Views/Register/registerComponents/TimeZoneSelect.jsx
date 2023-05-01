@@ -12,7 +12,7 @@ export default function TimezoneSelect(props) {
 
     useEffect(() => {
         if(timezones.length===1){
-               axios("http://localhost:3001/getCityTimeZone").then(
+               axios("/getCityTimeZone").then(
             (response) => {
                 const { data } = response;
                 const result = data.map((timezone) => {

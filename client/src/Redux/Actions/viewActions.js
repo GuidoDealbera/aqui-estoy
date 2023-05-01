@@ -15,7 +15,7 @@ import {
   export const getAllCompanions = () => {
       return async function (dispatch){
           try {
-              const response = await axios.get('http://localhost:3001/getCompanion');
+              const response = await axios.get('/getCompanion');
               dispatch({type: GET_ALL_COMPANIONS, payload: response.data})
           } catch (error) {
               alert('No se pudieron cargar los ACOMPAÑANTES')
@@ -26,7 +26,7 @@ import {
   export const getAllSupervisors = () => {
       return async function (dispatch){
           try {
-              const response = await axios.get('http://localhost:3001/getSupervisor');
+              const response = await axios.get('/getSupervisor');
               dispatch({type: GET_ALL_SUPERVISORS, payload: response.data})
           } catch (error) {
               alert('No se pudieron cargar los SUPERVISORES')
@@ -37,7 +37,7 @@ import {
   export const getCompanionsAtCharge = (idSupervisor) => {
       return async function (dispatch){
           try {
-              const response = await axios.get(`http://localhost:3001/getSupervisorCharge/${idSupervisor})`);
+              const response = await axios.get(`/getSupervisorCharge/${idSupervisor})`);
               dispatch({type: GET_COMPANIONS_AT_CHARGE, payload: response.data})
           } catch (error) {
               alert('No se pudieron cargar los ACOMPAÑANTES A CARGO')
@@ -48,7 +48,7 @@ import {
   export const getOneCompanion = (email, password) => {
       return async function (dispatch){
           try {
-              const response = await axios.post('http://localhost:3001/getOneCompanion', {email, password},
+              const response = await axios.post('/getOneCompanion', {email, password},
               {
                   headers: {"Content-Type": "application/json"}
               });
@@ -62,7 +62,7 @@ import {
   export const getOneSupervisor = (email, password) => {
       return async function (dispatch){
           try {
-              const response = await axios.post('http://localhost:3001/getOneSupervisor', {email, password},
+              const response = await axios.post('/getOneSupervisor', {email, password},
               {
                   headers: {"Content-Type": "application/json"}
               });
@@ -76,7 +76,7 @@ import {
   export const getBothRoles = (email, password) => {
       return async function (dispatch){
           try {
-              const response = await axios.post('http://localhost:3001/getBothRoles', {email, password});
+              const response = await axios.post('/getBothRoles', {email, password});
               dispatch({type: "GET_BOTH_ROLES", payload: response.data})
           } catch (error) {
               dispatch({type: "GET_BOTH_ROLES", payload: "No se encontro"})
@@ -96,7 +96,7 @@ import {
   export const getAllSupervisorShift = ()=>{
       return async function(dispatch){
           try{
-              const response = (await axios.get('http://localhost:3001/getSupervisorShift')).data;
+              const response = (await axios.get('/getSupervisorShift')).data;
               dispatch({type: GET_ALL_SUPERVISOR_SHIFT, payload:response})
           }catch(error){
               alert('No se pudieron cargar los turnos de SUPERVISORES')
@@ -106,7 +106,7 @@ import {
   export const getAllCompanionShift = ()=>{
       return async function(dispatch){
           try{
-              const response = (await axios.get('http://localhost:3001/getCompanionShift')).data;
+              const response = (await axios.get('/getCompanionShift')).data;
               dispatch({type: GET_ALL_COMPANION_SHIFT, payload:response})
           }catch(error){
               alert('No se pudieron cargar los turnos de ACOMPAÑANTE')
@@ -116,7 +116,7 @@ import {
   export const getAllSupervisorShiftAssign = ()=>{
     return async function(dispatch){
         try{
-            const response = (await axios.get('http://localhost:3001/getAllSupervisorShift')).data;
+            const response = (await axios.get('/getAllSupervisorShift')).data;
             dispatch({type: GET_ALL_SUPERVISOR_SHIFT_ASSIGN, payload:response})
         }catch(error){
             alert('No se pudieron cargar los turnos de SUPERVISORES')
@@ -127,7 +127,7 @@ import {
 export const getAllCompanionShiftAssign = ()=>{
     return async function(dispatch){
         try{
-            const response = (await axios.get('http://localhost:3001/getAllCompanionShift')).data;
+            const response = (await axios.get('/getAllCompanionShift')).data;
             dispatch({type: GET_ALL_COMPANION_SHIFT_ASSIGN, payload:response})
         }catch(error){
             alert('No se pudieron cargar los turnos de ACOMPAÑANTES')
