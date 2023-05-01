@@ -22,8 +22,10 @@ const getOneSupervisor = require("../Controllers/Supervisor/getOneSupervisor");
 const { getSupervisorShift } = require("../Controllers/Supervisor/getSupervisorShift"); // Trae todos los shift VACIOS de Supervisor cada 1 hs.
 const assignSupervisorShift = require("../Controllers/Supervisor/postAssignSupervisorShift");
 const deleteSupervisorShift = require("../Controllers/Supervisor/deleteSupervisorShift");
-const downgradeSupervisor = require("../Controllers/Supervisor/postDowngradeSupervisor")
-const getAllSupervisorShift = require("../Controllers/Supervisor/getAllSupervisorShift") //Trae todos los shift ASIGNADOS
+const downgradeSupervisor = require("../Controllers/Supervisor/postDowngradeSupervisor");
+const getAllSupervisorShift = require("../Controllers/Supervisor/getAllSupervisorShift"); //Trae todos los shift ASIGNADOS
+const postSupervisorCharge = require ("../Controllers/Supervisor/postSupervisorCharge");
+const getSupervisorCharge = require ("../Controllers/Supervisor/getSupervisorCharge");
 
 const getCityTimeZone = require("../Controllers/TimeZone/getCityTimeZone");
 //* Both
@@ -51,5 +53,7 @@ router.post("/postAssignSupervisorShift/:idSupervisor", assignSupervisorShift);
 router.get("/getCityTimeZone", getCityTimeZone);
 router.post("/getBothRoles", requireLogin, getBothRoles);
 router.get("/getAllSupervisorShift", getAllSupervisorShift)
+router.post("/postSupervisorCharge/:idSupervisor", postSupervisorCharge);
+router.get("/getSupervisorCharge/:idSupervisor", getSupervisorCharge);
 
 module.exports = router;

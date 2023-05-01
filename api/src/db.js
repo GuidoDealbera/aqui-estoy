@@ -46,6 +46,8 @@ const { Companion, Supervisor, SupervisorShift, CompanionShift, CityTimeZone } =
 
 //* RELATIONS N-1:
 Supervisor.hasMany(Companion);
+
+// En el modelo Companion
 Companion.belongsTo(Supervisor);
 
 CityTimeZone.hasMany(Companion);
