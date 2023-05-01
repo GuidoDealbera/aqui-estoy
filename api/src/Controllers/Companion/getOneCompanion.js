@@ -6,17 +6,21 @@ const getOneCompanion = async (req, res) => {
   try {
     const { email } = req.body;
       let companion;
-      companion = await Companion.findOne({ where: { email } });
+      companion = await Companion.findOne({ where: { email:email } });
       rol = "Companion";
-      if (companion) {
+      if (companion && companion.isActive) {
         //Retorna un acompañante con todos sus datos (Sirve para cargar el perfil)
         const response = {
           ...companion.toJSON(),
           rol: rol,
         };
-        res.status(200).json(response);
+        return res.status(200).json(response);
+        
+      }
+      if(companion && !companion.isActive){
+        return  res.status(400).json("Cuenta inactiva comuniquese con el administrador");
       } else {
-        res.status(400).json("Los datos ingresados son incorrectos");
+        return res.status(400).json("Los datos ingresados son incorrectos");
       }
   } catch (error) {
     res.status(404).json("El Acompañante no se encontro");
