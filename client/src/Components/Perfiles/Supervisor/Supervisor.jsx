@@ -35,11 +35,11 @@ export default function Supervisor(props) {
             sx={{ width: 190, height: 190 }}
           />
           <Typography variant="h3">
-            {user.name.charAt(0).toUpperCase() +
-              user.name.slice(1) +
+            {user.name?.charAt(0).toUpperCase() +
+              user.name?.slice(1) +
               ", " +
-              user.lastName.charAt(0).toUpperCase() +
-              user.lastName.slice(1)}
+              user.lastName?.charAt(0).toUpperCase() +
+              user.lastName?.slice(1)}
           </Typography>
         </Grid>
 

@@ -7,6 +7,8 @@ import {
   POST_ASSIGN_COMPANION_SHIFT,
 } from "./action-types";
 import axios from "axios";
+import { toast } from "sonner";
+import { toastSuccess, toastError } from "./alertStyle";
 
 export const postCompanion = (companion) => {
   return async function (dispatch) {
@@ -16,9 +18,9 @@ export const postCompanion = (companion) => {
         companion
       );
       dispatch({ type: POST_COMPANION, payload: response.data });
-      alert("ACOMPAÑANTE creado");
+      toast.success("ACOMPAÑANTE creado", toastSuccess);
     } catch (error) {
-      alert("No se pudo crear el ACOMPAÑANTE");
+      toast.error("No se pudo crear el ACOMPAÑANTE", toastError);
     }
   };
 };
@@ -31,10 +33,10 @@ export const postSupervisor = (supervisor) => {
         supervisor
       );
       dispatch({ type: POST_SUPERVISOR, payload: response.data });
-      alert("SUPERVISOR creado");
+      toast.success("SUPERVISOR creado", toastSuccess);
     } catch (error) {
       console.log(error.message);
-      alert("No se pudo crear el SUPERVISOR");
+      toast.error("No se pudo crear el SUPERVISOR", toastError);
     }
   };
 };
@@ -49,7 +51,7 @@ export const putCompanion = (id, companion) => {
       });
       dispatch({ type: PUT_COMPANION, payload: response.data });
     } catch (error) {
-      alert("No se pudo actualizar el ACOMPAÑANTE");
+      toast.error("No se pudo actualizar el ACOMPAÑANTE", toastError);
     }
   };
 };
@@ -63,7 +65,7 @@ export const putSupervisor = (id, supervisor) => {
       );
       dispatch({ type: PUT_SUPERVISOR, payload: response.data });
     } catch (error) {
-      alert("No se pudo actualizar el SUPERVISOR");
+      toast.error("No se pudo actualizar el SUPERVISOR", toastError);
     }
   };
 };
