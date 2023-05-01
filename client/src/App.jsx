@@ -4,6 +4,7 @@ import Landing from './Views/LandingPage/Landing';
 import NavBar from './Components/NavBar/NavBar';
 import Register from './Views/Register/Register';
 import Calendary from './Components/Calendary/Calendar';
+import Footer from './Components/Footer/Footer';
 
 // const PrivateRoute = ({ element: Element, ...rest }) => {
 //   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
@@ -29,6 +30,7 @@ const App = () => {
 
 
     </Routes>
+    <Footer/>
     </div>
   );
 };
