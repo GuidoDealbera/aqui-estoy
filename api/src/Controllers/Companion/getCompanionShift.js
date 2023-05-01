@@ -25,8 +25,8 @@ async function fillCompanionShifts() {
         shifts.push(shift);
       }
     }
-  
-    await CompanionShift.bulkCreate(shifts);
+    const companionShift = await CompanionShift.findAll()
+     if(!companionShift.length) await CompanionShift.bulkCreate(shifts);
   }
   
   //* Ruta que trae la tabla CompanionShift con todos los turnos creados

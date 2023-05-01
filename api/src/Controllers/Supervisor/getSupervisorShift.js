@@ -25,8 +25,8 @@ async function fillSupervisorShifts() {
       shifts.push(shift);
     }
   }
-
-  await SupervisorShift.bulkCreate(shifts);
+  const supervisorShift = await SupervisorShift.findAll()
+  if(!supervisorShift.length) await SupervisorShift.bulkCreate(shifts);
 }
 
   //* Ruta que trae la tabla SuperiorShift con todos los turnos creados
