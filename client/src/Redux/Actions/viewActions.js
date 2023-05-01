@@ -34,10 +34,10 @@ import {
       }
   };
   
-  export const getCompanionsAtCharge = () => {
+  export const getCompanionsAtCharge = (idSupervisor) => {
       return async function (dispatch){
           try {
-              const response = await axios.get('http://localhost:3001/(insertar Ruta)');
+              const response = await axios.get(`http://localhost:3001/getSupervisorCharge/${idSupervisor})`);
               dispatch({type: GET_COMPANIONS_AT_CHARGE, payload: response.data})
           } catch (error) {
               alert('No se pudieron cargar los ACOMPAÑANTES A CARGO')
