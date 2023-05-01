@@ -21,16 +21,16 @@ const getOneSupervisor = async (req, res) => {
         ...supervisor.toJSON(),
         rol: rol,
       };
-      res.status(200).json(response);
-      return;
+     return res.status(200).json(response);
+      
     }
     if(supervisor && !supervisor.isActive){
-      res.status(400).json("Cuenta inactiva comuniquese con el administrador");
-      return;
+    return res.status(400).json("Cuenta inactiva comuniquese con el administrador");
+      
     } else {
       //Devuelve error si alguno de los datos no coincide
-      res.status(404).json("El Supervisor no se encontro");
-      return;
+     return res.status(404).json("El Supervisor no se encontro");
+     
     }
   } catch (error) {
     res.status(404).json("El Supervisor no se encontro");
