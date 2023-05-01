@@ -11,6 +11,8 @@ import {
     GET_ALL_SUPERVISOR_SHIFT_ASSIGN,
   } from "./action-types";
   import axios from 'axios'
+  import { toast } from "sonner";
+  import { toastError } from "./alertStyle";
   
   export const getAllCompanions = () => {
       return async function (dispatch){
@@ -18,7 +20,7 @@ import {
               const response = await axios.get('http://localhost:3001/getCompanion');
               dispatch({type: GET_ALL_COMPANIONS, payload: response.data})
           } catch (error) {
-              alert('No se pudieron cargar los ACOMPAÑANTES')
+              toast.error('No se pudieron cargar los ACOMPAÑANTES', toastError)
           }
       }
   };
@@ -29,7 +31,7 @@ import {
               const response = await axios.get('http://localhost:3001/getSupervisor');
               dispatch({type: GET_ALL_SUPERVISORS, payload: response.data})
           } catch (error) {
-              alert('No se pudieron cargar los SUPERVISORES')
+              toast.error('No se pudieron cargar los SUPERVISORES', toastError)
           }
       }
   };
@@ -40,7 +42,7 @@ import {
               const response = await axios.get(`http://localhost:3001/getSupervisorCharge/${idSupervisor})`);
               dispatch({type: GET_COMPANIONS_AT_CHARGE, payload: response.data})
           } catch (error) {
-              alert('No se pudieron cargar los ACOMPAÑANTES A CARGO')
+              toast.error('No se pudieron cargar los ACOMPAÑANTES A CARGO', toastError)
           }
       }
   };
@@ -54,7 +56,7 @@ import {
               });
               dispatch({type: GET_ONE_COMPANION, payload: response.data})
           } catch (error) {
-              alert('No se pudo cargar el ACOMPAÑANTE')
+              toast.error('No se pudo cargar el ACOMPAÑANTE', toastError)
           }
       }
   };
@@ -68,7 +70,7 @@ import {
               });
               dispatch({type: GET_ONE_SUPERVISOR, payload: response.data})
           } catch (error) {
-              alert('No se pudo cargar el SUPERVISOR')
+              toast.error('No se pudo cargar el SUPERVISOR', toastError)
           }
       }
   };
@@ -80,7 +82,7 @@ import {
               dispatch({type: "GET_BOTH_ROLES", payload: response.data})
           } catch (error) {
               dispatch({type: "GET_BOTH_ROLES", payload: "No se encontro"})
-              alert('No se pudo cargar el USUARIO')
+              toast.error('No se pudo cargar el USUARIO', toastError)
           }
       }
   };
@@ -99,7 +101,7 @@ import {
               const response = (await axios.get('http://localhost:3001/getSupervisorShift')).data;
               dispatch({type: GET_ALL_SUPERVISOR_SHIFT, payload:response})
           }catch(error){
-              alert('No se pudieron cargar los turnos de SUPERVISORES')
+              toast.error('No se pudieron cargar los turnos de SUPERVISORES', toastError)
           }
       }
   }
@@ -109,7 +111,7 @@ import {
               const response = (await axios.get('http://localhost:3001/getCompanionShift')).data;
               dispatch({type: GET_ALL_COMPANION_SHIFT, payload:response})
           }catch(error){
-              alert('No se pudieron cargar los turnos de ACOMPAÑANTE')
+              toast.error('No se pudieron cargar los turnos de ACOMPAÑANTE', toastError)
           }
       }
   }
@@ -119,7 +121,7 @@ import {
             const response = (await axios.get('http://localhost:3001/getAllSupervisorShift')).data;
             dispatch({type: GET_ALL_SUPERVISOR_SHIFT_ASSIGN, payload:response})
         }catch(error){
-            alert('No se pudieron cargar los turnos de SUPERVISORES')
+            toast.error('No se pudieron cargar los turnos de SUPERVISORES', toastError)
         }
     }
 }
@@ -130,7 +132,7 @@ export const getAllCompanionShiftAssign = ()=>{
             const response = (await axios.get('http://localhost:3001/getAllCompanionShift')).data;
             dispatch({type: GET_ALL_COMPANION_SHIFT_ASSIGN, payload:response})
         }catch(error){
-            alert('No se pudieron cargar los turnos de ACOMPAÑANTES')
+            toast.error('No se pudieron cargar los turnos de ACOMPAÑANTES', toastError)
         }
     }
 }
