@@ -3,7 +3,7 @@ import Profiles from "./Views/Profiles/Profiles";
 import Landing from "./Views/LandingPage/Landing";
 import NavBar from "./Components/NavBar/NavBar";
 import Register from "./Views/Register/Register";
-import CalendarSupervisor from "./Components/Calendary/CalendarSupervisor";
+import CalendarSupervisor from "./Components/Calendary/CalendarSupervisor/CalendarSupervisor";
 import Footer from "./Components/Footer/Footer";
 import PanelSupervision from "./Views/PanelSupervision/PanelSupervision";
 import axios from "axios";

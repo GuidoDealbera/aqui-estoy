@@ -1,8 +1,8 @@
 import { useDispatch, useSelector } from "react-redux"
-import { getAllSupervisorShift } from "../../Redux/Actions/viewActions"
+import { getAllSupervisorShift } from "../../../Redux/Actions/viewActions"
 import { Container, Row, Col, Button, Modal } from 'react-bootstrap';
 import { useState } from "react";
-import CalendarPopOut from "./CalendarSupervisorPopOut";
+import CalendarPopOut from "../CalendarPopOut";
 import calendar from "./CalendarSupervisor.css"
 
 const CalendarSupervisor=()=>{
@@ -10,7 +10,6 @@ const CalendarSupervisor=()=>{
     const[shift,setShift]=useState({})
     const dispatch=useDispatch()
     let shifts=useSelector(state=>state.view.allSupervisorShift)
-    console.log(shifts);
     const user=useSelector(state=>state.auth.user)
     shifts=shifts.map((shift)=>{
         switch (shift.day) {

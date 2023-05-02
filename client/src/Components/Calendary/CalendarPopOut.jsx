@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux"
-import s from "./CalendarSupervisorPopOut.module.css"
+import s from "./CalendarPopOut.module.css"
 import { postAssignSupervisorShift } from "../../Redux/Actions/postPutActions"
 
 const CalendarPopOut=(props)=>{
