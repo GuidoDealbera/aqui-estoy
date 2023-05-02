@@ -5,7 +5,7 @@ const assignCompanionShift = async (req, res) => {
   try {
     const { idCompanion } = req.params;
     const companion = await Companion.findOne({ where: { id: idCompanion } });
-    const { idShift } = req.body;
+    const { idShift, rol } = req.body;
     const shift = await CompanionShift.findOne({ where: { id: idShift } });
 
     if (companion.isSuperCompanion) {
@@ -14,7 +14,11 @@ const assignCompanionShift = async (req, res) => {
         where: { id: idCompanion },
         include: [{ model: CompanionShift, through: { attributes: [] } }],
       });
-      res.json(updatedCompanion);
+      const response = {
+        ...supervisor.toJSON(),
+        rol: rol,
+      };
+      res.json(response);
       return;
     }
 
@@ -32,7 +36,11 @@ const assignCompanionShift = async (req, res) => {
         where: { id: idCompanion },
         include: [{ model: CompanionShift, through: { attributes: [] } }],
       });
-      res.json(updatedCompanion);
+      const response = {
+        ...supervisor.toJSON(),
+        rol: rol,
+      };
+      res.json(response);
       return;
     }
   } catch (error) {

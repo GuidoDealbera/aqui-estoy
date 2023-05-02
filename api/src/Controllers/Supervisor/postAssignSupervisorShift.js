@@ -5,7 +5,7 @@ const assignSupervisorShift = async (req, res) => {
     try {
       const { idSupervisor } = req.params;
       const supervisor = await Supervisor.findOne({ where: { id: idSupervisor } });
-      const { idShift } = req.body;
+      const { idShift, rol } = req.body;
       const shift = await SupervisorShift.findOne({ where: { id: idShift } });
 
     
@@ -14,7 +14,11 @@ const assignSupervisorShift = async (req, res) => {
             where: { id: idSupervisor},
             include: [{ model: SupervisorShift ,  through: { attributes: [] }}],
           });
-     res.json(updatedSupervisor);
+          const response = {
+            ...supervisor.toJSON(),
+            rol: rol,
+          };
+     res.json(response);
         
 
     } catch (error) {

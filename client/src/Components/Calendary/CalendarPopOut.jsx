@@ -7,7 +7,7 @@ const CalendarPopOut=(props)=>{
 
     const dispatch=useDispatch()
     const handleConfirm=()=>{
-dispatch(postAssignSupervisorShift(user.id,props.shift.id.toString()))
+dispatch(postAssignSupervisorShift(user.id,props.shift.id.toString(),user.rol))
 props.setTrigger()
 alert("Tu turno a sido confirmado")
     }
