@@ -64,12 +64,14 @@ export const postAssignSupervisorShift = (idSupervisor, idShift, rol) => {
     try {
       const response = (
         await axios.post(`/postAssignSupervisorShift/${idSupervisor}`, {
-          idShift, rol
+          idShift,
+          rol,
         })
       ).data;
       dispatch({ type: POST_ASSIGN_SUPERVISOR_SHIFT, payload: response });
+      alert("Tu turno ha sido confirmado");
     } catch (error) {
-      error.message;
+      alert("No fue posible asignar el turno");
     }
   };
 };
@@ -79,12 +81,14 @@ export const postAssignCompanionShift = (idCompanion, idShift, rol) => {
     try {
       const response = (
         await axios.post(`/postAssignCompanionShift/${idCompanion}`, {
-          idShift, rol
+          idShift,
+          rol,
         })
       ).data;
       dispatch({ type: POST_ASSIGN_COMPANION_SHIFT, payload: response });
+      alert("Tu turno ha sido confirmado");
     } catch (error) {
-      error.message;
+      alert("No fue posible asignar el turno");
     }
   };
 };
