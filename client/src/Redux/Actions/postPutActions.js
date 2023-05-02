@@ -59,12 +59,12 @@ export const putSupervisor = (id, supervisor) => {
   };
 };
 
-export const postAssignSupervisorShift = (idSupervisor, idShift) => {
+export const postAssignSupervisorShift = (idSupervisor, idShift, rol) => {
   return async function (dispatch) {
     try {
       const response = (
         await axios.post(`/postAssignSupervisorShift/${idSupervisor}`, {
-          idShift,
+          idShift, rol
         })
       ).data;
       dispatch({ type: POST_ASSIGN_SUPERVISOR_SHIFT, payload: response });
@@ -74,12 +74,12 @@ export const postAssignSupervisorShift = (idSupervisor, idShift) => {
   };
 };
 
-export const postAssignCompanionShift = (idCompanion, idShift) => {
+export const postAssignCompanionShift = (idCompanion, idShift, rol) => {
   return async function (dispatch) {
     try {
       const response = (
         await axios.post(`/postAssignCompanionShift/${idCompanion}`, {
-          idShift,
+          idShift, rol
         })
       ).data;
       dispatch({ type: POST_ASSIGN_COMPANION_SHIFT, payload: response });
