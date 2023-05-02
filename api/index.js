@@ -9,10 +9,10 @@ const {
   fillCompanionShifts,
 } = require("./src/Controllers/Companion/getCompanionShift.js");
 const postCityTimeZone = require("./src/Controllers/TimeZone/postCityTimeZone.js");
-// const postSupervisor = require("./src/Controllers/Supervisor/postSupervisor.js");
+const fetch = require('node-fetch');
 // conn.sync({ alter: true }).then(async () => {
 
-const fetch = require('node-fetch');
+
 
 conn.sync({ force: false }).then(async () => {
   
