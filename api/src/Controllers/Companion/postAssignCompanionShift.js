@@ -15,7 +15,7 @@ const assignCompanionShift = async (req, res) => {
         include: [{ model: CompanionShift, through: { attributes: [] } }],
       });
       const response = {
-        ...supervisor.toJSON(),
+        ...companion.toJSON(),
         rol: rol,
       };
       res.json(response);
@@ -37,7 +37,7 @@ const assignCompanionShift = async (req, res) => {
         include: [{ model: CompanionShift, through: { attributes: [] } }],
       });
       const response = {
-        ...supervisor.toJSON(),
+        ...companion.toJSON(),
         rol: rol,
       };
       res.json(response);

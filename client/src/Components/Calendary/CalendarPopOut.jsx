@@ -1,15 +1,24 @@
 import { useDispatch, useSelector } from "react-redux"
 import s from "./CalendarPopOut.module.css"
-import { postAssignSupervisorShift } from "../../Redux/Actions/postPutActions"
+import { postAssignSupervisorShift,postAssignCompanionShift } from "../../Redux/Actions/postPutActions"
 
 const CalendarPopOut=(props)=>{
     const user=useSelector(state=>state.auth.user)
 
     const dispatch=useDispatch()
     const handleConfirm=()=>{
-dispatch(postAssignSupervisorShift(user.id,props.shift.id.toString(),user.rol))
-props.setTrigger()
-alert("Tu turno a sido confirmado")
+        
+        if(props.rol==="Companion"){
+            dispatch(postAssignCompanionShift(user.id,props.shift.id.toString()) )
+            props.setTrigger()
+            alert("Tu turno ha sido confirmado")
+        }
+        if(props.rol==="Supervisor"){
+
+            dispatch(postAssignSupervisorShift(user.id,props.shift.id.toString(),user.rol))
+            props.setTrigger()
+            alert("Tu turno ha sido confirmado")
+        }
     }
     return (props.trigger)?(
         <div onClick={()=>props.setTrigger()} className={s.popOut}>

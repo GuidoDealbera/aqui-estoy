@@ -41,7 +41,9 @@ export default function NavBar(props) {
   if(user.rol==="Supervisor"||user.rol==="SuperAdmin"){
     navigate("/calendarSupervisor")
   }
-
+  if(user.rol==="Companion"||user.isSuperCompanion){
+    navigate("/calendarCompanion")
+  }
   
   };
   const closeSession = () => {
