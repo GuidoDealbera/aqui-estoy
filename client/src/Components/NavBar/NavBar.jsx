@@ -37,9 +37,12 @@ export default function NavBar(props) {
   const handleClick = (event) => {
   if(Object.entries(user).length === 0){
   toast.error("Debes iniciar sesion para acceder al calendario", toastWarning)
-  }else{
-    navigate("/calendary")
   }
+  if(user.rol==="Supervisor"||user.rol==="SuperAdmin"){
+    navigate("/calendarSupervisor")
+  }
+
+  
   };
   const closeSession = () => {
     dispatch(logOut());
