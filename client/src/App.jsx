@@ -5,6 +5,7 @@ import NavBar from "./Components/NavBar/NavBar";
 import Register from "./Views/Register/Register";
 import Calendary from "./Components/Calendary/Calendar";
 import Footer from "./Components/Footer/Footer";
+import PanelSupervision from "./Views/PanelSupervision/PanelSupervision";
 import axios from "axios";
 //axios.defaults.baseURL = 'aquiestoyapi-production.up.railway.app';
 axios.defaults.baseURL = 'http://localhost:3001';
@@ -30,6 +31,7 @@ const App = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/calendary" element={<Calendary />} />
         <Route path="/profile/:id" element={<Profiles />} />
+        <Route path="/panel-supervision" element={<PanelSupervision />} />
       </Routes>
       {location.pathname === "/" && <Footer />}
     </div>
