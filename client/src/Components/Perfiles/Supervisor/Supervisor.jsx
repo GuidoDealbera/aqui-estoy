@@ -89,7 +89,7 @@ export default function Supervisor(props) {
       }}>
           <Grid item md={5}  xs={12} height="100%" >
             <Button variant="contained" style={estilos}>
-              Disponivilidad de turnos de voluntariado
+              Disponibilidad de turnos de voluntariado
             </Button>
           </Grid>
           <Grid item md={5} xs={12} height="100%" >
