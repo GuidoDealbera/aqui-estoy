@@ -8,6 +8,8 @@ import {useDispatch, useSelector} from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import CountrySelect from './registerComponents/CountrySelect';
 import TimezoneSelect from "./registerComponents/TimeZoneSelect";
+import { toast } from "sonner";
+import { toastSuccess } from "../../Redux/Actions/alertStyle";
 
 
 
@@ -42,8 +44,8 @@ export default function Register() {
      } else{
         dispatch(putSupervisor(user.id, values))
      }
-      alert('Datos actualizados');
-      navigate(`/profile/${user.id}`);
+     toast.success('Datos actualizados', toastSuccess);
+     navigate(`/profile/${user.id}`);
     }
 
     const validationSchema = Yup.object().shape({ //Validaciones de Yup (Aún en desarrollo)
