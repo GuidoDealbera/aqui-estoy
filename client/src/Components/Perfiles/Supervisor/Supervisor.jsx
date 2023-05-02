@@ -1,6 +1,10 @@
 import { Button, Box, Avatar, Typography, Grid, Container } from "@mui/material";
+import { useNavigate } from 'react-router-dom'
 
 export default function Supervisor(props) {
+
+  const navigate = useNavigate()
+
   const {user} = props;
 
   const estilos = {
@@ -70,7 +74,7 @@ export default function Supervisor(props) {
         <Typography variant="h5" marginTop={1}>
           {user.gender}
         </Typography>
-        <Button variant="contained" style={{background:"#FFEDD7", color:"#151515"}}>Panel de supervision</Button>
+        <Button onClick={()=>{navigate("/panel-supervision")}} variant="contained" style={{background:"#FFEDD7", color:"#151515"}}>Panel de supervision</Button>
       </Grid>
       <Grid
         container
