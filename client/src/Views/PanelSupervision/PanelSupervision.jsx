@@ -1,4 +1,10 @@
+//IMPORTACIONES DE REACT/FUNCIONALES
 import * as React from 'react';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux'
+import { groupConsecutiveTurns, sortByDay, sortByTime } from './PanelSupervisorHelpers';
+import { getAllSupervisorShiftAssign, getAllCompanionShiftAssign } from '../../Redux/Actions/viewActions';
+//IMPORTACIONES DE MATERIAL UI
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -12,91 +18,92 @@ import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'
 import { Box } from '@mui/system';
-import { groupConsecutiveTurns, sortByDay, sortByTime } from './PanelSupervisorHelpers';
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux'
-import { getAllSupervisorShiftAssign, getAllCompanionShiftAssign } from '../../Redux/Actions/viewActions';
+
 
 export default function PanelSupervision() {
 
-    const dispatch = useDispatch();
+    const dispatch = useDispatch(); //Para mandar traer los turnos del back.
 
-    const state = useSelector((state) => state.view)
-
-    const [supervisorCells, setSupervisorCells] = React.useState(
-        readySupervisor
+    const [supervisorCells, setSupervisorCells] = React.useState( //Para renderizar los turnos
+        [[], [], [], [], [], [], []]
     );
 
-    const [acompananteCells, setAcompananteCells] = React.useState(
-        readyCompanion
+    const [acompananteCells, setAcompananteCells] = React.useState( //Para renderizar los turnos
+        [[], [], [], [], [], [], []]
     );
 
-    const [day, setDay] = React.useState(0);
+    const [day, setDay] = React.useState(0); //Para el paginado por dias de la semana
 
-    const handleChange = (event) => {
+    const { allCompanionShiftAssign, allSupervisorShiftAssign } = useSelector((state) => state.view)
+
+    useEffect(() => { //Mando a traer la data del back
+        dispatch(getAllSupervisorShiftAssign())
+        dispatch(getAllCompanionShiftAssign())
+    }, [])
+
+    useEffect(() => { //Dejo este useEffect escuchando actualizaciones del estado, cuando llegue la data, que haga la lógica
+            const processedSupervisorShifts = allSupervisorShiftAssign.map((person) => {
+                const {
+                    name,
+                    lastName,
+                    email,
+                    phone,
+                    SupervisorShifts,
+                } = person;
+                return SupervisorShifts.map((turnos) => {
+                    const { id, day, time, timezone } = turnos;
+                    return {
+                        id,
+                        name: `${name} ${lastName}`,
+                        email,
+                        phone,
+                        day,
+                        time,
+                        timezone
+                    }
+                })
+            })
+
+            const sortedSupervisorsByDay = sortByDay(processedSupervisorShifts);
+
+            const readySupervisor = groupConsecutiveTurns(sortByTime(sortedSupervisorsByDay))
+
+            const processedCompanionShifts = allCompanionShiftAssign.map((person) => {
+                const {
+                    name,
+                    lastName,
+                    email,
+                    phone,
+                    CompanionShifts,
+                } = person;
+                return CompanionShifts.map((turno) => {
+                    const { id, day, time, timezone } = turno;
+                    return {
+                        id,
+                        name: `${name} ${lastName}`,
+                        email,
+                        phone,
+                        day,
+                        time,
+                        timezone
+                    }
+                })
+            })
+            const sortedCompanionsByDay = sortByDay(processedCompanionShifts);
+
+            const readyCompanion = groupConsecutiveTurns(sortByTime(sortedCompanionsByDay))
+
+            setSupervisorCells(readySupervisor)
+            setAcompananteCells(readyCompanion)
+    }, [allCompanionShiftAssign, allSupervisorShiftAssign])
+
+    const handleChange = (event) => { //Para el boton de los días.
         setDay(event.target.value);
     };
 
-    useEffect(() => {
-        dispatch(getAllCompanionShiftAssign())
-        dispatch(getAllCompanionShiftAssign())
-
-        // const processedSupervisorShifts = fakeSupervisors.map((person) => {
-        //     const {
-        //         name,
-        //         lastName,
-        //         email,
-        //         phone,
-        //         SupervisorShifts,
-        //     } = person;
-        //     return SupervisorShifts.map((turnos) => {
-        //         const { id, day, time, timezone } = turnos;
-        //         return {
-        //             id,
-        //             name: `${name} ${lastName}`,
-        //             email,
-        //             phone,
-        //             day,
-        //             time,
-        //             timezone
-        //         }
-        //     })
-        // })
-
-        // const sortedSupervisorsByDay = sortByDay(processedSupervisorShifts);
-
-        // const readySupervisor = groupConsecutiveTurns(sortByTime(sortedSupervisorsByDay))
-
-        // const processedCompanionShifts = fakeCompanions.map((person) => {
-        //     const {
-        //         name,
-        //         lastName,
-        //         email,
-        //         phone,
-        //         CompanionShifts,
-        //     } = person;
-        //     return CompanionShifts.map((turno) => {
-        //         const { id, day, time, timezone } = turno;
-        //         return {
-        //             id,
-        //             name: `${name} ${lastName}`,
-        //             email,
-        //             phone,
-        //             day,
-        //             time,
-        //             timezone
-        //         }
-        //     })
-        // })
-        // const sortedCompanionsByDay = sortByDay(processedCompanionShifts);
-
-        // const readyCompanion = groupConsecutiveTurns(sortByTime(sortedCompanionsByDay))
-
-    }, [])
-
     return (
         <Box>
-            <FormControl sx={{ minWidth: "100px", marginBottom: "10px" }}>
+            <FormControl sx={{ minWidth: "100px", margin: "10px" }}> {/*Este Form Control Renderiza el Botón de los días*/}
                 <InputLabel>Día</InputLabel>
                 <Select
                     value={day}
@@ -115,7 +122,7 @@ export default function PanelSupervision() {
             <TableContainer component={Paper}>
                 <Table Table sx={{ minWidth: 650, fontSize: "small" }} size="small">
                     <Box border={"solid"} borderRadius={"10px"}>
-                        <TableHead>
+                        <TableHead> {/* Head de la Tabla (Texto de Disponibilidad Horaria y Celdas Horarias) */}
                             <TableRow>
                                 <TableCell align="center" colSpan={25}>
                                     Disponibilidad horaria
@@ -140,8 +147,8 @@ export default function PanelSupervision() {
                                 })}
                             </TableRow>
                         </TableHead>
-                        <TableBody>
-                            <TableRow>
+                        <TableBody> {/* La Tabla en cuestión */}
+                            <TableRow> {/* Row para las leyendas */}
                                 <TableCell sx={{ border: "solid 1px #e6e6e6", minWidth: "100px", padding: "3px" }} align="center">
                                     <Typography fontSize={"small"} fontWeight={"bold"}>Supervisores</Typography>
                                 </TableCell>
@@ -152,15 +159,15 @@ export default function PanelSupervision() {
                                     )
                                 })}
                             </TableRow>
-                            {supervisorCells[day].map((turno) => {
+                            {supervisorCells[day].map((turno) => { {/* Aca se renderizan todos los turnos en cuestión */}
                                 const { name, email, phone, time, } = turno;
                                 const initialTime = parseInt(time.split('-')[0]);
                                 const finalTime = parseInt(time.split('-')[1]);
                                 const duration = finalTime - initialTime;
                                 return (
-                                    <TableRow sx={{ height: "15px" }}>
+                                    <TableRow sx={{ height: "15px" }}> {/* Retorno una nueva Table Row por cada turno */}
                                         <TableCell></TableCell>
-                                        {Array.from(Array(24 - duration + 1).keys()).map((hour) => {
+                                        {Array.from(Array(24 - duration + 1).keys()).map((hour) => { {/* Renderizo las celdas */}
                                             return (
                                                 <TableCell
                                                     size='small'
@@ -188,9 +195,9 @@ export default function PanelSupervision() {
                                     </TableRow>
                                 )
                             })}
-                            <TableRow sx={{ height: "15px" }}>
+                            <TableRow> {/* Row para las leyendas */}
                                 <TableCell sx={{ border: "solid 1px #e6e6e6", minWidth: "100px", padding: "3px" }}>
-                                    Acompañantes
+                                    <Typography fontSize={"small"} fontWeight={"bold"}>Acompañantes</Typography>
                                 </TableCell>
                                 {Array.from(Array(24).keys()).map((hour) => {
                                     return (
@@ -199,15 +206,15 @@ export default function PanelSupervision() {
                                     )
                                 })}
                             </TableRow>
-                            {acompananteCells[day].map((turno) => {
+                            {acompananteCells[day].map((turno) => { {/* Aca se renderizan todos los turnos en cuestión */}
                                 const { name, email, phone, time, } = turno;
                                 const initialTime = parseInt(time.split('-')[0]);
                                 const finalTime = parseInt(time.split('-')[1]);
                                 const duration = finalTime - initialTime;
                                 return (
-                                    <TableRow>
+                                    <TableRow> {/* Retorno una nueva Table Row por cada turno */}
                                         <TableCell></TableCell>
-                                        {Array.from(Array(24 - duration + 1).keys()).map((hour) => {
+                                        {Array.from(Array(24 - duration + 1).keys()).map((hour) => { {/* Renderizo las celdas */}
                                             return (
                                                 <TableCell
                                                     onClick={hour === initialTime ? () => { alert(`Phone: ${phone} | Email: ${email}`) } : null}
@@ -241,54 +248,3 @@ export default function PanelSupervision() {
         </Box>
     )
 }
-
-const processedSupervisorShifts = fakeSupervisors.map((person) => {
-    const {
-        name,
-        lastName,
-        email,
-        phone,
-        SupervisorShifts,
-    } = person;
-    return SupervisorShifts.map((turnos) => {
-        const { id, day, time, timezone } = turnos;
-        return {
-            id,
-            name: `${name} ${lastName}`,
-            email,
-            phone,
-            day,
-            time,
-            timezone
-        }
-    })
-})
-
-const sortedSupervisorsByDay = sortByDay(processedSupervisorShifts);
-
-const readySupervisor = groupConsecutiveTurns(sortByTime(sortedSupervisorsByDay))
-
-const processedCompanionShifts = fakeCompanions.map((person) => {
-    const {
-        name,
-        lastName,
-        email,
-        phone,
-        CompanionShifts,
-    } = person;
-    return CompanionShifts.map((turno) => {
-        const { id, day, time, timezone } = turno;
-        return {
-            id,
-            name: `${name} ${lastName}`,
-            email,
-            phone,
-            day,
-            time,
-            timezone
-        }
-    })
-})
-const sortedCompanionsByDay = sortByDay(processedCompanionShifts);
-
-const readyCompanion = groupConsecutiveTurns(sortByTime(sortedCompanionsByDay))
