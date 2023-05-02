@@ -5,6 +5,7 @@ export function groupTurns(turnos) {
     const end = lastTurno.time.split('-')[1].split(":")[0]
 
     return {
+        idPersona: firstTurno.idPersona,
         name: firstTurno.name,
         email: firstTurno.email,
         phone: firstTurno.phone,
@@ -15,15 +16,15 @@ export function groupTurns(turnos) {
 }
 
 export function groupConsecutiveTurns(turnos) {
-    const result = turnos.map((arrayTurnos)=> {
+    const result = turnos.map((arrayTurnos) => {
         arrayTurnos.sort((a, b) => a.id - b.id);
         const result = [];
         let currentGroup = [];
-    
+
         for (let i = 0; i < arrayTurnos.length; i++) {
             const turno = arrayTurnos[i];
             const prevTurno = arrayTurnos[i - 1];
-    
+
             if (!prevTurno || prevTurno.id + 1 === turno.id) {
                 currentGroup.push(turno);
             } else {
@@ -34,8 +35,9 @@ export function groupConsecutiveTurns(turnos) {
         if (currentGroup.length > 0) {
             result.push(groupTurns(currentGroup));
         }
-    
+
         return result;
+
     })
     return result;
 }

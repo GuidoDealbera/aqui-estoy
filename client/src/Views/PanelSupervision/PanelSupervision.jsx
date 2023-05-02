@@ -1,9 +1,11 @@
 //IMPORTACIONES DE REACT/FUNCIONALES
 import * as React from 'react';
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { groupConsecutiveTurns, sortByDay, sortByTime } from './PanelSupervisorHelpers';
 import { getAllSupervisorShiftAssign, getAllCompanionShiftAssign } from '../../Redux/Actions/viewActions';
+import PopOut from '../../Components/PopOut/PopOut';
 //IMPORTACIONES DE MATERIAL UI
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -18,11 +20,14 @@ import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'
 import { Box } from '@mui/system';
+import { Button } from '@mui/material';
 
 
 export default function PanelSupervision() {
 
     const dispatch = useDispatch(); //Para mandar traer los turnos del back.
+
+    const navigate = useNavigate();
 
     const [supervisorCells, setSupervisorCells] = React.useState( //Para renderizar los turnos
         [[], [], [], [], [], [], []]
@@ -31,6 +36,15 @@ export default function PanelSupervision() {
     const [acompananteCells, setAcompananteCells] = React.useState( //Para renderizar los turnos
         [[], [], [], [], [], [], []]
     );
+
+    const [togglePopOut, setTogglePopOut] = React.useState(false); //Estados para el PopOut
+
+    const [popOutData, setPopOutData] = React.useState({
+        idPersona: "",
+        name: "",
+        email: "",
+        phone: ""
+    })
 
     const [day, setDay] = React.useState(0); //Para el paginado por dias de la semana
 
@@ -42,59 +56,65 @@ export default function PanelSupervision() {
     }, [])
 
     useEffect(() => { //Dejo este useEffect escuchando actualizaciones del estado, cuando llegue la data, que haga la lógica
-            const processedSupervisorShifts = allSupervisorShiftAssign.map((person) => {
-                const {
-                    name,
-                    lastName,
+        const processedSupervisorShifts = allSupervisorShiftAssign.map((person) => {
+            const {
+                id,
+                name,
+                lastName,
+                email,
+                phone,
+                SupervisorShifts,
+            } = person;
+            const idPersona = id;
+            return SupervisorShifts.map((turnos) => {
+                const { id, day, time, timezone } = turnos;
+                return {
+                    idPersona,
+                    id,
+                    name: `${name} ${lastName}`,
                     email,
                     phone,
-                    SupervisorShifts,
-                } = person;
-                return SupervisorShifts.map((turnos) => {
-                    const { id, day, time, timezone } = turnos;
-                    return {
-                        id,
-                        name: `${name} ${lastName}`,
-                        email,
-                        phone,
-                        day,
-                        time,
-                        timezone
-                    }
-                })
+                    day,
+                    time,
+                    timezone
+                }
             })
+        })
 
-            const sortedSupervisorsByDay = sortByDay(processedSupervisorShifts);
+        const sortedSupervisorsByDay = sortByDay(processedSupervisorShifts);
 
-            const readySupervisor = groupConsecutiveTurns(sortByTime(sortedSupervisorsByDay))
+        const readySupervisor = groupConsecutiveTurns(sortByTime(sortedSupervisorsByDay))
 
-            const processedCompanionShifts = allCompanionShiftAssign.map((person) => {
-                const {
-                    name,
-                    lastName,
+        const processedCompanionShifts = allCompanionShiftAssign.map((person) => {
+            const {
+                id,
+                name,
+                lastName,
+                email,
+                phone,
+                CompanionShifts,
+            } = person;
+            const idPersona = id;
+            return CompanionShifts.map((turno) => {
+                const { id, day, time, timezone } = turno;
+                return {
+                    idPersona,
+                    id,
+                    name: `${name} ${lastName}`,
                     email,
                     phone,
-                    CompanionShifts,
-                } = person;
-                return CompanionShifts.map((turno) => {
-                    const { id, day, time, timezone } = turno;
-                    return {
-                        id,
-                        name: `${name} ${lastName}`,
-                        email,
-                        phone,
-                        day,
-                        time,
-                        timezone
-                    }
-                })
+                    day,
+                    time,
+                    timezone
+                }
             })
-            const sortedCompanionsByDay = sortByDay(processedCompanionShifts);
+        })
+        const sortedCompanionsByDay = sortByDay(processedCompanionShifts);
 
-            const readyCompanion = groupConsecutiveTurns(sortByTime(sortedCompanionsByDay))
+        const readyCompanion = groupConsecutiveTurns(sortByTime(sortedCompanionsByDay))
 
-            setSupervisorCells(readySupervisor)
-            setAcompananteCells(readyCompanion)
+        setSupervisorCells(readySupervisor)
+        setAcompananteCells(readyCompanion)
     }, [allCompanionShiftAssign, allSupervisorShiftAssign])
 
     const handleChange = (event) => { //Para el boton de los días.
@@ -159,19 +179,21 @@ export default function PanelSupervision() {
                                     )
                                 })}
                             </TableRow>
-                            {supervisorCells[day].map((turno) => { {/* Aca se renderizan todos los turnos en cuestión */}
-                                const { name, email, phone, time, } = turno;
+                            {supervisorCells[day].map((turno) => {
+                                {/* Aca se renderizan todos los turnos en cuestión */ }
+                                const { name, email, phone, time, idPersona } = turno;
                                 const initialTime = parseInt(time.split('-')[0]);
                                 const finalTime = parseInt(time.split('-')[1]);
                                 const duration = finalTime - initialTime;
                                 return (
                                     <TableRow sx={{ height: "15px" }}> {/* Retorno una nueva Table Row por cada turno */}
                                         <TableCell></TableCell>
-                                        {Array.from(Array(24 - duration + 1).keys()).map((hour) => { {/* Renderizo las celdas */}
+                                        {Array.from(Array(24 - duration + 1).keys()).map((hour) => {
+                                            {/* Renderizo las celdas */ }
                                             return (
                                                 <TableCell
                                                     size='small'
-                                                    onClick={hour === initialTime ? () => { alert(`Phone: ${phone} | Email: ${email}`) } : null}
+                                                    onClick={hour === initialTime ? () => { setPopOutData({ idPersona, name, email, phone }); setTogglePopOut(true) } : null}
                                                     key={`${name}-${hour}`}
                                                     align="center"
                                                     colSpan={hour === initialTime ? duration : 1}
@@ -206,7 +228,8 @@ export default function PanelSupervision() {
                                     )
                                 })}
                             </TableRow>
-                            {acompananteCells[day].map((turno) => { {/* Aca se renderizan todos los turnos en cuestión */}
+                            {acompananteCells[day].map((turno) => {
+                                {/* Aca se renderizan todos los turnos en cuestión */ }
                                 const { name, email, phone, time, } = turno;
                                 const initialTime = parseInt(time.split('-')[0]);
                                 const finalTime = parseInt(time.split('-')[1]);
@@ -214,10 +237,11 @@ export default function PanelSupervision() {
                                 return (
                                     <TableRow> {/* Retorno una nueva Table Row por cada turno */}
                                         <TableCell></TableCell>
-                                        {Array.from(Array(24 - duration + 1).keys()).map((hour) => { {/* Renderizo las celdas */}
+                                        {Array.from(Array(24 - duration + 1).keys()).map((hour) => {
+                                            {/* Renderizo las celdas */ }
                                             return (
                                                 <TableCell
-                                                    onClick={hour === initialTime ? () => { alert(`Phone: ${phone} | Email: ${email}`) } : null}
+                                                    onClick={hour === initialTime ? () => { setPopOutData({ name, email, phone }); setTogglePopOut(true) } : null}
                                                     key={`${name}-${hour}`}
                                                     align="center"
                                                     colSpan={hour === initialTime ? duration : 1}
@@ -245,6 +269,17 @@ export default function PanelSupervision() {
                     </Box>
                 </Table>
             </TableContainer>
+            <PopOut setTrigger={setTogglePopOut} trigger={togglePopOut}>
+                <Button>
+                    <Typography variant="h1" onClick={()=>{navigate(`/profile/${popOutData.idPersona}`)}}>{popOutData.name}</Typography>
+                </Button>
+                <Typography variant="h1">{popOutData.email}</Typography>
+                <Button>
+                    <Typography variant="h1" component="a" href={`https://wa.me/${popOutData.phone}`} target="_blank">
+                        {popOutData.phone}
+                    </Typography>
+                </Button>
+            </PopOut>
         </Box>
     )
 }
