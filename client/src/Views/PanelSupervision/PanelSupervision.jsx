@@ -184,7 +184,7 @@ export default function PanelSupervision() {
                                 const { name, email, phone, time, idPersona } = turno;
                                 const initialTime = parseInt(time.split('-')[0]);
                                 const finalTime = parseInt(time.split('-')[1]);
-                                const duration = finalTime - initialTime;
+                                const duration = finalTime !== 0 ? finalTime - initialTime : finalTime + 24 - initialTime;
                                 return (
                                     <TableRow sx={{ height: "15px" }}> {/* Retorno una nueva Table Row por cada turno */}
                                         <TableCell></TableCell>
