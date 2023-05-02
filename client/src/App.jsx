@@ -7,6 +7,7 @@ import CalendarSupervisor from "./Components/Calendary/CalendarSupervisor/Calend
 import Footer from "./Components/Footer/Footer";
 import PanelSupervision from "./Views/PanelSupervision/PanelSupervision";
 import axios from "axios";
+import CalendarCompanion from "./Components/Calendary/CalendarCompanion/CalendarCompanion";
 //axios.defaults.baseURL = 'aquiestoyapi-production.up.railway.app';
 axios.defaults.baseURL = 'http://localhost:3001';
 
@@ -30,6 +31,7 @@ const App = () => {
         <Route exact path="/" element={<Landing />} />
         <Route path="/register" element={<Register />} />
         <Route path="/calendarSupervisor" element={<CalendarSupervisor />} />
+        <Route path="/calendarCompanion" element={<CalendarCompanion />} />
         <Route path="/profile/:id" element={<Profiles />} />
         <Route path="/panel-supervision" element={<PanelSupervision />} />
       </Routes>
