@@ -9,29 +9,28 @@ const {
   fillCompanionShifts,
 } = require("./src/Controllers/Companion/getCompanionShift.js");
 const postCityTimeZone = require("./src/Controllers/TimeZone/postCityTimeZone.js");
-const postSupervisor = require("./src/Controllers/Supervisor/postSupervisor.js");
+const fetch = require('node-fetch');
 // conn.sync({ alter: true }).then(async () => {
 
-conn.sync({ force: true }).then(async () => {
-  await postSupervisor(
-    {},
-    {
-      status: function (code) {
-        console.log("Status:", code);
-      },
-      json: function (response) {
-        console.log("Response:", response);
-      },
-      send: function (error) {
-        console.log("Error:", error);
-      },
-    }
-  );
-  console.log("Codigo 500 pero creó el administrador");
+
+
+conn.sync({ force: false }).then(async () => {
+  
   await fillCompanionShifts();
   await fillSupervisorShifts();
   await postCityTimeZone();
   server.listen(port, () => {
     console.log("%s listening at 3001"); // se imprime en consola para confirmar que el servidor está corriendo
   });
+  const url = 'http://localhost:3001/postSupervisor';
+  // Parámetros de la petición POST
+  const options = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email: 'admin@admin.com', password: 'admin123', rol: "SuperAdmin" })
+    };
+
+  // Realizar la petición POST
+  await fetch(url, options);
+
 });
