@@ -9,7 +9,7 @@ import PanelSupervision from "./Views/PanelSupervision/PanelSupervision";
 import axios from "axios";
 import CalendarCompanion from "./Components/Calendary/CalendarCompanion/CalendarCompanion";
 import CompanionsAtCharge from "./Components/Cards/CompanionsAtCharge";
-
+ 
 axios.defaults.baseURL =  import.meta.env.VITE_SERVER_URL;
 //axios.defaults.baseURL = 'aquiestoyapi-production.up.railway.app';
 // axios.defaults.baseURL = 'http://localhost:3001';
