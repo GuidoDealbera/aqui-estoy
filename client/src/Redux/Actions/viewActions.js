@@ -9,6 +9,7 @@ import {
     GET_ALL_COMPANION_SHIFT,
     GET_ALL_COMPANION_SHIFT_ASSIGN,
     GET_ALL_SUPERVISOR_SHIFT_ASSIGN,
+    SET_LOADING,
   } from "./action-types";
   import axios from 'axios'
   import { toast } from "sonner";
@@ -39,7 +40,7 @@ import {
   export const getCompanionsAtCharge = (idSupervisor) => {
       return async function (dispatch){
           try {
-              const response = await axios.get(`/getSupervisorCharge/${idSupervisor})`);
+              const response = await axios.get(`/getSupervisorCharge/${idSupervisor}`);
               dispatch({type: GET_COMPANIONS_AT_CHARGE, payload: response.data})
           } catch (error) {
               toast.error('No se pudieron cargar los ACOMPAÑANTES A CARGO', toastError)
@@ -86,9 +87,14 @@ import {
           }
       }
   };
-  
-  
-  
+
+  export const setLoading = (isLoading) => {
+    return {
+        type: SET_LOADING,
+        payload: isLoading,
+    }
+  };
+   
   export const logOut = () => {
      return {
       type: LOGOUT

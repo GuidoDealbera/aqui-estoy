@@ -8,12 +8,9 @@ import Footer from "./Components/Footer/Footer";
 import PanelSupervision from "./Views/PanelSupervision/PanelSupervision";
 import axios from "axios";
 import CalendarCompanion from "./Components/Calendary/CalendarCompanion/CalendarCompanion";
+import CompanionsAtCharge from "./Components/Cards/CompanionsAtCharge";
 
-//import serverURL from "./server.js";
-// const SERVER_URL = serverURL();
-console.log(import.meta.env.VITE_SERVER_URL);
 axios.defaults.baseURL =  import.meta.env.VITE_SERVER_URL;
-
 //axios.defaults.baseURL = 'aquiestoyapi-production.up.railway.app';
 // axios.defaults.baseURL = 'http://localhost:3001';
 
@@ -40,6 +37,7 @@ const App = () => {
         <Route path="/calendarCompanion" element={<CalendarCompanion />} />
         <Route path="/profile/:id" element={<Profiles />} />
         <Route path="/panel-supervision" element={<PanelSupervision />} />
+        <Route path= "/companionsAtCharge" element={<CompanionsAtCharge/>}></Route>
       </Routes>
       {location.pathname === "/" && <Footer />}
     </div>

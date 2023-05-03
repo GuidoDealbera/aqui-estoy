@@ -4,33 +4,32 @@ import { postAssignSupervisorShift,postAssignCompanionShift } from "../../Redux/
 
 const CalendarPopOut=(props)=>{
     const {user}=useSelector(state=>state.auth)
-    console.log(user);
     const dispatch=useDispatch()
     const handleConfirm=()=>{
-        
-         if(user.rol==="Companion"){
+        if(confirm("Estas seguro que quieres confirmar el turno ?") == true){
+          if(user.rol==="Companion"){
+
             dispatch(postAssignCompanionShift(user.id,props.shift.id.toString(),user.rol) )
             props.setTrigger()
        
          }
-        if(user.rol==="Supervisor"){
-
+        if(user.rol==="Supervisor"||user.isSuperAdmin){
             dispatch(postAssignSupervisorShift(user.id,props.shift.id.toString(),user.rol))
             props.setTrigger()
-            // alert("Tu turno ha sido confirmado")
+      
          }
-   
-            // console.log(error.message);
-            // alert("No fue posible asignar el turno")
+
+         props.setTrigger()
+        }else{
             props.setTrigger()
-        
-     
+        }
     }
+
     return (props.trigger)?(
         <div onClick={()=>props.setTrigger()} className={s.popOut}>
             <div className={s.innerPop}>
          {props.children}
-         <button onClick={handleConfirm}>Confirma tu turno !</button>
+         <button onClick={()=>handleConfirm()}>Confirma tu turno !</button>
          <button onClick={()=>props.setTrigger()}>Cancelar</button>
             </div>
         </div>

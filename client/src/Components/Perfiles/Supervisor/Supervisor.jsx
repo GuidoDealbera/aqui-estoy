@@ -100,7 +100,7 @@ export default function Supervisor(props) {
             <Button variant="contained" style={estilos}>Horarios de supervisión</Button>
           </Grid>
           <Grid item md={5} xs={12} height="100%" >
-            <Button variant="contained" style={estilos} >Personas a cargo</Button>
+            <Button onClick={()=>{navigate("/companionsAtCharge")}} variant="contained" style={estilos} >Personas a cargo</Button>
           </Grid>
           <Grid item md={5} xs={12} height="100%" >
             <Button variant="contained" style={estilos}>Centro de aprendizaje</Button>

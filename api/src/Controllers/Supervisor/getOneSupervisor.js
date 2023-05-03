@@ -1,4 +1,4 @@
-const { Supervisor, CityTimeZone } = require("../../db");
+const { Supervisor, CityTimeZone, SupervisorShift } = require("../../db");
 const bcrypt = require("bcrypt");
 
 //Controlador para verificar login de un Supervisor y llenar el perfil
@@ -9,7 +9,7 @@ const getOneSupervisor = async (req, res) => {
     //Se obtiene el email y contraseña desde el formulario
     const { email } = req.body;
     //Se busca el supervisor por email
-    supervisor = await Supervisor.findOne({ where: { email } });
+    supervisor = await Supervisor.findOne({ where: { email } ,  include: [{ model: SupervisorShift ,  through: { attributes: [] }}]});
     rol = "Supervisor";
     if(supervisor.isSuperAdmin){
       rol = "SuperAdmin"
