@@ -39,7 +39,7 @@ import {
   export const getCompanionsAtCharge = (idSupervisor) => {
       return async function (dispatch){
           try {
-              const response = await axios.get(`/getSupervisorCharge/${idSupervisor})`);
+              const response = await axios.get(`/getSupervisorCharge/${idSupervisor}`);
               dispatch({type: GET_COMPANIONS_AT_CHARGE, payload: response.data})
           } catch (error) {
               toast.error('No se pudieron cargar los ACOMPAÑANTES A CARGO', toastError)
