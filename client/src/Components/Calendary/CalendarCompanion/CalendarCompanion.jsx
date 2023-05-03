@@ -55,7 +55,7 @@ const CalendarCompanion=()=>{
               return
         }
         })
-    const days = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'];
+        const days = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'];
     if(shifts.length===0){
         dispatch(getAllSupervisorShift())
     }
@@ -67,7 +67,7 @@ const CalendarCompanion=()=>{
    
     }
   if(user&&user.rol==="Companion"||user.isSuperCompanion){
-//  console.log("user");
+
 hours = Array.from({ length: 24 }, (_, i) => {
     if(i<9){
         return `0${i}:00-0${i+1}:00`
