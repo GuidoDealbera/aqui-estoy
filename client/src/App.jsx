@@ -8,8 +8,14 @@ import Footer from "./Components/Footer/Footer";
 import PanelSupervision from "./Views/PanelSupervision/PanelSupervision";
 import axios from "axios";
 import CalendarCompanion from "./Components/Calendary/CalendarCompanion/CalendarCompanion";
+
+//import serverURL from "./server.js";
+// const SERVER_URL = serverURL();
+console.log(import.meta.env.VITE_SERVER_URL);
+axios.defaults.baseURL =  import.meta.env.VITE_SERVER_URL;
+
 //axios.defaults.baseURL = 'aquiestoyapi-production.up.railway.app';
-axios.defaults.baseURL = 'http://localhost:3001';
+// axios.defaults.baseURL = 'http://localhost:3001';
 
 // const PrivateRoute = ({ element: Element, ...rest }) => {
 //   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
