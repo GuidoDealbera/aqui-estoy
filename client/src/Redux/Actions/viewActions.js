@@ -9,7 +9,8 @@ import {
     GET_ALL_COMPANION_SHIFT,
     GET_ALL_COMPANION_SHIFT_ASSIGN,
     GET_ALL_SUPERVISOR_SHIFT_ASSIGN,
-    GET_USER_BY_ID,
+    SET_LOADING,
+    GET_USER_BY_ID
 } from "./action-types";
 import axios from 'axios'
 import { toast } from "sonner";
@@ -88,7 +89,12 @@ export const getBothRoles = (email, password) => {
     }
 };
 
-
+export const setLoading = (isLoading) => {
+    return {
+        type: SET_LOADING,
+        payload: isLoading,
+    }
+};
 
 export const logOut = () => {
     return {

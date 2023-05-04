@@ -3,11 +3,13 @@ require("dotenv").config();
 const fs = require("fs");
 const path = require("path");
 
-const { DB_USER, DB_PASSWORD, DB_HOST , DB_DEPLOY} = process.env;
+// const { DB_USER, DB_PASSWORD, DB_HOST , DB_CONEX} = process.env;
+const { DB_CONEX } = process.env;
 
 const sequelize = new Sequelize(
-  `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/aquiestoydb`,
-  //DB_DEPLOY,
+  DB_CONEX,
+  // `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/aquiestoydb`,
+
   {
     logging: false,
     native: false,

@@ -8,12 +8,14 @@ import {
   PUT_SUPERVISOR,
   POST_ASSIGN_SUPERVISOR_SHIFT,
   POST_ASSIGN_COMPANION_SHIFT,
+  SET_LOADING,
 } from "../Actions/action-types";
 //Acá pongo los GET_ONE y los PUT modificando user;
 const initialState = {
   isAuthenticated: false,
   user: {},
   error: null,
+  loading: false,
 };
 
 const authReducer = (state = initialState, action) => {
@@ -69,6 +71,11 @@ const authReducer = (state = initialState, action) => {
       return{
         ...state,
         user: action.payload
+      }
+    case SET_LOADING:
+      return {
+        ...state,
+        loading: action.payload
       }
        
     default:

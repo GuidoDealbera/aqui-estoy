@@ -1,4 +1,4 @@
-const { Companion, CityTimeZone } = require("../../db");
+const { Companion, CityTimeZone, CompanionShift } = require("../../db");
 const bcrypt = require("bcrypt");
 
 //Controlador para verificar login de un acompañante y llenar el perfil
@@ -6,7 +6,7 @@ const getOneCompanion = async (req, res) => {
   try {
     const { email } = req.body;
       let companion;
-      companion = await Companion.findOne({ where: { email } });
+      companion = await Companion.findOne({ where: { email } ,  include: [{ model: CompanionShift ,  through: { attributes: [] }}]});
       rol = "Companion";
       if (companion && companion.isActive) {
         //Retorna un acompañante con todos sus datos (Sirve para cargar el perfil)
