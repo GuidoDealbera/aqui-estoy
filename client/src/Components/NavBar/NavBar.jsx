@@ -21,6 +21,7 @@ import { useNavigate } from 'react-router-dom';
 import { logOut } from '../../Redux/Actions/viewActions';
 import { toast } from 'sonner';
 import { toastWarning } from '../../Redux/Actions/alertStyle';
+import ModalLogin from '../VentanaLogin/ModalLogin';
 
 const NavButton = (props) => (
   <Button
@@ -142,7 +143,7 @@ export default function NavBar(props) {
                   Cerrar Sesión
                 </NavButton>
               )}
-              {showLogin && <LoginForm handleMouseLeave={handleMouseLeave} />}
+              {showLogin && <ModalLogin handleMouseLeave={handleMouseLeave} showLogin={showLogin} setShowLogin={setShowLogin} />}
             </Box>
           </Grid>
         </Grid>
