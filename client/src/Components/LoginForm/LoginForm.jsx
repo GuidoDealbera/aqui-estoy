@@ -97,6 +97,7 @@ const LoginForm = ({ handleMouseLeave }) => {
     label="Correo electrónico"
     name="email"
     type="email"
+
     error={!!(ErrorMessage.name)}
     helperText={<ErrorMessage name="email" />}
 
@@ -110,6 +111,7 @@ const LoginForm = ({ handleMouseLeave }) => {
     label="Contraseña"
     name="password"
     type="password"
+
     error={!!(ErrorMessage.name)}
     helperText={<ErrorMessage name="password" />}
 
