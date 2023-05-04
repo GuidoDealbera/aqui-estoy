@@ -1,5 +1,4 @@
-const { Supervisor, CityTimeZone, SupervisorShift } = require("../../db");
-const bcrypt = require("bcrypt");
+const { Supervisor, CityTimeZone, SupervisorShift, Companion } = require("../../db");
 
 //Controlador para verificar login de un Supervisor y llenar el perfil
 const getOneSupervisor = async (req, res) => {
@@ -8,7 +7,18 @@ const getOneSupervisor = async (req, res) => {
     //Se obtiene el email y contraseña desde el formulario
     const { email } = req.body;
     //Se busca el supervisor por email
-    supervisor = await Supervisor.findOne({ where: { email } ,  include: [{ model: SupervisorShift ,  through: { attributes: [] }}]});
+    supervisor = await Supervisor.findOne({
+      where: { email: email},
+      include: [
+        {
+          model: SupervisorShift,
+          through: { attributes: [] },
+        },
+        {
+          model: Companion,
+        },
+      ],
+    });
     //Si existe el supervisor y la contraseña coincide se procede a responder
     if (supervisor && supervisor.isActive) {
       //Retorna un supervisor con todos sus datos (Sirve para cargar el perfil)

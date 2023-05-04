@@ -1,5 +1,4 @@
-const { Supervisor } = require('../../db');
-const { Companion } = require('../../db');
+const { Supervisor, Companion, SupervisorShift } = require('../../db');
 
 const postSupervisorCharge = async (req, res) => {
   try {
@@ -18,12 +17,17 @@ const postSupervisorCharge = async (req, res) => {
     await companion.setSupervisor(supervisor);
     }
     //Se devuelve Supervisor con Companion ya asignado
-    const supervisorUpdate = await Supervisor.findByPk(idSupervisor, { include: Companion });
-
+    const supervisorUpdate = await Supervisor.findByPk(idSupervisor,{include: [
+      {
+        model: Companion,
+      },
+      {
+        model: SupervisorShift,
+      },
+    ]});
     res.status(200).json(supervisorUpdate);
   } catch (error) {
     res.status(500).send({ error: error.message });
   }
 };
-
 module.exports = postSupervisorCharge;

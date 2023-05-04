@@ -1,4 +1,4 @@
-const { Supervisor } = require("../../db");
+const { Supervisor, Companion, SupervisorShift } = require("../../db");
 
 //Controlador para modificar un supervisor
 const putSupervisor = async (req, res) => {
@@ -21,7 +21,7 @@ const putSupervisor = async (req, res) => {
   const newDate = new Date(birthdayDate);
   try {
     //Realiza un update del supervisor con ese id en la bd
-    const result = await Supervisor.update(
+     await Supervisor.update(
       {
         name,
         lastName,
@@ -39,7 +39,17 @@ const putSupervisor = async (req, res) => {
     );
       
     // Encuentra el supervisor actualizado
-    const supervisor = await Supervisor.findOne({ where: { id: id } });
+    const supervisor = await Supervisor.findByPk(id,{
+      include: [
+        {
+          model: SupervisorShift,
+          through: { attributes: [] },
+        },
+        {
+          model: Companion,
+        },
+      ],
+    });
     // Devuelve el supervisor actualizado
     res.status(200).json(supervisor);
   } catch (error) {

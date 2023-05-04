@@ -2,7 +2,6 @@ const { Supervisor } = require("../../db");
 const bcrypt = require("bcrypt");
 
 //Controlador para crear un Supervisor
-
 const postSupervisor = async (req, res) => {
   try {
     const { email, password, rol } = req.body;
@@ -15,13 +14,11 @@ const postSupervisor = async (req, res) => {
       const startingSuperAdmin = await Supervisor.create({
         email: email,
         password: passwordHash,
-        isSuperAdmin: true,
+        rol: rol,
       });
       return res.status(200).json(startingSuperAdmin);
     }
-
     //El superAdmin debe ingresar email y contraseña para poder crear un nuevo supervisor
-
     if (email && password) {
       // Generar hash de la contraseña
       const passwordHash = await bcrypt.hashSync(password, 10);

@@ -1,5 +1,5 @@
 const {SupervisorShift} = require("../../db");
-const { Supervisor } = require("../../db");
+const { Supervisor, Companion } = require("../../db");
 
 const assignSupervisorShift = async (req, res) => {
     try {
@@ -10,7 +10,15 @@ const assignSupervisorShift = async (req, res) => {
      await supervisor.addSupervisorShifts(shift);
      const updatedSupervisor = await Supervisor.findOne({
             where: { id: idSupervisor},
-            include: [{ model: SupervisorShift ,  through: { attributes: [] }}],
+            include: [
+              {
+                model: SupervisorShift,
+                through: { attributes: [] },
+              },
+              {
+                model: Companion,
+              },
+            ],
           });
      res.json(updatedSupervisor);
     } catch (error) {
