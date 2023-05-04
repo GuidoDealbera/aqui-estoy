@@ -70,9 +70,9 @@ export const postAssignSupervisorShift = (idSupervisor, idShift, rol) => {
         })
       ).data;
       dispatch({ type: POST_ASSIGN_SUPERVISOR_SHIFT, payload: response });
-      alert("Tu turno ha sido confirmado");
+      toast.success("Tu turno ha sido confirmado", toastSuccess);
     } catch (error) {
-      alert("No fue posible asignar el turno");
+      toast.error("No fue posible asignar el turno", toastError);
     }
   };
 };
@@ -87,9 +87,9 @@ export const postAssignCompanionShift = (idCompanion, idShift, rol) => {
         })
       ).data;
       dispatch({ type: POST_ASSIGN_COMPANION_SHIFT, payload: response });
-      alert("Tu turno ha sido confirmado");
+      toast.success("Tu turno ha sido confirmado", toastSuccess);
     } catch (error) {
-      alert("No fue posible asignar el turno");
+      toast.error("No fue posible asignar el turno", toastError);
     }
   };
 };
@@ -99,9 +99,9 @@ export const postSupervisorCharge = (idSupervisor, arrayCompanion) =>{
     try{  
       const response = (await axios.post(`/postSupervisorCharge/${idSupervisor}`, {arrayCompanion})).data;
       dispatch({type:POST_SUPERVISOR_CHARGE, payload:response})
-      alert("Los acompañantes han sido correctamente asignados");
+      toast.success("Los acompañantes han sido correctamente asignados", toastSuccess);
     } catch(error){
-      alert("No fue posible asignar los acompañantes");
+      toast.error("No fue posible asignar los acompañantes", toastError);
     }
   }
 }
