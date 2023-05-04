@@ -22,6 +22,20 @@ import { logOut } from '../../Redux/Actions/viewActions';
 import { toast } from 'sonner';
 import { toastWarning } from '../../Redux/Actions/alertStyle';
 
+const NavButton = (props) => (
+  <Button
+    {...props}
+    sx={{
+      color: 'inherit',
+      textTransform: 'none',
+      '&:hover': {
+        backgroundColor: 'rgba(0, 0, 0, 0.1)',
+        color: 'primary.main',
+      },
+    }}
+  />
+);
+
 export default function NavBar(props) {
   const {user} = useSelector((state) => state.auth);
   const {id} = user;
@@ -84,12 +98,9 @@ export default function NavBar(props) {
           <Grid item>
             <Box display="flex">
               <Hidden smDown>
-                {/* <Button variant="text" name="about" onClick={handleClick}>
-                  Acerca de
-                </Button> */}
-                <Button variant="text" name="calendar" onClick={handleClick}>
+                <NavButton variant="text" name="calendar" onClick={handleClick}>
                   Calendario
-                </Button>
+                </NavButton>
               </Hidden>
               <Hidden mdUp>
                 <IconButton onClick={handleMenuClick}>
@@ -121,14 +132,14 @@ export default function NavBar(props) {
           <Grid item>
             <Box>
               {location.pathname !== `/profile/${id}` && (
-                <Button name="session" onClick={handleMouseEnter}>
+                <NavButton name="session" onClick={handleMouseEnter}>
                   {Object.entries(user).length === 0 ? 'Iniciar sesión' : 'Perfil'}
-                </Button>
+                </NavButton>
               )}
               {location.pathname !== '/' && (
-                <Button variant="text" name="logout" onClick={closeSession}>
+                <NavButton variant="text" name="logout" onClick={closeSession}>
                   Cerrar Sesión
-                </Button>
+                </NavButton>
               )}
               {showLogin && <LoginForm handleMouseLeave={handleMouseLeave} />}
             </Box>
@@ -137,4 +148,4 @@ export default function NavBar(props) {
       </Toolbar>
     </AppBar>
   );
-              }
+}
