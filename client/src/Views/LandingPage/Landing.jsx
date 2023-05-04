@@ -58,8 +58,8 @@ export default function Landing(props) {
             </Typography>
           </Slide>
           <Slide direction="up" in={true} timeout={1000}>
-            <Typography variant="subtitle1" align="left" gutterBottom>
-              Escríbenos para recibir apoyo emocional, humano y gratuito por Whatsapp ante lo que sea que estés viviendo.
+            <Typography variant="subtitle1" align="center" gutterBottom>
+              Te ayudamos a que ayudes
             </Typography>
           </Slide>
         </Container>
