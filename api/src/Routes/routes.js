@@ -67,7 +67,6 @@ router.post("/getBothRoles", requireLogin, getBothRoles);
 router.get("/getAllSupervisorShift", getAllSupervisorShift);
 router.post(
   "/postSupervisorCharge/:idSupervisor",
-  requireSuperAdmin,
   postSupervisorCharge
 );
 router.get("/getSupervisorCharge/:idSupervisor", getSupervisorCharge);

@@ -5,7 +5,7 @@ import {
   getAllCompanions,
   getAllSupervisors,
 } from "../../Redux/Actions/viewActions";
-import landingImage from "../../img/landing.png";
+import landingImage from "../../img/contencion-emocional-aqui-estoy-1024x683.jpeg";
 import {
   Button,
   Container,
@@ -13,7 +13,15 @@ import {
   Box,
   CardMedia,
   Grid,
+  Slide,
+  Fade,
 } from "@mui/material";
+import { styled } from "@mui/system";
+
+const CustomTypography = styled(Typography)(({ theme }) => ({
+  color: "#008000", // Verde fuerte
+  fontWeight: 600,
+}));
 
 export default function Landing(props) {
   const navigate = useNavigate();
@@ -24,16 +32,13 @@ export default function Landing(props) {
     dispatch(getAllSupervisors());
   }, []);
 
-  // const toProfile = () => {
-  //   navigate(`/profile/Chiringuito`);
-  // };
-
   return (
     <Grid
       container
       sx={{
         minHeight: "100vh",
         width: "100%",
+        background: "linear-gradient(135deg, #FFFFFF 50%, #F5F5F5 50%)",
       }}
     >
       <Grid
@@ -45,6 +50,7 @@ export default function Landing(props) {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
+          p: 4,
         }}
       >
         <Container
@@ -55,24 +61,16 @@ export default function Landing(props) {
             justifyContent: "center",
           }}
         >
-          <Typography variant="h3" align="left" gutterBottom>
-            Aquí estoy! Plataforma de turnos
-          </Typography>
-
-          <Typography variant="h5" align="left" gutterBottom>
-            En esta plataforma podrás agendar tu turno para tu voluntariado!.
-          </Typography>
-
-          <Typography variant="h5" align="left" gutterBottom>
-            Si sos supervisor esta plataforma te servira para administrar los
-            voluntarios a tu cargo.
-          </Typography>
-
-          {/* <Box mt={4} textAlign="left">
-            <Button variant="contained" color="primary" onClick={toProfile}>
-              Comenzar
-            </Button>
-          </Box> */}
+          <Slide direction="down" in={true} timeout={1000}>
+            <CustomTypography variant="h3" align="left" gutterBottom>
+              Aquí estoy! Plataforma de turnos
+            </CustomTypography>
+          </Slide>
+          <Slide direction="up" in={true} timeout={1000}>
+            <CustomTypography variant="subtitle1" align="center" gutterBottom>
+              Te ayudamos a que ayudes
+            </CustomTypography>
+          </Slide>
         </Container>
       </Grid>
       <Grid
@@ -85,19 +83,21 @@ export default function Landing(props) {
           overflow: "hidden",
         }}
       >
-        <CardMedia
-          component="img"
-          image={landingImage}
-          alt="Landing illustration"
-          sx={{
-            position: "absolute",
-            top: 0,
-            right: 0,
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-          }}
-        />
+        <Fade in={true} timeout={2000}>
+          <CardMedia
+            component="img"
+            image={landingImage}
+            alt="Landing illustration"
+            sx={{
+              position: "absolute",
+              top: 0,
+              right: 0,
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+            }}
+          />
+        </Fade>
       </Grid>
     </Grid>
   );
