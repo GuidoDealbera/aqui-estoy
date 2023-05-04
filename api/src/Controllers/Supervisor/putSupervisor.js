@@ -15,7 +15,6 @@ const putSupervisor = async (req, res) => {
     profession,
     studies,
     gender,
-    rol,
   } = req.body;
   //Recibe id por params
   const { id } = req.params;
@@ -41,13 +40,8 @@ const putSupervisor = async (req, res) => {
       
     // Encuentra el supervisor actualizado
     const supervisor = await Supervisor.findOne({ where: { id: id } });
-    const response = {
-      ...supervisor.toJSON(),
-      rol: rol,
-    };
-
     // Devuelve el supervisor actualizado
-    res.status(200).json(response);
+    res.status(200).json(supervisor);
   } catch (error) {
     res.status(400).json(error.message);
   }

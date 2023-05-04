@@ -14,12 +14,9 @@ const downgradeSupervisor = async (req, res) => {
     if (companion) {
       companion.isActive = true;
       await companion.save();
-      const response = {
-        ...companion.toJSON(),
-        rol: rol,
-      };
-      res.status(200).json(response);
-      return;
+    
+      return res.status(200).json(companion);
+  
     } else if (email && !supervisor.isActive && rol === "Companion1") {
       // Generar hash de la contraseña
       const passwordHash = await bcrypt.hashSync(newPassword, 10);
@@ -27,29 +24,20 @@ const downgradeSupervisor = async (req, res) => {
       const newCompanion = await Companion.create({
         email: email,
         password: passwordHash,
-        isSuperCompanion: false,
+        rol:rol
       });
       //Retorna un objeto de tipo Supervisor con todos sus datos
-      const response = {
-        ...newCompanion.toJSON(),
-        rol: rol,
-      };
-      res.status(200).json(response);
+      res.status(200).json(newCompanion);
       return;
     } else if (email && !supervisor.isActive && rol === "Companion2") {
       const passwordHash = await bcrypt.hashSync(newPassword, 10);
        const newCompanion = await Companion.create({
         email: email,
         password: passwordHash,
-        isSuperCompanion: true,
+        rol:rol
       });
       //Retorna un objeto de tipo Supervisor con todos sus datos
-      const response = {
-        ...newCompanion.toJSON(),
-        rol: rol,
-      };
-      res.status(200).json(response);
-      return;
+      return res.status(200).json(newCompanion);
     } else {
       res.status(400).json({ error: "Faltan datos obligatorios" });
       return;

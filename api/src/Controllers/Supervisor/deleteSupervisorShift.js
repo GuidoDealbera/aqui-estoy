@@ -1,8 +1,8 @@
 const { Supervisor } = require("../../db");
 const deleteCompanionShift = async (req, res) => {
   try {
-    const { id, idShift } = req.body;
-    const supervisor = await Supervisor.findOne({ where: { id: id } });
+    const { idSupervisor, idShift } = req.body;
+    const supervisor = await Supervisor.findOne({ where: { id: idSupervisor } });
     if (supervisor) {
       supervisor.removeSupervisorShift(idShift);
       res.status(200).json("Turno eliminado");
