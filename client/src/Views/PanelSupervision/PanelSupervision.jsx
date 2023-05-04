@@ -271,7 +271,7 @@ export default function PanelSupervision() {
             </TableContainer>
             <PopOut setTrigger={setTogglePopOut} trigger={togglePopOut}>
                 <Button>
-                    <Typography variant="h1" onClick={()=>{navigate(`/profile/${popOutData.idPersona}`)}}>{popOutData.name}</Typography>
+                    <Typography variant="h1" onClick={()=>{navigate(`/profile/${popOutData.idPersona}/view`)}}>{popOutData.name}</Typography>
                 </Button>
                 <Typography variant="h1">{popOutData.email}</Typography>
                 <Button>

@@ -1,14 +1,15 @@
 import {
-  GET_ALL_COMPANIONS,
-  GET_ALL_SUPERVISORS,
-  GET_COMPANIONS_AT_CHARGE,
-  POST_COMPANION,
-  POST_SUPERVISOR,
-
-  GET_ALL_SUPERVISOR_SHIFT,
-  GET_ALL_COMPANION_SHIFT,
-  GET_ALL_COMPANION_SHIFT_ASSIGN,
-  GET_ALL_SUPERVISOR_SHIFT_ASSIGN,
+    GET_ALL_COMPANIONS,
+    GET_ALL_SUPERVISORS,
+    GET_COMPANIONS_AT_CHARGE,
+    POST_COMPANION,
+    POST_SUPERVISOR,
+    GET_ALL_SUPERVISOR_SHIFT,
+    GET_ALL_COMPANION_SHIFT,
+    GET_ALL_COMPANION_SHIFT_ASSIGN,
+    GET_ALL_SUPERVISOR_SHIFT_ASSIGN,
+    POST_SUPERVISOR_CHARGE,
+    GET_USER_BY_ID
 } from "../Actions/action-types";
 //Acá van los POST modificando a allCompanions y allSupervisors
 const initialState = {
@@ -17,11 +18,12 @@ const initialState = {
     companionAtCharge: [],
     allSupervisorShift: [],
     allCompanionShift: [],
-    allSupervisorShiftAssign : [],
+    allSupervisorShiftAssign: [],
     allCompanionShiftAssign: [],
+    viewUser: {}
 }
-const viewReducer = (state = initialState, {type, payload}) => {
-    switch(type){
+const viewReducer = (state = initialState, { type, payload }) => {
+    switch (type) {
         case GET_ALL_COMPANIONS:
             return {
                 ...state,
@@ -38,36 +40,55 @@ const viewReducer = (state = initialState, {type, payload}) => {
                 companionAtCharge: payload
             }
         case POST_COMPANION:
-            return{
+            return {
                 ...state,
                 allCompanions: [...state.allCompanions, payload]
             }
         case POST_SUPERVISOR:
-            return{
+            return {
                 ...state,
                 allSupervisors: [...state.allSupervisors, payload]
             }
         case GET_ALL_SUPERVISOR_SHIFT:
-            return{
+            return {
                 ...state,
                 allSupervisorShift: payload,
             }
         case GET_ALL_COMPANION_SHIFT:
-            return{
+            return {
                 ...state,
                 allCompanionShift: payload,
             }
         case GET_ALL_SUPERVISOR_SHIFT_ASSIGN:
-                return{
+            return {
+                ...state,
+                allSupervisorShiftAssign: payload,
+            }
+        case GET_ALL_COMPANION_SHIFT_ASSIGN:
+            return {
+                ...state,
+                allCompanionShiftAssign: payload,
+            }
+        case POST_SUPERVISOR_CHARGE:
+            const updatedSupervisorIndex = state.allSupervisors.findIndex(supervisor => supervisor.id === payload.id);
+            if (updatedSupervisorIndex !== -1) {
+                const updatedSupervisors = [...state.allSupervisors];
+                updatedSupervisors[updatedSupervisorIndex] = payload;
+                return {
                     ...state,
-                    allSupervisorShiftAssign: payload,
-                }
-         case GET_ALL_COMPANION_SHIFT_ASSIGN:
-                return{
+                    allSupervisors: updatedSupervisors,
+                };
+            } else {
+                return {
                     ...state,
-                    allCompanionShiftAssign: payload,
-                }
-                          
+                    allSupervisors: [...state.allSupervisors, payload],
+                };
+            }
+        case GET_USER_BY_ID:
+            return {
+                ...state,
+                viewUser: payload
+            }
         default:
             return {
                 ...state
