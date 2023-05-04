@@ -9,6 +9,7 @@ import PanelSupervision from "./Views/PanelSupervision/PanelSupervision";
 import axios from "axios";
 import CalendarCompanion from "./Components/Calendary/CalendarCompanion/CalendarCompanion";
 import CompanionsAtCharge from "./Components/Cards/CompanionsAtCharge";
+import ViewProfile from "./Components/ViewProfile/ViewProfile";
 //axios.defaults.baseURL = 'aquiestoyapi-production.up.railway.app';
 axios.defaults.baseURL = 'http://localhost:3001';
 
@@ -36,6 +37,7 @@ const App = () => {
         <Route path="/profile/:id" element={<Profiles />} />
         <Route path="/panel-supervision" element={<PanelSupervision />} />
         <Route path= "/companionsAtCharge" element={<CompanionsAtCharge/>}></Route>
+        <Route path="/profile/:id/view" element={<ViewProfile />} />
       </Routes>
       {location.pathname === "/" && <Footer />}
     </div>
