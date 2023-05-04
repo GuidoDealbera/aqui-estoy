@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "start": "nodemon -L",
+    "start": "node index.js",
+    "dev": "nodemon -L",
     "test": "mocha -w ./tests/**/*.spec.js"
   },
   "dependencies": {
