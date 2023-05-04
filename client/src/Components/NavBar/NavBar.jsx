@@ -28,9 +28,10 @@ const NavButton = (props) => (
     sx={{
       color: 'inherit',
       textTransform: 'none',
+      fontWeight: 'bold',
       '&:hover': {
         backgroundColor: 'rgba(0, 0, 0, 0.1)',
-        color: 'primary.main',
+        color: '#008000', // Verde fuerte
       },
     }}
   />

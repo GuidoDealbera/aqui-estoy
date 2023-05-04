@@ -11,7 +11,6 @@ const IconButton = styled(Box)(({ theme }) => ({
   justifyContent: "center",
   alignItems: "center",
   cursor: "pointer",
-  color: "#00C8B2",
   width: "auto",
   height: "auto",
   padding: theme.spacing(1),
@@ -20,12 +19,12 @@ const IconButton = styled(Box)(({ theme }) => ({
   transition: "background-color 0.3s",
 
   "&:hover": {
-    backgroundColor: "rgba(0, 200, 178, 0.1)",
+    backgroundColor: "rgba(0, 0, 0, 0.1)",
   },
 }));
 
 const iconVariants = {
-  hover: { scale: 1.2 },
+  hover: { scale: 1.2, rotate: 360 },
   tap: { scale: 0.95 },
 };
 
@@ -53,7 +52,7 @@ export default function Footer(props) {
         target="_blank"
         {...iconProps}
       >
-        <FacebookIcon />
+        <FacebookIcon htmlColor="#1877F2" />
       </IconButton>
       <IconButton
         component={motion.a}
@@ -61,7 +60,7 @@ export default function Footer(props) {
         target="_blank"
         {...iconProps}
       >
-        <InstagramIcon />
+        <InstagramIcon htmlColor="#E1306C" />
       </IconButton>
       <IconButton
         component={motion.a}
@@ -69,7 +68,7 @@ export default function Footer(props) {
         target="_blank"
         {...iconProps}
       >
-        <WhatsAppIcon />
+        <WhatsAppIcon htmlColor="#25D366" />
       </IconButton>
       <IconButton
         component={motion.a}
@@ -77,7 +76,7 @@ export default function Footer(props) {
         target="_blank"
         {...iconProps}
       >
-        <LinkIcon />
+        <LinkIcon htmlColor="#F0F0F0" />
       </IconButton>
     </Box>
   );
