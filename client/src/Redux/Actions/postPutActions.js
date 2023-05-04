@@ -99,9 +99,9 @@ export const postSupervisorCharge = (idSupervisor, arrayCompanion) =>{
     try{  
       const response = (await axios.post(`/postSupervisorCharge/${idSupervisor}`, {arrayCompanion})).data;
       dispatch({type:POST_SUPERVISOR_CHARGE, payload:response})
-      alert("El acompañante ha sido correctamente asignado");
+      alert("Los acompañantes han sido correctamente asignados");
     } catch(error){
-      alert("No fue posible asignar el acompañante");
+      alert("No fue posible asignar los acompañantes");
     }
   }
 }
