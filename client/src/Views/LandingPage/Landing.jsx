@@ -5,7 +5,7 @@ import {
   getAllCompanions,
   getAllSupervisors,
 } from "../../Redux/Actions/viewActions";
-import landingImage from "../../img/landing.png";
+import landingImage from "../../img/contencion-emocional-aqui-estoy-1024x683.jpeg";
 import {
   Button,
   Container,
@@ -13,6 +13,7 @@ import {
   Box,
   CardMedia,
   Grid,
+  Slide,
 } from "@mui/material";
 
 export default function Landing(props) {
@@ -23,10 +24,6 @@ export default function Landing(props) {
     dispatch(getAllCompanions());
     dispatch(getAllSupervisors());
   }, []);
-
-  // const toProfile = () => {
-  //   navigate(`/profile/Chiringuito`);
-  // };
 
   return (
     <Grid
@@ -55,24 +52,16 @@ export default function Landing(props) {
             justifyContent: "center",
           }}
         >
-          <Typography variant="h3" align="left" gutterBottom>
-            Aquí estoy! Plataforma de turnos
-          </Typography>
-
-          <Typography variant="h5" align="left" gutterBottom>
-            En esta plataforma podrás agendar tu turno para tu voluntariado!.
-          </Typography>
-
-          <Typography variant="h5" align="left" gutterBottom>
-            Si sos supervisor esta plataforma te servira para administrar los
-            voluntarios a tu cargo.
-          </Typography>
-
-          {/* <Box mt={4} textAlign="left">
-            <Button variant="contained" color="primary" onClick={toProfile}>
-              Comenzar
-            </Button>
-          </Box> */}
+          <Slide direction="down" in={true} timeout={1000}>
+            <Typography variant="h3" align="left" gutterBottom>
+              Aquí estoy! Plataforma de turnos
+            </Typography>
+          </Slide>
+          <Slide direction="up" in={true} timeout={1000}>
+            <Typography variant="subtitle1" align="left" gutterBottom>
+              Escríbenos para recibir apoyo emocional, humano y gratuito por Whatsapp ante lo que sea que estés viviendo.
+            </Typography>
+          </Slide>
         </Container>
       </Grid>
       <Grid
@@ -85,19 +74,21 @@ export default function Landing(props) {
           overflow: "hidden",
         }}
       >
-        <CardMedia
-          component="img"
-          image={landingImage}
-          alt="Landing illustration"
-          sx={{
-            position: "absolute",
-            top: 0,
-            right: 0,
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-          }}
-        />
+        <Slide direction="right" in={true} timeout={1000}>
+          <CardMedia
+            component="img"
+            image={landingImage}
+            alt="Landing illustration"
+            sx={{
+              position: "absolute",
+              top: 0,
+              right: 0,
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+            }}
+          />
+        </Slide>
       </Grid>
     </Grid>
   );
