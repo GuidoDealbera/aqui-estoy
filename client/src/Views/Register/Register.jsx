@@ -216,7 +216,13 @@ export default function Register() {
             }}>¿Estudias o trabajas en alguna de estas areas?</InputLabel>
             <Field as={Select} sx={styles.container.form.field} name="profession">
                 <MenuItem value="">Select an option</MenuItem>
-                <MenuItem value="Yes">Sí</MenuItem>
+                <MenuItem value="Psicólogo">Psicólogo</MenuItem>
+                <MenuItem value="Psiquiatra">Psiquiatra</MenuItem>
+                <MenuItem value="Counselor">Counselor</MenuItem>
+                <MenuItem value="Coach">Coach</MenuItem>
+                <MenuItem value="Asistente Social">Asistente Social</MenuItem>
+                <MenuItem value="Acompañante Espiritual">Acompañante Espiritual</MenuItem>
+                <MenuItem value="Estudiante">Estudiante</MenuItem>
                 <MenuItem value="No">No</MenuItem>
             </Field>
             <ErrorMessage name='profession'>
@@ -227,10 +233,11 @@ export default function Register() {
             <InputLabel>Estudios alcanzados</InputLabel>
             <Field as={Select} sx={styles.container.form.field} name="studies">
                 <MenuItem value="">Select an option</MenuItem>
-                <MenuItem value="Primario">Educación Inicial</MenuItem>
-                <MenuItem value="Secundario">Educación Primaria</MenuItem>
-                <MenuItem value="Terciario">Educación Secundaria</MenuItem>
-                <MenuItem value="Superior">Educación Superior</MenuItem>
+                
+                <MenuItem value="Secundario">Secundario</MenuItem>
+                <MenuItem value="Terciario">Terciario</MenuItem>
+                <MenuItem value="Universitario">Universitario</MenuItem>
+                <MenuItem value="Postgrado">Postgrado</MenuItem>
             </Field>
             <ErrorMessage name='studies'>
                 {msg => <Typography color="error">{msg}</Typography>}
@@ -240,10 +247,13 @@ export default function Register() {
             <InputLabel>¿Con qué genero te identificas?</InputLabel>
             <Field as={Select} sx={styles.container.form.field} name="gender">
                 <MenuItem value="">Select an option</MenuItem>
-                <MenuItem value="Femenino">Femenino</MenuItem>
-                <MenuItem value="Masculino">Masculino</MenuItem>
-                <MenuItem value="No binario">No binario</MenuItem>
-                <MenuItem value="Otro">Otro</MenuItem>
+                <MenuItem value="Mujer">Mujer</MenuItem>
+                <MenuItem value="Mujer-trans">Mujer-trans</MenuItem>
+                <MenuItem value="Hombre">Hombre</MenuItem>
+                <MenuItem value="Hombre-trans">Hombre-trans</MenuItem>
+                <MenuItem value="No-binario">No-binario</MenuItem>
+                <MenuItem value="Otra identidad">Otra identidad</MenuItem>
+                <MenuItem value="Prefiero no responder">Prefiero no responder</MenuItem>
             </Field>
             <ErrorMessage name='gender'>
                 {msg => <Typography color="error">{msg}</Typography>}
