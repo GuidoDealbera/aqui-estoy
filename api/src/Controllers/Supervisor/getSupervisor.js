@@ -1,10 +1,10 @@
-const { Supervisor ,SupervisorShift} = require("../../db");
+const { Supervisor ,SupervisorShift, Companion} = require("../../db");
 
 //Controlador para traer todos los Supervisores de la bd
 const getSupervisor = async (req,res)=>{
     try{
         //Buscar todos los Supervisores guardados en bd
-        const results = await Supervisor.findAll( {include: [{ model: SupervisorShift, through: { attributes: [] } }],}
+        const results = await Supervisor.findAll( {include: [{ model: SupervisorShift, through: { attributes: [] } }, {model: Companion}],}
             );
         //Retorna todos los supervisores como un array de objetos
         res.status(200).json(results)
