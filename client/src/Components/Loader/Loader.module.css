@@ -1,0 +1,27 @@
+.loader{
+    display: block;
+    position: relative;
+    height: 8px;
+    width: 100%;
+    border: 1px solid #fff;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .loader:after{
+    content: '';
+    position: absolute;
+    left: 50;
+    top: 0;
+    height: 100%;
+    width: 0;
+    background: #00C8B2;
+    animation: 2s prog linear infinite;
+  }
+  
+  @keyframes prog {
+    to  {   width: 100%;}
+  }
+  
+  .div{
+    justify-content: center;
+  }
