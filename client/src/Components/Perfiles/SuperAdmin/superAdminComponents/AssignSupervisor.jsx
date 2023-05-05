@@ -6,7 +6,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import Button from '@mui/material/Button';
 import { useDispatch, useSelector } from 'react-redux';
-import { postSupervisorCharge } from '../../../../Redux/Actions/postPutActions';
+import { postSupervisorCharge , putSupervisorCharge} from '../../../../Redux/Actions/postPutActions';
 
 const AssignSupervisor = () => {
   const dispatch = useDispatch();
@@ -19,19 +19,21 @@ const AssignSupervisor = () => {
   const [selectAll, setSelectAll] = useState(false);
 
   const handleSelectAll = () => {
-    setSelectAll(true);
-    const allCompanionIds = allCompanions.map((companion) => companion.id);
-    setSelectedCompanions(allCompanionIds);
+    if (selectAll) {
+      setSelectAll(false);
+      setSelectedCompanions([]);
+    } else {
+      setSelectAll(true);
+      const allCompanionIds = allCompanions.map((companion) => companion.id);
+      setSelectedCompanions(allCompanionIds);
+    }
   };
-  const handleDeleteAll = () => {
-    setSelectAll(false);
-    setSelectedCompanions([]);
-  };
+
   
   const assignCompanions = () => {
     if (selectedSupervisor) {
       if (selectedCompanions.length === 0) {
-        console.log('Selecciona al menos un acompañante');
+        alert('Selecciona al menos un acompañante');
       } else {
         dispatch(postSupervisorCharge(selectedSupervisor, selectedCompanions));
         console.log(
@@ -42,6 +44,24 @@ const AssignSupervisor = () => {
       console.log('Selecciona un supervisor');
     }
   };
+  const putCompanions = () => {
+    console.log(selectedSupervisor);
+    console.log(selectedCompanions);
+    
+    if (selectedSupervisor) {
+      if (selectedCompanions.length === 0) {
+        alert('Selecciona al menos un acompañante');
+      } else {
+        dispatch(putSupervisorCharge(selectedSupervisor, selectedCompanions));
+        console.log(
+          `Acompañantes ${selectedCompanions.join(', ')} eliminados del supervisor ${selectedSupervisor}`
+        );
+      }
+    } else {
+      console.log('Selecciona un supervisor');
+    }
+  };
+
 
   return (
     <Box>
@@ -82,183 +102,12 @@ const AssignSupervisor = () => {
           </Select>
         </FormControl>
       </Box>
-      <Button onClick={handleSelectAll} variant="outlined"> Seleccionar todos los acompañantes </Button> <br></br><br></br>
-      <Button onClick={handleDeleteAll} variant="outlined"> Deseleccionar todos los acompañantes </Button><br></br><br></br>
-      <Button onClick={assignCompanions} variant="contained" color="primary"> Asignar Acompañantes </Button>
+      <Button onClick={handleSelectAll} variant="outlined"> Todos los acompañantes </Button> 
+      <Button onClick={assignCompanions} variant="contained" color="primary"> Asignar Acompañantes a cargo </Button>
+      <Button onClick={putCompanions} variant="contained" color="primary"> Eliminar Acompañantes a cargo </Button>
+
     </Box>
   );
 };
 
 export default AssignSupervisor;
-
-
-/*import React, { useState } from 'react';
-import Box from '@mui/material/Box';
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
-import Button from '@mui/material/Button';
-import { useDispatch, useSelector } from 'react-redux';
-import { postSupervisorCharge } from  '../../../../Redux/Actions/postPutActions';
-
-const AssignSupervisor = () => {
-
-  const dispatch = useDispatch();
-
-  const {allSupervisors} = useSelector(state => state.view);
-  const {allCompanions} = useSelector(state => state.view);
-
-  const [selectedSupervisor, setSelectedSupervisor] = useState('');
-  const [selectedCompanion, setSelectedCompanion] = useState('');
-
-  const assignCompanion = () => {
-    if (selectedSupervisor) {
-      if (selectedCompanion === 'all') {
-        const allCompanionIds = allCompanions.map(companion => companion.id);
-        dispatch(postSupervisorCharge(selectedSupervisor, allCompanionIds));
-        console.log(`Todos los acompañantes asignados al supervisor ${selectedSupervisor}`);
-      } else if (selectedCompanion) {
-        dispatch(postSupervisorCharge(selectedSupervisor, [selectedCompanion]));
-        console.log(`Acompañante ${selectedCompanion} asignado al supervisor ${selectedSupervisor}`);
-      } else {
-        console.log('Selecciona un acompañante');
-      }
-    } else {
-      console.log('Selecciona un supervisor');
-    }
-  };
-  
-  return (
-    <Box>
-      <h2>Asignar Supervisor</h2>
-      <Box marginBottom={2}>
-        <FormControl fullWidth>
-          <InputLabel>Supervisor</InputLabel>
-          <Select
-            value={selectedSupervisor}
-            onChange={(e) => setSelectedSupervisor(e.target.value)}
-            label="Supervisor"
-          >
-            <MenuItem value="">
-              <em>Selecciona un supervisor</em>
-            </MenuItem>
-            {allSupervisors.map((supervisor) => (
-              <MenuItem key={supervisor.id} value={supervisor.id}>
-                {supervisor.name}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </Box>
-      <Box marginBottom={2}>
-        <FormControl fullWidth>
-          <InputLabel>Acompañante</InputLabel>
-          <Select
-            value={selectedCompanion}
-            onChange={(e) => setSelectedCompanion(e.target.value)}
-            label="Acompañante"
-          >
-            <MenuItem value="">
-              <em>Selecciona un acompañante</em>
-            </MenuItem>
-            <MenuItem value="all">
-              Seleccionar todos los acompañantes
-            </MenuItem>
-            {allCompanions.map((companion) => (
-              <MenuItem key={companion.id} value={companion.id}>
-                {companion.name}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </Box>
-      <Button onClick={assignCompanion} variant="contained" color="primary">
-        Asignar Acompañante
-      </Button>
-    </Box>
-  );
-};
-
-export default AssignSupervisor;
-
-/*
-import React, { useState } from 'react';
-import Box from '@mui/material/Box';
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
-import Button from '@mui/material/Button';
-import { useDispatch, useSelector } from 'react-redux';
-import { postSupervisorCharge } from  '../../../../Redux/Actions/postPutActions';
-
-const AssignSupervisor = () => {
-
-  const dispatch = useDispatch();
-
-  const {allSupervisors} = useSelector(state => state.view);
-  const {allCompanions} = useSelector(state => state.view);
-
-  const [selectedSupervisor, setSelectedSupervisor] = useState('');
-  const [selectedCompanion, setSelectedCompanion] = useState('');
-
-  const assignCompanion = () => {
-    if (selectedSupervisor && selectedCompanion) {
-      dispatch(postSupervisorCharge(selectedSupervisor, [selectedCompanion]));      
-      console.log(`Acompañante ${selectedCompanion} asignado al supervisor ${selectedSupervisor}`);
-    } else {
-      console.log('Selecciona un supervisor y un acompañante');
-    }
-  };
-  
-  return (
-    <Box>
-      <h2>Asignar Supervisor</h2>
-      <Box marginBottom={2}>
-        <FormControl fullWidth>
-          <InputLabel>Supervisor</InputLabel>
-          <Select
-            value={selectedSupervisor}
-            onChange={(e) => setSelectedSupervisor(e.target.value)}
-            label="Supervisor"
-          >
-            <MenuItem value="">
-              <em>Selecciona un supervisor</em>
-            </MenuItem>
-            {allSupervisors.map((supervisor) => (
-              <MenuItem key={supervisor.id} value={supervisor.id}>
-                {supervisor.name}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </Box>
-      <Box marginBottom={2}>
-        <FormControl fullWidth>
-          <InputLabel>Acompañante</InputLabel>
-          <Select
-            value={selectedCompanion}
-            onChange={(e) => setSelectedCompanion(e.target.value)}
-            label="Acompañante"
-          >
-            <MenuItem value="">
-              <em>Selecciona un acompañante</em>
-            </MenuItem>
-            {allCompanions.map((companion) => (
-              <MenuItem key={companion.id} value={companion.id}>
-                {companion.name}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </Box>
-      <Button onClick={assignCompanion} variant="contained" color="primary">
-        Asignar Acompañante
-      </Button>
-    </Box>
-  );
-};
-
-export default AssignSupervisor;
-*/

@@ -9,7 +9,8 @@ import {
     GET_ALL_COMPANION_SHIFT_ASSIGN,
     GET_ALL_SUPERVISOR_SHIFT_ASSIGN,
     POST_SUPERVISOR_CHARGE,
-    GET_USER_BY_ID
+    GET_USER_BY_ID,
+    PUT_SUPERVISOR_CHARGE,
 } from "../Actions/action-types";
 //Acá van los POST modificando a allCompanions y allSupervisors
 const initialState = {
@@ -82,9 +83,24 @@ const viewReducer = (state = initialState, { type, payload }) => {
                 return {
                     ...state,
                     allSupervisors: [...state.allSupervisors, payload],
-                };
-            }
-        case GET_USER_BY_ID:
+           };
+       }
+       case PUT_SUPERVISOR_CHARGE:
+        const putSupervisorIndex = state.allSupervisors.findIndex(supervisor => supervisor.id === payload.id);
+        if (putSupervisorIndex !== -1) {
+            const putSupervisors = [...state.allSupervisors];
+            putSupervisors[putSupervisorIndex] = payload;
+            return {
+                ...state,
+                allSupervisors: putSupervisors,
+            };
+        } else {
+            return {
+                ...state,
+                allSupervisors: [...state.allSupervisors],
+       };
+   }
+         case GET_USER_BY_ID:
             return {
                 ...state,
                 viewUser: payload
