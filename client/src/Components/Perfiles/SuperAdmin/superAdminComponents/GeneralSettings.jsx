@@ -41,7 +41,7 @@ const GeneralSettings = () => {
       Configuración General</Typography>
       <Box sx={{margin:"25vw", marginTop:5}}>
       <StyledInputContainer>
-        <StyledLabel>Número máximo de acompañantes por turno</StyledLabel>
+        <Typography variant='h6'>Número máximo de acompañantes por turno</Typography>
         <TextField
           type="number"
           value={maxAccompanists}
@@ -50,12 +50,12 @@ const GeneralSettings = () => {
         />
       </StyledInputContainer>
       <StyledInputContainer>
-        <StyledLabel>
+        <Typography variant='h6'>
           Número máximo de acompañantes en un turno específico
-        </StyledLabel>
+        </Typography>
         <div>
           <label>
-            <StyledLabel>Día:</StyledLabel>
+            <Typography variant='h6'>Día:</Typography>
             <TextField
               type="text"
               name="day"
@@ -67,7 +67,7 @@ const GeneralSettings = () => {
         </div>
         <div>
           <label>
-            <StyledLabel>Horario:</StyledLabel>
+            <Typography variant='h6'>Horario:</Typography>
             <TextField
               type="text"
               name="hours"
@@ -79,7 +79,7 @@ const GeneralSettings = () => {
         </div>
         <div>
           <label>
-            <StyledLabel>Máximo:</StyledLabel>
+            <Typography variant='h6'>Máximo:</Typography>
             <TextField
               type="number"
               name="max"
