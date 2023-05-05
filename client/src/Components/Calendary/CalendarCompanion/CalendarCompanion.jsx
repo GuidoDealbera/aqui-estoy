@@ -1,15 +1,22 @@
 import { useDispatch, useSelector } from "react-redux"
-import { getAllSupervisorShift } from "../../../Redux/Actions/viewActions"
+import { getAllCompanionShift } from "../../../Redux/Actions/viewActions"
 import { Container, Row, Col, Button, Modal } from 'react-bootstrap';
 import { useState } from "react";
 import CalendarPopOut from "../CalendarPopOut";
 import calendar from "./CalendarCompanion.css"
 
 const CalendarCompanion=()=>{
-    let shifts=useSelector(state=>state.view.allSupervisorShift)
+    let shifts=useSelector(state=>state.view.allCompanionShift)
+    console.log(shifts);
     const user=useSelector(state=>state.auth.user)
     const[togglePopOut,setTogglePopOut]=useState(false)
-    const[shift,setShift]=useState({})
+    const[shift,setShift]=useState({
+      id:"",
+      day:"",
+      time:"",
+      timezone:""
+
+    })
     const[rol,setRol]=useState(user.rol)
     const dispatch=useDispatch()
     shifts=shifts.map((shift)=>{
@@ -57,7 +64,7 @@ const CalendarCompanion=()=>{
         })
         const days = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'];
     if(shifts.length===0){
-        dispatch(getAllSupervisorShift())
+        dispatch(getAllCompanionShift())
     }
     let hours=[]
     if(user.rol==="Acompañante"){
@@ -67,27 +74,19 @@ const CalendarCompanion=()=>{
    
     }
   if(user&&user.rol==="Companion"||user.isSuperCompanion){
-
-hours = Array.from({ length: 24 }, (_, i) => {
-    if(i<9){
-        return `0${i}:00-0${i+1}:00`
-    }
-    if(i===9){
-        return `0${i}:00-${i+1}:00`
-    }
- 
-    return `${i}:00-${i===23?"00":i+1}:00`
-});
-
+hours=shifts.map(shift=>shift.time)
+hours =hours.slice(0,25)
 }
 
 
     const handleClickCell=(hour,day)=>{
+     
       let found = shifts.find(shift=>shift.time===hour&&shift.day===day)
       setTogglePopOut(!togglePopOut)
       setShift(found)
 
     }
+    // console.log(shift);
 return  <Container className="calendar-container">
       <table className="calendar-table">
         <thead>
@@ -102,13 +101,36 @@ return  <Container className="calendar-container">
           {hours.map((hour) => (
             <tr key={hour}>
               <td className="hour">{hour}</td>
-              {days.map((day) => (
+              {days.map((day,index) => {
+            if(user.CompanionShifts===undefined){
+              return (
+                <td 
+                  onClick={()=>handleClickCell(hour,day)}
+                >
+                -----
+                </td>
+              )
+            }else{
+                const found=user.CompanionShifts.find(shift=>shift.day===index&&shift.time===hour)
+          if(found){
+             return (
+              <td id={found.id} className="reserved"
+                onClick={()=>alert("Ya tienes este turno asignado")}
+              >
+            Turno reservado
+              </td>
+            )
+          }
+            }
+        
+                return (
                 <td 
                   onClick={()=>handleClickCell(hour,day)}
                 >
               -----
                 </td>
-              ))}
+              )}
+              )}
             </tr>
           ))}
         </tbody>
