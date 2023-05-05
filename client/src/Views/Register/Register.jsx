@@ -136,7 +136,7 @@ export default function Register() {
         </Box>
         <Box>
             <InputLabel>Pais de residencia actual</InputLabel>
-            <Field component={CountrySelect} name="residence">
+            <Field component={CountrySelect} name="country">
             </Field>
             <ErrorMessage name='country'>
                 {msg => <Typography color="error">{msg}</Typography>}

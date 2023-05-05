@@ -5,6 +5,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import Button from '@mui/material/Button';
+import { Grid, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { postSupervisorCharge , putSupervisorCharge} from '../../../../Redux/Actions/postPutActions';
 
@@ -29,8 +30,7 @@ const AssignSupervisor = () => {
     }
   };
 
-  
-  const assignCompanions = () => {
+    const assignCompanions = () => {
     if (selectedSupervisor) {
       if (selectedCompanions.length === 0) {
         alert('Selecciona al menos un acompañante');
@@ -43,7 +43,7 @@ const AssignSupervisor = () => {
     } else {
       console.log('Selecciona un supervisor');
     }
-  };
+};
   const putCompanions = () => {
     console.log(selectedSupervisor);
     console.log(selectedCompanions);
@@ -62,11 +62,13 @@ const AssignSupervisor = () => {
     }
   };
 
-
   return (
     <Box>
-      <h2>Asignar Supervisor</h2>
       <Box marginBottom={2}>
+      <Typography variant="h5" sx={{textAlign:"center", margin:"2vw"}}>
+        Asignar Supervisor</Typography>
+      <Grid container justifyContent="center">
+      <Grid item justifyContent="center" sx={{width:"40vw"}}>
         <FormControl fullWidth>
           <InputLabel>Supervisor</InputLabel>
           <Select
@@ -84,8 +86,12 @@ const AssignSupervisor = () => {
             ))}
           </Select>
         </FormControl>
+        </Grid>
+        </Grid>
       </Box>
       <Box marginBottom={2}>
+      <Grid container justifyContent="center">
+      <Grid item justifyContent="center" sx={{width:"40vw"}}>
         <FormControl fullWidth>
           <InputLabel>Acompañantes</InputLabel>
           <Select
@@ -101,11 +107,15 @@ const AssignSupervisor = () => {
             ))}
           </Select>
         </FormControl>
+        </Grid>
+        </Grid>
       </Box>
+      <Grid container justifyContent="center">
+      <Grid item justifyContent="center" sx={{width:"40vw"}}>
       <Button onClick={handleSelectAll} variant="outlined"> Todos los acompañantes </Button> 
       <Button onClick={assignCompanions} variant="contained" color="primary"> Asignar Acompañantes a cargo </Button>
-      <Button onClick={putCompanions} variant="contained" color="primary"> Eliminar Acompañantes a cargo </Button>
-
+      <Button onClick={putCompanions} variant="contained" color="primary"> Eliminar Acompañantes a cargo </Button>    </Grid>
+    </Grid>
     </Box>
   );
 };

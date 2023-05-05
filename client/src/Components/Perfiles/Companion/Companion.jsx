@@ -41,7 +41,7 @@ export default function Companion(props) {
         <Grid item marginTop={7}>
           <Avatar
             alt={user.name}
-            src={user.profileImage}
+            src={user.profilePhoto}
             sx={{ width: 190, height: 190 }}
           />
           <Typography variant="h3">

@@ -6,6 +6,7 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
+import { Grid, Typography } from '@mui/material';
 import Box from "@mui/material/Box";
 import { toast } from "sonner";
 import { toastSuccess, toastError } from "../../../../Redux/Actions/alertStyle";
@@ -114,34 +115,43 @@ const CsvImportExport = () => {
 
   return (
     <Box>
-      <h2>Importar/Exportar CSV</h2>
-      <form onSubmit={handleSubmit}>
-        <Box marginBottom={2}>
-          <input
-            type="file"
-            accept=".csv"
-            ref={fileInput}
-            onChange={handleFileUpload}
-            style={{ display: "none" }}
-            id="csv-input"
-          />
-          <label htmlFor="csv-input">
-            <TextField
-              label="Seleccionar archivo CSV"
-              fullWidth
-              InputProps={{ readOnly: true }}
-              onClick={(e) =>
-                fileInput.current ? fileInput.current.click() : null
-              }
-            />
-          </label>
-        </Box>
-        <Box marginBottom={2}>
-          <Button variant="contained" onClick={handleExportCsv} color="primary">
-            Exportar CSV
-          </Button>
-        </Box>
-      </form>
+      <Typography variant="h5" sx={{textAlign:"center", margin:"2vw"}}>
+      Importar/Exportar Usuarios por CSV</Typography>
+      <Grid container justifyContent="center">
+        <Grid item justifyContent="center" sx={{ width: "40vw" }}>
+          <form onSubmit={handleSubmit}>
+            <Box marginBottom={2}>
+              <input
+                type="file"
+                accept=".csv"
+                ref={fileInput}
+                onChange={handleFileUpload}
+                style={{ display: "none" }}
+                id="csv-input"
+              />
+              <label htmlFor="csv-input">
+                <TextField
+                  label="Seleccionar archivo CSV"
+                  fullWidth
+                  InputProps={{ readOnly: true }}
+                  onClick={(e) =>
+                    fileInput.current ? fileInput.current.click() : null
+                  }
+                />
+              </label>
+            </Box>
+            <Box marginBottom={2}>
+              <Button
+                variant="contained"
+                onClick={handleExportCsv}
+                color="primary"
+              >
+                Exportar CSV
+              </Button>
+            </Box>
+          </form>
+        </Grid>
+      </Grid>
     </Box>
   );
 };
