@@ -8,6 +8,7 @@ import Select from '@mui/material/Select';
 import Box from '@mui/material/Box';
 import { useDispatch } from 'react-redux'
 import { postCompanion,postSupervisor } from '../../../../Redux/Actions/postPutActions';
+import { Grid, Typography } from '@mui/material';
 
 const CreateUser = () => {
   const dispatch=useDispatch()
@@ -37,7 +38,10 @@ const CreateUser = () => {
 
   return (
     <Box>
-      <h2>Crear Usuario</h2>
+      <Typography variant="h5" sx={{textAlign:"center", margin:"2vw"}}>
+      Crear Usuario</Typography>
+      <Grid container justifyContent="center">
+      <Grid item justifyContent="center" sx={{width:"40vw"}}>
       <form onSubmit={handleSubmit}>
         {/* <Box marginBottom={2}>
           <TextField
@@ -89,6 +93,8 @@ const CreateUser = () => {
           Crear Usuario
         </Button>
       </form>
+      </Grid>
+      </Grid>
     </Box>
   );
 };
