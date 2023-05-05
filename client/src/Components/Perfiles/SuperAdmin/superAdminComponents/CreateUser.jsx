@@ -16,7 +16,7 @@ const CreateUser = () => {
     username: '',
     email: '',
     password: '',
-    role: '',
+    rol: '',
   });
 
   const handleChange = (e) => {
@@ -76,16 +76,18 @@ const CreateUser = () => {
           <FormControl fullWidth>
             <InputLabel>Rol</InputLabel>
             <Select
-              name="role"
-              value={userData.role}
+              name="rol"
+              value={userData.rol}
               onChange={handleChange}
               label="Rol"
             >
               <MenuItem value="">
                 <em>Selecciona un rol</em>
               </MenuItem>
+              <MenuItem value="SuperAdmin">Super Admin</MenuItem>
               <MenuItem value="Supervisor">Supervisor</MenuItem>
-              <MenuItem value="Companion">Acompañante</MenuItem>
+              <MenuItem value="Companion1">Acompañante 1</MenuItem>
+              <MenuItem value="Companion2">Acompañante 2</MenuItem>
             </Select>
           </FormControl>
         </Box>
