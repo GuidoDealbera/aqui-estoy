@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
+import { Typography } from '@mui/material';
 
 const StyledInputContainer = styled('div')(({ theme }) => ({
   marginBottom: theme.spacing(2),
@@ -36,7 +37,9 @@ const GeneralSettings = () => {
 
   return (
     <Box>
-      <h2>Configuración General</h2>
+      <Typography variant="h5" sx={{textAlign:"center", margin:"2vw"}}>
+      Configuración General</Typography>
+      <Box sx={{margin:"25vw", marginTop:5}}>
       <StyledInputContainer>
         <StyledLabel>Número máximo de acompañantes por turno</StyledLabel>
         <TextField
@@ -87,6 +90,7 @@ const GeneralSettings = () => {
           </label>
         </div>
       </StyledInputContainer>
+</Box>
     </Box>
   );
 };
