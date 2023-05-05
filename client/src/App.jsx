@@ -10,8 +10,6 @@ import axios from "axios";
 import CalendarCompanion from "./Components/Calendary/CalendarCompanion/CalendarCompanion";
 import CompanionsAtCharge from "./Components/Cards/CompanionsAtCharge";
 import ViewProfile from "./Components/ViewProfile/ViewProfile";
-import { useSelector } from "react-redux";
-import { useEffect } from "react";
 axios.defaults.baseURL = import.meta.env.VITE_SERVER_URL;
 
 //axios.defaults.baseURL = 'aquiestoyapi-production.up.railway.app';
@@ -27,16 +25,20 @@ axios.defaults.baseURL = import.meta.env.VITE_SERVER_URL;
 //     return <Navigate to="/" state={{ from: rest.location }} />;
 //   }
 // };
+// const { user } = useSelector((state) => state.auth);
 
 const App = () => {
+  const user = JSON.parse(sessionStorage.getItem('user'))
   const location = useLocation()
-  const { isAuthenticated } = useSelector((state) => state.auth);
+  const RequireAuth = () => {
+    return user ? <Outlet /> : <Navigate to={'/'} />;
+  };
   return (
     <div>
       <NavBar />
       <Routes>
         <Route exact path="/" element={<Landing />} />
-        <Route>
+        <Route element={<RequireAuth />}>
           <Route path="/register" element={<Register />} />
           <Route path="/calendarSupervisor" element={<CalendarSupervisor />} />
           <Route path="/calendarCompanion" element={<CalendarCompanion />} />
