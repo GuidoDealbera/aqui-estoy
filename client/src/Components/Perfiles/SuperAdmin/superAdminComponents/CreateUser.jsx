@@ -28,7 +28,7 @@ const CreateUser = () => {
     e.preventDefault();
     //  implementar la lógica para crear el usuario, como llamar a una API o usar acciones de Redux
     // console.log(userData);
-    if(userData.role==="Companion"){
+    if(userData.rol==="Companion1" || userData.rol==="Companion2"){
       dispatch(postCompanion({email:userData.email,password:userData.password}))
     }else{
       dispatch(postSupervisor({email:userData.email,password:userData.password}))
