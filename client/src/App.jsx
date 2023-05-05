@@ -1,4 +1,4 @@
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation, Outlet, Navigate } from "react-router-dom";
 import Profiles from "./Views/Profiles/Profiles";
 import Landing from "./Views/LandingPage/Landing";
 import NavBar from "./Components/NavBar/NavBar";
@@ -10,7 +10,7 @@ import axios from "axios";
 import CalendarCompanion from "./Components/Calendary/CalendarCompanion/CalendarCompanion";
 import CompanionsAtCharge from "./Components/Cards/CompanionsAtCharge";
 import ViewProfile from "./Components/ViewProfile/ViewProfile";
-axios.defaults.baseURL =  import.meta.env.VITE_SERVER_URL;
+axios.defaults.baseURL = import.meta.env.VITE_SERVER_URL;
 
 //axios.defaults.baseURL = 'aquiestoyapi-production.up.railway.app';
 // axios.defaults.baseURL = 'http://localhost:3001';
@@ -25,21 +25,28 @@ axios.defaults.baseURL =  import.meta.env.VITE_SERVER_URL;
 //     return <Navigate to="/" state={{ from: rest.location }} />;
 //   }
 // };
+// const { user } = useSelector((state) => state.auth);
 
 const App = () => {
+  const user = JSON.parse(sessionStorage.getItem('user'))
   const location = useLocation()
+  const RequireAuth = () => {
+    return user ? <Outlet /> : <Navigate to={'/'} />;
+  };
   return (
     <div>
       <NavBar />
       <Routes>
         <Route exact path="/" element={<Landing />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/calendarSupervisor" element={<CalendarSupervisor />} />
-        <Route path="/calendarCompanion" element={<CalendarCompanion />} />
-        <Route path="/profile/:id" element={<Profiles />} />
-        <Route path="/panel-supervision" element={<PanelSupervision />} />
-        <Route path= "/companionsAtCharge" element={<CompanionsAtCharge/>}></Route>
-        <Route path="/profile/:id/view" element={<ViewProfile />} />
+        <Route element={<RequireAuth />}>
+          <Route path="/register" element={<Register />} />
+          <Route path="/calendarSupervisor" element={<CalendarSupervisor />} />
+          <Route path="/calendarCompanion" element={<CalendarCompanion />} />
+          <Route path="/profile/:id" element={<Profiles />} />
+          <Route path="/panel-supervision" element={<PanelSupervision />} />
+          <Route path="/companionsAtCharge" element={<CompanionsAtCharge />}></Route>
+          <Route path="/profile/:id/view" element={<ViewProfile />} />
+        </Route>
       </Routes>
       {location.pathname === "/" && <Footer />}
     </div>
