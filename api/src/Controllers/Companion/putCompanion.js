@@ -1,4 +1,4 @@
-const { Companion } = require("../../db");
+const { Companion, Supervisor, CompanionShift } = require("../../db");
 
 //Controlador para actualizar datos de un usuario
 const putCompanion = async (req, res) => {
@@ -41,13 +41,19 @@ const putCompanion = async (req, res) => {
       }
     );
     // Encuentra el acompañante actualizado
-    const companion = await Companion.findOne({ where: { id: id } });
-    const response = {
-      ...companion.toJSON(),
-      rol: rol,
-    };
+    const companion = await Companion.findByPk(id, {
+      include: [
+        {
+          model: CompanionShift,
+          through: { attributes: [] },
+        },
+        {
+          model: Supervisor,
+        },
+      ],
+    });
     // Devuelve el acompañante actualizado
-    res.status(200).json(response);
+    res.status(200).json(companion);
   } catch (error) {
     res.status(400).json(error.message);
   }

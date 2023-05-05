@@ -6,10 +6,15 @@ const getCompanionShiftById = async(req, res)=>{
         const { idShift } = req.params;
         const shift = await CompanionShift.findOne({
             where: { id: idShift },
-            include: {
-              model: Companion,
-              through: { attributes: [] },
-            },
+                include: [
+                  {
+                    model: CompanionShift,
+                    through: { attributes: [] },
+                  },
+                  {
+                    model: Companion,
+                  },
+                ],
         })
         
         res.status(200).json(shift);

@@ -10,12 +10,7 @@ const getOneCompanion = async (req, res) => {
       rol = "Companion";
       if (companion && companion.isActive) {
         //Retorna un acompañante con todos sus datos (Sirve para cargar el perfil)
-        const response = {
-          ...companion.toJSON(),
-          rol: rol,
-        };
-        return res.status(200).json(response);
-        
+        return res.status(200).json(companion);
       }
       if(companion && !companion.isActive){
         return  res.status(400).json("Cuenta inactiva comuniquese con el administrador");
