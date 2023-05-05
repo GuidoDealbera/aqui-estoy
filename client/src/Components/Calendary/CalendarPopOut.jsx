@@ -10,6 +10,7 @@ const CalendarPopOut=(props)=>{
           if(user.rol==="Companion"){
 
             dispatch(postAssignCompanionShift(user.id,props.shift.id.toString(),user.rol) )
+
             props.setTrigger()
        
          }
