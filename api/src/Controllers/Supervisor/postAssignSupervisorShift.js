@@ -21,12 +21,11 @@ const assignSupervisorShift = async (req, res) => {
               },
             ],
           });
-     res.json(updatedSupervisor);
+    return res.json(updatedSupervisor);
     } catch (error) {
         console.error(error);
         res.status(500).send("Error al asignar turno");
       }
     };
 
-
-module.exports= assignSupervisorShift;
+module.exports = assignSupervisorShift;
