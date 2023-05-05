@@ -8,16 +8,16 @@ import { voluntario } from "../../data";
 import { bgcolor, border } from "@mui/system";
 
 export default function CompanionsAtCharge() {
-  // const dispatch= useDispatch();
-  // const {companionAtCharge}= useSelector((state)=> state.view);
-  // const {user} = useSelector(state => state.auth);
+   const dispatch= useDispatch();
+   const {companionAtCharge}= useSelector((state)=> state.view);
+   const {user} = useSelector(state => state.auth);
 
 
-  //  useEffect(()=>{
-  //   dispatch(getCompanionsAtCharge(user.id))
-  // },[])
+    useEffect(()=>{
+     dispatch(getCompanionsAtCharge(user.id))
+   },[])
 
-  const user = voluntario
+  //const user = voluntario
   return (
     <Box sx={{
         display: "flex",
@@ -26,7 +26,7 @@ export default function CompanionsAtCharge() {
         justifyContent: "center",
         background: "linear-gradient(to top, #C8CCD0, #ffffff, #ffffff)",
       }}>
-      {user.map((e) => {
+      {companionAtCharge.map((e) => {
         return(
         <Box>
           <Cards 
