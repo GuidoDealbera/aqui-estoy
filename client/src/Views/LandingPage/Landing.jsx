@@ -19,7 +19,7 @@ import {
 import { styled } from "@mui/system";
 
 const CustomTypography = styled(Typography)(({ theme }) => ({
-  color: "#008000", // Verde fuerte
+  color: "rgb(25, 21, 78)", // Verde fuerte
   fontWeight: 600,
 }));
 
