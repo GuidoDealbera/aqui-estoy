@@ -8,6 +8,8 @@ import Button from '@mui/material/Button';
 import { Grid, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { postSupervisorCharge , putSupervisorCharge} from '../../../../Redux/Actions/postPutActions';
+import { toast } from "sonner";
+import { toastSuccess, toastError } from "../../../../Redux/Actions/alertStyle";
 
 const AssignSupervisor = () => {
   const dispatch = useDispatch();
@@ -33,7 +35,7 @@ const AssignSupervisor = () => {
     const assignCompanions = () => {
     if (selectedSupervisor) {
       if (selectedCompanions.length === 0) {
-        alert('Selecciona al menos un acompañante');
+        toast.error('Selecciona al menos un acompañante', toastError);
       } else {
         dispatch(postSupervisorCharge(selectedSupervisor, selectedCompanions));
         console.log(
@@ -41,7 +43,7 @@ const AssignSupervisor = () => {
         );
       }
     } else {
-      console.log('Selecciona un supervisor');
+      toast.error('Selecciona un supervisor', toastError);
     }
 };
   const putCompanions = () => {
@@ -50,7 +52,7 @@ const AssignSupervisor = () => {
     
     if (selectedSupervisor) {
       if (selectedCompanions.length === 0) {
-        alert('Selecciona al menos un acompañante');
+        toast.error('Selecciona al menos un acompañante', toastError);
       } else {
         dispatch(putSupervisorCharge(selectedSupervisor, selectedCompanions));
         console.log(
@@ -58,7 +60,7 @@ const AssignSupervisor = () => {
         );
       }
     } else {
-      console.log('Selecciona un supervisor');
+      toast.error('Selecciona un supervisor', toastError);
     }
   };
 
@@ -112,9 +114,9 @@ const AssignSupervisor = () => {
       </Box>
       <Grid container justifyContent="center">
       <Grid item justifyContent="center" sx={{width:"40vw"}}>
-      <Button onClick={handleSelectAll} variant="outlined"> Todos los acompañantes </Button> 
-      <Button onClick={assignCompanions} variant="contained" color="primary"> Asignar Acompañantes a cargo </Button>
-      <Button onClick={putCompanions} variant="contained" color="primary"> Eliminar Acompañantes a cargo </Button>    </Grid>
+      <Button onClick={handleSelectAll} variant="outlined" sx={{ marginRight: 1 }}> Todos los acompañantes </Button> 
+      <Button onClick={assignCompanions} variant="contained" color="primary" sx={{ marginRight: 1 }}> Asignar </Button>
+      <Button onClick={putCompanions} variant="contained" color="primary" sx={{ marginRight: 1 }}> Eliminar </Button>    </Grid>
     </Grid>
     </Box>
   );
