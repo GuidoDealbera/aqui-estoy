@@ -1,10 +1,8 @@
-//import { voluntario } from "../../data";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { getCompanionsAtCharge } from "../../Redux/Actions/viewActions";
 import Cards from "./Cards";
 import { Box } from "@mui/material";
-import { voluntario } from "../../data";
 import { bgcolor, border } from "@mui/system";
 
 export default function CompanionsAtCharge() {
@@ -17,7 +15,6 @@ export default function CompanionsAtCharge() {
      dispatch(getCompanionsAtCharge(user.id))
    },[])
 
-  //const user = voluntario
   return (
     <Box sx={{
         display: "flex",
@@ -30,6 +27,7 @@ export default function CompanionsAtCharge() {
         return(
         <Box>
           <Cards 
+            id= {e?.id}
             name={e?.name}
             lastName={e?.lastName}          
             profilePhoto={e?.profilePhoto}

@@ -4,9 +4,13 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { Button, CardActionArea, CardActions } from '@mui/material';
 import { border } from '@mui/system';
+import { useNavigate } from 'react-router-dom';
+
 
 export default function MultiActionAreaCard(props) {
-  return (
+const navigate = useNavigate();
+
+return (
     <Card sx={{ maxWidth: 345, margin: "5%", boxShadow: "3px 3px 5px", bgcolor:"#C8CCD8"}} > 
       <CardActionArea>
         <CardMedia
@@ -29,7 +33,7 @@ export default function MultiActionAreaCard(props) {
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button size="small" color="primary">
+        <Button size="small" color="primary" onClick={() => {navigate(`/profile/${props.id}/view`)}}>
           Ver Perfil
         </Button>
       </CardActions>
