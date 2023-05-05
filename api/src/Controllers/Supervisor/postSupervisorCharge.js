@@ -23,6 +23,8 @@ const postSupervisorCharge = async (req, res) => {
       },
       {
         model: SupervisorShift,
+          attributes: ["id", "day", "time", "timezone"],
+          through: { attributes: [] },
       },
     ]});
     res.status(200).json(supervisorUpdate);

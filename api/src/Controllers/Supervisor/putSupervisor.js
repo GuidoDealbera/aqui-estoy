@@ -43,6 +43,7 @@ const putSupervisor = async (req, res) => {
       include: [
         {
           model: SupervisorShift,
+          attributes: ["id", "day", "time", "timezone"],
           through: { attributes: [] },
         },
         {

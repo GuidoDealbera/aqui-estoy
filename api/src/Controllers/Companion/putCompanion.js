@@ -45,6 +45,7 @@ const putCompanion = async (req, res) => {
       include: [
         {
           model: CompanionShift,
+          attributes: ["id", "day", "time", "timezone"],
           through: { attributes: [] },
         },
         {

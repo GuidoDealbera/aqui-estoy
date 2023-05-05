@@ -7,8 +7,7 @@ const getAllSupervisorShift = async (req, res) => {
         {
           model: SupervisorShift,
           attributes: ["id", "day", "time", "timezone"],
-          through: { attributes: [] },
-          required: true,
+          through: { attributes: [] }
         },
       ],
     });

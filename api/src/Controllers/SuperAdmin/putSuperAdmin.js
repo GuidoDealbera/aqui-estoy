@@ -1,4 +1,4 @@
-const { Supervisor } = require("../../db");
+const { Supervisor, SupervisorShift, Companion } = require("../../db");
 const bcrypt = require("bcrypt");
 
 //Controlador para convertir un usuario tipo Supervisor a SuperAdmin
@@ -9,6 +9,16 @@ const putSuperAdmin = async (req, res) => {
     //Busca el supervisor en bd
     const supervisor = await Supervisor.findOne({
       where: { id: id },
+      include: [
+        {
+          model: Companion,
+        },
+        {
+          model: SupervisorShift,
+          attributes: ["id", "day", "time", "timezone"],
+          through: { attributes: [] },
+        },
+      ]
     });
     if (!supervisor) {
       return res.status(404).send("Supervisor no encontrado");

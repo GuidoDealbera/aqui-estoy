@@ -7,6 +7,7 @@ const getCompanion = async (req, res) => {
     const results = await Companion.findAll({include: [
       {
         model: CompanionShift,
+        attributes: ["id", "day", "time", "timezone"],
         through: { attributes: [] },
       },
       {

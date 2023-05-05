@@ -1,5 +1,5 @@
 const { Supervisor } = require("../../db");
-const deleteCompanionShift = async (req, res) => {
+const deleteSupervisorShift = async (req, res) => {
   try {
     const { idSupervisor, idShift } = req.body;
     const supervisor = await Supervisor.findOne({ where: { id: idSupervisor } });
@@ -13,4 +13,4 @@ const deleteCompanionShift = async (req, res) => {
     res.status(400).json(error.message);
   }
 };
-module.exports = deleteCompanionShift;
+module.exports = deleteSupervisorShift;

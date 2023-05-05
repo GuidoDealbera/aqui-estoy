@@ -13,7 +13,8 @@ const assignSupervisorShift = async (req, res) => {
             include: [
               {
                 model: SupervisorShift,
-                through: { attributes: [] },
+                  attributes: ["id", "day", "time", "timezone"],
+                  through: { attributes: [] },
               },
               {
                 model: Companion,

@@ -12,10 +12,12 @@ const getOneSupervisor = async (req, res) => {
       include: [
         {
           model: SupervisorShift,
+          attributes: ["id", "day", "time", "timezone"],
           through: { attributes: [] },
         },
         {
           model: Companion,
+          attributes: ['name', 'lastName', "phone", "profilePhoto", "country"],
         },
       ],
     });

@@ -11,6 +11,8 @@ const getSupervisorCharge = async (req, res) => {
         },
         {
           model: SupervisorShift,
+          attributes: ["id", "day", "time", "timezone"],
+          through: { attributes: [] },
         },
       ],
     });
