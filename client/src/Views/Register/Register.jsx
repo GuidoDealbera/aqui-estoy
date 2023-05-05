@@ -71,7 +71,7 @@ export default function Register() {
 
     const submitHandler = (values) => { //Submit Handler del formulario (Aún no interactúa con el Back-End)
         console.log(values);
-        if (user.rol === 'Companion' || user.rol === "Acompañante2") {
+        if (user.rol === 'Companion1' || user.rol === "Companion2") {
             dispatch(putCompanion(user.id, values)) //trae el id del user y lo actualiza 
         } else {
             dispatch(putSupervisor(user.id, values))

@@ -1,4 +1,4 @@
-const { Companion, CityTimeZone, CompanionShift } = require("../../db");
+const { Companion, CityTimeZone, CompanionShift, Supervisor } = require("../../db");
 const bcrypt = require("bcrypt");
 
 //Controlador para verificar login de un acompañante y llenar el perfil
@@ -6,16 +6,22 @@ const getOneCompanion = async (req, res) => {
   try {
     const { email } = req.body;
       let companion;
-      companion = await Companion.findOne({ where: { email } ,  include: [{ model: CompanionShift ,  through: { attributes: [] }}]});
-      rol = "Companion";
+      companion = await Companion.findOne({
+        where: { email },
+        include: [
+          {
+            model: CompanionShift,
+            through: { attributes: [] },
+          },
+          {
+            model: Supervisor,
+            attributes: ['name', 'lastName', "phone", "profilePhoto"],
+          },
+        ],
+      });
       if (companion && companion.isActive) {
         //Retorna un acompañante con todos sus datos (Sirve para cargar el perfil)
-        const response = {
-          ...companion.toJSON(),
-          rol: rol,
-        };
-        return res.status(200).json(response);
-        
+        return res.status(200).json(companion);
       }
       if(companion && !companion.isActive){
         return  res.status(400).json("Cuenta inactiva comuniquese con el administrador");

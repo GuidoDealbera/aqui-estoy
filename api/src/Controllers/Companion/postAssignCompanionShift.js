@@ -1,25 +1,29 @@
-const { CompanionShift } = require("../../db");
+const { CompanionShift, Supervisor } = require("../../db");
 const { Companion } = require("../../db");
 
 const assignCompanionShift = async (req, res) => {
   try {
     const { idCompanion } = req.params;
     const companion = await Companion.findOne({ where: { id: idCompanion } });
-    const { idShift, rol } = req.body;
+    const { idShift } = req.body;
     const shift = await CompanionShift.findOne({ where: { id: idShift } });
 
-    if (companion.isSuperCompanion) {
+    if (companion.rol === "Companion2") {
       await companion.addCompanionShifts(shift);
       const updatedCompanion = await Companion.findOne({
         where: { id: idCompanion },
-        include: [{ model: CompanionShift, through: { attributes: [] } }],
-      });
-      const response = {
-        ...updatedCompanion.toJSON(),
-        rol: rol,
-      };
-      res.json(response);
-      return;
+          include: [
+            {
+              model: CompanionShift,
+              through: { attributes: [] },
+            },
+            {
+              model: Supervisor,
+            },
+          ],
+        },
+      );
+      return res.json(updatedCompanion);
     }
 
     const hasShifts = await Companion.findOne({
@@ -34,14 +38,19 @@ const assignCompanionShift = async (req, res) => {
       await companion.addCompanionShifts(shift);
       const updatedCompanion = await Companion.findOne({
         where: { id: idCompanion },
-        include: [{ model: CompanionShift, through: { attributes: [] } }],
-      });
-      const response = {
-        ...updatedCompanion.toJSON(),
-        rol: rol,
-      };
-      res.json(response);
-      return;
+          include: [
+            {
+              model: CompanionShift,
+              attributes: ["id", "day", "time", "timezone"],
+              through: { attributes: [] },
+            },
+            {
+              model: Supervisor,
+            },
+          ],
+        },
+      );
+      return res.json(updatedCompanion);
     }
   } catch (error) {
     console.error(error);

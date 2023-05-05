@@ -3,7 +3,7 @@ const deleteCompanionShift = async (req, res) => {
   try {
     const { id, idShift } = req.body;
     const companion = await Companion.findOne({ where: { id: id } });
-    if (companion && companion.isSuperCompanion) {
+    if (companion && companion.rol === "Companion2") {
       companion.removeCompanionShift(idShift);
       res.status(200).json("Turno eliminado");
     } else {

@@ -13,7 +13,9 @@ export default function Profiles(props) {
         return <Supervisor user={user} />;
       case "SuperAdmin":
         return <SuperAdmin user={user} />;
-      case "Companion":
+      case "Companion1":
+        return <Companion user={user} />;
+        case "Companion2":
         return <Companion user={user} />;
       default:
         return <Loader />

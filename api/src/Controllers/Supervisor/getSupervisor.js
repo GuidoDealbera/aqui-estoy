@@ -4,9 +4,19 @@ const { Supervisor ,SupervisorShift, Companion} = require("../../db");
 const getSupervisor = async (req,res)=>{
     try{
         //Buscar todos los Supervisores guardados en bd
-        const results = await Supervisor.findAll( {include: [{ model: SupervisorShift, through: { attributes: [] } }, {model: Companion}],}
-            );
-        //Retorna todos los supervisores como un array de objetos
+        const results = await Supervisor.findAll({
+            include: [
+              {
+                model: SupervisorShift,
+                attributes: ["id", "day", "time", "timezone"],
+                through: { attributes: [] },
+              },
+              {
+                model: Companion,
+              },
+            ],
+          });
+             //Retorna todos los supervisores como un array de objetos
         res.status(200).json(results)
     }
     catch(error){
