@@ -1,7 +1,7 @@
 const { Supervisor } = require('../../db');
 const { Companion } = require('../../db');
 
-const deleteSupervisorCharge = async (req, res) => {
+const putSupervisorCharge = async (req, res) => {
   try {
     // Recibo Supervisor por params, y lo busco por id
     const { idSupervisor } = req.params;
@@ -14,7 +14,7 @@ const deleteSupervisorCharge = async (req, res) => {
     const { arrayCompanion } = req.body;
     // Busco cada Companion y elimino la relación con el Supervisor
     for (const idCompanion of arrayCompanion) {
-      const companion = await Companion.findByPk(idCompanion);
+      const companion = await Companion.findOne({ where: { id: idCompanion }});
       console.log(companion);
       if (!companion) {
         return res.status(404).json({ error: 'Acompañante no encontrado' });
@@ -30,4 +30,4 @@ const deleteSupervisorCharge = async (req, res) => {
   }
 };
 
-module.exports = deleteSupervisorCharge;
+module.exports = putSupervisorCharge;
