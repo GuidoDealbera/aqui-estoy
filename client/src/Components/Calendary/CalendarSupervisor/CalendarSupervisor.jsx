@@ -10,6 +10,7 @@ const CalendarSupervisor=()=>{
     const[shift,setShift]=useState({})
     const dispatch=useDispatch()
     let shifts=useSelector(state=>state.view.allSupervisorShift)
+
     const user=useSelector(state=>state.auth.user)
     shifts=shifts.map((shift)=>{
         switch (shift.day) {
@@ -71,8 +72,9 @@ hours = Array.from({ length: 24 }, (_, i) => {
  
     return `${i}:00-${i===23?"00":i+1}:00`
 });
-
 }
+
+
 
 
     const handleClickCell=(hour,day)=>{
@@ -81,6 +83,7 @@ hours = Array.from({ length: 24 }, (_, i) => {
       setShift(found)
 
     }
+   
 return  <Container className="calendar-container">
       <table className="calendar-table">
         <thead>
@@ -95,13 +98,38 @@ return  <Container className="calendar-container">
           {hours.map((hour) => (
             <tr key={hour}>
               <td className="hour">{hour}</td>
-              {days.map((day) => (
-                <td 
-                  onClick={()=>handleClickCell(hour,day)}
-                >
-              -----
-                </td>
-              ))}
+              {days.map((day,index) => {
+                if(user.SupervisorShifts===undefined){
+                  console.log(user.SupervisorShifts);
+                  return (
+                    <td 
+                      onClick={()=>handleClickCell(hour,day)}
+                    >
+                    -----
+                    </td>
+                  )
+                }else{
+                      const found=user.SupervisorShifts.find(shift=>shift.day===index&&shift.time===hour)
+              if(found){
+                 return (
+                  <td id={found.id} className="reserved"
+                    onClick={()=>alert("Ya tienes este turno asignado")}
+                  >
+                Turno reservado
+                  </td>
+                )
+              }
+                }
+          
+
+                  return (
+                  <td 
+                    onClick={()=>handleClickCell(hour,day)}
+                  >
+                  -----
+                  </td>
+                )
+              })}
             </tr>
           ))}
         </tbody>

@@ -6,6 +6,7 @@ import {
   POST_ASSIGN_SUPERVISOR_SHIFT,
   POST_ASSIGN_COMPANION_SHIFT,
   POST_SUPERVISOR_CHARGE,
+  PUT_SUPERVISOR_CHARGE,
 } from "./action-types";
 import axios from "axios";
 import { toast } from "sonner";
@@ -121,3 +122,20 @@ export const postSupervisorCharge = (idSupervisor, arrayCompanion) =>{
   }
 }
 
+export const putSupervisorCharge = (idSupervisor, arrayCompanion) =>{
+  return async function(dispatch){
+    try{  
+      dispatch(setLoading(true))
+      JSON.stringify(arrayCompanion);
+      const response = (await axios.put(`/putSupervisorCharge/${idSupervisor}`, { arrayCompanion })).data;
+  
+      console.log(response);
+      dispatch({type:PUT_SUPERVISOR_CHARGE, payload:response})
+      dispatch(setLoading(false))
+      toast.success("Los acompañantes han sido eliminados del supervisor", toastSuccess);
+    } catch(error){
+      console.log('Error:', error.message);
+     console.log('Response:', error.response);
+    }
+  }
+}
