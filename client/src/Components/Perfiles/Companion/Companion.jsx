@@ -99,9 +99,11 @@ export default function Companion(props) {
           }}
         >
           <Grid item md={5} xs={12} height="100%" marginTop={3}>
+            <Link to="/calendarCompanion">
             <Button variant="contained" style={estilos}>
               Reserva de turno de voluntariado
             </Button>
+            </Link>
           </Grid>
           <Grid item md={5} xs={12} height="100%" marginTop={3}>
             <Button variant="contained" style={estilos}>
