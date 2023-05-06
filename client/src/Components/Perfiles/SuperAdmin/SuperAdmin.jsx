@@ -5,19 +5,22 @@ import CsvImportExport from './superAdminComponents/CsvImportExport';
 import AssignSupervisor from './superAdminComponents/AssignSupervisor';
 import GeneralSettings from './superAdminComponents/GeneralSettings';
 import UsersViewEdit from './superAdminComponents/UsersViewEdit';
-
+import SuperAdminDatos from './SuperAdminDatos';
 // Importar componentes y utilidades de MUI
 import { Box, Button, IconButton, Tab, Tabs, Hidden, Menu, MenuItem } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 
+
 const SuperAdmin = (props) => {
-  const [activeTab, setActiveTab] = useState('createUser');
+  const [activeTab, setActiveTab] = useState('profile');
   const [menuAnchorEl, setMenuAnchorEl] = useState(null);
 
   const renderTabContent = () => {
     switch (activeTab) {
       case 'createUser':
         return <CreateUser />;
+      case 'profile':
+        return <SuperAdminDatos user={props.user}/>;
       case 'usersViewEdit':
         return <UsersViewEdit /> 
       case 'csvImportExport':
@@ -50,6 +53,7 @@ const SuperAdmin = (props) => {
 
   const renderTabs = () => (
     <Tabs value={activeTab} onChange={handleTabChange}>
+      <Tab value="profile" label="Perfil" />
       <Tab value="createUser" label="Crear Usuario" />
       <Tab value="usersViewEdit" label="Ver/Editar Usuarios" />
       <Tab value="csvImportExport" label="Importar/Exportar CSV" />
@@ -70,6 +74,9 @@ const SuperAdmin = (props) => {
           open={Boolean(menuAnchorEl)}
           onClose={handleMenuClose}
         >
+          <MenuItem onClick={(event) => handleMenuItemClick(event, 'profile')}>
+            Perfil
+          </MenuItem>
           <MenuItem onClick={(event) => handleMenuItemClick(event, 'createUser')}>
             Crear Usuario
           </MenuItem>
