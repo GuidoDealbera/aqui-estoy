@@ -7,7 +7,7 @@ import calendar from "./CalendarCompanion.css";
 
 const CalendarCompanion = () => {
   let shifts = useSelector((state) => state.view.allCompanionShift);
-  console.log(shifts);
+
   const user = useSelector((state) => state.auth.user);
   const [togglePopOut, setTogglePopOut] = useState(false);
   const [shift, setShift] = useState({
@@ -73,11 +73,8 @@ const CalendarCompanion = () => {
     dispatch(getAllCompanionShift());
   }
   let hours = [];
-  if (user.rol === "Acompañante") {
-  }
-  if (user.rol === "Acompañante2") {
-  }
-  if ((user && user.rol === "Companion") || user.isSuperCompanion) {
+
+  if ((user && user.rol === "Companion") ||user.rol==="Companion2") {
     hours = shifts.map((shift) => shift.time);
     hours = hours.slice(0, 25);
   }
@@ -89,7 +86,7 @@ const CalendarCompanion = () => {
     setTogglePopOut(!togglePopOut);
     setShift(found);
   };
-  // console.log(shift);
+
   return (
     <Container className="calendar-container">
       <table className="calendar-table">

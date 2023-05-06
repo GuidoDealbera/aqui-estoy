@@ -62,8 +62,8 @@ export default function Companion(props) {
             />
             <Typography variant="h5" textAlign="center">
               {user.name?.charAt(0).toUpperCase() +
-                user.name?.slice(1)
-                 + " " +
+                user.name?.slice(1) +
+                " " +
                 user.lastName?.charAt(0).toUpperCase() +
                 user.lastName?.slice(1)}
             </Typography>
@@ -115,7 +115,6 @@ export default function Companion(props) {
           <Grid
             item
             sx={{
-              
               width: "90%",
               height: "40%",
               padding: "1vw",
@@ -123,17 +122,16 @@ export default function Companion(props) {
               // borderStyle: "solid",
             }}
           >
-             <Link to="/calendarCompanion">
-            <Button variant="outlined" style={estilos}>
-              Reserva de turno de voluntariado
-            </Button>
+            <Link to="/calendarCompanion">
+              <Button variant="outlined" style={estilos}>
+                Reserva de turno de voluntariado
+              </Button>
             </Link>
           </Grid>
 
           <Grid
             item
             sx={{
-              
               width: "90%",
               height: "40%",
               padding: "1vw",
@@ -141,7 +139,7 @@ export default function Companion(props) {
               // borderStyle: "solid",
             }}
           >
-            <Button variant="outlined"  style={estilos}>
+            <Button variant="outlined" style={estilos}>
               Centro de aprendizaje
             </Button>
           </Grid>

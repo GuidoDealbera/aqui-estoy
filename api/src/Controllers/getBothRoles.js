@@ -1,47 +1,67 @@
-const { Supervisor } = require("../db");
-const { Companion } = require("../db");
+const { Companion , CityTimeZone ,CompanionShift ,Supervisor, SupervisorShift} = require("../db");
+
 const bcrypt = require("bcrypt");
 
 //Controlador para verificar login de un Supervisor y llenar el perfil
 const getBothRoles = async (req, res) => {
   try {
-    let supervisor;
-    let rol;
-    //Se obtiene el email y contraseña desde el formulario
     const { email } = req.body;
-    //Se busca el supervisor por email
-    supervisor = await Supervisor.findOne({ where: { email } });
-    rol = "Supervisor";
-    if(supervisor.isSuperAdmin){
-      rol = "SuperAdmin"
+    const companion = await Companion.findOne({
+      where: { email },
+      include: [
+        {
+          model: CompanionShift,
+          through: { attributes: [] },
+        },
+        {
+          model: Supervisor,
+          attributes: ["name", "lastName", "phone", "profilePhoto"],
+        },
+        {
+          model: CityTimeZone,
+        },
+      ],
+    });
+    if (companion && companion.isActive) {
+      //Retorna un acompañante con todos sus datos (Sirve para cargar el perfil)
+      return res.status(200).json(companion);
     }
+    if (companion && !companion.isActive) {
+      return res
+        .status(400)
+        .json("Cuenta inactiva comuniquese con el administrador");
+    }
+
+    const supervisor = await Supervisor.findOne({
+      where: { email: email },
+      include: [
+        {
+          model: SupervisorShift,
+          attributes: ["id", "day", "time", "timezone"],
+          through: { attributes: [] },
+        },
+        {
+          model: Companion,
+          attributes: ["name", "lastName", "phone", "profilePhoto", "country"],
+        },
+        {
+          model: CityTimeZone,
+        },
+      ],
+    });
     //Si existe el supervisor y la contraseña coincide se procede a responder
-    if (supervisor) {
+    if (supervisor && supervisor.isActive) {
       //Retorna un supervisor con todos sus datos (Sirve para cargar el perfil)
-      const response = {
-        ...supervisor.toJSON(),
-        rol: rol,
-      };
-      res.status(200).json(response);
+      return res.status(200).json(supervisor);
+    }
+    if (supervisor && !supervisor.isActive) {
+      return res
+        .status(400)
+        .json("Cuenta inactiva comuniquese con el administrador");
     } else {
-      const { email } = req.body;
-      let companion;
-      companion = await Companion.findOne({ where: { email } });
-      rol = "Companion";
-      if (companion) {
-        //Retorna un acompañante con todos sus datos (Sirve para cargar el perfil)
-        const response = {
-          ...companion.toJSON(),
-          rol: rol,
-        };
-        res.status(200).json(response);
-      } else {
-        res.status(400).json("Los datos ingresados son incorrectos");
-      }
+      return res.status(400).json("Los datos ingresados son incorrectos");
     }
   } catch (error) {
-    //Si no se encuentra un supervisor, buscar en la tabla de acompañantes
-
     res.status(404).json("No se encontro el usuario");
   }
 };
