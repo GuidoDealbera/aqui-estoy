@@ -3,7 +3,7 @@ import Profiles from "./Views/Profiles/Profiles";
 import Landing from "./Views/LandingPage/Landing";
 import NavBar from "./Components/NavBar/NavBar";
 import Register from "./Views/Register/Register";
-import CalendarSupervisor from "./Components/Calendary/CalendarSupervisor/CalendarSupervisor";
+import CalendarSuperAdmin from "./Components/Calendary/CalendarSuperAdmin/CalendarSuperAdmin";
 import Footer from "./Components/Footer/Footer";
 import PanelSupervision from "./Views/PanelSupervision/PanelSupervision";
 import axios from "axios";
@@ -40,7 +40,7 @@ const App = () => {
         <Route exact path="/" element={<Landing />} />
         <Route element={<RequireAuth />}>
           <Route path="/register" element={<Register />} />
-          <Route path="/calendarSupervisor" element={<CalendarSupervisor />} />
+          <Route path="/calendarSuperAdmin" element={<CalendarSuperAdmin />} />
           <Route path="/calendarCompanion" element={<CalendarCompanion />} />
           <Route path="/profile/:id" element={<Profiles />} />
           <Route path="/panel-supervision" element={<PanelSupervision />} />

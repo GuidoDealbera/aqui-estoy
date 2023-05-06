@@ -1,8 +1,8 @@
 import { useDispatch, useSelector } from "react-redux"
-import s from "./CalendarPopOut.module.css"
-import { postAssignSupervisorShift,postAssignCompanionShift } from "../../Redux/Actions/postPutActions"
+import s from "./CalendarSuperAdminPopOut.module.css"
+import { postAssignSupervisorShift,postAssignCompanionShift } from "../../../Redux/Actions/postPutActions"
 
-const CalendarPopOut=(props)=>{
+const CalendarSuperAdminPopOut=(props)=>{
     const {user}=useSelector(state=>state.auth)
     const dispatch=useDispatch()
     const handleConfirm=()=>{
@@ -36,4 +36,4 @@ const CalendarPopOut=(props)=>{
         </div>
     ):""
 }
-export default CalendarPopOut
+export default CalendarSuperAdminPopOut
