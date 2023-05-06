@@ -2,8 +2,8 @@ import { useDispatch, useSelector } from "react-redux"
 import { getAllSupervisorShift } from "../../../Redux/Actions/viewActions"
 import { Container, Row, Col, Button, Modal } from 'react-bootstrap';
 import { useState } from "react";
-import CalendarPopOut from "../CalendarPopOut";
-import calendar from "./CalendarSupervisor.css"
+import CalendarSuperAdminPopOut from "./CalendarSuperAdminPopOut";
+import calendar from "./CalendarSuperAdmin.css"
 
 const CalendarSupervisor=()=>{
     const[togglePopOut,setTogglePopOut]=useState(false)
@@ -60,7 +60,7 @@ const CalendarSupervisor=()=>{
         dispatch(getAllSupervisorShift())
     }
     let hours=[]
-  if(user&&user.rol==="Supervisor"||user.isSuperAdmin){
+  if(user&&user.rol==="SuperAdmin"){
  
 hours = Array.from({ length: 24 }, (_, i) => {
     if(i<9){
@@ -134,11 +134,11 @@ return  <Container className="calendar-container">
           ))}
         </tbody>
       </table>
-      <CalendarPopOut shift={shift} setTrigger={setTogglePopOut} trigger={togglePopOut}>
+      <CalendarSuperAdminPopOut shift={shift} setTrigger={setTogglePopOut} trigger={togglePopOut}>
         <h3>Estas seguro que quieres confirmar este turno:</h3>
         <label>{shift.day}</label>
         <p>{shift.time}</p>
-      </CalendarPopOut>
+      </CalendarSuperAdminPopOut>
       </Container>
 };
 export default CalendarSupervisor

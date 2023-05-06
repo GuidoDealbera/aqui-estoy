@@ -20,6 +20,7 @@ const putSupervisor = async (req, res) => {
     profession,
     studies,
     gender,
+    isActive,
   } = req.body;
   //Recibe id por params
   const { id } = req.params;
@@ -42,6 +43,7 @@ const putSupervisor = async (req, res) => {
         profession,
         studies,
         gender,
+        isActive: isActive !== null && isActive !== undefined ? isActive : true
       },
       { where: { id: id } }
     );
