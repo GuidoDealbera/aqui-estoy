@@ -1,4 +1,4 @@
-const { Supervisor, SupervisorShift } = require("../../db");
+const { Supervisor, SupervisorShift, CityTimeZone } = require("../../db");
 const { Companion } = require("../../db");
 
 const putSupervisorCharge = async (req, res) => {
@@ -29,6 +29,9 @@ const putSupervisorCharge = async (req, res) => {
         },
         {
           model: Companion,
+        },
+        {
+          model: CityTimeZone,
         },
       ]
     });
