@@ -57,13 +57,14 @@ export default function NavBar(props) {
   if(Object.entries(user).length === 0){
   toast.error("Debes iniciar sesion para acceder al calendario", toastWarning)
   }
-  if(user.rol==="Supervisor"||user.rol==="SuperAdmin"){
-    navigate("/calendarSupervisor")
-  }
-  if(user.rol==="Companion"||user.isSuperCompanion){
+  if(user.rol==="SuperAdmin"){
+    navigate("/calendarSuperAdmin")
+  }else if(user.rol==="Companion"||user.isSuperCompanion){
     navigate("/calendarCompanion")
+  }else{
+
+    toast.error("No tienes acceso a este calendario", toastWarning)
   }
-  
   };
   const closeSession = () => {
     dispatch(logOut());
