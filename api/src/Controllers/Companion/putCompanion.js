@@ -1,4 +1,4 @@
-const { Companion, Supervisor, CompanionShift } = require("../../db");
+const { Companion, Supervisor, CompanionShift, CityTimeZone } = require("../../db");
 
 //Controlador para actualizar datos de un usuario
 const putCompanion = async (req, res) => {
@@ -9,19 +9,23 @@ const putCompanion = async (req, res) => {
     birthdayDate,
     nationality,
     country,
-    CityTimeZoneId,
+    cityTimeZone,
     phone,
     profession,
     studies,
     gender,
-    rol,
   } = req.body;
   //Requiere el id del usuario enviado por parametro
   const { id } = req.params;
   const newDate = new Date(birthdayDate);
+  const timezone = await CityTimeZone.findByPk(cityTimeZone)
+  if(timezone){
+    const companion = await Companion.findByPk(id)
+    await companion.setCityTimeZone(timezone.id);
+  }
   try {
     //Modifica los datos del Acompañante con los datos enviados desde el front
-    const result = await Companion.update(
+    await Companion.update(
       {
         name,
         lastName,
@@ -29,7 +33,6 @@ const putCompanion = async (req, res) => {
         birthdayDate: newDate,
         nationality,
         country,
-        CityTimeZoneId,
         phone,
         profession,
         studies,
@@ -51,6 +54,9 @@ const putCompanion = async (req, res) => {
         {
           model: Supervisor,
         },
+        {
+          model: CityTimeZone
+        }
       ],
     });
     // Devuelve el acompañante actualizado

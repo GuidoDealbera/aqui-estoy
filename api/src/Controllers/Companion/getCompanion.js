@@ -1,4 +1,4 @@
-const { Companion , CompanionShift, Supervisor} = require("../../db");
+const { Companion , CompanionShift, Supervisor, CityTimeZone} = require("../../db");
 
 //Controlador para traer todos los Acompañantes de la bd
 const getCompanion = async (req, res) => {
@@ -12,6 +12,9 @@ const getCompanion = async (req, res) => {
       },
       {
         model: Supervisor,
+      },
+      {
+        model: CityTimeZone,
       },
     ],});
     //Retorna todos los acompañantes como un array de objetos

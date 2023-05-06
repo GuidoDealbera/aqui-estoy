@@ -19,6 +19,9 @@ const getOneSupervisor = async (req, res) => {
           model: Companion,
           attributes: ['name', 'lastName', "phone", "profilePhoto", "country"],
         },
+        {
+          model: CityTimeZone,
+        },
       ],
     });
     //Si existe el supervisor y la contraseña coincide se procede a responder
