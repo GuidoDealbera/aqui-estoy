@@ -26,6 +26,7 @@ function UsersViewEdit(props) {
       studies: usr.studies || " ",
       gender: usr.gender || " ",
       rol: usrRol || " ",
+      isActiveText: (usr.isActive? 'Si' : 'No'),
     };
   });
   supervisorsData = supervisorsData.map((usr) => {
@@ -43,6 +44,7 @@ function UsersViewEdit(props) {
       studies: usr.studies || " ",
       gender: usr.gender || " ",
       rol: usrRol || " ",
+      isActiveText: (usr.isActive? 'Si' : 'No'),
     };
   });
   const usersData = [...companionsData, ...supervisorsData];
@@ -61,6 +63,15 @@ function UsersViewEdit(props) {
     //   // valueGetter: (params) =>
     //   //   `${params.row.firstName || ""} ${params.row.lastName || ""}`,
     // },
+    {
+      field: "isActiveText",
+      headerName: "CUENTA ACTIVA",
+      description: "",
+      sortable: true,
+      width: 160,
+      // valueGetter: (params) =>
+      //   `${params.row.firstName || ""} ${params.row.lastName || ""}`,
+    },
     {
       field: "rol",
       headerName: "ROL",
@@ -160,6 +171,7 @@ function UsersViewEdit(props) {
       // valueGetter: (params) =>
       //   `${params.row.firstName || ""} ${params.row.lastName || ""}`,
     },
+    
   ];
 
   function handleRowSelection(ids) {
