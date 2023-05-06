@@ -3,7 +3,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import axios from "axios"
 import { useDispatch, useSelector } from "react-redux"
-import { getOneCompanion, getOneSupervisor } from '../../Redux/Actions/viewActions';
+import { getBothRoles, getOneCompanion, getOneSupervisor } from '../../Redux/Actions/viewActions';
 import { useNavigate } from "react-router-dom"
 import {
   TextField,
@@ -58,11 +58,7 @@ const LoginForm = ({ handleMouseLeave }) => {
     
     const { email, password } = values;
     
-    if (rol === "Supervisor") {
-      dispatch(getOneSupervisor(email, password)) //Register
-    } else { // Companion
-      dispatch(getOneCompanion(email, password))
-    }
+    dispatch(getBothRoles(email,password))
   }
 
   return (
