@@ -51,6 +51,7 @@ export const putCompanion = (id, companion) => {
       });
       dispatch({ type: PUT_COMPANION, payload: response.data });
       dispatch(setLoading(false))
+      sessionStorage.setItem('user', JSON.stringify(response.data))
     } catch (error) {
       toast.error("No se pudo actualizar el ACOMPAÑANTE", toastError);
     }
@@ -64,6 +65,7 @@ export const putSupervisor = (id, supervisor) => {
       const response = await axios.put(`/putSupervisor/${id}`, supervisor);
       dispatch({ type: PUT_SUPERVISOR, payload: response.data });
       dispatch(setLoading(false))
+      sessionStorage.setItem('user', JSON.stringify(response.data))
     } catch (error) {
       toast.error("No se pudo actualizar el SUPERVISOR", toastError);
     }
