@@ -49,9 +49,12 @@ module.exports = (sequelize) => {
       gender: {
         type: DataTypes.STRING,
       },
-      isSuperAdmin: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: false,
+      rol: {
+        type: DataTypes.STRING,
+        defaultValue: "Supervisor",
+        validate: {
+          isIn: [['SuperAdmin', 'Supervisor']],
+        },
       },
       isActive:{
         type: DataTypes.BOOLEAN,

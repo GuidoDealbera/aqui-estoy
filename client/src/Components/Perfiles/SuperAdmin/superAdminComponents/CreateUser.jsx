@@ -8,6 +8,7 @@ import Select from '@mui/material/Select';
 import Box from '@mui/material/Box';
 import { useDispatch } from 'react-redux'
 import { postCompanion,postSupervisor } from '../../../../Redux/Actions/postPutActions';
+import { Grid, Typography } from '@mui/material';
 
 const CreateUser = () => {
   const dispatch=useDispatch()
@@ -15,7 +16,7 @@ const CreateUser = () => {
     username: '',
     email: '',
     password: '',
-    role: '',
+    rol: '',
   });
 
   const handleChange = (e) => {
@@ -27,7 +28,7 @@ const CreateUser = () => {
     e.preventDefault();
     //  implementar la lógica para crear el usuario, como llamar a una API o usar acciones de Redux
     // console.log(userData);
-    if(userData.role==="Companion"){
+    if(userData.rol==="Companion1" || userData.rol==="Companion2"){
       dispatch(postCompanion({email:userData.email,password:userData.password}))
     }else{
       dispatch(postSupervisor({email:userData.email,password:userData.password}))
@@ -37,7 +38,10 @@ const CreateUser = () => {
 
   return (
     <Box>
-      <h2>Crear Usuario</h2>
+      <Typography variant="h5" sx={{textAlign:"center", margin:"2vw"}}>
+      Crear Usuario</Typography>
+      <Grid container justifyContent="center">
+      <Grid item justifyContent="center" sx={{width:"40vw"}}>
       <form onSubmit={handleSubmit}>
         {/* <Box marginBottom={2}>
           <TextField
@@ -72,16 +76,18 @@ const CreateUser = () => {
           <FormControl fullWidth>
             <InputLabel>Rol</InputLabel>
             <Select
-              name="role"
-              value={userData.role}
+              name="rol"
+              value={userData.rol}
               onChange={handleChange}
               label="Rol"
             >
               <MenuItem value="">
                 <em>Selecciona un rol</em>
               </MenuItem>
+              <MenuItem value="SuperAdmin">Super Admin</MenuItem>
               <MenuItem value="Supervisor">Supervisor</MenuItem>
-              <MenuItem value="Companion">Acompañante</MenuItem>
+              <MenuItem value="Companion1">Acompañante 1</MenuItem>
+              <MenuItem value="Companion2">Acompañante 2</MenuItem>
             </Select>
           </FormControl>
         </Box>
@@ -89,6 +95,8 @@ const CreateUser = () => {
           Crear Usuario
         </Button>
       </form>
+      </Grid>
+      </Grid>
     </Box>
   );
 };

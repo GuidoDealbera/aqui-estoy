@@ -14,7 +14,14 @@ import {
   CardMedia,
   Grid,
   Slide,
+  Fade,
 } from "@mui/material";
+import { styled } from "@mui/system";
+
+const CustomTypography = styled(Typography)(({ theme }) => ({
+  color: "rgb(25, 21, 78)", // Verde fuerte
+  fontWeight: 600,
+}));
 
 export default function Landing(props) {
   const navigate = useNavigate();
@@ -31,6 +38,7 @@ export default function Landing(props) {
       sx={{
         minHeight: "100vh",
         width: "100%",
+        background: "linear-gradient(135deg, #FFFFFF 50%, #F5F5F5 50%)",
       }}
     >
       <Grid
@@ -42,6 +50,7 @@ export default function Landing(props) {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
+          p: 4,
         }}
       >
         <Container
@@ -53,14 +62,14 @@ export default function Landing(props) {
           }}
         >
           <Slide direction="down" in={true} timeout={1000}>
-            <Typography variant="h3" align="left" gutterBottom>
+            <CustomTypography variant="h3" align="left" gutterBottom>
               Aquí estoy! Plataforma de turnos
-            </Typography>
+            </CustomTypography>
           </Slide>
           <Slide direction="up" in={true} timeout={1000}>
-            <Typography variant="subtitle1" align="left" gutterBottom>
-              Escríbenos para recibir apoyo emocional, humano y gratuito por Whatsapp ante lo que sea que estés viviendo.
-            </Typography>
+            <CustomTypography variant="subtitle1" align="center" gutterBottom>
+              Te ayudamos a que ayudes
+            </CustomTypography>
           </Slide>
         </Container>
       </Grid>
@@ -74,7 +83,7 @@ export default function Landing(props) {
           overflow: "hidden",
         }}
       >
-        <Slide direction="right" in={true} timeout={1000}>
+        <Fade in={true} timeout={2000}>
           <CardMedia
             component="img"
             image={landingImage}
@@ -88,7 +97,7 @@ export default function Landing(props) {
               objectFit: "cover",
             }}
           />
-        </Slide>
+        </Fade>
       </Grid>
     </Grid>
   );

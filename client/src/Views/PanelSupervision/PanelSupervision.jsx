@@ -230,7 +230,7 @@ export default function PanelSupervision() {
                             </TableRow>
                             {acompananteCells[day].map((turno) => {
                                 {/* Aca se renderizan todos los turnos en cuestión */ }
-                                const { name, email, phone, time, } = turno;
+                                const { name, email, phone, time, idPersona} = turno;
                                 const initialTime = parseInt(time.split('-')[0]);
                                 const finalTime = parseInt(time.split('-')[1]);
                                 const duration = finalTime - initialTime;
@@ -241,7 +241,7 @@ export default function PanelSupervision() {
                                             {/* Renderizo las celdas */ }
                                             return (
                                                 <TableCell
-                                                    onClick={hour === initialTime ? () => { setPopOutData({ name, email, phone }); setTogglePopOut(true) } : null}
+                                                    onClick={hour === initialTime ? () => { setPopOutData({ idPersona, name, email, phone }); setTogglePopOut(true) } : null}
                                                     key={`${name}-${hour}`}
                                                     align="center"
                                                     colSpan={hour === initialTime ? duration : 1}
@@ -271,7 +271,7 @@ export default function PanelSupervision() {
             </TableContainer>
             <PopOut setTrigger={setTogglePopOut} trigger={togglePopOut}>
                 <Button>
-                    <Typography variant="h1" onClick={()=>{navigate(`/profile/${popOutData.idPersona}`)}}>{popOutData.name}</Typography>
+                    <Typography variant="h1" onClick={()=>{navigate(`/profile/${popOutData.idPersona}/view`)}}>{popOutData.name}</Typography>
                 </Button>
                 <Typography variant="h1">{popOutData.email}</Typography>
                 <Button>

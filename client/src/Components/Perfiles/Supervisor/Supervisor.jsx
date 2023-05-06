@@ -35,7 +35,7 @@ export default function Supervisor(props) {
         <Grid item marginTop={7}>
           <Avatar
             alt={user.name}
-            src={user.profileImage}
+            src={user.profilePhoto}
             sx={{ width: 190, height: 190 }}
           />
           <Typography variant="h3">
@@ -77,7 +77,7 @@ export default function Supervisor(props) {
         <Button onClick={()=>{navigate("/panel-supervision")}} variant="contained" style={{background:"#FFEDD7", color:"#151515"}}>Panel de supervision</Button>
       </Grid>
       <Grid
-        container
+        item
         
         xs={12}
         md={8.5}

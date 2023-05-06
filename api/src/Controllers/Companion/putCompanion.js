@@ -1,4 +1,9 @@
-const { Companion } = require("../../db");
+const {
+  Companion,
+  Supervisor,
+  CompanionShift,
+  CityTimeZone,
+} = require("../../db");
 
 //Controlador para actualizar datos de un usuario
 const putCompanion = async (req, res) => {
@@ -9,19 +14,27 @@ const putCompanion = async (req, res) => {
     birthdayDate,
     nationality,
     country,
-    CityTimeZoneId,
+    cityTimeZone,
     phone,
     profession,
     studies,
     gender,
-    rol,
+    isActive,
   } = req.body;
   //Requiere el id del usuario enviado por parametro
   const { id } = req.params;
-  const newDate = new Date(birthdayDate);
+  let newDate = null;
+  if (birthdayDate) {
+    newDate = new Date(birthdayDate);
+  }
+  const timezone = await CityTimeZone.findByPk(cityTimeZone);
+  if (timezone) {
+    const companion = await Companion.findByPk(id);
+    await companion.setCityTimeZone(timezone.id);
+  }
   try {
     //Modifica los datos del Acompañante con los datos enviados desde el front
-    const result = await Companion.update(
+    await Companion.update(
       {
         name,
         lastName,
@@ -29,11 +42,11 @@ const putCompanion = async (req, res) => {
         birthdayDate: newDate,
         nationality,
         country,
-        CityTimeZoneId,
         phone,
         profession,
         studies,
         gender,
+        isActive: isActive !== null && isActive !== undefined ? isActive : true
       },
       {
         where: { id: id },
@@ -41,13 +54,23 @@ const putCompanion = async (req, res) => {
       }
     );
     // Encuentra el acompañante actualizado
-    const companion = await Companion.findOne({ where: { id: id } });
-    const response = {
-      ...companion.toJSON(),
-      rol: rol,
-    };
+    const companion = await Companion.findByPk(id, {
+      include: [
+        {
+          model: CompanionShift,
+          attributes: ["id", "day", "time", "timezone"],
+          through: { attributes: [] },
+        },
+        {
+          model: Supervisor,
+        },
+        {
+          model: CityTimeZone,
+        },
+      ],
+    });
     // Devuelve el acompañante actualizado
-    res.status(200).json(response);
+    res.status(200).json(companion);
   } catch (error) {
     res.status(400).json(error.message);
   }

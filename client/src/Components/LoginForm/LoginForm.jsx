@@ -16,6 +16,7 @@ import {
   ToggleButton,
 } from '@mui/material';
 import { styled } from '@mui/system';
+import { loginSuccess } from '../../Redux/Actions/actions';
 
 const StyledLoginButton = styled(Button)(({ theme }) => ({
 
@@ -44,6 +45,7 @@ const LoginForm = ({ handleMouseLeave }) => {
   const {name, id} = user
   useEffect(() => {
     if(Object.entries(user).length){
+      dispatch(loginSuccess(user))
       if (name) {
         navigate(`/profile/${id}`)
       } else {
@@ -97,6 +99,7 @@ const LoginForm = ({ handleMouseLeave }) => {
     label="Correo electrónico"
     name="email"
     type="email"
+
     error={!!(ErrorMessage.name)}
     helperText={<ErrorMessage name="email" />}
 
@@ -110,6 +113,7 @@ const LoginForm = ({ handleMouseLeave }) => {
     label="Contraseña"
     name="password"
     type="password"
+
     error={!!(ErrorMessage.name)}
     helperText={<ErrorMessage name="password" />}
 

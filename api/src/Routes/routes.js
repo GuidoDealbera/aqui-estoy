@@ -33,11 +33,14 @@ const downgradeSupervisor = require("../Controllers/Supervisor/postDowngradeSupe
 const getAllSupervisorShift = require("../Controllers/Supervisor/getAllSupervisorShift"); //Trae todos los shift ASIGNADOS
 const postSupervisorCharge = require("../Controllers/Supervisor/postSupervisorCharge");
 const getSupervisorCharge = require("../Controllers/Supervisor/getSupervisorCharge");
+const putSupervisorCharge = require("../Controllers/Supervisor/putSupervisorCharge");
+
 
 const getCityTimeZone = require("../Controllers/TimeZone/getCityTimeZone");
 //* Both
 const { getBothRoles, requireLogin } = require("../Controllers/getBothRoles");
 const getUserById = require("../Controllers/getUserById");
+
 
 router.put("/putIsSuperAdmin/:id", requireSuperAdmin, putSuperAdmin);
 router.get("/getCompanion", getCompanion);
@@ -71,5 +74,5 @@ router.post(
 );
 router.get("/getSupervisorCharge/:idSupervisor", getSupervisorCharge);
 router.get("/getUserById/:id", getUserById);
-
+router.put("/putSupervisorCharge/:idSupervisor", putSupervisorCharge);
 module.exports = router;

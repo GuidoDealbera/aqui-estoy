@@ -1,4 +1,9 @@
-const { Supervisor } = require("../../db");
+const {
+  Supervisor,
+  Companion,
+  SupervisorShift,
+  CityTimeZone,
+} = require("../../db");
 
 //Controlador para modificar un supervisor
 const putSupervisor = async (req, res) => {
@@ -10,19 +15,23 @@ const putSupervisor = async (req, res) => {
     birthdayDate,
     nationality,
     country,
-    CityTimeZoneId,
+    cityTimeZone,
     phone,
     profession,
     studies,
     gender,
-    rol,
+    isActive,
   } = req.body;
   //Recibe id por params
   const { id } = req.params;
-  const newDate = new Date(birthdayDate);
+  let newDate = null;
+  if (birthdayDate) {
+    newDate = new Date(birthdayDate);
+  }
+  const timezone = await CityTimeZone.findByPk(cityTimeZone);
   try {
     //Realiza un update del supervisor con ese id en la bd
-    const result = await Supervisor.update(
+    await Supervisor.update(
       {
         name,
         lastName,
@@ -30,24 +39,37 @@ const putSupervisor = async (req, res) => {
         birthdayDate: newDate,
         nationality,
         country,
-        CityTimeZoneId,
         phone,
         profession,
         studies,
         gender,
+        isActive: isActive !== null && isActive !== undefined ? isActive : true
       },
       { where: { id: id } }
     );
-      
-    // Encuentra el supervisor actualizado
-    const supervisor = await Supervisor.findOne({ where: { id: id } });
-    const response = {
-      ...supervisor.toJSON(),
-      rol: rol,
-    };
 
+    if (timezone) {
+      const supervisor = await Supervisor.findByPk(id);
+      await supervisor.setCityTimeZone(timezone.id);
+    }
+    // Encuentra el supervisor actualizado
+    const supervisorUpdated = await Supervisor.findByPk(id, {
+      include: [
+        {
+          model: SupervisorShift,
+          attributes: ["id", "day", "time", "timezone"],
+          through: { attributes: [] },
+        },
+        {
+          model: Companion,
+        },
+        {
+          model: CityTimeZone,
+        },
+      ],
+    });
     // Devuelve el supervisor actualizado
-    res.status(200).json(response);
+    res.status(200).json(supervisorUpdated);
   } catch (error) {
     res.status(400).json(error.message);
   }

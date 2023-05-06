@@ -1,14 +1,21 @@
-const { Supervisor, Companion } = require('../../db');
+const { Supervisor, Companion, SupervisorShift } = require('../../db');
 
 const getSupervisorCharge = async (req, res) => {
   try {
     const { idSupervisor } = req.params;
-
     // Buscar Supervisor con el ID dado y cargar todas las instancias de Companion relacionadas
     const supervisorOnCharge = await Supervisor.findByPk(idSupervisor, {
-      include: [Companion],
+      include: [
+        {
+          model: Companion,
+        },
+        {
+          model: SupervisorShift,
+          attributes: ["id", "day", "time", "timezone"],
+          through: { attributes: [] },
+        },
+      ],
     });
-
     if (!supervisorOnCharge) {
       return res.status(404).json({ error: 'Supervisor no encontrado' });
     }

@@ -1,94 +1,97 @@
-import { useDispatch, useSelector } from "react-redux"
-import { getAllSupervisorShift } from "../../../Redux/Actions/viewActions"
-import { Container, Row, Col, Button, Modal } from 'react-bootstrap';
+import { useDispatch, useSelector } from "react-redux";
+import { getAllCompanionShift } from "../../../Redux/Actions/viewActions";
+import { Container, Row, Col, Button, Modal } from "react-bootstrap";
 import { useState } from "react";
-import CalendarPopOut from "../CalendarPopOut";
-import calendar from "./CalendarCompanion.css"
+import CalendarCompanionPopOut from "./CalendarCompanionPopOut";
+import calendar from "./CalendarCompanion.css";
 
-const CalendarCompanion=()=>{
-    let shifts=useSelector(state=>state.view.allSupervisorShift)
-    const user=useSelector(state=>state.auth.user)
-    const[togglePopOut,setTogglePopOut]=useState(false)
-    const[shift,setShift]=useState({})
-    const[rol,setRol]=useState(user.rol)
-    const dispatch=useDispatch()
-    shifts=shifts.map((shift)=>{
-        switch (shift.day) {
-         case 0:
-           return{
-               ...shift,
-               day:"Lunes"
-           }
-         case 1:
-         return{
-             ...shift,
-             day:"Martes"
-         }
-         case 2:
-         return{
-             ...shift,
-             day:"Miercoles"
-         }
-         case 3:
-         return{
-        ...shift,
-         day:"Jueves"
-          }
-         case 4:
-         return{
+const CalendarCompanion = () => {
+  let shifts = useSelector((state) => state.view.allCompanionShift);
+  console.log(shifts);
+  const user = useSelector((state) => state.auth.user);
+  const [togglePopOut, setTogglePopOut] = useState(false);
+  const [shift, setShift] = useState({
+    id: "",
+    day: "",
+    time: "",
+    timezone: "",
+  });
+  const [rol, setRol] = useState(user.rol);
+  const dispatch = useDispatch();
+  shifts = shifts.map((shift) => {
+    switch (shift.day) {
+      case 0:
+        return {
           ...shift,
-             day:"Viernes"
-         }
-         case 5:
-            return{
-                ...shift,
-                day:"Sabado"
-            }
-        case 6:
-            return{
-                ...shift,
-                day:"Domingo"
-            }
-               
-        
-            default:
-              return
-        }
-        })
-        const days = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'];
-    if(shifts.length===0){
-        dispatch(getAllSupervisorShift())
-    }
-    let hours=[]
-    if(user.rol==="Acompañante"){
-     
-    }
-    if(user.rol==="Acompañante2"){
-   
-    }
-  if(user&&user.rol==="Companion"||user.isSuperCompanion){
+          day: "Lunes",
+        };
+      case 1:
+        return {
+          ...shift,
+          day: "Martes",
+        };
+      case 2:
+        return {
+          ...shift,
+          day: "Miercoles",
+        };
+      case 3:
+        return {
+          ...shift,
+          day: "Jueves",
+        };
+      case 4:
+        return {
+          ...shift,
+          day: "Viernes",
+        };
+      case 5:
+        return {
+          ...shift,
+          day: "Sabado",
+        };
+      case 6:
+        return {
+          ...shift,
+          day: "Domingo",
+        };
 
-hours = Array.from({ length: 24 }, (_, i) => {
-    if(i<9){
-        return `0${i}:00-0${i+1}:00`
+      default:
+        return;
     }
-    if(i===9){
-        return `0${i}:00-${i+1}:00`
-    }
- 
-    return `${i}:00-${i===23?"00":i+1}:00`
-});
+  });
+  const days = [
+    "Lunes",
+    "Martes",
+    "Miercoles",
+    "Jueves",
+    "Viernes",
+    "Sabado",
+    "Domingo",
+  ];
+  if (shifts.length === 0) {
+    dispatch(getAllCompanionShift());
+  }
+  let hours = [];
+  if (user.rol === "Acompañante") {
+  }
+  if (user.rol === "Acompañante2") {
+  }
+  if ((user && user.rol === "Companion") || user.isSuperCompanion) {
+    hours = shifts.map((shift) => shift.time);
+    hours = hours.slice(0, 25);
+  }
 
-}
-
-
-    const handleClickCell=(hour,day)=>{
-      let found = shifts.find(shift=>shift.time===hour&&shift.day===day)
-      setTogglePopOut(!togglePopOut)
-      setShift(found)
-
-    }
-return  <Container className="calendar-container">
+  const handleClickCell = (hour, day) => {
+    let found = shifts.find(
+      (shift) => shift.time === hour && shift.day === day
+    );
+    setTogglePopOut(!togglePopOut);
+    setShift(found);
+  };
+  // console.log(shift);
+  return (
+    <Container className="calendar-container">
       <table className="calendar-table">
         <thead>
           <tr>
@@ -102,22 +105,47 @@ return  <Container className="calendar-container">
           {hours.map((hour) => (
             <tr key={hour}>
               <td className="hour">{hour}</td>
-              {days.map((day) => (
-                <td 
-                  onClick={()=>handleClickCell(hour,day)}
-                >
-              -----
-                </td>
-              ))}
+              {days.map((day, index) => {
+                if (user.CompanionShifts === undefined) {
+                  return (
+                    <td onClick={() => handleClickCell(hour, day)}>-----</td>
+                  );
+                } else {
+                  const found = user.CompanionShifts.find(
+                    (shift) => shift.day === index && shift.time === hour
+                  );
+                  if (found) {
+                    return (
+                      <td
+                        id={found.id}
+                        className="reserved"
+                        onClick={() => alert("Ya tienes este turno asignado")}
+                      >
+                        Turno reservado
+                      </td>
+                    );
+                  }
+                }
+
+                return (
+                  <td onClick={() => handleClickCell(hour, day)}>-----</td>
+                );
+              })}
             </tr>
           ))}
         </tbody>
       </table>
-      <CalendarPopOut  rol={rol} shift={shift} setTrigger={setTogglePopOut} trigger={togglePopOut}>
+      <CalendarCompanionPopOut
+        rol={rol}
+        shift={shift}
+        setTrigger={setTogglePopOut}
+        trigger={togglePopOut}
+      >
         <h3>Estas seguro que quieres confirmar este turno:</h3>
         <label>{shift.day}</label>
         <p>{shift.time}</p>
-      </CalendarPopOut>
-      </Container>
+      </CalendarCompanionPopOut>
+    </Container>
+  );
 };
-export default CalendarCompanion
+export default CalendarCompanion;
