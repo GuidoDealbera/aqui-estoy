@@ -59,7 +59,7 @@ export default function NavBar(props) {
   }
   if(user.rol==="SuperAdmin"){
     navigate("/calendarSuperAdmin")
-  }else if(user.rol==="Companion"||user.isSuperCompanion){
+  }else if(user.rol==="Companion"||user.rol==="Companion2"){
     navigate("/calendarCompanion")
   }else{
 
