@@ -1,4 +1,9 @@
-const { Supervisor, Companion, SupervisorShift, CityTimeZone } = require("../../db");
+const {
+  Supervisor,
+  Companion,
+  SupervisorShift,
+  CityTimeZone,
+} = require("../../db");
 
 //Controlador para modificar un supervisor
 const putSupervisor = async (req, res) => {
@@ -18,11 +23,14 @@ const putSupervisor = async (req, res) => {
   } = req.body;
   //Recibe id por params
   const { id } = req.params;
-  const newDate = new Date(birthdayDate);
-  const timezone = await CityTimeZone.findByPk(cityTimeZone)
+  let newDate = null;
+  if (birthdayDate) {
+    newDate = new Date(birthdayDate);
+  }
+  const timezone = await CityTimeZone.findByPk(cityTimeZone);
   try {
     //Realiza un update del supervisor con ese id en la bd
-     await Supervisor.update(
+    await Supervisor.update(
       {
         name,
         lastName,
@@ -37,13 +45,13 @@ const putSupervisor = async (req, res) => {
       },
       { where: { id: id } }
     );
-    
-      if(timezone){
-        const supervisor = await Supervisor.findByPk(id)
-        await supervisor.setCityTimeZone(timezone.id);
-      }
+
+    if (timezone) {
+      const supervisor = await Supervisor.findByPk(id);
+      await supervisor.setCityTimeZone(timezone.id);
+    }
     // Encuentra el supervisor actualizado
-    const supervisorUpdated = await Supervisor.findByPk(id,{
+    const supervisorUpdated = await Supervisor.findByPk(id, {
       include: [
         {
           model: SupervisorShift,
@@ -54,8 +62,8 @@ const putSupervisor = async (req, res) => {
           model: Companion,
         },
         {
-          model: CityTimeZone
-        }
+          model: CityTimeZone,
+        },
       ],
     });
     // Devuelve el supervisor actualizado
