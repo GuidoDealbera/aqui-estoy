@@ -20,6 +20,9 @@ const assignCompanionShift = async (req, res) => {
             {
               model: Supervisor,
             },
+            {
+              model: CityTimeZone,
+            },
           ],
         },
       );

@@ -113,6 +113,7 @@ export default function Companion(props) {
             // borderStyle: "solid",
           }}
         >
+
           <Grid
             item
             sx={{
@@ -124,9 +125,11 @@ export default function Companion(props) {
               // borderStyle: "solid",
             }}
           >
+            <Link to="/calendarCompanion">
             <Button variant="contained" style={estilos}>
               Reserva de turno de voluntariado
             </Button>
+            </Link>
           </Grid>
 
           <Grid

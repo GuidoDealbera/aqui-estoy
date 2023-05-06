@@ -7,14 +7,14 @@ const CalendarPopOut=(props)=>{
     const dispatch=useDispatch()
     const handleConfirm=()=>{
         if(confirm("Estas seguro que quieres confirmar el turno ?") == true){
-          if(user.rol==="Companion"){
+          if(user.rol==="Companion"||user.rol==="Companion2"){
 
             dispatch(postAssignCompanionShift(user.id,props.shift.id.toString(),user.rol) )
 
             props.setTrigger()
        
          }
-        if(user.rol==="Supervisor"||user.isSuperAdmin){
+        if(user.rol==="Supervisor"||user.rol==="SuperAdmin"){
             dispatch(postAssignSupervisorShift(user.id,props.shift.id.toString(),user.rol))
             props.setTrigger()
       
