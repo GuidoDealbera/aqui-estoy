@@ -10,8 +10,8 @@ import { Link } from "react-router-dom";
 
 export default function Companion(props) {
   const estilos = {
-    color: "#151515",
-    background: "#C8E8C7",
+    color: "white",
+    backgroundColor: "#1E1C4E",
     borderRadius: "10px",
     width: "100%",
     height: "100%",
@@ -24,8 +24,6 @@ export default function Companion(props) {
         container
         margin={"auto"}
         sx={{
-          background:
-            "linear-gradient(to right top, #ffffff, #ffffff , #ffffff, #77DED2, #00C8B2, #1CB4E4)",
           width: "60vw",
           flexDirection: "row",
           justifyContent: "center",
@@ -38,8 +36,9 @@ export default function Companion(props) {
           sx={{
             flexDirection: "column",
             width: "50vw",
-            // borderColor: "lightGray",
-            // borderStyle: "solid",
+            borderColor: "#1E1C4E",
+            borderStyle: "solid",
+            borderRadius: "5%",
           }}
           xs={12}
           md={5}
@@ -59,20 +58,20 @@ export default function Companion(props) {
                 margin: "auto",
                 // borderColor: "blue",
                 // borderStyle: "solid",
-                
               }}
             />
             <Typography variant="h5" textAlign="center">
               {user.name?.charAt(0).toUpperCase() +
-                user.name?.slice(1) +
-                ", " +
+                user.name?.slice(1)
+                 + " " +
                 user.lastName?.charAt(0).toUpperCase() +
                 user.lastName?.slice(1)}
             </Typography>
           </Grid>
+
           <Grid item textAlign={"center"}>
             <Typography display="block" variant="h6" marginTop={1}>
-              {`${user.profession}\n`}
+              {user.profession}
             </Typography>
             <Typography display="block" variant="h6" marginTop={1}>
               {user.email}
@@ -124,9 +123,11 @@ export default function Companion(props) {
               // borderStyle: "solid",
             }}
           >
-            <Button variant="contained" style={estilos}>
+             <Link to="/calendarCompanion">
+            <Button variant="outlined" style={estilos}>
               Reserva de turno de voluntariado
             </Button>
+            </Link>
           </Grid>
 
           <Grid
@@ -140,7 +141,7 @@ export default function Companion(props) {
               // borderStyle: "solid",
             }}
           >
-            <Button variant="contained" style={estilos}>
+            <Button variant="outlined"  style={estilos}>
               Centro de aprendizaje
             </Button>
           </Grid>

@@ -1,112 +1,184 @@
-import { Button, Box, Avatar, Typography, Grid, Container } from "@mui/material";
-import { useNavigate } from 'react-router-dom'
+import {
+  Button,
+  Box,
+  Avatar,
+  Typography,
+  Grid,
+  Container,
+} from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 export default function Supervisor(props) {
+  const navigate = useNavigate();
 
-  const navigate = useNavigate()
-
-  const {user} = props;
+  const { user } = props;
 
   const estilos = {
-    color: "#151515",
-    background: "#C8E8C7",
+    color: "white",
+    backgroundColor: "#1E1C4E",
     borderRadius: "10px",
     width: "100%",
-    height: "80%"
+    height: "100%",
   };
-  
+
   return (
-    <Grid
-      container
-      sx={{
-        background: "linear-gradient(to right top, #ffffff, #ffffff, #00C8B2)",
-      }}
-      height="100%"
-    >
+    <Box>
       <Grid
-        item
+        container
+        margin={"auto"}
         sx={{
-          flexDirection: "column",
-          marginTop: "1rem",
+          width: "60vw",
+          flexDirection: "row",
+          justifyContent: "center",
+          // borderColor: "red",
+          // borderStyle: "solid",
         }}
-        xs={12}
-        md={3.5}
       >
-        <Grid item marginTop={7}>
-          <Avatar
-            alt={user.name}
-            src={user.profilePhoto}
-            sx={{ width: 190, height: 190 }}
-          />
-          <Typography variant="h3">
-            {user.name?.charAt(0).toUpperCase() +
-              user.name?.slice(1) +
-              ", " +
-              user.lastName?.charAt(0).toUpperCase() +
-              user.lastName?.slice(1)}
-          </Typography>
+        <Grid
+          item
+          sx={{
+            flexDirection: "column",
+            width: "50vw",
+            borderColor: "#1E1C4E",
+            borderStyle: "solid",
+            borderRadius: "5%",
+          }}
+          xs={12}
+          md={5}
+        >
+          <Grid item marginTop={1}>
+            <Avatar
+              alt={user.name}
+              src={user.profilePhoto}
+              sx={{
+                width: 150,
+                height: 150,
+                marginBottom: "1vw",
+                margin: "auto",
+                // borderColor: "blue",
+                // borderStyle: "solid",
+              }}
+            />
+            <Typography variant="h5" textAlign="center">
+              {user.name?.charAt(0).toUpperCase() +
+                user.name?.slice(1) +
+                " " +
+                user.lastName?.charAt(0).toUpperCase() +
+                user.lastName?.slice(1)}
+            </Typography>
+          </Grid>
+
+          <Grid item textAlign={"center"}>
+            <Typography display="block" variant="h6" marginTop={1}>
+              {user.profession}
+            </Typography>
+            <Typography display="block" variant="h6" marginTop={1}>
+              {user.email}
+            </Typography>
+            <Typography display="block" variant="h7" marginTop={1}>
+              {user.phone}
+            </Typography>
+            <Typography display="block" variant="h7" marginTop={1}>
+              {user.country}
+            </Typography>
+            <Typography display="block" variant="h7" marginTop={1}>
+              {user.CityTimeZone.offSet}
+            </Typography>
+            {/* <Typography display="block" variant="h7" marginTop={1}>
+              {user.nationality}
+            </Typography> */}
+            {/* <Typography display="block" variant="h7" marginTop={2}>
+              {user.birthdayDate}
+            </Typography> */}
+            <Typography display="block" variant="h7" marginTop={1}>
+              {user.studies}
+            </Typography>
+            <Typography display="block" variant="h7" marginTop={1}>
+              {user.gender}
+            </Typography>
+          </Grid>
         </Grid>
 
-        <Typography variant="h5" marginTop={2}>
-          {user.birthDate}
-        </Typography>
-        <Typography variant="h5" marginTop={1}>
-          {user.nacionality}
-        </Typography>
-        <Typography variant="h5" marginTop={1}>
-          {user.country}
-        </Typography>
-        <Typography variant="h5" marginTop={1}>
-          {user.timeZone}
-        </Typography>
-        <Typography variant="h5" marginTop={1}>
-          {user.email}
-        </Typography>
-        <Typography variant="h5" marginTop={1}>
-          {user.phone}
-        </Typography>
-        <Typography variant="h5" marginTop={1}>
-          {user.profession}
-        </Typography>
-        <Typography variant="h5" marginTop={1}>
-          {user.studies}
-        </Typography>
-        <Typography variant="h5" marginTop={1}>
-          {user.gender}
-        </Typography>
-        <Button onClick={()=>{navigate("/panel-supervision")}} variant="contained" style={{background:"#FFEDD7", color:"#151515"}}>Panel de supervision</Button>
-      </Grid>
-      <Grid
-        item
-        
-        xs={12}
-        md={8.5}
-        sx={{
-          marginTop: "1rem",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-around",
-        }}
-      >
-        <Grid container sx={{
-        justifyContent: "space-around",
-      }}>
-          <Grid item md={5}  xs={12} height="100%" >
-            <Button variant="contained" style={estilos}>
-              Disponibilidad de turnos de voluntariado
-            </Button>
-          </Grid>
-          <Grid item md={5} xs={12} height="100%" >
-            <Button variant="contained" style={estilos}>Horarios de supervisión</Button>
-          </Grid>
-          <Grid item md={5} xs={12} height="100%" >
-            <Button onClick={()=>{navigate("/companionsAtCharge")}} variant="contained" style={estilos} >Personas a cargo</Button>
-          </Grid>
-          <Grid item md={5} xs={12} height="100%" >
-            <Button variant="contained" style={estilos}>Centro de aprendizaje</Button>
-          </Grid>
+        <Grid
+          container
+          xs={12}
+          md={5}
+          sx={{
+            display: "flex",
+            alignContent: "center",
+            justifyContent: "center",
+            // borderColor: "violet",
+            // borderStyle: "solid",
+          }}
+        >
+
+        <Grid
+          item
+          sx={{
+            width: "90%",
+            height: "20%",
+            padding: "1vw",
+            // borderColor: "blue",
+            // borderStyle: "solid",
+          }}
+        >
+          <Button variant="contained" style={estilos}>
+            Disponibilidad de turnos de voluntariado
+          </Button>
+        </Grid>
+
+        <Grid
+          item
+          sx={{
+            width: "90%",
+            height: "20%",
+            padding: "1vw",
+            // borderColor: "blue",
+            // borderStyle: "solid",
+          }}
+        >
+          <Button variant="contained" style={estilos}>
+            Horarios de supervisión
+          </Button>
+        </Grid>
+
+        <Grid
+          item
+          sx={{
+            width: "90%",
+            height: "20%",
+            padding: "1vw",
+            // borderColor: "blue",
+            // borderStyle: "solid",
+          }}
+        >
+          <Button
+            onClick={() => {
+              navigate("/companionsAtCharge");
+            }}
+            variant="contained"
+            style={estilos}
+          >
+            Personas a cargo
+          </Button>
+        </Grid>
+
+        <Grid
+          item
+          sx={{
+            width: "90%",
+            height: "20%",
+            padding: "1vw",
+            // borderColor: "blue",
+            // borderStyle: "solid",
+          }}
+        >
+          <Button variant="contained" style={estilos}>
+            Centro de aprendizaje
+          </Button>
+        </Grid>
         </Grid>
       </Grid>
-    </Grid>
+    </Box>
   );
 }
