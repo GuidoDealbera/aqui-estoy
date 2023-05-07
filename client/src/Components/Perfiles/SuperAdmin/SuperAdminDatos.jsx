@@ -6,50 +6,61 @@ import {
   Grid,
   CardMedia,
 } from "@mui/material";
-
+import { Link } from "react-router-dom";
 import image from "../../../img/xdlogo.png";
 import { width } from "@mui/system";
 
 export default function SuperAdminDatos(props) {
   const { user } = props;
+
+    const estilos = {
+    color: "white",
+    backgroundColor: "#1E1C4E",
+    borderRadius: "10px",
+    width: "100%",
+    height: "100%",
+  };
+
   return (
     <Box>
       <Grid
         container
+        margin={"auto"}
+        marginTop={"3vw"}
         sx={{
-          background: "linear-gradient(to top, #ffffff, #ffffff, #EEEFF3)",
+          width: "60vw",
+          flexDirection: "row",
+          justifyContent: "center",
+          // borderColor: "red",
+          // borderStyle: "solid",
         }}
-        justifyContent="center"
       >
         <Grid
           item
           sx={{
             flexDirection: "column",
-            marginTop: "1rem",
-            boxShadow: "3px 3px 5px #C8CCD8",
-            background: "linear-gradient(to top,#EEEFF3, #ffffff, #ffffff )",
+            width: "50vw",
+            borderColor: "#1E1C4E",
+            borderStyle: "solid",
+            borderRadius: "5%",
           }}
           xs={12}
-          sm={4}
+          md={5}
         >
-          <Grid
-            item
-            marginTop={7}
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              flexDirection: "column",
-              alignItems: "center",
-              
-            }}
-          >
+          <Grid item margin={1}>
             <Avatar
               alt={user?.name}
               src={user?.profilePhoto}
-              sx={{ width: 170, height: 170 }}
-              justifyContent="center"
+              sx={{
+                width: 150,
+                height: 150,
+                marginBottom: "1vw",
+                margin: "auto",
+                // borderColor: "blue",
+                // borderStyle: "solid",
+              }}
             />
-            <Typography variant="h3">
+            <Typography variant="h5" textAlign="center">
               {user?.name?.charAt(0).toUpperCase() +
                 user?.name?.slice(1) +
                 " " +
@@ -58,49 +69,69 @@ export default function SuperAdminDatos(props) {
             </Typography>
           </Grid>
 
-          <Grid container>
-            <Grid item xs={12} sm={6}>
-              <Typography variant="h6" margin={1}>
-                {user?.country}
-              </Typography>
-              <Typography variant="h6" margin={1}>
-                {user?.timeZone}
-              </Typography>
-              <Typography variant="h6" margin={1}>
-                {user?.email}
-              </Typography>
-              <Typography variant="h6" margin={1}>
-                {user?.phone}
-              </Typography>
-              <Typography variant="h6" margin={1}>
-                {user?.profession}
-              </Typography>
-              <Typography variant="h6" margin={1}>
-                {user?.studies}
-              </Typography>
-            </Grid>
-            <Grid
-              item
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                flexDirection: "column",
-                alignItems: "center",
-                
-              }}
-            >
-              <CardMedia
+          <Grid item textAlign={"center"}>
+            <Typography display="block" variant="h6" marginTop={1}>
+              {user?.country}
+            </Typography>
+            <Typography display="block" variant="h6" marginTop={1}>
+              {user?.timeZone}
+            </Typography>
+            <Typography display="block" variant="h6" marginTop={1}>
+              {user?.email}
+            </Typography>
+            <Typography display="block" variant="h6" marginTop={1}>
+              {user?.phone}
+            </Typography>
+            <Typography display="block" variant="h6" marginTop={1}>
+              {user?.profession}
+            </Typography>
+            <Typography display="block" variant="h6" marginTop={1}>
+              {user?.studies}
+            </Typography>
+          </Grid>
+        </Grid>
+
+        <Grid
+          container
+          xs={12}
+          md={5}
+          sx={{
+            display: "flex",
+            alignContent: "center",
+            justifyContent: "center",
+            // borderColor: "violet",
+            // borderStyle: "solid",
+          }}
+        >
+          <Grid
+            item
+            sx={{
+              width: "90%",
+              height: "30%",
+              minHeight: "8vw",
+              padding: "1vw",
+              // borderColor: "blue",
+              // borderStyle: "solid",
+            }}
+          >
+            <Link to='/register'>
+            <Button variant="outlined" style={estilos}>
+              Editar mi información
+            </Button>
+            </Link>
+            
+          </Grid>
+        </Grid>
+      </Grid>
+
+      {/* <CardMedia
                 xs={12}
                 sm={5}
                 component="img"
                 style={{ height: "50%", width: "50%" }}
                 image={image}
                 alt="aquiEstoy"
-              />
-            </Grid>
-          </Grid>
-        </Grid>
-      </Grid>
+              /> */}
     </Box>
   );
 }

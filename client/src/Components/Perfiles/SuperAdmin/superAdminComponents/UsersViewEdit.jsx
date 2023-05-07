@@ -65,10 +65,10 @@ function UsersViewEdit(props) {
     // },
     {
       field: "isActiveText",
-      headerName: "CUENTA ACTIVA",
+      headerName: "ACTIVO",
       description: "",
       sortable: true,
-      width: 160,
+      width: 80,
       // valueGetter: (params) =>
       //   `${params.row.firstName || ""} ${params.row.lastName || ""}`,
     },
@@ -113,7 +113,7 @@ function UsersViewEdit(props) {
       headerName: "TELÉFONO",
       description: "",
       sortable: false,
-      width: 160,
+      width: 120,
       // valueGetter: (params) =>
       //   `${params.row.firstName || ""} ${params.row.lastName || ""}`,
     },
@@ -122,7 +122,7 @@ function UsersViewEdit(props) {
       headerName: "PAÍS",
       description: "",
       sortable: true,
-      width: 160,
+      width: 120,
       // valueGetter: (params) =>
       //   `${params.row.firstName || ""} ${params.row.lastName || ""}`,
     },
@@ -131,13 +131,13 @@ function UsersViewEdit(props) {
       headerName: "NACIONALIDAD",
       description: "",
       sortable: true,
-      width: 160,
+      width: 120,
       // valueGetter: (params) =>
       //   `${params.row.firstName || ""} ${params.row.lastName || ""}`,
     },
     {
       field: "birthdayDate",
-      headerName: "FECHA DE NACIMIENTO",
+      headerName: "FECHA NACIMIENTO",
       description: "",
       sortable: false,
       width: 160,
@@ -149,7 +149,8 @@ function UsersViewEdit(props) {
       headerName: "PROFESIÓN",
       description: "",
       sortable: true,
-      width: 160,
+      width: 120,
+      
       // valueGetter: (params) =>
       //   `${params.row.firstName || ""} ${params.row.lastName || ""}`,
     },
@@ -158,7 +159,7 @@ function UsersViewEdit(props) {
       headerName: "ESTUDIOS",
       description: "",
       sortable: true,
-      width: 160,
+      width: 120,
       // valueGetter: (params) =>
       //   `${params.row.firstName || ""} ${params.row.lastName || ""}`,
     },
@@ -167,7 +168,7 @@ function UsersViewEdit(props) {
       headerName: "GENERO",
       description: "",
       sortable: true,
-      width: 160,
+      width: 130,
       // valueGetter: (params) =>
       //   `${params.row.firstName || ""} ${params.row.lastName || ""}`,
     },
@@ -195,6 +196,8 @@ function UsersViewEdit(props) {
             <DataGrid
               rows={usersData}
               columns={columns}
+              showColumnVerticalBorder={true}
+              showCellVerticalBorder={true}
               initialState={{
                 pagination: {
                   paginationModel: { page: 0, pageSize: 5 },
