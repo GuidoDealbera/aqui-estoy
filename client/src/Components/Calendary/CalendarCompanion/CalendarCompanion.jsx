@@ -74,7 +74,7 @@ const CalendarCompanion = () => {
   }
   let hours = [];
 
-  if ((user && user.rol === "Companion") ||user.rol==="Companion2") {
+  if ((user && user.rol === "Companion1") ||user.rol==="Companion2") {
     hours = shifts.map((shift) => shift.time);
     hours = hours.slice(0, 25);
   }
