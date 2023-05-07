@@ -141,6 +141,26 @@ export default function Supervisor(props) {
             Horarios de supervisión
           </Button>
         </Grid>
+        <Grid
+          item
+          sx={{
+            width: "90%",
+            height: "20%",
+            padding: "1vw",
+            // borderColor: "blue",
+            // borderStyle: "solid",
+          }}
+        >
+          <Button
+            onClick={() => {
+              navigate("/panel-supervision");
+            }}
+            variant="contained"
+            style={estilos}
+          >
+            Panel de Supervisión
+          </Button>
+        </Grid>
 
         <Grid
           item
