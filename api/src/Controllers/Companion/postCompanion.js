@@ -11,7 +11,7 @@ const postCompanion = async (req, res) => {
       const newCompanion = await Companion.create({
         email: email,
         password: passwordHash,
-        rol: rol
+        rol: rol,
       });
       res.status(201).json(newCompanion);
     } else {
