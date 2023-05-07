@@ -95,7 +95,6 @@ export const getBothRoles = (email, password) => {
             dispatch({ type: "GET_BOTH_ROLES", payload: response.data })
             dispatch(setLoading(false))
         } catch (error) {
-            dispatch({ type: "GET_BOTH_ROLES", payload: "No se encontro" })
             toast.error('No se pudo cargar el USUARIO', toastError)
         }
     }
