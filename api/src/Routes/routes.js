@@ -35,12 +35,12 @@ const postSupervisorCharge = require("../Controllers/Supervisor/postSupervisorCh
 const getSupervisorCharge = require("../Controllers/Supervisor/getSupervisorCharge");
 const putSupervisorCharge = require("../Controllers/Supervisor/putSupervisorCharge");
 
-
 const getCityTimeZone = require("../Controllers/TimeZone/getCityTimeZone");
 //* Both
 const { getBothRoles, requireLogin } = require("../Controllers/getBothRoles");
 const getUserById = require("../Controllers/getUserById");
-
+const getAllCompanionsPerShift = require("../Controllers/Companion/getAllCompanionsPerShift");
+const getAllSupervisorsPerShift = require("../Controllers/Supervisor/getAllSupervisorsPerShift");
 
 router.put("/putIsSuperAdmin/:id", requireSuperAdmin, putSuperAdmin);
 router.get("/getCompanion", getCompanion);
@@ -53,6 +53,8 @@ router.delete("/deleteCompanionShift", deleteCompanionShift);
 router.post("/postRankUpCompanion/:id", requireSuperAdmin, postRankUpCompanion);
 router.get("/getCompanion/:idShift", getCompanionShiftById);
 router.get("/getAllCompanionShift", getAllCompanionShift);
+router.get("/getAllCompanionsPerShift", getAllCompanionsPerShift);
+
 router.get("/getSupervisor", getSupervisor);
 router.post("/postSupervisor", postSupervisor);
 router.put("/putSupervisor/:id", putSupervisor);
@@ -65,14 +67,14 @@ router.post(
   downgradeSupervisor
 );
 router.post("/postAssignSupervisorShift/:idSupervisor", assignSupervisorShift);
+router.get("/getAllSupervisorShift", getAllSupervisorShift);
+router.post("/postSupervisorCharge/:idSupervisor", postSupervisorCharge);
+router.get("/getSupervisorCharge/:idSupervisor", getSupervisorCharge);
+router.put("/putSupervisorCharge/:idSupervisor", putSupervisorCharge);
+router.get("/getAllSupervisorsPerShift", getAllSupervisorsPerShift);
+
 router.get("/getCityTimeZone", getCityTimeZone);
 router.post("/getBothRoles", requireLogin, getBothRoles);
-router.get("/getAllSupervisorShift", getAllSupervisorShift);
-router.post(
-  "/postSupervisorCharge/:idSupervisor",
-  postSupervisorCharge
-);
-router.get("/getSupervisorCharge/:idSupervisor", getSupervisorCharge);
 router.get("/getUserById/:id", getUserById);
-router.put("/putSupervisorCharge/:idSupervisor", putSupervisorCharge);
+
 module.exports = router;
