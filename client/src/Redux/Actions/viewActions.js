@@ -92,7 +92,6 @@ export const getBothRoles = (email, password) => {
         try {
             dispatch(setLoading(true))
             const response = await axios.post('/getBothRoles', { email, password });
-            console.log(response.data);
             dispatch({ type: "GET_BOTH_ROLES", payload: response.data })
             dispatch(setLoading(false))
         } catch (error) {
