@@ -116,7 +116,7 @@ export default function Companion(props) {
             item
             sx={{
               width: "90%",
-              height: "40%",
+              height: "30%",
               padding: "1vw",
               // borderColor: "blue",
               // borderStyle: "solid",
@@ -133,7 +133,7 @@ export default function Companion(props) {
             item
             sx={{
               width: "90%",
-              height: "40%",
+              height: "30%",
               padding: "1vw",
               // borderColor: "blue",
               // borderStyle: "solid",
@@ -143,6 +143,24 @@ export default function Companion(props) {
               Centro de aprendizaje
             </Button>
           </Grid>
+
+          <Grid
+            item
+            sx={{
+              width: "90%",
+              height: "30%",
+              padding: "1vw",
+              // borderColor: "blue",
+              // borderStyle: "solid",
+            }}
+          >
+            <Link to='/register'>
+            <Button variant="outlined" style={estilos}>
+              Editar mi información
+            </Button>
+            </Link>
+          </Grid>
+
         </Grid>
       </Grid>
     </Box>
