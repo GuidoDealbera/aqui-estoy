@@ -3,7 +3,6 @@ import { getAllSupervisorShift, getAllSupervisors } from "../../../Redux/Actions
 import { Container, Row, Col, Button, Modal } from 'react-bootstrap';
 import { useEffect, useState } from "react";
 import CalendarSuperAdminPopOut from "./CalendarSuperAdminPopOut";
-import calendar from "./CalendarSuperAdmin.css"
 
 const CalendarSupervisor=()=>{
     const[togglePopOut,setTogglePopOut]=useState(false)
