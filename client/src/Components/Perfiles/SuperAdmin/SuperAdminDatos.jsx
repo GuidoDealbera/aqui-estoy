@@ -50,11 +50,11 @@ export default function SuperAdminDatos(props) {
               justifyContent="center"
             />
             <Typography variant="h3">
-              {user?.name.charAt(0).toUpperCase() +
-                user?.name.slice(1) +
+              {user?.name?.charAt(0).toUpperCase() +
+                user?.name?.slice(1) +
                 " " +
-                user?.lastName.charAt(0).toUpperCase() +
-                user?.lastName.slice(1)}
+                user?.lastName?.charAt(0).toUpperCase() +
+                user?.lastName?.slice(1)}
             </Typography>
           </Grid>
 
