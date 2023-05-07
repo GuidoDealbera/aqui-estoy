@@ -42,6 +42,10 @@ const getUserById = require("../Controllers/getUserById");
 const getAllCompanionsPerShift = require("../Controllers/Companion/getAllCompanionsPerShift");
 const getAllSupervisorsPerShift = require("../Controllers/Supervisor/getAllSupervisorsPerShift");
 
+//* nodemailer
+const postEmailAccountCreated = require(".././Controllers/Nodemailer/postEmailAccountCreated");
+router.post("/postEmailAccountCreated", postEmailAccountCreated);
+
 router.put("/putIsSuperAdmin/:id", requireSuperAdmin, putSuperAdmin);
 router.get("/getCompanion", getCompanion);
 router.post("/postCompanion", postCompanion);
