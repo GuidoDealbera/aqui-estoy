@@ -12,7 +12,7 @@ function UsersViewEdit(props) {
 
   //Aqui se limpia la info para exportar los campos deseados
   companionsData = companionsData.map((usr) => {
-    usr.isSuperCompanion ? (usrRol = "Companion-2") : (usrRol = "Companion-1");
+    usr.rol === "Companion2" ? (usrRol = "Acompañante 2") : (usrRol = "Acompañante 1");
     return {
       id: usr.id,
       name: usr.name || " ",
@@ -30,7 +30,7 @@ function UsersViewEdit(props) {
     };
   });
   supervisorsData = supervisorsData.map((usr) => {
-    usr.isSuperAdmin ? (usrRol = "Superadmin") : (usrRol = "Supervisor");
+    usr.rol==="SuperAdmin" ? (usrRol = "Super Admin") : (usrRol = "Supervisor");
     return {
       id: usr.id,
       name: usr.name || " ",
