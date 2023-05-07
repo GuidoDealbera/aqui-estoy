@@ -82,7 +82,7 @@ export default function Supervisor(props) {
               {user.country}
             </Typography>
             <Typography display="block" variant="h7" marginTop={1}>
-              {user.CityTimeZone.offSet}
+              {user.CityTimeZone?.offSet}
             </Typography>
             {/* <Typography display="block" variant="h7" marginTop={1}>
               {user.nationality}
