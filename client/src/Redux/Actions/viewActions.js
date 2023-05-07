@@ -92,10 +92,10 @@ export const getBothRoles = (email, password) => {
         try {
             dispatch(setLoading(true))
             const response = await axios.post('/getBothRoles', { email, password });
+            console.log(response.data);
             dispatch({ type: "GET_BOTH_ROLES", payload: response.data })
             dispatch(setLoading(false))
         } catch (error) {
-            dispatch({ type: "GET_BOTH_ROLES", payload: "No se encontro" })
             toast.error('No se pudo cargar el USUARIO', toastError)
         }
     }
