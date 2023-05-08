@@ -15,6 +15,7 @@ export default function Companion(props) {
     borderRadius: "10px",
     width: "100%",
     height: "100%",
+    boxShadow: "5px 5px 5px #C8CCD8"
   };
 
   const { user } = props;
@@ -24,6 +25,7 @@ export default function Companion(props) {
         container
         margin={"auto"}
         sx={{
+        
           width: "60vw",
           flexDirection: "row",
           justifyContent: "center",
@@ -36,8 +38,7 @@ export default function Companion(props) {
           sx={{
             flexDirection: "column",
             width: "50vw",
-            borderColor: "#1E1C4E",
-            borderStyle: "solid",
+            boxShadow: "5px 5px 5px #C8CCD8",
             borderRadius: "5%",
           }}
           xs={12}

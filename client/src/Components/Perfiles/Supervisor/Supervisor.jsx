@@ -19,17 +19,23 @@ export default function Supervisor(props) {
     borderRadius: "10px",
     width: "100%",
     height: "100%",
+    boxShadow: "5px 5px 5px #C8CCD8"
   };
 
   return (
-    <Box>
+    <Box sx={{
+      background:
+        "linear-gradient(to top, #ffffff, #EEEFF3)",
+    }}>
       <Grid
         container
         margin={"auto"}
         sx={{
+          
           width: "60vw",
           flexDirection: "row",
           justifyContent: "center",
+          
           // borderColor: "red",
           // borderStyle: "solid",
         }}
@@ -39,8 +45,7 @@ export default function Supervisor(props) {
           sx={{
             flexDirection: "column",
             width: "50vw",
-            borderColor: "#1E1C4E",
-            borderStyle: "solid",
+            boxShadow:"2px 3px 5px #1E1C4E",
             borderRadius: "5%",
           }}
           xs={12}

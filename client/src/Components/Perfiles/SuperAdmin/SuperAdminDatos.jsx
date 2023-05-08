@@ -19,6 +19,7 @@ export default function SuperAdminDatos(props) {
     borderRadius: "10px",
     width: "100%",
     height: "100%",
+    boxShadow: "5px 5px 5px #C8CCD8"
   };
 
   return (
@@ -40,9 +41,10 @@ export default function SuperAdminDatos(props) {
           sx={{
             flexDirection: "column",
             width: "50vw",
-            borderColor: "#1E1C4E",
-            borderStyle: "solid",
+            // borderColor: "#1E1C4E",
+            // borderStyle: "solid",
             borderRadius: "5%",
+            boxShadow:"2px 3px 5px #1E1C4E"
           }}
           xs={12}
           md={5}
