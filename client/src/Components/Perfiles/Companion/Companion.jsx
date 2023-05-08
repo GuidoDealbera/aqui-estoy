@@ -1,14 +1,18 @@
 import { Button, Box, Avatar, Typography, Grid } from "@mui/material";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import Loader from "../../Loader/Loader";
 
 
 export default function Companion(props) {
-  const dispatch = useDispatch();
+  const allSupervisors = useSelector(state => state.view.allSupervisors);
   const SuperId = props.user.SupervisorId;
+  const result = allSupervisors.map((supervisor)=>{
+    if (supervisor.id === SuperId) return supervisor
+  })
+  const { name, lastName } = result;
+  const MentorName = `${name} ${lastName}`;
 
-  // const dispatch = useDi
   const estilos = {
     color: "white",
     backgroundColor: "#1E1C4E",
@@ -17,8 +21,6 @@ export default function Companion(props) {
     height: "100%",
     boxShadow: "5px 5px 5px #C8CCD8",
   };
-
-
 
   const { user } = props;
 
@@ -92,7 +94,7 @@ export default function Companion(props) {
               Género: {user.gender}
             </Typography>
             <Typography display="block" variant="h7" marginTop={1}>
-              Mentor: {user.gender}
+              Mentor: {MentorName}
             </Typography>
           </Grid>
         </Grid>
