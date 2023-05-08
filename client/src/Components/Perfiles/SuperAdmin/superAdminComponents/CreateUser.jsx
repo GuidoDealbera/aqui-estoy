@@ -13,7 +13,6 @@ import { Grid, Typography } from '@mui/material';
 const CreateUser = () => {
   const dispatch=useDispatch()
   const [userData, setUserData] = useState({
-    username: '',
     email: '',
     password: '',
     rol: '',
