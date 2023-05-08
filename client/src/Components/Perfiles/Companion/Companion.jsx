@@ -1,10 +1,11 @@
 import { Button, Box, Avatar, Typography, Grid } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux"
 import Loader from "../../Loader/Loader";
 
 
 export default function Companion(props) {
+  const navigate = useNavigate();
   const allSupervisors = useSelector(state => state.view.allSupervisors);
   const {loading} = useSelector(state => state.auth)
   const SuperId = props.user.SupervisorId;
@@ -28,9 +29,12 @@ export default function Companion(props) {
     height: "100%",
     boxShadow: "5px 5px 5px #C8CCD8",
   };
-
+  
   const { user } = props;
-
+  
+  const toEdit = () => {
+    navigate(`/profile/${user.id}/edit`)
+  }
   return !loading ? (
     <Box>
       <Grid
@@ -152,11 +156,9 @@ export default function Companion(props) {
               padding: "1vw",
             }}
           >
-            <Link to="/register">
-              <Button variant="outlined" style={estilos}>
+              <Button variant="outlined" style={estilos} onClick={toEdit}>
                 Editar mi información
               </Button>
-            </Link>
           </Grid>
         </Grid>
       </Grid>
