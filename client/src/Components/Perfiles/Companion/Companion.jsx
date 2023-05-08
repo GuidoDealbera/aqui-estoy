@@ -7,8 +7,14 @@ import {
   Container,
 } from "@mui/material";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux"
+import { getUserById } from "../../../Redux/Actions/viewActions";
 
 export default function Companion(props) {
+  const dispatch = useDispatch();
+  const SuperId = props.user.SupervisorId;
+
+  // const dispatch = useDi
   const estilos = {
     color: "white",
     backgroundColor: "#1E1C4E",
@@ -18,7 +24,10 @@ export default function Companion(props) {
     boxShadow: "5px 5px 5px #C8CCD8"
   };
 
+
+
   const { user } = props;
+
   return (
     <Box>
       <Grid
@@ -78,10 +87,13 @@ export default function Companion(props) {
               {user.email}
             </Typography>
             <Typography display="block" variant="h7" marginTop={1}>
-              {user.phone}
+              {user.rol === "Companion2" ? "Acompañante 2" : "Acompañante 1"}
             </Typography>
             <Typography display="block" variant="h7" marginTop={1}>
-              {user.country}
+              Teléfono: {user.phone}
+            </Typography>
+            <Typography display="block" variant="h7" marginTop={1}>
+              Ubicación: {user.country}
             </Typography>
             <Typography display="block" variant="h7" marginTop={1}>
               {user.CityTimeZone?.offSet}
@@ -96,7 +108,10 @@ export default function Companion(props) {
               {user.studies}
             </Typography>
             <Typography display="block" variant="h7" marginTop={1}>
-              {user.gender}
+              Género: {user.gender}
+            </Typography>
+            <Typography display="block" variant="h7" marginTop={1}>
+              Mentor: {user.gender}
             </Typography>
           </Grid>
         </Grid>
