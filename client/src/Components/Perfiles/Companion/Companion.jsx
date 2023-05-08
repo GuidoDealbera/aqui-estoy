@@ -1,14 +1,8 @@
-import {
-  Button,
-  Box,
-  Avatar,
-  Typography,
-  Grid,
-  Container,
-} from "@mui/material";
+import { Button, Box, Avatar, Typography, Grid } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux"
-import { getUserById } from "../../../Redux/Actions/viewActions";
+import Loader from "../../Loader/Loader";
+
 
 export default function Companion(props) {
   const dispatch = useDispatch();
@@ -21,25 +15,22 @@ export default function Companion(props) {
     borderRadius: "10px",
     width: "100%",
     height: "100%",
-    boxShadow: "5px 5px 5px #C8CCD8"
+    boxShadow: "5px 5px 5px #C8CCD8",
   };
 
 
 
   const { user } = props;
 
-  return (
+  return Object.entries(user).length > 0 ? (
     <Box>
       <Grid
         container
         margin={"auto"}
         sx={{
-        
           width: "60vw",
           flexDirection: "row",
           justifyContent: "center",
-          // borderColor: "red",
-          // borderStyle: "solid",
         }}
       >
         <Grid
@@ -56,7 +47,6 @@ export default function Companion(props) {
           <Grid
             item
             margin={1}
-            // sx={{ borderColor: "green", borderStyle: "solid" }}
           >
             <Avatar
               alt={user.name}
@@ -66,8 +56,6 @@ export default function Companion(props) {
                 height: 150,
                 marginBottom: "1vw",
                 margin: "auto",
-                // borderColor: "blue",
-                // borderStyle: "solid",
               }}
             />
             <Typography variant="h5" textAlign="center">
@@ -78,7 +66,6 @@ export default function Companion(props) {
                 user.lastName?.slice(1)}
             </Typography>
           </Grid>
-
           <Grid item textAlign={"center"}>
             <Typography display="block" variant="h6" marginTop={1}>
               {user.profession}
@@ -98,12 +85,6 @@ export default function Companion(props) {
             <Typography display="block" variant="h7" marginTop={1}>
               {user.CityTimeZone?.offSet}
             </Typography>
-            {/* <Typography display="block" variant="h7" marginTop={1}>
-              {user.nationality}
-            </Typography> */}
-            {/* <Typography display="block" variant="h7" marginTop={2}>
-              {user.birthdayDate}
-            </Typography> */}
             <Typography display="block" variant="h7" marginTop={1}>
               {user.studies}
             </Typography>
@@ -124,8 +105,6 @@ export default function Companion(props) {
             display: "flex",
             alignContent: "center",
             justifyContent: "center",
-            // borderColor: "violet",
-            // borderStyle: "solid",
           }}
         >
           <Grid
@@ -134,8 +113,6 @@ export default function Companion(props) {
               width: "90%",
               height: "30%",
               padding: "1vw",
-              // borderColor: "blue",
-              // borderStyle: "solid",
             }}
           >
             <Link to="/calendarCompanion">
@@ -151,8 +128,6 @@ export default function Companion(props) {
               width: "90%",
               height: "30%",
               padding: "1vw",
-              // borderColor: "blue",
-              // borderStyle: "solid",
             }}
           >
             <Button variant="outlined" style={estilos}>
@@ -166,19 +141,18 @@ export default function Companion(props) {
               width: "90%",
               height: "30%",
               padding: "1vw",
-              // borderColor: "blue",
-              // borderStyle: "solid",
             }}
           >
-            <Link to='/register'>
-            <Button variant="outlined" style={estilos}>
-              Editar mi información
-            </Button>
+            <Link to="/register">
+              <Button variant="outlined" style={estilos}>
+                Editar mi información
+              </Button>
             </Link>
           </Grid>
-
         </Grid>
       </Grid>
     </Box>
+  ) : (
+    <Loader />
   );
 }

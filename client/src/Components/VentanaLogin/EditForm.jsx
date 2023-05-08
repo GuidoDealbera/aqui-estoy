@@ -6,7 +6,6 @@ import {
   Typography,
   TextField,
   Box,
-  Input,
 } from "@mui/material";
 import { Container } from "@mui/system";
 import { Formik, Form, Field, ErrorMessage } from "formik";
@@ -15,27 +14,36 @@ import { toast } from "sonner";
 import { toastSuccess } from "../../Redux/Actions/alertStyle";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Loader from '../Loader/Loader'
+import Loader from "../Loader/Loader";
+import {
+  putCompanion,
+  putSupervisor,
+} from "../../Redux/Actions/postPutActions";
 
 export default function EditForm(props) {
-    const {allCompanions, allSupervisors} = useSelector(state => state.view)
-    const [user, setUser] = useState({})
-    useEffect(() => {
-        let allUsers = [...allCompanions, ...allSupervisors];
-        setUser(
-            allUsers.find(user => user.id === props.userID)
-        )
-    }, [allCompanions, allSupervisors])
   const dispatch = useDispatch();
-  const submitHandler = () => {
-    console.log(user);
+  const { allCompanions, allSupervisors } = useSelector((state) => state.view);
+  const [user, setUser] = useState({});
+  useEffect(() => {
+    let allUsers = [...allCompanions, ...allSupervisors];
+    setUser(allUsers.find((user) => user.id === props.userID));
+  }, [allCompanions, allSupervisors]);
+  const submitHandler = (values) => {
+    console.log(values);
+    if (user.rol === "Companion1" || user.rol === "Companion2") {
+      dispatch(putCompanion(user.id, values));
+    } else if (user.rol === "Supervisor" || user.rol === "SuperAdmin") {
+      dispatch(putSupervisor(user.id, values));
+    } 
+    toast.success("Datos actualizados exitosamente", toastSuccess);
+    
   };
 
   const validationSchema = Yup.object().shape({
-    isActive: Yup.string(),
+    isActive: Yup.boolean(),
     rol: Yup.string(),
+    name: Yup.string().max(15, "Debe ser menor a 15 caracteres"),
   });
-
 
   const renderForm = (
     <>
@@ -49,12 +57,27 @@ export default function EditForm(props) {
             textOverflow: "ellipsis",
           }}
         >
+          Nombre
+        </InputLabel>
+        <Field as={TextField} name="name" sx={{width: 300}} />
+        <ErrorMessage name="name">
+          {(msg) => <Typography color="error">{msg}</Typography>}
+        </ErrorMessage>
+        <InputLabel
+          sx={{
+            fontSize: "13px",
+            maxWidth: "300px",
+            whiteSpace: "nowrap",
+            overflow: "visible",
+            textOverflow: "ellipsis",
+          }}
+        >
           Estado de la cuenta
         </InputLabel>
         <Field as={Select} sx={{ width: 300 }} name="isActive">
           <MenuItem disabled>Seleccione el estado de la cuenta</MenuItem>
-          <MenuItem value="Si">Si</MenuItem>
-          <MenuItem value="No">No</MenuItem>
+          <MenuItem value={true}>Activa</MenuItem>
+          <MenuItem value={false}>Inactiva</MenuItem>
         </Field>
         <ErrorMessage name="isActive">
           {(msg) => <Typography color="error">{msg}</Typography>}
@@ -88,23 +111,14 @@ export default function EditForm(props) {
       </Box>
     </>
   );
-  return (
-    Object.entries(user).length > 0 ?
-    <Container /*sx={styles.container}*/>
+  return Object.entries(user).length > 0 ? (
+    <Container>
       <Typography variant="h5">Editar Usuario</Typography>
       <Formik
         initialValues={{
-          //Valores iniciales de Formik, la equivalencia Vanilla sería ir almacenando los datos en el estado local...
-          isActive: user.isActive ? "Si" : "No",
+          isActive: user.isActive,
           rol: user.rol,
-          //profilePhoto: "",
-          //name: "",
-          //lastName: "",
-          //birthdayDate: "",
-          //nationality: "",
-          //   country: viewUser.country,
-          //   cityTimeZone: viewUser.cityTimeZone,
-          //   phone: viewUser.phone,
+          name: user.name,
         }}
         validationSchema={validationSchema}
         onSubmit={submitHandler}
@@ -122,6 +136,8 @@ export default function EditForm(props) {
           );
         }}
       </Formik>
-    </Container> : <Loader/>
+    </Container>
+  ) : (
+    <Loader />
   );
 }

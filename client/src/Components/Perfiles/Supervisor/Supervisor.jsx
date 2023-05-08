@@ -1,12 +1,6 @@
-import {
-  Button,
-  Box,
-  Avatar,
-  Typography,
-  Grid,
-  Container,
-} from "@mui/material";
+import { Button, Box, Avatar, Typography, Grid } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import Loader from "../../Loader/Loader";
 
 export default function Supervisor(props) {
   const navigate = useNavigate();
@@ -19,25 +13,22 @@ export default function Supervisor(props) {
     borderRadius: "10px",
     width: "100%",
     height: "100%",
-    boxShadow: "5px 5px 5px #C8CCD8"
+    boxShadow: "5px 5px 5px #C8CCD8",
   };
 
-  return (
-    <Box sx={{
-      background:
-        "linear-gradient(to top, #ffffff, #EEEFF3)",
-    }}>
+  return Object.entries(user).length > 0 ? (
+    <Box
+      sx={{
+        background: "linear-gradient(to top, #ffffff, #EEEFF3)",
+      }}
+    >
       <Grid
         container
         margin={"auto"}
         sx={{
-          
           width: "60vw",
           flexDirection: "row",
           justifyContent: "center",
-          
-          // borderColor: "red",
-          // borderStyle: "solid",
         }}
       >
         <Grid
@@ -45,7 +36,7 @@ export default function Supervisor(props) {
           sx={{
             flexDirection: "column",
             width: "50vw",
-            boxShadow:"2px 3px 5px #1E1C4E",
+            boxShadow: "2px 3px 5px #1E1C4E",
             borderRadius: "5%",
           }}
           xs={12}
@@ -60,8 +51,6 @@ export default function Supervisor(props) {
                 height: 150,
                 marginBottom: "1vw",
                 margin: "auto",
-                // borderColor: "blue",
-                // borderStyle: "solid",
               }}
             />
             <Typography variant="h5" textAlign="center">
@@ -89,12 +78,6 @@ export default function Supervisor(props) {
             <Typography display="block" variant="h7" marginTop={1}>
               {user.CityTimeZone?.offSet}
             </Typography>
-            {/* <Typography display="block" variant="h7" marginTop={1}>
-              {user.nationality}
-            </Typography> */}
-            {/* <Typography display="block" variant="h7" marginTop={2}>
-              {user.birthdayDate}
-            </Typography> */}
             <Typography display="block" variant="h7" marginTop={1}>
               {user.studies}
             </Typography>
@@ -112,98 +95,87 @@ export default function Supervisor(props) {
             display: "flex",
             alignContent: "center",
             justifyContent: "center",
-            // borderColor: "violet",
-            // borderStyle: "solid",
           }}
         >
-
-        <Grid
-          item
-          sx={{
-            width: "90%",
-            height: "20%",
-            padding: "1vw",
-            // borderColor: "blue",
-            // borderStyle: "solid",
-          }}
-        >
-          <Button variant="contained" style={estilos}>
-            Disponibilidad de turnos de voluntariado
-          </Button>
-        </Grid>
-
-        <Grid
-          item
-          sx={{
-            width: "90%",
-            height: "20%",
-            padding: "1vw",
-            // borderColor: "blue",
-            // borderStyle: "solid",
-          }}
-        >
-          <Button variant="contained" style={estilos}>
-            Horarios de supervisión
-          </Button>
-        </Grid>
-        <Grid
-          item
-          sx={{
-            width: "90%",
-            height: "20%",
-            padding: "1vw",
-            // borderColor: "blue",
-            // borderStyle: "solid",
-          }}
-        >
-          <Button
-            onClick={() => {
-              navigate("/panel-supervision");
+          <Grid
+            item
+            sx={{
+              width: "90%",
+              height: "20%",
+              padding: "1vw",
             }}
-            variant="contained"
-            style={estilos}
           >
-            Panel de Supervisión
-          </Button>
-        </Grid>
+            <Button variant="contained" style={estilos}>
+              Disponibilidad de turnos de voluntariado
+            </Button>
+          </Grid>
 
-        <Grid
-          item
-          sx={{
-            width: "90%",
-            height: "20%",
-            padding: "1vw",
-            // borderColor: "blue",
-            // borderStyle: "solid",
-          }}
-        >
-          <Button
-            onClick={() => {
-              navigate("/companionsAtCharge");
+          <Grid
+            item
+            sx={{
+              width: "90%",
+              height: "20%",
+              padding: "1vw",
             }}
-            variant="contained"
-            style={estilos}
           >
-            Personas a cargo
-          </Button>
-        </Grid>
+            <Button variant="contained" style={estilos}>
+              Horarios de supervisión
+            </Button>
+          </Grid>
+          <Grid
+            item
+            sx={{
+              width: "90%",
+              height: "20%",
+              padding: "1vw",
+            }}
+          >
+            <Button
+              onClick={() => {
+                navigate("/panel-supervision");
+              }}
+              variant="contained"
+              style={estilos}
+            >
+              Panel de Supervisión
+            </Button>
+          </Grid>
 
-        <Grid
-          item
-          sx={{
-            width: "90%",
-            height: "20%",
-            padding: "1vw",
-            // borderColor: "blue",
-            // borderStyle: "solid",
-          }}
-        >
-          <Button variant="contained" style={estilos}>
-            Centro de aprendizaje
-          </Button>
-        </Grid>
+          <Grid
+            item
+            sx={{
+              width: "90%",
+              height: "20%",
+              padding: "1vw",
+            }}
+          >
+            <Button
+              onClick={() => {
+                navigate("/companionsAtCharge");
+              }}
+              variant="contained"
+              style={estilos}
+            >
+              Personas a cargo
+            </Button>
+          </Grid>
+
+          <Grid
+            item
+            sx={{
+              width: "90%",
+              height: "20%",
+              padding: "1vw",
+            }}
+          >
+            <Button variant="contained" style={estilos}>
+              Centro de aprendizaje
+            </Button>
+          </Grid>
         </Grid>
       </Grid>
     </Box>
+  ) : (
+    <Loader />
   );
 }
