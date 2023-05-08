@@ -119,7 +119,7 @@ export const postAssignCompanionShift = (idCompanion, idShift, rol) => {
       dispatch(setLoading(false));
       toast.success("Tu turno ha sido confirmado", toastSuccess);
     } catch (error) {
-      toast.error("No fue posible asignar el turno", toastError);
+      toast.error("Ya cuentas con un turno asignado", toastError);
     }
   };
 };
@@ -183,8 +183,9 @@ export const deleteCompanionShift = (id, idShift) => {
       console.log(response);
       dispatch({type: DELETE_COMPANION_SHIFT, payload: response});
       dispatch(setLoading(false));
+      toast.success("Tu turno ha sido eliminado", toastSuccess);
     } catch(error) {
-      console.log("Error:", error.message);
+      toast.error("No fue posible eliminar el turno", toastError);
     }
   }
 };

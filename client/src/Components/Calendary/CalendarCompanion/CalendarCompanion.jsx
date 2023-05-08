@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import CalendarCompanionPopOut from "./CalendarCompanionPopOut";
 import calendar from "./CalendarCompanion.css";
 import { deleteCompanionShift } from "../../../Redux/Actions/postPutActions";
+import { toast } from "sonner";
+import { toastSuccess, toastError } from "../../../Redux/Actions/alertStyle";
 
 const CalendarCompanion = () => {
   let shifts = useSelector((state) => state.view.allCompanionShift);
@@ -95,7 +97,7 @@ const CalendarCompanion = () => {
        dispatch(deleteCompanionShift(user.id, idShift));
       }
     } else {
-      alert("Ya tienes este turno asignado");
+      toast.success("Ya tienes este turno asignado", toastSuccess);
     }
   }
   
@@ -148,16 +150,17 @@ const CalendarCompanion = () => {
           ))}
         </tbody>
       </table>
+    
       <CalendarCompanionPopOut
         rol={rol}
         shift={shift}
         setTrigger={setTogglePopOut}
         trigger={togglePopOut}
       >
-        <h3>Estas seguro que quieres confirmar este turno:</h3>
+        <h3>Estas por reservar el siguiente turno:</h3>
         <label>{shift.day}</label>
         <p>{shift.time}</p>
-      </CalendarCompanionPopOut>
+      </CalendarCompanionPopOut> 
     </Container>
   );
 };

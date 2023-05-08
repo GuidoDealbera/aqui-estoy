@@ -87,7 +87,7 @@ export default function Companion(props) {
               {user.email}
             </Typography>
             <Typography display="block" variant="h7" marginTop={1}>
-              {user.rol === "Companion2" ? "Acompañante 2" : "Acompañante 1"}
+              {user.rol === "Companion2" ? "Acompañante Nivel 2" : "Acompañante Nivel 1"}
             </Typography>
             <Typography display="block" variant="h7" marginTop={1}>
               Teléfono: {user.phone}
