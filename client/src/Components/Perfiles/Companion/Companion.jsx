@@ -7,11 +7,17 @@ import Loader from "../../Loader/Loader";
 export default function Companion(props) {
   const allSupervisors = useSelector(state => state.view.allSupervisors);
   const SuperId = props.user.SupervisorId;
-  const result = allSupervisors.map((supervisor)=>{
+  let MentorName = "No asignado";
+
+  const result = allSupervisors.find((supervisor)=>{
     if (supervisor.id === SuperId) return supervisor
   })
-  const { name, lastName } = result[0];
-  const MentorName = `${name} ${lastName}`;
+  console.log("result");
+  console.log(result);
+  if (result) {
+  const { name, lastName } = result;
+  MentorName = `${name} ${lastName}`;
+  }
 
   const estilos = {
     color: "white",
