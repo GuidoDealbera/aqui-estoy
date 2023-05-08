@@ -8,6 +8,7 @@ import {
   POST_SUPERVISOR_CHARGE,
   PUT_SUPERVISOR_CHARGE,
   POST_EMAIL_ACCOUNT_CREATED,
+  DELETE_COMPANION_SHIFT,
 } from "./action-types";
 import axios from "axios";
 import { toast } from "sonner";
@@ -167,4 +168,23 @@ export const putSupervisorCharge = (idSupervisor, arrayCompanion) => {
       console.log("Response:", error.response);
     }
   };
+};
+
+export const deleteCompanionShift = (id, idShift) => {
+  return async function (dispatch) {
+    try { 
+      dispatch(setLoading(true));
+      const response = (await axios.delete('/deleteCompanionShift', {
+        data: {
+          id: id,
+          idShift: idShift
+        }
+      })).data;
+      console.log(response);
+      dispatch({type: DELETE_COMPANION_SHIFT, payload: response});
+      dispatch(setLoading(false));
+    } catch(error) {
+      console.log("Error:", error.message);
+    }
+  }
 };

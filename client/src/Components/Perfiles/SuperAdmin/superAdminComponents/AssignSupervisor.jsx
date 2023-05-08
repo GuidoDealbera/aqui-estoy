@@ -9,7 +9,7 @@ import { Grid, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { postSupervisorCharge , putSupervisorCharge} from '../../../../Redux/Actions/postPutActions';
 import { toast } from "sonner";
-import { toastSuccess, toastError } from "../../../../Redux/Actions/alertStyle";
+import { toastError } from "../../../../Redux/Actions/alertStyle";
 
 const AssignSupervisor = () => {
   const dispatch = useDispatch();
@@ -21,16 +21,19 @@ const AssignSupervisor = () => {
   const [selectedCompanions, setSelectedCompanions] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
 
-  const handleSelectAll = () => {
-    if (selectAll) {
-      setSelectAll(false);
-      setSelectedCompanions([]);
-    } else {
-      setSelectAll(true);
-      const allCompanionIds = allCompanions.map((companion) => companion.id);
-      setSelectedCompanions(allCompanionIds);
-    }
-  };
+ const handleSelectAll = () => {
+  if (selectAll) {
+    setSelectAll(false);
+    setSelectedCompanions([]);
+  } else {
+    setSelectAll(true);
+    const allCompanionIds = allCompanions
+      .filter(companion => companion.name)
+      .map(companion => companion.id);
+    setSelectedCompanions(allCompanionIds);
+  }
+};
+
 
     const assignCompanions = () => {
     if (selectedSupervisor) {
@@ -46,9 +49,9 @@ const AssignSupervisor = () => {
       toast.error('Selecciona un supervisor', toastError);
     }
 };
+
   const putCompanions = () => {
-    console.log(selectedSupervisor);
-    console.log(selectedCompanions);
+   
     
     if (selectedSupervisor) {
       if (selectedCompanions.length === 0) {
@@ -68,25 +71,32 @@ const AssignSupervisor = () => {
     <Box>
       <Box marginBottom={2}>
       <Typography variant="h5" sx={{textAlign:"center", margin:"2vw"}}>
-        Asignar Supervisor</Typography>
+        Supervisor para Mentorías</Typography>
       <Grid container justifyContent="center">
       <Grid item justifyContent="center" sx={{width:"40vw"}}>
         <FormControl fullWidth>
           <InputLabel>Supervisor</InputLabel>
           <Select
-            value={selectedSupervisor}
-            onChange={(e) => setSelectedSupervisor(e.target.value)}
-            label="Supervisor"
-          >
-            <MenuItem value="">
-              <em>Selecciona un supervisor</em>
-            </MenuItem>
-            {allSupervisors.map((supervisor) => (
-              <MenuItem key={supervisor.id} value={supervisor.id}>
-                {supervisor.name}
-              </MenuItem>
-            ))}
-          </Select>
+  value={selectedSupervisor}
+  onChange={(e) => setSelectedSupervisor(e.target.value)}
+  label="Supervisor"
+>
+  <MenuItem value="">
+    <em>Selecciona un supervisor</em>
+  </MenuItem>
+  {allSupervisors.map((supervisor) => {
+    if (supervisor.name) {
+      return (
+        <MenuItem key={supervisor.id} value={supervisor.id}>
+          {supervisor.name}
+        </MenuItem>
+      );
+    } else {
+      return null;
+    }
+  })}
+</Select>
+
         </FormControl>
         </Grid>
         </Grid>
@@ -103,6 +113,7 @@ const AssignSupervisor = () => {
             label="Acompañante"
           >
             {allCompanions.map((companion) => (
+              companion.name &&
               <MenuItem key={companion.id} value={companion.id}>
                 {companion.name}
               </MenuItem>

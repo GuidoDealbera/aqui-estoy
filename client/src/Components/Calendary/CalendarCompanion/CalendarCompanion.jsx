@@ -1,9 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
 import { getAllCompanionShift } from "../../../Redux/Actions/viewActions";
 import { Container, Row, Col, Button, Modal } from "react-bootstrap";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CalendarCompanionPopOut from "./CalendarCompanionPopOut";
 import calendar from "./CalendarCompanion.css";
+import { deleteCompanionShift } from "../../../Redux/Actions/postPutActions";
 
 const CalendarCompanion = () => {
   let shifts = useSelector((state) => state.view.allCompanionShift);
@@ -84,11 +85,26 @@ const CalendarCompanion = () => {
       (shift) => shift.time === hour && shift.day === day
     );
     setTogglePopOut(!togglePopOut);
-    setShift(found);
+    setShift({...found, id: found.id});
   };
+  
+  const handleDeleteShift =  (idShift) => {
+    if (user.rol === "Companion2") {
+      const confirmed = window.confirm("¿Estás seguro que deseas eliminar este turno?");
+      if (confirmed) {
+       dispatch(deleteCompanionShift(user.id, idShift));
+      }
+    } else {
+      alert("Ya tienes este turno asignado");
+    }
+  }
+  
+  
+  
+
 
   return (
-    <Container className="calendar-container">
+    <Container className="calendar-container"> 
       <table className="calendar-table">
         <thead>
           <tr>
@@ -116,9 +132,9 @@ const CalendarCompanion = () => {
                       <td
                         id={found.id}
                         className="reserved"
-                        onClick={() => alert("Ya tienes este turno asignado")}
+                        onClick={()=> handleDeleteShift(found.id)}
                       >
-                        Turno reservado
+                        {user.rol === "Companion2" ? (<> Turno reservado <button>X</button> </> ) : ("Turno reservado")}
                       </td>
                     );
                   }
