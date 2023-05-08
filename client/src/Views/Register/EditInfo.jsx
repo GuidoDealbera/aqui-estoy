@@ -264,7 +264,6 @@ export default function EditInfo() {
             <Button type='submit'>Finalizar</Button>
         </Box>
     </>
-    console.log(user.CityTimeZone);
     return (
         <Container sx={styles.container}>
             <Typography variant="h5">Editar información</Typography>
