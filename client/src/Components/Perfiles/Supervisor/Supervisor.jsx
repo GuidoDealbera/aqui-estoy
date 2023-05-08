@@ -15,7 +15,9 @@ export default function Supervisor(props) {
     height: "100%",
     boxShadow: "5px 5px 5px #C8CCD8",
   };
-
+  const toEdit = () => {
+    navigate(`/profile/${user.id}/edit`)
+  }
   return Object.entries(user).length > 0 ? (
     <Box
       sx={{
@@ -173,6 +175,18 @@ export default function Supervisor(props) {
           >
             <Button variant="contained" style={estilos}>
               Centro de aprendizaje
+            </Button>
+          </Grid>
+          <Grid
+            item
+            sx={{
+              width: "90%",
+              height: "20%",
+              padding: "1vw",
+            }}
+          >
+            <Button variant="contained" style={estilos} onClick={toEdit}>
+              Editar mi información
             </Button>
           </Grid>
         </Grid>

@@ -1,10 +1,10 @@
 import { Button, Box, Avatar, Typography, Grid } from "@mui/material";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Loader from "../../Loader/Loader";
 
 export default function SuperAdminDatos(props) {
   const { user } = props;
-
+  const navigate = useNavigate();
   const estilos = {
     color: "white",
     backgroundColor: "#1E1C4E",
@@ -13,7 +13,9 @@ export default function SuperAdminDatos(props) {
     height: "100%",
     boxShadow: "5px 5px 5px #C8CCD8",
   };
-
+  const toEdit = () => {
+    navigate(`/profile/${user.id}/edit`)
+  }
   return Object.entries(user).length > 0 ? (
     <Box>
       <Grid
@@ -101,11 +103,9 @@ export default function SuperAdminDatos(props) {
               padding: "1vw",
             }}
           >
-            <Link to="/register">
-              <Button variant="outlined" style={estilos}>
+              <Button variant="outlined" style={estilos} onClick={toEdit}>
                 Editar mi información
               </Button>
-            </Link>
           </Grid>
         </Grid>
       </Grid>
