@@ -6,6 +6,7 @@ import Loader from "../../Loader/Loader";
 
 export default function Companion(props) {
   const allSupervisors = useSelector(state => state.view.allSupervisors);
+  const {loading} = useSelector(state => state.auth)
   const SuperId = props.user.SupervisorId;
   let MentorName = "No asignado";
 
@@ -30,7 +31,7 @@ export default function Companion(props) {
 
   const { user } = props;
 
-  return Object.entries(user).length > 0 ? (
+  return !loading ? (
     <Box>
       <Grid
         container
