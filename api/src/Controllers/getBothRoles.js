@@ -1,4 +1,10 @@
-const { Companion , CityTimeZone ,CompanionShift ,Supervisor, SupervisorShift} = require("../db");
+const {
+  Companion,
+  CityTimeZone,
+  CompanionShift,
+  Supervisor,
+  SupervisorShift,
+} = require("../db");
 
 const bcrypt = require("bcrypt");
 
@@ -65,7 +71,6 @@ const getBothRoles = async (req, res) => {
     res.status(404).json("No se encontro el usuario");
   }
 };
-
 
 const requireLogin = async (req, res, next) => {
   try {
