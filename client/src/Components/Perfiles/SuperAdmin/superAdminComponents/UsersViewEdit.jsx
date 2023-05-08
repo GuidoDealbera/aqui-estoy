@@ -4,9 +4,10 @@ import { toastError } from "../../../../Redux/Actions/alertStyle";
 import { DataGrid } from "@mui/x-data-grid";
 import { Button, Grid, Paper, TableContainer, Typography } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ModalEdit from "../../../VentanaLogin/ModalEdit";
 import AutoFixHighIcon from "@mui/icons-material/AutoFixHigh";
+import { getAllCompanions, getAllSupervisors } from "../../../../Redux/Actions/viewActions";
 
 function UsersViewEdit(props) {
   const dispatch = useDispatch();
@@ -21,7 +22,10 @@ function UsersViewEdit(props) {
   const handleClose = () => {
     setEdit(false);
   };
-
+  useEffect(() => {
+    dispatch(getAllCompanions())
+    dispatch(getAllSupervisors())
+    }, [dispatch])
   //Aqui se limpia la info para exportar los campos deseados
   companionsData = companionsData.map((usr) => {
     usr.rol === "Companion2"
@@ -65,8 +69,8 @@ function UsersViewEdit(props) {
   });
   const usersData = [...companionsData, ...supervisorsData];
 
-  const handleClick = (row) => {
-    toast.error(`Pronto podrás editar a ${row}! 😉`, toastError);
+  const handleClick = (event) => {
+    toast.error(`Pronto podrás editar usuarios aquí! 😉`, toastError);
   };
 
   const columns = [
@@ -86,7 +90,7 @@ function UsersViewEdit(props) {
       sortable: false,
       width: 40,
       renderCell: () => (
-        <AutoFixHighIcon onClick={handleEdit} style={{ cursor: "pointer" }} />
+        <AutoFixHighIcon onClick={handleClick} style={{ cursor: "pointer" }} />
       ),
     },
     {
