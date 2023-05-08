@@ -9,6 +9,7 @@ import {
   POST_ASSIGN_SUPERVISOR_SHIFT,
   POST_ASSIGN_COMPANION_SHIFT,
   SET_LOADING,
+  DELETE_COMPANION_SHIFT,
 } from "../Actions/action-types";
 //Acá pongo los GET_ONE y los PUT modificando user;
 const initialState = {
@@ -81,6 +82,11 @@ const authReducer = (state = initialState, action) => {
         ...state,
         loading: action.payload,
       };
+      case DELETE_COMPANION_SHIFT:
+        return{
+            ...state,
+          user: action.payload
+        }
 
     default:
       return { ...state };

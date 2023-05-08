@@ -1,20 +1,22 @@
-const { Companion } = require("../../db");
+const { Companion , CompanionShift} = require("../../db");
 const deleteCompanionShift = async (req, res) => {
   try {
     const { id, idShift } = req.body;
-    const companion = await Companion.findOne({ where: { id: id } });
-    if (companion && companion.rol === "Companion2") {
-      companion.removeCompanionShift(idShift);
-      res.status(200).json("Turno eliminado");
+    let companion = await Companion.findOne({ where: { id: id } , include: { model: CompanionShift} });
+    if (companion.rol === "Companion2") {
+     await companion.removeCompanionShift(idShift);
+      companion.save();
+      companion = await Companion.findOne({ where: { id: id } , include: { model: CompanionShift} });
+     return res.status(200).json(companion);
     } else {
-      res
+      return res
         .status(400)
         .json(
           "el Acompañante no existe o no esta autorizado para eliminar turnos"
         );
     }
   } catch (error) {
-    res.status(400).json(error.message);
+   return res.status(400).json(error.message);
   }
 };
 module.exports = deleteCompanionShift;
