@@ -67,6 +67,9 @@ export default function SuperAdminDatos(props) {
             <Typography display="block" variant="h6" marginTop={1}>
               {user.email}
             </Typography>
+            <Typography display="block" variant="h7" marginTop={1}>
+             Super Admin
+            </Typography>
             <Typography display="block" variant="h6" marginTop={1}>
               {user.phone}
             </Typography>

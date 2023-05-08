@@ -1,8 +1,18 @@
 import { Button, Box, Avatar, Typography, Grid } from "@mui/material";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux"
 import Loader from "../../Loader/Loader";
 
+
 export default function Companion(props) {
+  const allSupervisors = useSelector(state => state.view.allSupervisors);
+  const SuperId = props.user.SupervisorId;
+  const result = allSupervisors.map((supervisor)=>{
+    if (supervisor.id === SuperId) return supervisor
+  })
+  const { name, lastName } = result[0];
+  const MentorName = `${name} ${lastName}`;
+
   const estilos = {
     color: "white",
     backgroundColor: "#1E1C4E",
@@ -13,6 +23,7 @@ export default function Companion(props) {
   };
 
   const { user } = props;
+
   return Object.entries(user).length > 0 ? (
     <Box>
       <Grid
@@ -65,10 +76,13 @@ export default function Companion(props) {
               {user.email}
             </Typography>
             <Typography display="block" variant="h7" marginTop={1}>
-              {user.phone}
+              {user.rol === "Companion2" ? "Acompañante 2" : "Acompañante 1"}
             </Typography>
             <Typography display="block" variant="h7" marginTop={1}>
-              {user.country}
+              Teléfono: {user.phone}
+            </Typography>
+            <Typography display="block" variant="h7" marginTop={1}>
+              Ubicación: {user.country}
             </Typography>
             <Typography display="block" variant="h7" marginTop={1}>
               {user.CityTimeZone?.offSet}
@@ -77,7 +91,10 @@ export default function Companion(props) {
               {user.studies}
             </Typography>
             <Typography display="block" variant="h7" marginTop={1}>
-              {user.gender}
+              Género: {user.gender}
+            </Typography>
+            <Typography display="block" variant="h7" marginTop={1}>
+              Mentor: {MentorName}
             </Typography>
           </Grid>
         </Grid>
