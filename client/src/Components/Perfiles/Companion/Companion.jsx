@@ -10,7 +10,7 @@ export default function Companion(props) {
   const result = allSupervisors.map((supervisor)=>{
     if (supervisor.id === SuperId) return supervisor
   })
-  const { name, lastName } = result;
+  const { name, lastName } = result[0];
   const MentorName = `${name} ${lastName}`;
 
   const estilos = {

@@ -70,6 +70,9 @@ export default function Supervisor(props) {
               {user.email}
             </Typography>
             <Typography display="block" variant="h7" marginTop={1}>
+              Supervisor
+            </Typography>
+            <Typography display="block" variant="h7" marginTop={1}>
               {user.phone}
             </Typography>
             <Typography display="block" variant="h7" marginTop={1}>
