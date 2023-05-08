@@ -1,6 +1,11 @@
 const mailer = require("./mailer");
+const {
+  companionEmailAccountCreated,
+  supervisorEmailAccountCreated,
+  superAdminEmailAccountCreated,
+} = require("./htmlMails/MailCreatedAccount");
 
-const sendEmail = async ({ email, password, rol }) => {
+const sendEmail = async ({ email, password, rol }, type) => {
   const transporter = await mailer();
   let mailOptionsUserCreated = {};
   switch (rol) {
@@ -9,7 +14,7 @@ const sendEmail = async ({ email, password, rol }) => {
         from: "aquiestoy.prueba01@gmail.com",
         to: email,
         subject: "Cuenta creada en Aqui Estoy!",
-        text: `Bienvenido a nuestra fundacion Aqui Estoy, a partir de ahora pasas a formar parte de nuestra fundacion como acompañante. Una cuenta se ah creado para ti para que puedas utilizar nuestra plataforma de reserva de turnos, la misma tiene las siguientes credenciales Correo Electronico: ${email}, Contraseña: ${password}`,
+        html: companionEmailAccountCreated(email, password),
       };
       break;
     case "Companion2":
@@ -17,7 +22,7 @@ const sendEmail = async ({ email, password, rol }) => {
         from: "aquiestoy.prueba01@gmail.com",
         to: email,
         subject: "Cuenta creada en Aqui Estoy!",
-        text: `Bienvenido a nuestra fundacion Aqui Estoy, a partir de ahora pasas a formar parte de nuestra fundacion como acompañante. Una cuenta se ah creado para ti para que puedas utilizar nuestra plataforma de reserva de turnos, la misma tiene las siguientes credenciales Correo Electronico: ${email}, Contraseña: ${password}`,
+        html: companionEmailAccountCreated(email, password),
       };
       break;
     case "Supervisor":
@@ -25,7 +30,7 @@ const sendEmail = async ({ email, password, rol }) => {
         from: "aquiestoy.prueba01@gmail.com",
         to: email,
         subject: "Cuenta creada en Aqui Estoy!",
-        text: `Bienvenido a nuestra fundacion Aqui Estoy, a partir de ahora pasas a formar parte de nuestra fundacion como Supervisor. Una cuenta se ah creado para ti para que puedas utilizar nuestra plataforma de reserva de turnos, la misma tiene las siguientes credenciales Correo Electronico: ${email}, Contraseña: ${password}`,
+        html: supervisorEmailAccountCreated(email, password),
       };
       break;
     case "SuperAdmin":
@@ -33,7 +38,7 @@ const sendEmail = async ({ email, password, rol }) => {
         from: "aquiestoy.prueba01@gmail.com",
         to: email,
         subject: "Cuenta creada en Aqui Estoy!",
-        text: `Bienvenido a nuestra fundacion Aqui Estoy, a partir de ahora pasas a formar parte de nuestra fundacion como SuperAdmin. Una cuenta se ah creado para ti para que puedas utilizar nuestra plataforma de reserva de turnos, la misma tiene las siguientes credenciales Correo Electronico: ${email}, Contraseña: ${password}`,
+        html: superAdminEmailAccountCreated(email, password),
       };
       break;
     default:
