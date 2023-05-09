@@ -15,6 +15,7 @@ export default function Supervisor(props) {
     height: "4vw",
     boxShadow: "5px 5px 5px #C8CCD8",
   };
+
   const toEdit = () => {
     navigate(`/profile/${user.id}/edit`)
   }
@@ -101,6 +102,7 @@ export default function Supervisor(props) {
             justifyContent: "center",
           }}
         >
+         
           <Grid
             item
             sx={{
@@ -109,19 +111,7 @@ export default function Supervisor(props) {
             }}
           >
             <Button variant="contained" style={estilos}>
-              Disponibilidad de turnos de voluntariado
-            </Button>
-          </Grid>
-
-          <Grid
-            item
-            sx={{
-              width: "90%",
-              padding: "1vw",
-            }}
-          >
-            <Button variant="contained" style={estilos}>
-              Horarios de supervisión
+              Horarios de Supervisión
             </Button>
           </Grid>
           <Grid
@@ -156,7 +146,7 @@ export default function Supervisor(props) {
               variant="contained"
               style={estilos}
             >
-              Personas a cargo
+              Acompañantes a mi Cargo
             </Button>
           </Grid>
 
@@ -168,7 +158,7 @@ export default function Supervisor(props) {
             }}
           >
             <Button variant="contained" style={estilos}>
-              Centro de aprendizaje
+              Centro de Aprendizaje
             </Button>
           </Grid>
           <Grid
@@ -178,8 +168,8 @@ export default function Supervisor(props) {
               padding: "1vw",
             }}
           >
-            <Button variant="contained" style={estilos} onClick={toEdit}>
-              Editar mi información
+            <Button variant="outined" style={estilos} onClick={toEdit}>
+              Editar mi Información
             </Button>
           </Grid>
         </Grid>

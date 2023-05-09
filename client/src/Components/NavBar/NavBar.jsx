@@ -1,8 +1,8 @@
-import React from 'react';
-import image from '../../img/xd.png';
-import { Link, useLocation } from 'react-router-dom';
-import LoginForm from '../LoginForm/LoginForm';
-import { useState } from 'react';
+import React from "react";
+import image from "../../img/xd.png";
+import { Link, useLocation } from "react-router-dom";
+import LoginForm from "../LoginForm/LoginForm";
+import { useState } from "react";
 import {
   CardMedia,
   Box,
@@ -14,33 +14,33 @@ import {
   IconButton,
   AppBar,
   Toolbar,
-} from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
-import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { logOut } from '../../Redux/Actions/viewActions';
-import { toast } from 'sonner';
-import { toastWarning } from '../../Redux/Actions/alertStyle';
-import ModalLogin from '../VentanaLogin/ModalLogin';
+} from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { logOut } from "../../Redux/Actions/viewActions";
+import { toast } from "sonner";
+import { toastWarning } from "../../Redux/Actions/alertStyle";
+import ModalLogin from "../VentanaLogin/ModalLogin";
 
 const NavButton = (props) => (
   <Button
     {...props}
     sx={{
-      color: 'inherit',
-      textTransform: 'none',
-      fontWeight: 'bold',
-      '&:hover': {
-        backgroundColor: 'rgba(0, 0, 0, 0.1)',
-        color: '#008000', // Verde fuerte
+      color: "inherit",
+      textTransform: "none",
+      fontWeight: "bold",
+      "&:hover": {
+        backgroundColor: "rgba(0, 0, 0, 0.1)",
+        color: "#008000", // Verde fuerte
       },
     }}
   />
 );
 
 export default function NavBar(props) {
-  const {user} = useSelector((state) => state.auth);
-  const {id} = user;
+  const { user } = useSelector((state) => state.auth);
+  const { id } = user;
   const location = useLocation();
   const dispatch = useDispatch();
   const [showLogin, setShowLogin] = useState(false);
@@ -48,28 +48,31 @@ export default function NavBar(props) {
   const navigate = useNavigate();
 
   const handleMouseEnter = () => {
-    setShowLogin(true);
+      setShowLogin(true);
+    
   };
   const handleMouseLeave = () => {
     setShowLogin(false);
   };
   const handleClick = (event) => {
-  if(Object.entries(user).length === 0){
-  toast.error("Debes iniciar sesion para acceder al calendario", toastWarning)
-  }
-  if(user.rol==="SuperAdmin"){
-    navigate("/calendarSuperAdmin")
-  }else if(user.rol==="Companion1"||user.rol==="Companion2"){
-    navigate("/calendarCompanion")
-  }else{
-
-    toast.error("No tienes acceso a este calendario", toastWarning)
-  }
+    if (Object.entries(user).length === 0) {
+      toast.error(
+        "Debes iniciar sesion para acceder al calendario",
+        toastWarning
+      );
+    }
+    if (user.rol === "SuperAdmin") {
+      navigate("/calendarSuperAdmin");
+    } else if (user.rol === "Companion1" || user.rol === "Companion2") {
+      navigate("/calendarCompanion");
+    } else {
+      toast.error("No tienes acceso a este calendario", toastWarning);
+    }
   };
   const closeSession = () => {
     dispatch(logOut());
-    navigate('/');
-  }
+    navigate("/");
+  };
 
   const handleMenuClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -92,7 +95,7 @@ export default function NavBar(props) {
             <Link to="/">
               <CardMedia
                 component="img"
-                style={{ height: '20%', width: '20%' }}
+                style={{ height: "20%", width: "20%" }}
                 image={image}
                 alt="aquiEstoy"
               />
@@ -113,18 +116,18 @@ export default function NavBar(props) {
                   anchorEl={anchorEl}
                   open={Boolean(anchorEl)}
                   onClose={handleMenuClose}
-                  anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-                  transformOrigin={{ vertical: 'top', horizontal: 'center' }}
+                  anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+                  transformOrigin={{ vertical: "top", horizontal: "center" }}
                 >
                   <MenuItem
                     name="about"
-                    onClick={() => handleMenuItemClick('about')}
+                    onClick={() => handleMenuItemClick("about")}
                   >
                     Acerca de
                   </MenuItem>
                   <MenuItem
                     name="calendar"
-                    onClick={() => handleMenuItemClick('calendar')}
+                    onClick={() => handleMenuItemClick("calendar")}
                   >
                     Calendario
                   </MenuItem>
@@ -134,9 +137,14 @@ export default function NavBar(props) {
           </Grid>
           <Grid item>
             <Box>
-              {location.pathname !== `/profile/${id}` && (
+            {location.pathname === '/' && (
                 <NavButton name="session" onClick={handleMouseEnter}>
-                  {Object.entries(user).length === 0 ? 'Iniciar sesión' : 'Perfil'}
+                  Iniciar Sesión
+                </NavButton>
+              )}
+              {location.pathname !== '/' && user.rol !== 'SuperAdmin' && (
+                <NavButton variant="text" name="profile" onClick={() => navigate(`/profile/${id}`)}>
+                  Perfil
                 </NavButton>
               )}
               {location.pathname !== '/' && (
@@ -144,7 +152,14 @@ export default function NavBar(props) {
                   Cerrar Sesión
                 </NavButton>
               )}
-              {showLogin && <ModalLogin handleMouseLeave={handleMouseLeave} showLogin={showLogin} setShowLogin={setShowLogin} />}
+
+              {showLogin && (
+                <ModalLogin
+                  handleMouseLeave={handleMouseLeave}
+                  showLogin={showLogin}
+                  setShowLogin={setShowLogin}
+                />
+              )}
             </Box>
           </Grid>
         </Grid>

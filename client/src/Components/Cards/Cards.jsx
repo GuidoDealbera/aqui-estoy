@@ -55,7 +55,7 @@ export default function MultiActionAreaCard(props) {
             color="text.secondary"
             fontSize="small"
           >
-            Hora Local: 00:00
+            Hora Local: {props.horaLocal}
           </Typography>
         </CardContent>
       </CardActionArea>

@@ -9,18 +9,21 @@ export default function CompanionsAtCharge() {
   const dispatch = useDispatch();
   const { companionAtCharge } = useSelector((state) => state.view);
   const { user } = useSelector((state) => state.auth);
-  const utcUser = user.CityTimeZone?.offSet;
-  console.log(utcUser);
 
   useEffect(() => {
     dispatch(getCompanionsAtCharge(user.id));
   }, []);
 
+  const myDate = new Date();
+  const myTimeZone = myDate.toString().match(/([\+-][0-9]+)/)[1];
+  const myHours = myDate.getHours();
+  const myMinutes = myDate.getMinutes();
+
   return (
     <Box>
       <Grid item>
         <Typography display="block" variant="h6" marginLeft={"3vw"}>
-          Acompañantes a tu cargo
+          Acompañantes a mi Cargo
         </Typography>
       </Grid>
 
@@ -30,10 +33,18 @@ export default function CompanionsAtCharge() {
           flexWrap: "wrap",
           marginTop: "2vw",
           justifyContent: "center",
-          //background: "linear-gradient(to top, #C8CCD0, #ffffff, #ffffff)",
         }}
       >
         {companionAtCharge.map((e) => {
+          //-----------------------------------reemplazar por lo que se trae de Redux--------------------
+          // const eTimeZone = "-0300"; 
+          const eTimeZone = Number(e.CityTimeZone.offSet.toString().slice(-6,-3))*100;
+          // console.log("eTimeZone");
+          // console.log(eTimeZone);
+           //---------------------------------------------------------------------------------------------
+          let horaLoc = Number(myHours) + ((Number(eTimeZone) - Number(myTimeZone)))/100;
+          horaLoc = horaLoc + ":" + myMinutes;
+          console.log(eTimeZone);
           return (
             <Box>
               <Cards
@@ -44,6 +55,7 @@ export default function CompanionsAtCharge() {
                 phone={e?.phone}
                 email={e?.email}
                 country={e?.country}
+                horaLocal={horaLoc}
               />
             </Box>
           );
