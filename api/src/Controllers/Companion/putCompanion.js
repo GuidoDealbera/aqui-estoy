@@ -69,9 +69,9 @@ const putCompanion = async (req, res) => {
       ],
     });
     // Devuelve el acompañante actualizado
-    res.status(200).json(companion);
+   return res.status(200).json(companion);
   } catch (error) {
-    res.status(400).json(error.message);
+   return res.status(400).json(error.message);
   }
 };
 

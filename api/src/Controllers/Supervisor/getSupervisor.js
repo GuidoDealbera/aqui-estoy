@@ -16,6 +16,7 @@ const getSupervisor = async (req, res) => {
         },
         {
           model: CityTimeZone,
+          attributes: ["id", "zoneName", "offSet"],
         },
       ],
     });
