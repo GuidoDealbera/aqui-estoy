@@ -11,6 +11,7 @@ import CalendarCompanion from "./Components/Calendary/CalendarCompanion/Calendar
 import CompanionsAtCharge from "./Components/Cards/CompanionsAtCharge";
 import ViewProfile from "./Components/ViewProfile/ViewProfile";
 import EditInfo from "./Views/Register/EditInfo";
+import PasswordRecovery from './Components/LoginForm/PasswordRecovery';
 axios.defaults.baseURL = import.meta.env.VITE_SERVER_URL;
 
 //axios.defaults.baseURL = 'aquiestoyapi-production.up.railway.app';
@@ -39,6 +40,7 @@ const App = () => {
       <NavBar />
       <Routes>
         <Route exact path="/" element={<Landing />} />
+        <Route path="/password-recovery" element={<PasswordRecovery />} />
         <Route element={<RequireAuth />}>
           <Route path="/register" element={<Register />} />
           <Route path="/calendarSuperAdmin" element={<CalendarSuperAdmin />} />
