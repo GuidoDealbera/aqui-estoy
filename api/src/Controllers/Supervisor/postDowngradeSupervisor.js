@@ -9,8 +9,8 @@ const downgradeSupervisor = async (req, res) => {
     const supervisor = await Supervisor.findOne({ where: { id: id } });
     supervisor.isActive = false;
     await supervisor.save();
-    const { email,name,lastName,birthdateDate,gender,studies,profession,phone,
-      profilePhoto,nacionality,country,CityTimeZoneId } = supervisor;
+    const { email,name,lastName,birthdayDate,gender,studies,profession,phone,
+      profilePhoto,nationality,country,CityTimeZoneId } = supervisor;
     const companion = await Companion.findOne({ where: { email: email } });
     if (companion) {
       companion.isActive = true;
@@ -28,9 +28,9 @@ const downgradeSupervisor = async (req, res) => {
         rol: rol,
         name: name,
         lastName: lastName,
-        birthdateDate: birthdateDate,
+        birthdayDate: birthdayDate,
         profilePhoto: profilePhoto,
-        nacionality: nacionality,
+        nationality: nationality,
         country: country,
         phone: phone,
         profession: profession,

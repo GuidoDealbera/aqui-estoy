@@ -9,8 +9,8 @@ const rankUpCompanion = async (req, res) => {
     const companion = await Companion.findOne({ where: { id: id } });
     companion.isActive = false;
     await companion.save();
-    const { email,name,lastName,birthdateDate,gender,studies,profession,phone,
-      profilePhoto,nacionality,country,CityTimeZoneId } = companion;
+    const { email,name,lastName,birthdayDate,gender,studies,profession,phone,
+      profilePhoto,nationality,country,CityTimeZoneId } = companion;
     const supervisor = await Supervisor.findOne({ where: { email: email } });
     if (supervisor) {
       supervisor.isActive = true;
@@ -28,9 +28,9 @@ const rankUpCompanion = async (req, res) => {
         rol: rol,
         name: name,
         lastName: lastName,
-        birthdateDate: birthdateDate,
+        birthdayDate: birthdayDate,
         profilePhoto: profilePhoto,
-        nacionality: nacionality,
+        nationality: nationality,
         country: country,
         CityTimeZoneId: CityTimeZoneId,
         phone: phone,
