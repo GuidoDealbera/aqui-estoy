@@ -1,4 +1,4 @@
-const { Supervisor, Companion, SupervisorShift } = require('../../db');
+const { Supervisor, Companion, SupervisorShift, CityTimeZone } = require('../../db');
 
 const postSupervisorCharge = async (req, res) => {
   try {
@@ -20,6 +20,10 @@ const postSupervisorCharge = async (req, res) => {
     const supervisorUpdate = await Supervisor.findByPk(idSupervisor,{include: [
       {
         model: Companion,
+      },
+      {
+        model: CityTimeZone,
+        attributes: ["id", "zoneName", "offSet"],
       },
       {
         model: SupervisorShift,

@@ -15,6 +15,7 @@ const getCompanion = async (req, res) => {
       },
       {
         model: CityTimeZone,
+        attributes: ["id", "zoneName", "offSet"],
       },
     ],});
     //Retorna todos los acompañantes como un array de objetos
