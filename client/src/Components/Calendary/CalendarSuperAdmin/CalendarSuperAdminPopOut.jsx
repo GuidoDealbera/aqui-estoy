@@ -1,8 +1,9 @@
 import { useDispatch, useSelector } from "react-redux"
 import s from "./CalendarSuperAdminPopOut.module.css"
-import { postAssignSupervisorShift,postAssignCompanionShift } from "../../../Redux/Actions/postPutActions"
+import { postAssignSupervisorShift } from "../../../Redux/Actions/postPutActions"
 import {Autocomplete,TextField} from "@mui/material"
-import { useState } from "react"
+import { useState } from "react";
+import Swal from "sweetalert2";
 
 
 const CalendarSuperAdminPopOut=(props)=>{
@@ -22,17 +23,22 @@ const CalendarSuperAdminPopOut=(props)=>{
     const dispatch=useDispatch()
  
     const handleConfirm=()=>{
-        if(confirm("Estas seguro que quieres confirmar el turno ?") == true){
-        if(user.rol==="SuperAdmin"){
-            dispatch(postAssignSupervisorShift(supervisorId.id,props.shift.id.toString(),user.rol))
-            props.setTrigger()
-      
-         }
-
-         props.setTrigger()
-        }else{
-            props.setTrigger()
-        }
+        Swal.fire({
+            title: '¿Estás seguro que quieres confirmar el turno?',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Confirmar'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              if (user.rol === "SuperAdmin") {
+                dispatch(postAssignSupervisorShift(supervisorId.id, props.shift.id.toString(), user.rol));
+              }
+              props.setTrigger();
+            } else {
+              props.setTrigger();
+            }
+          });
     }
     const handleChange=(e,value)=>{
 

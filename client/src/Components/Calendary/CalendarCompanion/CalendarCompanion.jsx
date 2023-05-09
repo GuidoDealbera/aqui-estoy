@@ -6,7 +6,8 @@ import CalendarCompanionPopOut from "./CalendarCompanionPopOut";
 import calendar from "./CalendarCompanion.css";
 import { deleteCompanionShift } from "../../../Redux/Actions/postPutActions";
 import { toast } from "sonner";
-import { toastSuccess, toastError } from "../../../Redux/Actions/alertStyle";
+import { toastSuccess, toastError, toastWarning } from "../../../Redux/Actions/alertStyle";
+import Swal from "sweetalert2";
 
 const CalendarCompanion = () => {
   let shifts = useSelector((state) => state.view.allCompanionShift);
@@ -86,21 +87,38 @@ const CalendarCompanion = () => {
     let found = shifts.find(
       (shift) => shift.time === hour && shift.day === day
     );
-    setTogglePopOut(!togglePopOut);
-    setShift({...found, id: found.id});
+    if(user.rol === 'Companion1' && user.CompanionShifts.length > 0){
+      toast.error("Ya tienes un turno asignado", toastError)
+    }else {
+      setTogglePopOut(!togglePopOut);
+      setShift({...found, id: found.id});
+    }
   };
   
   const handleDeleteShift =  (idShift) => {
-    if (user.rol === "Companion2") {
-      const confirmed = window.confirm("¿Estás seguro que deseas eliminar este turno?");
-      if (confirmed) {
-       dispatch(deleteCompanionShift(user.id, idShift));
-      }
+    if (user.rol === 'Companion2') {
+      Swal.fire({
+        title: '¿Estás seguro que deseas eliminar este turno?',
+        confirmButtonColor: '#00C8B2',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          dispatch(deleteCompanionShift(user.id, idShift));
+          // Swal.fire({
+          //   title: 'Turno eliminado',
+          //   icon: 'success',
+          //   timer: 1000,
+          //   showConfirmButton: false,
+          //   width: "22%"
+          // })
+        }
+      });
     } else {
-      toast.success("Ya tienes este turno asignado", toastSuccess);
+      toast.error("No puedes eliminar este turno", toastWarning);
     }
   }
-  
   
   
 
