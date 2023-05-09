@@ -1,4 +1,4 @@
-const { Supervisor, Companion, SupervisorShift } = require('../../db');
+const { Supervisor, Companion, SupervisorShift , CityTimeZone} = require('../../db');
 
 const getSupervisorCharge = async (req, res) => {
   try {
@@ -8,6 +8,15 @@ const getSupervisorCharge = async (req, res) => {
       include: [
         {
           model: Companion,
+          include: [
+            {
+              model: CityTimeZone
+            }
+          ]
+        },
+        {
+          model: CityTimeZone,
+          attributes: ["id", "zoneName", "offSet"],
         },
         {
           model: SupervisorShift,
