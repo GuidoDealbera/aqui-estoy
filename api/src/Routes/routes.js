@@ -66,7 +66,7 @@ router.post("/getOneSupervisor", requireLogin, getOneSupervisor);
 router.delete("/deleteSupervisorShift", deleteSupervisorShift);
 router.get("/getSupervisorShift", getSupervisorShift);
 router.post(
-  "/postDowngradeSupervisor/:id",
+  "/postDowngradeSupervisor",
   requireSuperAdmin,
   downgradeSupervisor
 );
