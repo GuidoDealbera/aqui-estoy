@@ -19,7 +19,7 @@ import { setLoading } from "./viewActions";
 export const postEmailCreatedAccount = (user) => {
   return async function (dispatch) {
     try {
-      await axios.post("/postEmail", user);
+      await axios.post("/postEmail", { ...user, type: "accountCreated" });
       dispatch({ type: POST_EMAIL_ACCOUNT_CREATED });
     } catch (error) {
       console.log(error.message);
@@ -176,12 +176,14 @@ export const deleteCompanionShift = (id, idShift) => {
   return async function (dispatch) {
     try {
       dispatch(setLoading(true));
-      const response = (await axios.delete('/deleteCompanionShift', {
-        data: {
-          id: id,
-          idShift: idShift
-        }
-      })).data;
+      const response = (
+        await axios.delete("/deleteCompanionShift", {
+          data: {
+            id: id,
+            idShift: idShift,
+          },
+        })
+      ).data;
       console.log(response);
       dispatch({ type: DELETE_COMPANION_SHIFT, payload: response });
       dispatch(setLoading(false));
@@ -189,7 +191,7 @@ export const deleteCompanionShift = (id, idShift) => {
     } catch (error) {
       toast.error("No fue posible eliminar el turno", toastError);
     }
-  }
+  };
 };
 
 export const putCompanionEdit = (id, companion) => {
@@ -201,7 +203,6 @@ export const putCompanionEdit = (id, companion) => {
       });
       dispatch({ type: PUT_COMPANION_EDIT, payload: response.data });
       dispatch(setLoading(false));
-
     } catch (error) {
       toast.error("No se pudo actualizar el ACOMPAÑANTE", toastError);
     }
@@ -211,15 +212,12 @@ export const putCompanionEdit = (id, companion) => {
 export const putSupervisorEdit = (id, supervisor) => {
   return async function (dispatch) {
     try {
-
       dispatch(setLoading(true));
       const response = await axios.put(`/putSupervisor/${id}`, supervisor);
       dispatch({ type: PUT_SUPERVISOR_EDIT, payload: response.data });
       dispatch(setLoading(false));
-
     } catch (error) {
       toast.error("No se pudo actualizar el SUPERVISOR", toastError);
     }
   };
 };
-
