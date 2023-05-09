@@ -46,7 +46,7 @@ const requireSuperAdmin = async (req, res, next) => {
     return res.status(401).json({ error: "Credenciales inválidas" });
   }
   //Comprueba sus datos contra los datos en la bd
-  const match = await bcrypt.compare(password, user.password);
+  const match = password === user.password ? true : false;
   if (!match) {
     return res.status(401).json({ error: "Credenciales inválidas" });
   }
