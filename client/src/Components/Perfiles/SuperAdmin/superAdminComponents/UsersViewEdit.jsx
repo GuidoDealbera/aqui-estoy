@@ -90,7 +90,7 @@ function UsersViewEdit(props) {
       sortable: false,
       width: 40,
       renderCell: () => (
-        <AutoFixHighIcon onClick={handleClick} style={{ cursor: "pointer" }} />
+        <AutoFixHighIcon onClick={handleEdit} style={{ cursor: "pointer" }} />
       ),
     },
     {

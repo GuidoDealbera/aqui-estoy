@@ -3,7 +3,6 @@ import EditForm from "./EditForm";
 import { useSelector } from "react-redux";
 
 export default function ModalEdit ({edit, handleClose, userID}){
-    console.log(userID);
     return (
       <Box>
         <Modal
