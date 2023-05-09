@@ -22,7 +22,7 @@ export default function ModalLogin ({handleMouseLeave, showLogin, setShowLogin})
           <Box sx={{ 
             backgroundColor: "white",
             width: 400,
-            height: "40%",
+            height: "50%",
             borderRadius: "5px",
             padding: "30px",
             }}>
