@@ -1,12 +1,4 @@
-import {
-  Select,
-  MenuItem,
-  InputLabel,
-  Button,
-  Typography,
-  TextField,
-  Box,
-} from "@mui/material";
+import { Select, MenuItem, InputLabel, Button, Typography, TextField, Box } from "@mui/material";
 import { Container } from "@mui/system";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -15,27 +7,22 @@ import { toastSuccess } from "../../Redux/Actions/alertStyle";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../Loader/Loader";
-import {
-  putCompanion,
-  putCompanionEdit,
-  putSupervisor,
-  putSupervisorEdit
-} from "../../Redux/Actions/postPutActions";
+import { putCompanionEdit, putSupervisorEdit } from "../../Redux/Actions/postPutActions";
 import axios from "axios";
+import { getAllSupervisors, getAllCompanions } from "../../Redux/Actions/viewActions";
 
 export default function EditForm(props) {
   const dispatch = useDispatch();
   const { allCompanions, allSupervisors } = useSelector((state) => state.view);
+  const adminUser = useSelector((state) => state.auth.user)
   const [user, setUser] = useState({});
   useEffect(() => {
     let allUsers = [...allCompanions, ...allSupervisors];
     setUser(allUsers.find((user) => user.id === props.userID));
   }, [allCompanions, allSupervisors]);
 
-  const submitHandler = (values) => {
-    const { rol } = values;
-    console.log(values);
-
+  const submitHandler = async (values) => {
+    const { rol, name, isActive } = values;
     if (user.rol === rol) { //Si el rol no cambia
       if (rol === "Companion1" || rol === "Companion2") { //Si es companion
         dispatch(putCompanionEdit(user.id, values))
@@ -47,12 +34,26 @@ export default function EditForm(props) {
     } else if ((user.rol === "Supervisor" && rol === "SuperAdmin") || (user.rol === "SuperAdmin" && rol === "Supervisor")) {
       dispatch(putSupervisorEdit(user.id, values))
     } else if ((user.rol === "Companion1" || user.rol === "Companion2") && (rol === "Supervisor" || rol === "SuperAdmin")) {
-      //rank up
+      dispatch(putCompanionEdit(user.id, { name, isActive }))
+      await axios.post(`/postRankUpCompanion`, {
+        email: adminUser.email,
+        password: adminUser.password,
+        id: user.id,
+        rol: rol
+      })
+      dispatch(getAllCompanions())
+      dispatch(getAllSupervisors())
     } else if ((user.rol === "Supervisor" || user.rol === "SuperAdmin") && (rol === "Companion1" || rol === "Companion2")) {
-      //rank down
+      dispatch(putSupervisorEdit(user.id, { name, isActive }))
+      await axios.post(`/postDowngradeSupervisor`, {
+        email: adminUser.email,
+        password: adminUser.password,
+        id: user.id,
+        rol: rol
+      })
+      dispatch(getAllCompanions())
+      dispatch(getAllSupervisors())
     }
-
-
     toast.success("Datos actualizados exitosamente", toastSuccess);
   };
 
@@ -65,21 +66,6 @@ export default function EditForm(props) {
   const renderForm = (
     <>
       <Box>
-        <InputLabel
-          sx={{
-            fontSize: "13px",
-            maxWidth: "300px",
-            whiteSpace: "nowrap",
-            overflow: "visible",
-            textOverflow: "ellipsis",
-          }}
-        >
-          Nombre
-        </InputLabel>
-        <Field as={TextField} name="name" sx={{ width: 300 }} />
-        <ErrorMessage name="name">
-          {(msg) => <Typography color="error">{msg}</Typography>}
-        </ErrorMessage>
         <InputLabel
           sx={{
             fontSize: "13px",
@@ -135,7 +121,6 @@ export default function EditForm(props) {
         initialValues={{
           isActive: user.isActive,
           rol: user.rol,
-          name: user.name,
         }}
         validationSchema={validationSchema}
         onSubmit={submitHandler}

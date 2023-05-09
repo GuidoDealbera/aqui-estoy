@@ -12,7 +12,7 @@ import {
     GET_USER_BY_ID,
     PUT_SUPERVISOR_CHARGE,
     PUT_SUPERVISOR_EDIT,
-    PUT_COMPANION_EDIT
+    PUT_COMPANION_EDIT,
 } from "../Actions/action-types";
 //Acá van los POST modificando a allCompanions y allSupervisors
 const initialState = {

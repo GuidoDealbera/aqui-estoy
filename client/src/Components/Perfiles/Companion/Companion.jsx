@@ -13,8 +13,6 @@ export default function Companion(props) {
   const result = allSupervisors.find((supervisor) => {
     if (supervisor.id === SuperId) return supervisor;
   });
-  console.log("result");
-  console.log(result);
   if (result) {
     const { name, lastName } = result;
     MentorName = `${name} ${lastName}`;

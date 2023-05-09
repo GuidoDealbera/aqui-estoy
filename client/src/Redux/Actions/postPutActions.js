@@ -223,32 +223,3 @@ export const putSupervisorEdit = (id, supervisor) => {
   };
 };
 
-export const rankUp = () => {
-  return async function (dispatch) {
-    try {
-
-      dispatch(setLoading(true));
-      const response = await axios.put(`/postRankUpCompanion`, supervisor);
-      dispatch({ type: PUT_SUPERVISOR_EDIT, payload: response.data });
-      dispatch(setLoading(false));
-
-    } catch (error) {
-      toast.error("No se pudo actualizar el SUPERVISOR", toastError);
-    }
-  };
-}
-
-export const downgrade = () => {
-  return async function (dispatch) {
-    try {
-
-      dispatch(setLoading(true));
-      const response = await axios.put(`/postDowngradeSupervisor`);
-      dispatch({ type: PUT_SUPERVISOR_EDIT, payload: response.data });
-      dispatch(setLoading(false));
-
-    } catch (error) {
-      toast.error("No se pudo actualizar el SUPERVISOR", toastError);
-    }
-  };
-}
