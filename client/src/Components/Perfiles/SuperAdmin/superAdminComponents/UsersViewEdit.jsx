@@ -7,7 +7,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import ModalEdit from "../../../VentanaLogin/ModalEdit";
 import AutoFixHighIcon from "@mui/icons-material/AutoFixHigh";
-import { getAllCompanions, getAllSupervisors } from "../../../../Redux/Actions/viewActions";
+import {
+  getAllCompanions,
+  getAllSupervisors,
+} from "../../../../Redux/Actions/viewActions";
 
 function UsersViewEdit(props) {
   const dispatch = useDispatch();
@@ -16,6 +19,13 @@ function UsersViewEdit(props) {
   let usrRol = null;
   const [edit, setEdit] = useState(false);
   const [rowID, setRowID] = useState("");
+  const [sortModel, setSortModel] = useState([
+    {
+      field: "isActiveText",
+      sort: "asc",
+    },
+  ]);
+
   const handleEdit = () => {
     setEdit(true);
   };
@@ -23,9 +33,9 @@ function UsersViewEdit(props) {
     setEdit(false);
   };
   useEffect(() => {
-    dispatch(getAllCompanions())
-    dispatch(getAllSupervisors())
-    }, [dispatch])
+    dispatch(getAllCompanions());
+    dispatch(getAllSupervisors());
+  }, [dispatch]);
   //Aqui se limpia la info para exportar los campos deseados
   companionsData = companionsData.map((usr) => {
     usr.rol === "Companion2"
@@ -67,7 +77,7 @@ function UsersViewEdit(props) {
       isActiveText: usr.isActive ? "Si" : "No",
     };
   });
-  const usersData = [...companionsData, ...supervisorsData];
+  let usersData = [...companionsData, ...supervisorsData];
 
   const handleClick = (event) => {
     toast.error(`Pronto podrás editar usuarios aquí! 😉`, toastError);
@@ -207,6 +217,19 @@ function UsersViewEdit(props) {
   const handleCellClick = (params, event) => {
     setRowID(params.id);
   };
+
+  const sortByActive = (a, b) => {
+    const activeA = a.isActiveText;
+    const activeB = b.isActiveText;
+    if (activeA < activeB) {
+      return 1;
+    }
+    if (activeA > activeB) {
+      return -1;
+    }
+    return 0;
+  };
+
   return (
     <Box>
       <Typography variant="h5" sx={{ textAlign: "center", margin: "2vw" }}>
@@ -221,7 +244,7 @@ function UsersViewEdit(props) {
             <Paper variant="outlined" />
 
             <DataGrid
-              rows={usersData}
+              rows={usersData.sort(sortByActive)}
               columns={columns}
               showColumnVerticalBorder={true}
               showCellVerticalBorder={true}
