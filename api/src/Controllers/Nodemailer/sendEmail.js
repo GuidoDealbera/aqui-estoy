@@ -12,7 +12,7 @@ const sendEmail = async ({ email, password, rol }, type) => {
     case "Companion1":
       mailOptionsUserCreated = {
         from: "aquiestoy.prueba01@gmail.com",
-        to: email,
+        to: email, //! ACA PUEDEN CAMBIAR ESTE PARAMETRO POR SU PROPIO MAIL PARA PROBAR
         subject: "Cuenta creada en Aqui Estoy!",
         html: companionEmailAccountCreated(email, password),
       };
@@ -28,7 +28,7 @@ const sendEmail = async ({ email, password, rol }, type) => {
     case "Supervisor":
       mailOptionsUserCreated = {
         from: "aquiestoy.prueba01@gmail.com",
-        to: email,
+        to: email, //! ACA PUEDEN CAMBIAR ESTE PARAMETRO POR SU PROPIO MAIL PARA PROBAR
         subject: "Cuenta creada en Aqui Estoy!",
         html: supervisorEmailAccountCreated(email, password),
       };
@@ -36,7 +36,7 @@ const sendEmail = async ({ email, password, rol }, type) => {
     case "SuperAdmin":
       mailOptionsUserCreated = {
         from: "aquiestoy.prueba01@gmail.com",
-        to: email,
+        to: email, //! ACA PUEDEN CAMBIAR ESTE PARAMETRO POR SU PROPIO MAIL PARA PROBAR
         subject: "Cuenta creada en Aqui Estoy!",
         html: superAdminEmailAccountCreated(email, password),
       };
