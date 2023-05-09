@@ -25,10 +25,7 @@ const putSupervisor = async (req, res) => {
   } = req.body;
   //Recibe id por params
   const { id } = req.params;
-  let newDate = null;
-  if (birthdayDate) {
-    newDate = new Date(birthdayDate);
-  }
+  let newDate = birthdayDate ? new Date(birthdayDate) : undefined;
   const timezone = await CityTimeZone.findByPk(cityTimeZone);
   try {
     //Realiza un update del supervisor con ese id en la bd

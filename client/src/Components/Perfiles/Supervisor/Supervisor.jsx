@@ -12,18 +12,17 @@ export default function Supervisor(props) {
     backgroundColor: "#1E1C4E",
     borderRadius: "10px",
     width: "100%",
-    height: "100%",
+    height: "4vw",
     boxShadow: "5px 5px 5px #C8CCD8",
   };
   const toEdit = () => {
     navigate(`/profile/${user.id}/edit`)
   }
+
+  const H = "11"; //altura de los botones
+
   return Object.entries(user).length > 0 ? (
-    <Box
-      sx={{
-        background: "linear-gradient(to top, #ffffff, #EEEFF3)",
-      }}
-    >
+    <Box>
       <Grid
         container
         margin={"auto"}
@@ -51,8 +50,8 @@ export default function Supervisor(props) {
               sx={{
                 width: 150,
                 height: 150,
-                marginBottom: "1vw",
                 margin: "auto",
+                marginBottom: "1vw",
               }}
             />
             <Typography variant="h5" textAlign="center">
@@ -75,19 +74,19 @@ export default function Supervisor(props) {
               Supervisor
             </Typography>
             <Typography display="block" variant="h7" marginTop={1}>
-              {user.phone}
+              Teléfono: {user.phone}
             </Typography>
             <Typography display="block" variant="h7" marginTop={1}>
-              {user.country}
+              Ubicación: {user.country}
             </Typography>
             <Typography display="block" variant="h7" marginTop={1}>
               {user.CityTimeZone?.offSet}
             </Typography>
             <Typography display="block" variant="h7" marginTop={1}>
-              {user.studies}
+              Estudios: {user.studies}
             </Typography>
             <Typography display="block" variant="h7" marginTop={1}>
-              {user.gender}
+              Género: {user.gender}
             </Typography>
           </Grid>
         </Grid>
@@ -106,7 +105,6 @@ export default function Supervisor(props) {
             item
             sx={{
               width: "90%",
-              height: "20%",
               padding: "1vw",
             }}
           >
@@ -119,7 +117,6 @@ export default function Supervisor(props) {
             item
             sx={{
               width: "90%",
-              height: "20%",
               padding: "1vw",
             }}
           >
@@ -131,7 +128,6 @@ export default function Supervisor(props) {
             item
             sx={{
               width: "90%",
-              height: "20%",
               padding: "1vw",
             }}
           >
@@ -150,7 +146,6 @@ export default function Supervisor(props) {
             item
             sx={{
               width: "90%",
-              height: "20%",
               padding: "1vw",
             }}
           >
@@ -169,7 +164,6 @@ export default function Supervisor(props) {
             item
             sx={{
               width: "90%",
-              height: "20%",
               padding: "1vw",
             }}
           >
@@ -181,7 +175,6 @@ export default function Supervisor(props) {
             item
             sx={{
               width: "90%",
-              height: "20%",
               padding: "1vw",
             }}
           >

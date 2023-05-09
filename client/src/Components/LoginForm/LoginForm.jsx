@@ -29,6 +29,11 @@ const LoginForm = ({ handleMouseLeave }) => {
   
   const navigate = useNavigate()
 
+  const redirectToPasswordRecovery = () => {
+    console.log('Navegando a /password-recovery');
+    navigate('/password-recovery');
+  };
+  
   const dispatch = useDispatch();
 
   const {user} = useSelector((state) => state.auth)
@@ -93,6 +98,16 @@ const LoginForm = ({ handleMouseLeave }) => {
 
   />
 </Grid>
+<Grid item xs={12}>
+            <Typography
+              variant="body2"
+              component="p"
+              sx={{ cursor: 'pointer', color: 'primary.main' }}
+              onClick={redirectToPasswordRecovery}
+            >
+              ¿Olvidaste tu contraseña?
+            </Typography>
+          </Grid>
 
               <Grid item xs={12}>
                 <Box display="flex" justifyContent="space-between">

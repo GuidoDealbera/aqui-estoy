@@ -24,10 +24,7 @@ const putCompanion = async (req, res) => {
   } = req.body;
   //Requiere el id del usuario enviado por parametro
   const { id } = req.params;
-  let newDate = null;
-  if (birthdayDate) {
-    newDate = new Date(birthdayDate);
-  }
+  let newDate = birthdayDate ? new Date(birthdayDate) : undefined;
   const timezone = await CityTimeZone.findByPk(cityTimeZone);
   if (timezone) {
     const companion = await Companion.findByPk(id);
