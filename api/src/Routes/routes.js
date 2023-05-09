@@ -54,7 +54,7 @@ router.post("/getOneCompanion", requireLogin, getOneCompanion);
 router.get("/getCompanionShift", getCompanionShift);
 router.post("/postAssignCompanionShift/:idCompanion", assignCompanionShift);
 router.delete("/deleteCompanionShift", deleteCompanionShift);
-router.post("/postRankUpCompanion/:id", requireSuperAdmin, postRankUpCompanion);
+router.post("/postRankUpCompanion", requireSuperAdmin, postRankUpCompanion);
 router.get("/getCompanion/:idShift", getCompanionShiftById);
 router.get("/getAllCompanionShift", getAllCompanionShift);
 router.get("/getAllCompanionsPerShift", getAllCompanionsPerShift);
