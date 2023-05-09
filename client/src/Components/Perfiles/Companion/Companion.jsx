@@ -1,24 +1,23 @@
 import { Button, Box, Avatar, Typography, Grid } from "@mui/material";
-import { Link, useNavigate} from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux"
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../Loader/Loader";
-
 
 export default function Companion(props) {
   const navigate = useNavigate();
-  const allSupervisors = useSelector(state => state.view.allSupervisors);
-  const {loading} = useSelector(state => state.auth)
+  const allSupervisors = useSelector((state) => state.view.allSupervisors);
+  const { loading } = useSelector((state) => state.auth);
   const SuperId = props.user.SupervisorId;
   let MentorName = "No asignado";
 
-  const result = allSupervisors.find((supervisor)=>{
-    if (supervisor.id === SuperId) return supervisor
-  })
+  const result = allSupervisors.find((supervisor) => {
+    if (supervisor.id === SuperId) return supervisor;
+  });
   console.log("result");
   console.log(result);
   if (result) {
-  const { name, lastName } = result;
-  MentorName = `${name} ${lastName}`;
+    const { name, lastName } = result;
+    MentorName = `${name} ${lastName}`;
   }
 
   const estilos = {
@@ -29,12 +28,12 @@ export default function Companion(props) {
     height: "100%",
     boxShadow: "5px 5px 5px #C8CCD8",
   };
-  
+
   const { user } = props;
-  
+
   const toEdit = () => {
-    navigate(`/profile/${user.id}/edit`)
-  }
+    navigate(`/profile/${user.id}/edit`);
+  };
   return !loading ? (
     <Box>
       <Grid
@@ -57,10 +56,7 @@ export default function Companion(props) {
           xs={12}
           md={5}
         >
-          <Grid
-            item
-            margin={1}
-          >
+          <Grid item margin={1}>
             <Avatar
               alt={user.name}
               src={user.profilePhoto}
@@ -87,7 +83,9 @@ export default function Companion(props) {
               {user.email}
             </Typography>
             <Typography display="block" variant="h7" marginTop={1}>
-              {user.rol === "Companion2" ? "Acompañante Nivel 2" : "Acompañante Nivel 1"}
+              {user.rol === "Companion2"
+                ? "Acompañante Nivel 2"
+                : "Acompañante Nivel 1"}
             </Typography>
             <Typography display="block" variant="h7" marginTop={1}>
               Teléfono: {user.phone}
@@ -99,7 +97,7 @@ export default function Companion(props) {
               {user.CityTimeZone?.offSet}
             </Typography>
             <Typography display="block" variant="h7" marginTop={1}>
-              {user.studies}
+              Estudios: {user.studies}
             </Typography>
             <Typography display="block" variant="h7" marginTop={1}>
               Género: {user.gender}
@@ -156,9 +154,9 @@ export default function Companion(props) {
               padding: "1vw",
             }}
           >
-              <Button variant="outlined" style={estilos} onClick={toEdit}>
-                Editar mi información
-              </Button>
+            <Button variant="outlined" style={estilos} onClick={toEdit}>
+              Editar mi información
+            </Button>
           </Grid>
         </Grid>
       </Grid>
