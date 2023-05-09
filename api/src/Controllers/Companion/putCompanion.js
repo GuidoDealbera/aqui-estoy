@@ -20,6 +20,7 @@ const putCompanion = async (req, res) => {
     studies,
     gender,
     isActive,
+    rol
   } = req.body;
   //Requiere el id del usuario enviado por parametro
   const { id } = req.params;
@@ -46,7 +47,8 @@ const putCompanion = async (req, res) => {
         profession,
         studies,
         gender,
-        isActive: isActive !== null && isActive !== undefined ? isActive : true
+        isActive: isActive !== null && isActive !== undefined ? isActive : true,
+        rol
       },
       {
         where: { id: id },
