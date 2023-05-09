@@ -17,8 +17,11 @@ import { useDispatch, useSelector } from "react-redux";
 import Loader from "../Loader/Loader";
 import {
   putCompanion,
+  putCompanionEdit,
   putSupervisor,
+  putSupervisorEdit
 } from "../../Redux/Actions/postPutActions";
+import axios from "axios";
 
 export default function EditForm(props) {
   const dispatch = useDispatch();
@@ -28,15 +31,29 @@ export default function EditForm(props) {
     let allUsers = [...allCompanions, ...allSupervisors];
     setUser(allUsers.find((user) => user.id === props.userID));
   }, [allCompanions, allSupervisors]);
+
   const submitHandler = (values) => {
+    const { rol } = values;
     console.log(values);
-    if (user.rol === "Companion1" || user.rol === "Companion2") {
-      dispatch(putCompanion(user.id, values));
-    } else if (user.rol === "Supervisor" || user.rol === "SuperAdmin") {
-      dispatch(putSupervisor(user.id, values));
-    } 
+
+    if (user.rol === rol) { //Si el rol no cambia
+      if (rol === "Companion1" || rol === "Companion2") { //Si es companion
+        dispatch(putCompanionEdit(user.id, values))
+      } else { //Si es supervisor
+        dispatch(putSupervisorEdit(user.id, values))
+      }
+    } else if ((user.rol === "Companion1" && rol === "Companion2") || (user.rol === "Companion2" && rol === "Companion1")) { //S
+      dispatch(putCompanionEdit(user.id, values))
+    } else if ((user.rol === "Supervisor" && rol === "SuperAdmin") || (user.rol === "SuperAdmin" && rol === "Supervisor")) {
+      dispatch(putSupervisorEdit(user.id, values))
+    } else if ((user.rol === "Companion1" || user.rol === "Companion2") && (rol === "Supervisor" || rol === "SuperAdmin")) {
+      //rank up
+    } else if ((user.rol === "Supervisor" || user.rol === "SuperAdmin") && (rol === "Companion1" || rol === "Companion2")) {
+      //rank down
+    }
+
+
     toast.success("Datos actualizados exitosamente", toastSuccess);
-    
   };
 
   const validationSchema = Yup.object().shape({
@@ -59,7 +76,7 @@ export default function EditForm(props) {
         >
           Nombre
         </InputLabel>
-        <Field as={TextField} name="name" sx={{width: 300}} />
+        <Field as={TextField} name="name" sx={{ width: 300 }} />
         <ErrorMessage name="name">
           {(msg) => <Typography color="error">{msg}</Typography>}
         </ErrorMessage>

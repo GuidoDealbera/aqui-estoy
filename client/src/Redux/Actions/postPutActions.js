@@ -9,6 +9,8 @@ import {
   PUT_SUPERVISOR_CHARGE,
   POST_EMAIL_ACCOUNT_CREATED,
   DELETE_COMPANION_SHIFT,
+  PUT_COMPANION_EDIT,
+  PUT_SUPERVISOR_EDIT,
 } from "./action-types";
 import axios from "axios";
 import { toast } from "sonner";
@@ -172,7 +174,7 @@ export const putSupervisorCharge = (idSupervisor, arrayCompanion) => {
 
 export const deleteCompanionShift = (id, idShift) => {
   return async function (dispatch) {
-    try { 
+    try {
       dispatch(setLoading(true));
       const response = (await axios.delete('/deleteCompanionShift', {
         data: {
@@ -181,11 +183,72 @@ export const deleteCompanionShift = (id, idShift) => {
         }
       })).data;
       console.log(response);
-      dispatch({type: DELETE_COMPANION_SHIFT, payload: response});
+      dispatch({ type: DELETE_COMPANION_SHIFT, payload: response });
       dispatch(setLoading(false));
       toast.success("Tu turno ha sido eliminado", toastSuccess);
-    } catch(error) {
+    } catch (error) {
       toast.error("No fue posible eliminar el turno", toastError);
     }
   }
 };
+
+export const putCompanionEdit = (id, companion) => {
+  return async function (dispatch) {
+    try {
+      dispatch(setLoading(true));
+      const response = await axios.put(`/putCompanion/${id}`, companion, {
+        headers: { "Content-Type": "application/json" },
+      });
+      dispatch({ type: PUT_COMPANION_EDIT, payload: response.data });
+      dispatch(setLoading(false));
+
+    } catch (error) {
+      toast.error("No se pudo actualizar el ACOMPAÑANTE", toastError);
+    }
+  };
+};
+
+export const putSupervisorEdit = (id, supervisor) => {
+  return async function (dispatch) {
+    try {
+
+      dispatch(setLoading(true));
+      const response = await axios.put(`/putSupervisor/${id}`, supervisor);
+      dispatch({ type: PUT_SUPERVISOR_EDIT, payload: response.data });
+      dispatch(setLoading(false));
+
+    } catch (error) {
+      toast.error("No se pudo actualizar el SUPERVISOR", toastError);
+    }
+  };
+};
+
+export const rankUp = () => {
+  return async function (dispatch) {
+    try {
+
+      dispatch(setLoading(true));
+      const response = await axios.put(`/postRankUpCompanion`, supervisor);
+      dispatch({ type: PUT_SUPERVISOR_EDIT, payload: response.data });
+      dispatch(setLoading(false));
+
+    } catch (error) {
+      toast.error("No se pudo actualizar el SUPERVISOR", toastError);
+    }
+  };
+}
+
+export const downgrade = () => {
+  return async function (dispatch) {
+    try {
+
+      dispatch(setLoading(true));
+      const response = await axios.put(`/postDowngradeSupervisor`);
+      dispatch({ type: PUT_SUPERVISOR_EDIT, payload: response.data });
+      dispatch(setLoading(false));
+
+    } catch (error) {
+      toast.error("No se pudo actualizar el SUPERVISOR", toastError);
+    }
+  };
+}
