@@ -36,15 +36,11 @@ export default function CompanionsAtCharge() {
         }}
       >
         {companionAtCharge.map((e) => {
-          //-----------------------------------reemplazar por lo que se trae de Redux--------------------
-          // const eTimeZone = "-0300"; 
-          const eTimeZone = Number(e.CityTimeZone.offSet.toString().slice(-6,-3))*100;
-          // console.log("eTimeZone");
-          // console.log(eTimeZone);
-           //---------------------------------------------------------------------------------------------
-          let horaLoc = Number(myHours) + ((Number(eTimeZone) - Number(myTimeZone)))/100;
-          horaLoc = horaLoc + ":" + myMinutes;
-          console.log(eTimeZone);
+         const eTimeZone = Number(e.CityTimeZone.offSet.toString().slice(-6,-3))*100;
+         let horaLoc = Number(myHours) + ((Number(eTimeZone) - Number(myTimeZone)))/100;
+  
+         horaLoc = horaLoc + ":" + (myMinutes < 10 ? `0${myMinutes}` : myMinutes);
+      
           return (
             <Box>
               <Cards
