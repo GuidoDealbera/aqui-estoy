@@ -39,6 +39,20 @@ export default function Companion(props) {
   const toEdit = () => {
     navigate(`/profile/${user.id}/edit`);
   };
+
+  const myDate = new Date();
+  const myTimeZone = myDate.toString().match(/([\+-][0-9]+)/)[1];
+  const myHours = myDate.getHours();
+  const myMinutes = myDate.getMinutes();
+
+  //------------------GET FROM STORE
+  const superOffset = "-0800";
+  //---------------------------------
+
+  let horaLoc = Number(myHours) + ((Number(superOffset) - Number(myTimeZone)))/100;
+  horaLoc = (horaLoc < 10 ? `0${horaLoc}` : horaLoc) + ":" + (myMinutes < 10 ? `0${myMinutes}` : myMinutes);
+      
+
   return !loading ? (
     <Box>
       <Grid
@@ -109,6 +123,9 @@ export default function Companion(props) {
             </Typography>
             <Typography display="block" variant="h7" marginTop={1}>
               Mentor: {MentorName}
+            </Typography>
+            <Typography display="block" variant="h7" marginTop={1}>
+              Horal Local del Mentor: {horaLoc}
             </Typography>
           </Grid>
         </Grid>

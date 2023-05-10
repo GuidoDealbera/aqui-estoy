@@ -6,7 +6,7 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
-import { Grid, Typography } from '@mui/material';
+import { Grid, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import { toast } from "sonner";
 import { toastSuccess, toastError } from "../../../../Redux/Actions/alertStyle";
@@ -38,6 +38,7 @@ const CsvImportExport = () => {
       studies: usr.studies,
       gender: usr.gender,
       rol: usrRol,
+      isActive: usr.isActive,
     };
   });
   supervisorsData = supervisorsData.map((usr) => {
@@ -54,6 +55,7 @@ const CsvImportExport = () => {
       studies: usr.studies,
       gender: usr.gender,
       rol: usrRol,
+      isActive: usr.isActive,
     };
   });
   const usersData = [...companionsData, ...supervisorsData];
@@ -64,7 +66,6 @@ const CsvImportExport = () => {
     Papa.parse(file, {
       header: true,
       complete: (results) => {
-        // agregar el código para guardar los datos importados en tu base de datos o estado de Redux
         let newPeople = results.data;
         console.log(newPeople);
         //array de obj con acompanantes y supervisores
@@ -115,8 +116,9 @@ const CsvImportExport = () => {
 
   return (
     <Box>
-      <Typography variant="h5" sx={{textAlign:"center", margin:"2vw"}}>
-      Importar/Exportar Usuarios por CSV</Typography>
+      <Typography variant="h5" sx={{ textAlign: "center", margin: "2vw" }}>
+        Importar/Exportar Usuarios por CSV
+      </Typography>
       <Grid container justifyContent="center">
         <Grid item justifyContent="center" sx={{ width: "40vw" }}>
           <form onSubmit={handleSubmit}>
@@ -148,6 +150,7 @@ const CsvImportExport = () => {
               >
                 Exportar CSV
               </Button>
+              
             </Box>
           </form>
         </Grid>
