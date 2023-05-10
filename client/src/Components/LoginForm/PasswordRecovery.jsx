@@ -12,6 +12,8 @@ import {
   Paper,
 } from '@mui/material';
 import { styled } from '@mui/system';
+import { useDispatch, useSelector } from "react-redux"
+import { getPasswordRecoveryCode } from '../../Redux/Actions/viewActions';
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(4),
@@ -32,11 +34,10 @@ const validationSchema = Yup.object().shape({
 });
 
 const PasswordRecovery = () => {
+  const dispatch=useDispatch()
   const submitHandler = async (values) => {
     const { email } = values;
-
-
-    console.log('Enviar correo electrónico a:', email);
+   dispatch(getPasswordRecoveryCode(email))
   };
 
   return (

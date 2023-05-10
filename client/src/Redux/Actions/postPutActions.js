@@ -19,7 +19,10 @@ import { setLoading } from "./viewActions";
 export const postEmailCreatedAccount = (user) => {
   return async function (dispatch) {
     try {
-      await axios.post("/postEmail", { ...user, type: "accountCreated" });
+      await axios.post("/postCreatedAccount", {
+        ...user,
+        type: "accountCreated",
+      });
       dispatch({ type: POST_EMAIL_ACCOUNT_CREATED });
     } catch (error) {
       console.log(error.message);
