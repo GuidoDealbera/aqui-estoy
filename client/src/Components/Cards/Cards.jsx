@@ -11,9 +11,9 @@ export default function MultiActionAreaCard(props) {
   return (
     <Card
       sx={{
-        width: "20vw",
-        minHeight: "25vw",
-        margin: "1vw",
+        // width: "20vw",
+      //  height: "500px",
+        margin: "2vw",
         boxShadow: "2px 2px 2px",
         // bgcolor:"#C8CCD8"
       }}
@@ -21,13 +21,17 @@ export default function MultiActionAreaCard(props) {
       <CardActionArea>
         <CardMedia
           component="img"
-          style={{ height: "20vw", width: "100%" }}
+          style={{ height: "100%", width: "100%" }}
           image={props.profilePhoto}
           alt={props.name}
         />
         <CardContent sx={{ textAlign: "center" }}>
           <Typography gutterBottom variant="h5" component="div">
-            {props.name + " " + props.lastName}
+            {props.name?.charAt(0).toUpperCase() +
+              props.name?.slice(1) +
+              " " +
+              props.lastName?.charAt(0).toUpperCase() +
+              props.lastName?.slice(1)}
           </Typography>
           <Typography
             display="block"
@@ -61,6 +65,7 @@ export default function MultiActionAreaCard(props) {
 
       <CardActions sx={{ justifyContent: "center", position: "relative" }}>
         <Button
+          margin="2px"
           variant="outlined"
           color="primary"
           onClick={() => {
@@ -69,20 +74,23 @@ export default function MultiActionAreaCard(props) {
         >
           Ver Perfil
         </Button>
-        <a href={`https://wa.me/${props.phone}`} target="_blank" style={{margin: 1}}>
-        <WhatsAppIcon
-          sx={{
-            position: "absolute",
-            backgroundColor: "green",
-            color: "white",
-            padding: 0.1,
-            borderRadius: "30px",
-            right: 10,
-            bottom: 12,
-            "&:hover": { boxShadow: "0 0 10px green",
-          cursor: 'pointer' },
-          }}
-        />
+        <a
+          href={`https://wa.me/${props.phone}`}
+          target="_blank"
+          style={{ margin: 20 }}
+        >
+          <WhatsAppIcon
+            sx={{
+              position: "absolute",
+              backgroundColor: "green",
+              color: "white",
+              padding: 0.1,
+              borderRadius: "30px",
+              right: 10,
+              bottom: 12,
+              "&:hover": { boxShadow: "0 0 10px green", cursor: "pointer" },
+            }}
+          />
         </a>
       </CardActions>
     </Card>
