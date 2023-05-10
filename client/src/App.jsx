@@ -12,6 +12,9 @@ import CompanionsAtCharge from "./Components/Cards/CompanionsAtCharge";
 import ViewProfile from "./Components/ViewProfile/ViewProfile";
 import EditInfo from "./Views/Register/EditInfo";
 import PasswordRecovery from './Components/LoginForm/PasswordRecovery';
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { getAllCompanions, getAllSupervisors } from "./Redux/Actions/viewActions";
 axios.defaults.baseURL = import.meta.env.VITE_SERVER_URL;
 
 //axios.defaults.baseURL = 'aquiestoyapi-production.up.railway.app';
@@ -30,11 +33,18 @@ axios.defaults.baseURL = import.meta.env.VITE_SERVER_URL;
 // const { user } = useSelector((state) => state.auth);
 
 const App = () => {
+  const dispatch = useDispatch();
   const user = JSON.parse(sessionStorage.getItem('user'))
   const location = useLocation()
   const RequireAuth = () => {
     return user ? <Outlet /> : <Navigate to={'/'} />;
   };
+  
+  useEffect(() => {
+    dispatch(getAllCompanions());
+    dispatch(getAllSupervisors());
+  }, []);
+
   return (
     <div>
       <NavBar />

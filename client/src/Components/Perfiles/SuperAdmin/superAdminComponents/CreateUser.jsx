@@ -23,7 +23,6 @@ const CreateUser = () => {
     setUserData({ ...userData, [name]: value });
   };
   
-  console.log(userData);
   const handleSubmit = (e) => {
     e.preventDefault();
     //  implementar la lógica para crear el usuario, como llamar a una API o usar acciones de Redux
