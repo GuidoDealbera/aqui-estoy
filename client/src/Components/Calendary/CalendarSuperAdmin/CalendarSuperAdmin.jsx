@@ -12,10 +12,10 @@ const CalendarSupervisor=()=>{
     let shifts=useSelector(state=>state.view.allSupervisorShift)
 let supervisors=useSelector(state=>state.view.allSupervisors)
 let perShift = useSelector(state=>state.view.supervisorsPerShift)
-
+/*
 let shi = perShift.map(s => s.shiftSupervisors);
 console.log(shi);
-
+*/
 
 
     const user=useSelector(state=>state.auth.user)
