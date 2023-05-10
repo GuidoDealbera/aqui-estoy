@@ -26,20 +26,20 @@ const validationSchema = Yup.object().shape({
 });
 
 const LoginForm = ({ handleMouseLeave }) => {
-  
+
   const navigate = useNavigate()
 
   const redirectToPasswordRecovery = () => {
     console.log('Navegando a /password-recovery');
     navigate('/password-recovery');
   };
-  
+
   const dispatch = useDispatch();
 
-  const {user} = useSelector((state) => state.auth)
-  const {name, id} = user
+  const { user } = useSelector((state) => state.auth)
+  const { name, id } = user
   useEffect(() => {
-    if(Object.entries(user).length){
+    if (Object.entries(user).length) {
       dispatch(loginSuccess(user))
       if (name) {
         navigate(`/profile/${id}`)
@@ -47,13 +47,13 @@ const LoginForm = ({ handleMouseLeave }) => {
         navigate("/register")
       }
       handleMouseLeave()
-    } 
+    }
   }, [user])
   const submitHandler = async (values) => {
-    
+
     const { email, password } = values;
-    
-    dispatch(getBothRoles(email,password))
+
+    dispatch(getBothRoles(email, password))
   }
 
   return (
@@ -62,59 +62,59 @@ const LoginForm = ({ handleMouseLeave }) => {
       validationSchema={validationSchema}
       onSubmit={submitHandler}
     >
-      {({ isSubmitting }) => (
+      {(formik) => (
         <Form>
           <Container maxWidth="sm">
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <Typography variant="h5">Iniciar sesión</Typography>
-        
+
               </Grid>
               <Grid item xs={12}>
-  <Field
-    as={TextField}
-    fullWidth
-    id="email"
-    label="Correo electrónico"
-    name="email"
-    type="email"
+                <Field
+                  as={TextField}
+                  fullWidth
+                  id="email"
+                  label="Correo electrónico"
+                  name="email"
+                  type="email"
 
-    error={!!(ErrorMessage.name)}
-    helperText={<ErrorMessage name="email" />}
+                  error={!!(formik.errors.email && formik.touched.email)}
+                  helperText={<ErrorMessage name="email" />}
 
-  />
-</Grid>
-<Grid item xs={12}>
-  <Field
-    as={TextField}
-    fullWidth
-    id="password"
-    label="Contraseña"
-    name="password"
-    type="password"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Field
+                  as={TextField}
+                  fullWidth
+                  id="password"
+                  label="Contraseña"
+                  name="password"
+                  type="password"
 
-    error={!!(ErrorMessage.name)}
-    helperText={<ErrorMessage name="password" />}
+                  error={!!(formik.errors.password && formik.touched.password)}
+                  helperText={<ErrorMessage name="password" />}
 
-  />
-</Grid>
-<Grid item xs={12}>
-            <Typography
-              variant="body2"
-              component="p"
-              sx={{ cursor: 'pointer', color: 'primary.main' }}
-              onClick={redirectToPasswordRecovery}
-            >
-              ¿Olvidaste tu contraseña?
-            </Typography>
-          </Grid>
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Typography
+                  variant="body2"
+                  component="p"
+                  sx={{ cursor: 'pointer', color: 'primary.main' }}
+                  onClick={redirectToPasswordRecovery}
+                >
+                  ¿Olvidaste tu contraseña?
+                </Typography>
+              </Grid>
 
               <Grid item xs={12}>
                 <Box display="flex" justifyContent="space-between">
                   <StyledLoginButton
                     variant="contained"
                     type="submit"
-                    disabled={isSubmitting}
+                    disabled={formik.isSubmitting}
                   >
                     Iniciar sesión
                   </StyledLoginButton>
