@@ -98,9 +98,9 @@ export default function Companion(props) {
             <Typography display="block" variant="h7" marginTop={1}>
               Ubicación: {user.country}
             </Typography>
-            <Typography display="block" variant="h7" marginTop={1}>
+            {/* <Typography display="block" variant="h7" marginTop={1}>
               {user.CityTimeZone?.offSet}
-            </Typography>
+            </Typography> */}
             <Typography display="block" variant="h7" marginTop={1}>
               Estudios: {user.studies}
             </Typography>
