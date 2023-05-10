@@ -7,10 +7,12 @@ import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import ModalEdit from "../../../VentanaLogin/ModalEdit";
 import AutoFixHighIcon from "@mui/icons-material/AutoFixHigh";
+import Popover from '@mui/material/Popover';
 import {
   getAllCompanions,
   getAllSupervisors,
 } from "../../../../Redux/Actions/viewActions";
+import HelpIcon from '@mui/icons-material/HelpOutlineTwoTone';
 
 function UsersViewEdit(props) {
   const dispatch = useDispatch();
@@ -95,10 +97,10 @@ function UsersViewEdit(props) {
     // },
     {
       field: "edit",
-      headerName: "",
-      description: "",
+      headerName: "Editar",
+      description: "Edición del Estado y Rol del usuario",
       sortable: false,
-      width: 40,
+      width: 60,
       renderCell: () => (
         <AutoFixHighIcon onClick={handleEdit} style={{ cursor: "pointer" }} />
       ),
@@ -106,7 +108,7 @@ function UsersViewEdit(props) {
     {
       field: "isActiveText",
       headerName: "ACTIVO",
-      description: "",
+      description: "Describe si el usuario está activo en la plataforma",
       sortable: true,
       width: 80,
       // valueGetter: (params) =>
@@ -115,7 +117,7 @@ function UsersViewEdit(props) {
     {
       field: "rol",
       headerName: "ROL",
-      description: "",
+      description: "Rol del usuario en la fundación",
       sortable: true,
       width: 160,
       // valueGetter: (params) =>
@@ -160,7 +162,7 @@ function UsersViewEdit(props) {
     {
       field: "country",
       headerName: "PAÍS",
-      description: "",
+      description: "País de residencia actual",
       sortable: true,
       width: 120,
       // valueGetter: (params) =>
@@ -169,7 +171,7 @@ function UsersViewEdit(props) {
     {
       field: "nationality",
       headerName: "NACIONALIDAD",
-      description: "",
+      description: "País de nacimiento",
       sortable: true,
       width: 120,
       // valueGetter: (params) =>
@@ -230,11 +232,17 @@ function UsersViewEdit(props) {
     return 0;
   };
 
+  const help = () => {}
+
   return (
     <Box>
-      <Typography variant="h5" sx={{ textAlign: "center", margin: "2vw" }}>
+      <Typography 
+      variant="h5" 
+      sx={{ margin: "2vw", textAlign: "center" }}
+      >
         Ver / Editar Usuarios
       </Typography>
+
       <Grid container justifyContent="center">
         <Grid item>
           <TableContainer
