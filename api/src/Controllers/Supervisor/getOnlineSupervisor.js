@@ -4,7 +4,6 @@ const { Op } = require('sequelize');
 
 const getOnlineSupervisor = async (req, res) => {
   try {
-    //Necesito el usuario logeado para saber su timezone y devolver el Supervisor que este activo en ese horario
     const { CityTimeZone } = req.body;
     const { zoneName } = CityTimeZone;
 
