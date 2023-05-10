@@ -49,7 +49,7 @@ export default function CompanionsAtCharge() {
 
           //horaLoc;
           return (
-            <Grid item xs={11} sm={3}>
+            <Grid item xs={11} sm={6} md={4} lg={3}>
               <Cards
                 id={e?.id}
                 name={e?.name}

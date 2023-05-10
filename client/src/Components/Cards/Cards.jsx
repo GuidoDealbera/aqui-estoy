@@ -2,7 +2,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import { Button, CardActionArea, CardActions, Grid } from "@mui/material";
+import { Button, CardActionArea, CardActions } from "@mui/material";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import { useNavigate } from "react-router-dom";
 
@@ -12,7 +12,7 @@ export default function MultiActionAreaCard(props) {
     <Card
       sx={{
         // width: "20vw",
-        // minHeight: "25vw",
+      //  height: "500px",
         margin: "2vw",
         boxShadow: "2px 2px 2px",
         // bgcolor:"#C8CCD8"
@@ -31,7 +31,7 @@ export default function MultiActionAreaCard(props) {
               props.name?.slice(1) +
               " " +
               props.lastName?.charAt(0).toUpperCase() +
-              props.lastName?.slice(0)}
+              props.lastName?.slice(1)}
           </Typography>
           <Typography
             display="block"
