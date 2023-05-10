@@ -20,8 +20,8 @@ export default function CompanionsAtCharge() {
   const myMinutes = myDate.getMinutes();
 
   return (
-    <Box>
-      <Grid item>
+    <Grid container>
+      <Grid itemm xs={12}>
         <Typography display="block" variant="h6" marginLeft={"3vw"}>
           Acompañantes a mi Cargo
         </Typography>
@@ -36,9 +36,9 @@ export default function CompanionsAtCharge() {
           justifyContent: "center",
         }}
       >
-        {companionAtCharge.map((e) => {
+        {companionAtCharge?.map((e) => {
           const eTimeZone =
-            Number(e.CityTimeZone.offSet.toString().slice(-6, -3)) * 100;
+            Number(e.CityTimeZone?.offSet.toString().slice(-6, -3)) * 100;
           let horaLoc =
             Number(myHours) + (Number(eTimeZone) - Number(myTimeZone)) / 100;
 
@@ -47,9 +47,9 @@ export default function CompanionsAtCharge() {
             ":" +
             (myMinutes < 10 ? `0${myMinutes}` : myMinutes);
 
-          horaLoc;
+          //horaLoc;
           return (
-            <Box>
+            <Grid item xs={11} sm={6} md={4} lg={3}>
               <Cards
                 id={e?.id}
                 name={e?.name}
@@ -60,10 +60,10 @@ export default function CompanionsAtCharge() {
                 country={e?.country}
                 horaLocal={horaLoc}
               />
-            </Box>
+            </Grid>
           );
         })}
       </Box>
-    </Box>
+    </Grid>
   );
 }
