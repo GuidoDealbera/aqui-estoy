@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux"
-import { getAllSupervisorShift, getAllSupervisors } from "../../../Redux/Actions/viewActions"
+import { getAllSupervisorShift, getAllSupervisors, getAllSupervisorsPerShift } from "../../../Redux/Actions/viewActions"
 import { Container, Row, Col, Button, Modal } from 'react-bootstrap';
 import { useEffect, useState } from "react";
 import CalendarSuperAdminPopOut from "./CalendarSuperAdminPopOut";
@@ -11,6 +11,12 @@ const CalendarSupervisor=()=>{
     const dispatch=useDispatch()
     let shifts=useSelector(state=>state.view.allSupervisorShift)
 let supervisors=useSelector(state=>state.view.allSupervisors)
+let perShift = useSelector(state=>state.view.supervisorsPerShift)
+/*
+let shi = perShift.map(s => s.shiftSupervisors);
+console.log(shi);
+*/
+
 
     const user=useSelector(state=>state.auth.user)
     shifts=shifts.map((shift)=>{
@@ -87,6 +93,7 @@ hours = Array.from({ length: 24 }, (_, i) => {
     useEffect(()=>{
 if(supervisors.length===0){
   dispatch(getAllSupervisors())
+ dispatch(getAllSupervisorsPerShift());
 }
     },[dispatch])
    
@@ -107,12 +114,7 @@ return  <Container className="calendar-container">
               {days.map((day,index) => {
                 if(user.SupervisorShifts===undefined){
                   return (
-                    <td 
-                      onClick={()=>handleClickCell(hour,day)}
-                    >
-                    -----
-                    </td>
-                  )
+                    <td  onClick={()=>handleClickCell(hour,day)} > ----- </td> )
                 }else{
                       const found=user.SupervisorShifts.find(shift=>shift.day===index&&shift.time===hour)
               if(found){
