@@ -28,6 +28,7 @@ export default function CompanionsAtCharge() {
       </Grid>
 
       <Box
+      key={user.id}
         sx={{
           display: "flex",
           flexWrap: "wrap",
