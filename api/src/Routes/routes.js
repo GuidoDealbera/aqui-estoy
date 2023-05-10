@@ -34,8 +34,7 @@ const getAllSupervisorShift = require("../Controllers/Supervisor/getAllSuperviso
 const postSupervisorCharge = require("../Controllers/Supervisor/postSupervisorCharge");
 const getSupervisorCharge = require("../Controllers/Supervisor/getSupervisorCharge");
 const putSupervisorCharge = require("../Controllers/Supervisor/putSupervisorCharge");
-const getMatchShiftTime = require ("../Controllers/Supervisor/getMatchShiftTime");
-
+const getMatchShiftTime = require("../Controllers/Supervisor/getMatchShiftTime");
 
 const getCityTimeZone = require("../Controllers/TimeZone/getCityTimeZone");
 //* Both
@@ -45,8 +44,10 @@ const getAllCompanionsPerShift = require("../Controllers/Companion/getAllCompani
 const getAllSupervisorsPerShift = require("../Controllers/Supervisor/getAllSupervisorsPerShift");
 
 //* nodemailer
-const postEmailController = require(".././Controllers/Nodemailer/postEmailController");
-router.post("/postEmail", postEmailController);
+const postCreatedAccount = require("../Controllers/Nodemailer/accountCreated/postCreatedAccount");
+const getPasswordRecoveryConde = require("../Controllers/Nodemailer/passwordController/getPasswordRecoveryCode");
+router.post("/postCreatedAccount", postCreatedAccount);
+router.get("/getPasswordRecoveryCode/:email", getPasswordRecoveryConde);
 
 router.put("/putIsSuperAdmin/:id", requireSuperAdmin, putSuperAdmin);
 router.get("/getCompanion", getCompanion);
@@ -67,11 +68,7 @@ router.put("/putSupervisor/:id", putSupervisor);
 router.post("/getOneSupervisor", requireLogin, getOneSupervisor);
 router.delete("/deleteSupervisorShift", deleteSupervisorShift);
 router.get("/getSupervisorShift", getSupervisorShift);
-router.post(
-  "/postDowngradeSupervisor",
-  requireSuperAdmin,
-  downgradeSupervisor
-);
+router.post("/postDowngradeSupervisor", requireSuperAdmin, downgradeSupervisor);
 router.post("/postAssignSupervisorShift/:idSupervisor", assignSupervisorShift);
 router.get("/getAllSupervisorShift", getAllSupervisorShift);
 router.post("/postSupervisorCharge/:idSupervisor", postSupervisorCharge);

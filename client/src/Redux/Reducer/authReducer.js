@@ -9,7 +9,8 @@ import {
   POST_ASSIGN_SUPERVISOR_SHIFT,
   POST_ASSIGN_COMPANION_SHIFT,
   SET_LOADING,
-  DELETE_COMPANION_SHIFT
+  DELETE_COMPANION_SHIFT,
+  GET_PASSWORD_RECOVERY_CODE,
 } from "../Actions/action-types";
 //Acá pongo los GET_ONE y los PUT modificando user;
 const initialState = {
@@ -17,6 +18,7 @@ const initialState = {
   user: JSON.parse(sessionStorage.getItem("user")) || {},
   error: null,
   loading: false,
+  passwordRecoveryCode: "",
 };
 
 const authReducer = (state = initialState, action) => {
@@ -82,12 +84,16 @@ const authReducer = (state = initialState, action) => {
         ...state,
         loading: action.payload,
       };
-      case DELETE_COMPANION_SHIFT:
-        return{
-            ...state,
-          user: action.payload
-        }
-     
+    case DELETE_COMPANION_SHIFT:
+      return {
+        ...state,
+        user: action.payload,
+      };
+    case GET_PASSWORD_RECOVERY_CODE:
+      return {
+        ...state,
+        passwordRecoveryCode: action.payload.data,
+      };
     default:
       return { ...state };
   }
