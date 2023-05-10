@@ -13,6 +13,7 @@ import {
     PUT_SUPERVISOR_CHARGE,
     PUT_SUPERVISOR_EDIT,
     PUT_COMPANION_EDIT,
+    GET_SUPERVISOR_MATCH,
 } from "../Actions/action-types";
 //Acá van los POST modificando a allCompanions y allSupervisors
 const initialState = {
@@ -23,7 +24,8 @@ const initialState = {
     allCompanionShift: [],
     allSupervisorShiftAssign: [],
     allCompanionShiftAssign: [],
-    viewUser: {}
+    viewUser: {},
+    SupervisorMatch: {},
 }
 const viewReducer = (state = initialState, { type, payload }) => {
     switch (type) {
@@ -139,7 +141,11 @@ const viewReducer = (state = initialState, { type, payload }) => {
                     allCompanions: [...state.allCompanions],
                 };
             }
-
+         case GET_SUPERVISOR_MATCH:
+                 return{
+                  ...state,
+                  SupervisorMatch: payload
+        }
         default:
             return {
                 ...state

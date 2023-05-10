@@ -34,6 +34,8 @@ const getAllSupervisorShift = require("../Controllers/Supervisor/getAllSuperviso
 const postSupervisorCharge = require("../Controllers/Supervisor/postSupervisorCharge");
 const getSupervisorCharge = require("../Controllers/Supervisor/getSupervisorCharge");
 const putSupervisorCharge = require("../Controllers/Supervisor/putSupervisorCharge");
+const getMatchShiftTime = require ("../Controllers/Supervisor/getMatchShiftTime");
+
 
 const getCityTimeZone = require("../Controllers/TimeZone/getCityTimeZone");
 //* Both
@@ -80,5 +82,5 @@ router.get("/getAllSupervisorsPerShift", getAllSupervisorsPerShift);
 router.get("/getCityTimeZone", getCityTimeZone);
 router.post("/getBothRoles", requireLogin, getBothRoles);
 router.get("/getUserById/:id", getUserById);
-
+router.get("/getMatchShiftTime/:idCompanion", getMatchShiftTime);
 module.exports = router;

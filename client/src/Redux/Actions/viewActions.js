@@ -10,7 +10,8 @@ import {
     GET_ALL_COMPANION_SHIFT_ASSIGN,
     GET_ALL_SUPERVISOR_SHIFT_ASSIGN,
     SET_LOADING,
-    GET_USER_BY_ID
+    GET_USER_BY_ID,
+    GET_SUPERVISOR_MATCH
 } from "./action-types";
 import axios from 'axios'
 import { toast } from "sonner";
@@ -175,3 +176,18 @@ export const getUserById = (id) => {
         }
     }
 }
+
+
+export const getSurpervisorMatch = (idCompanion) =>{
+    return async function (dispatch) {
+      try {
+         
+          const response = (await axios.get(`/getMatchShiftTime/${idCompanion}`)).data;
+          console.log(response);
+          dispatch({ type: GET_SUPERVISOR_MATCH, payload: response })
+          
+      } catch (error) {
+          toast.error('No se pudo cargar el supervisor', toastError)
+      }
+  }
+  }
