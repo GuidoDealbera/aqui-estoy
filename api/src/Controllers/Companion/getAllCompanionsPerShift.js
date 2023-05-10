@@ -14,6 +14,8 @@ const getAllCompanionsPerShift = async (req, res) => {
       shiftId: shift.id, // Incluir cualquier otro campo que necesites del turno
       shiftCompanions: shift.Companions,
       companionCount: shift.Companions.length,
+      maxCompanions: shift.maxCompanions,
+      hasRules: shift.hasRules,
     }));
 
     res.status(200).json( shiftsWithCount);

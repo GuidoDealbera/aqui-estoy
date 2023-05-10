@@ -25,6 +25,14 @@ module.exports = (sequelize) => {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
+      maxCompanions :{
+        type: DataTypes.INTEGER,
+        defaultValue : 5,
+      },
+      hasRules :{
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+      }
     },
     { timestamps: false }
   );
