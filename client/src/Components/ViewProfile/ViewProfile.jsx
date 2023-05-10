@@ -38,8 +38,8 @@ export default function ViewProfile() {
                 </Box>
                 <Box sx={styles.body.info}>
                     <Typography sx={styles.body.info.label}>Teléfono</Typography>
-                    <Typography sx={styles.body.info.data}>{phone}</Typography>
-                </Box>
+                    <Typography  component="a" href={`https://wa.me/${phone}`} target="_blank" sx={styles.body.info.data}>{phone}</Typography>
+                </Box>           
                 <Box sx={styles.body.info}>
                     <Typography sx={styles.body.info.label}>Nacionalidad</Typography>
                     <Typography sx={styles.body.info.data}>{nationality}</Typography>
