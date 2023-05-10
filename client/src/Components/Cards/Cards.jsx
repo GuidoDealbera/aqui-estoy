@@ -3,12 +3,11 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { Button, CardActionArea, CardActions } from "@mui/material";
-import { border } from "@mui/system";
+import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import { useNavigate } from "react-router-dom";
 
 export default function MultiActionAreaCard(props) {
   const navigate = useNavigate();
-
   return (
     <Card
       sx={{
@@ -60,7 +59,7 @@ export default function MultiActionAreaCard(props) {
         </CardContent>
       </CardActionArea>
 
-      <CardActions sx={{ justifyContent: "center" }}>
+      <CardActions sx={{ justifyContent: "center", position: "relative" }}>
         <Button
           variant="outlined"
           color="primary"
@@ -70,6 +69,21 @@ export default function MultiActionAreaCard(props) {
         >
           Ver Perfil
         </Button>
+        <a href={`https://wa.me/${props.phone}`} target="_blank" style={{margin: 1}}>
+        <WhatsAppIcon
+          sx={{
+            position: "absolute",
+            backgroundColor: "green",
+            color: "white",
+            padding: 0.1,
+            borderRadius: "30px",
+            right: 10,
+            bottom: 12,
+            "&:hover": { boxShadow: "0 0 10px green",
+          cursor: 'pointer' },
+          }}
+        />
+        </a>
       </CardActions>
     </Card>
   );

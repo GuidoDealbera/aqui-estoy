@@ -2,12 +2,19 @@ import { Button, Box, Avatar, Typography, Grid } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../Loader/Loader";
+import { useEffect } from "react";
+import { getSurpervisorMatch } from "../../../Redux/Actions/viewActions";
 
 export default function Companion(props) {
+
+  const userLog = props.user.id;
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const allSupervisors = useSelector((state) => state.view.allSupervisors);
   const { loading } = useSelector((state) => state.auth);
   const SuperId = props.user.SupervisorId;
+ 
+
   let MentorName = "No asignado";
 
   const result = allSupervisors.find((supervisor) => {
@@ -120,7 +127,7 @@ export default function Companion(props) {
             item
             sx={{
               width: "90%",
-              height: "30%",
+              height: "25%",
               padding: "1vw",
             }}
           >
@@ -130,12 +137,28 @@ export default function Companion(props) {
               </Button>
             </Link>
           </Grid>
+          <Grid
+            item
+            sx={{
+              width: "90%",
+              height: "25%",
+              padding: "1vw",
+            }}
+          >
+            <Button
+             onClick={() =>  dispatch(getSurpervisorMatch(userLog)) }
+              variant="contained"
+              style={estilos}
+            >
+             Supervisor a cargo
+            </Button>
+          </Grid>
 
           <Grid
             item
             sx={{
               width: "90%",
-              height: "30%",
+              height: "25%",
               padding: "1vw",
             }}
           >
@@ -148,7 +171,7 @@ export default function Companion(props) {
             item
             sx={{
               width: "90%",
-              height: "30%",
+              height: "25%",
               padding: "1vw",
             }}
           >
