@@ -60,11 +60,8 @@ export default function SuperAdminDatos(props) {
           </Grid>
 
           <Grid item textAlign={"center"}>
-            <Typography display="block" variant="h6" marginTop={1}>
-              {user.country}
-            </Typography>
-            <Typography display="block" variant="h6" marginTop={1}>
-              {user.timeZone}
+          <Typography display="block" variant="h6" marginTop={1}>
+              {user.profession}
             </Typography>
             <Typography display="block" variant="h6" marginTop={1}>
               {user.email}
@@ -72,15 +69,19 @@ export default function SuperAdminDatos(props) {
             <Typography display="block" variant="h7" marginTop={1}>
              Super Admin
             </Typography>
-            <Typography display="block" variant="h6" marginTop={1}>
-              {user.phone}
+            <Typography display="block" variant="h7" marginTop={1}>
+              Teléfono: {user.phone}
+            </Typography>
+            <Typography display="block" variant="h7" marginTop={1}>
+              Ubicación: {user.country}
+            </Typography>
+            <Typography display="block" variant="h7" marginTop={1}>
+              Estudios: {user.studies}
             </Typography>
             <Typography display="block" variant="h6" marginTop={1}>
-              {user.profession}
+              {user.timeZone}
             </Typography>
-            <Typography display="block" variant="h6" marginTop={1}>
-              {user.studies}
-            </Typography>
+            
           </Grid>
         </Grid>
 

@@ -28,7 +28,7 @@ export default function CompanionsAtCharge() {
       </Grid>
 
       <Box
-      key={user.id}
+        key={user.id}
         sx={{
           display: "flex",
           flexWrap: "wrap",
@@ -37,11 +37,17 @@ export default function CompanionsAtCharge() {
         }}
       >
         {companionAtCharge.map((e) => {
-         const eTimeZone = Number(e.CityTimeZone.offSet.toString().slice(-6,-3))*100;
-         let horaLoc = Number(myHours) + ((Number(eTimeZone) - Number(myTimeZone)))/100;
-  
-         horaLoc = horaLoc + ":" + (myMinutes < 10 ? `0${myMinutes}` : myMinutes);
-      
+          const eTimeZone =
+            Number(e.CityTimeZone.offSet.toString().slice(-6, -3)) * 100;
+          let horaLoc =
+            Number(myHours) + (Number(eTimeZone) - Number(myTimeZone)) / 100;
+
+          horaLoc =
+            (horaLoc < 10 ? `0${horaLoc}` : horaLoc) +
+            ":" +
+            (myMinutes < 10 ? `0${myMinutes}` : myMinutes);
+
+          horaLoc;
           return (
             <Box>
               <Cards
