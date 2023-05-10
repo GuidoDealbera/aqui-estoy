@@ -1,16 +1,8 @@
-import React, { useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import {
-  getAllCompanions,
-  getAllSupervisors,
-} from "../../Redux/Actions/viewActions";
+import React from "react";
 import landingImage from "../../img/contencion-emocional-aqui-estoy-1024x683.jpeg";
 import {
-  Button,
   Container,
   Typography,
-  Box,
   CardMedia,
   Grid,
   Slide,
@@ -24,13 +16,6 @@ const CustomTypography = styled(Typography)(({ theme }) => ({
 }));
 
 export default function Landing(props) {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getAllCompanions());
-    dispatch(getAllSupervisors());
-  }, []);
 
   return (
     <Grid
