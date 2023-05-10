@@ -36,9 +36,9 @@ export default function CompanionsAtCharge() {
           justifyContent: "center",
         }}
       >
-        {companionAtCharge.map((e) => {
+        {companionAtCharge?.map((e) => {
           const eTimeZone =
-            Number(e.CityTimeZone.offSet.toString().slice(-6, -3)) * 100;
+            Number(e.CityTimeZone?.offSet.toString().slice(-6, -3)) * 100;
           let horaLoc =
             Number(myHours) + (Number(eTimeZone) - Number(myTimeZone)) / 100;
 
@@ -47,7 +47,7 @@ export default function CompanionsAtCharge() {
             ":" +
             (myMinutes < 10 ? `0${myMinutes}` : myMinutes);
 
-          horaLoc;
+          //horaLoc;
           return (
             <Box>
               <Cards
