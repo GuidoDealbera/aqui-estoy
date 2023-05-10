@@ -2,27 +2,26 @@ import { Button, Box, Avatar, Typography, Grid } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../Loader/Loader";
-import { useEffect } from "react";
 import { getSurpervisorMatch } from "../../../Redux/Actions/viewActions";
 
 export default function Companion(props) {
-
   const userLog = props.user.id;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const allSupervisors = useSelector((state) => state.view.allSupervisors);
   const { loading } = useSelector((state) => state.auth);
   const SuperId = props.user.SupervisorId;
- 
 
   let MentorName = "No asignado";
+  let superOffset = "";
 
   const result = allSupervisors.find((supervisor) => {
     if (supervisor.id === SuperId) return supervisor;
   });
   if (result) {
-    const { name, lastName } = result;
+    const { name, lastName, CityTimeZone } = result;
     MentorName = `${name} ${lastName}`;
+    superOffset = Number(CityTimeZone?.offSet.toString().slice(-6, -3))*100;
   }
 
   const estilos = {
@@ -45,13 +44,13 @@ export default function Companion(props) {
   const myHours = myDate.getHours();
   const myMinutes = myDate.getMinutes();
 
-  //------------------GET FROM STORE
-  const superOffset = "-0800";
-  //---------------------------------
-
-  let horaLoc = Number(myHours) + ((Number(superOffset) - Number(myTimeZone)))/100;
-  horaLoc = (horaLoc < 10 ? `0${horaLoc}` : horaLoc) + ":" + (myMinutes < 10 ? `0${myMinutes}` : myMinutes);
-      
+  let horaLoc =
+    Number(myHours) + (superOffset - Number(myTimeZone)) / 100;
+  
+    horaLoc =
+    (horaLoc < 10 ? `0${horaLoc}` : horaLoc) +
+    ":" +
+    (myMinutes < 10 ? `0${myMinutes}` : myMinutes);
 
   return !loading ? (
     <Box>
@@ -163,11 +162,11 @@ export default function Companion(props) {
             }}
           >
             <Button
-             onClick={() =>  dispatch(getSurpervisorMatch(userLog)) }
+              onClick={() => dispatch(getSurpervisorMatch(userLog))}
               variant="contained"
               style={estilos}
             >
-             Supervisor a cargo
+              Supervisor a cargo
             </Button>
           </Grid>
 
