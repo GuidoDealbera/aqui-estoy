@@ -2,6 +2,7 @@ const { Companion } = require("../../db");
 const { Supervisor } = require("../../db");
 const bcrypt = require("bcrypt");
 const passwordGenerator = require("../passwordGenerator")
+const axios = require("axios")
 
 const downgradeSupervisor = async (req, res) => {
   try {
@@ -39,6 +40,10 @@ const downgradeSupervisor = async (req, res) => {
         CityTimeZoneId: CityTimeZoneId
       });
       //Retorna un objeto de tipo Supervisor con todos sus datos
+      const user = {
+        email:newCompanion.email,password:newPassword,rol:newCompanion.rol,type:"accountCreated"
+      }
+      await axios.post("http://localhost:3001/postEmail", user);
       return res.status(201).json({newCompanion, newPassword});
     } else {
       return res.status(400).json({ error: "Faltan datos obligatorios" });

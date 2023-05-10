@@ -2,7 +2,7 @@ const { Companion } = require("../../db");
 const { Supervisor } = require("../../db");
 const bcrypt = require("bcrypt");
 const passwordGenerator = require("../passwordGenerator");
-
+const axios = require("axios")
 const rankUpCompanion = async (req, res) => {
   try {
     const { id, rol } = req.body;
@@ -38,6 +38,11 @@ const rankUpCompanion = async (req, res) => {
         studies: studies,
         gender: gender,
       });
+      const user = {
+        email:newSupervisor.email,password:newPassword,rol:newSupervisor.rol,type:"accountCreated"
+      }
+      await axios.post("http://localhost:3001/postEmail", user);
+
       return res.status(201).json({ newSupervisor, newPassword });
       //Retorna un objeto de tipo Supervisor con todos sus datos
     } else {
