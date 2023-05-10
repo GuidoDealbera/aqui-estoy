@@ -1,5 +1,9 @@
 const mailer = require("../mailerConfig/mailer");
 const { Supervisor, Companion } = require("../../../db");
+const {
+  passwordRecoveryCode,
+  wrongMail,
+} = require("../htmlMails/MailPassword");
 const getPasswordRecoveryCode = async (req, res) => {
   try {
     let mailOptions = {};
@@ -17,7 +21,7 @@ const getPasswordRecoveryCode = async (req, res) => {
         from: "aquiestoy.prueba01@gmail.com",
         to: "carlavega231323@gmail.com", // email, // //! ACA PUEDEN CAMBIAR ESTE PARAMETRO POR SU PROPIO MAIL PARA PROBAR
         subject: "Recupera tu cuenta en Aqui Estoy!",
-        text: `${code}`,
+        html: passwordRecoveryCode(code),
       };
     }
     const companion = await Companion.findOne({ where: { email: email } });
@@ -26,7 +30,7 @@ const getPasswordRecoveryCode = async (req, res) => {
         from: "aquiestoy.prueba01@gmail.com",
         to: "carlavega231323@gmail.com", // email, // //! ACA PUEDEN CAMBIAR ESTE PARAMETRO POR SU PROPIO MAIL PARA PROBAR
         subject: "Recupera tu cuenta en Aqui Estoy!",
-        text: `${code}`,
+        html: passwordRecoveryCode(code),
       };
     }
     if (!companion && !supervisor) {
@@ -34,7 +38,7 @@ const getPasswordRecoveryCode = async (req, res) => {
         from: "aquiestoy.prueba01@gmail.com",
         to: "carlavega231323@gmail.com", // email, // //! ACA PUEDEN CAMBIAR ESTE PARAMETRO POR SU PROPIO MAIL PARA PROBAR
         subject: "Error al recuperar tu cuenta",
-        text: `El email proporcionado no pertenece a un usuario activo en la fundacion `,
+        html: wrongMail(email),
       };
     }
     transporter.sendMail(mailOptions, (error, info) => {
