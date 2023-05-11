@@ -170,7 +170,10 @@ const CsvImportExport = () => {
   };
 
   return (
-    <Box border={1} borderColor={"red"}>
+    <Box 
+    // border={1} 
+    // borderColor={"red"}
+    >
       <Typography variant="h5" sx={{ textAlign: "center", margin: "2vw" }}>
         Importar/Exportar Usuarios por CSV
       </Typography>
@@ -185,8 +188,6 @@ const CsvImportExport = () => {
           item
           // border={1}
           // borderColor={"blue"}
-          justifyContent="center"
-          sx={{ width: "40vw" }}
         >
           {/* <form onSubmit={handleSubmit}> */}
             <Box marginBottom={2} justifyContent={"center"}>
