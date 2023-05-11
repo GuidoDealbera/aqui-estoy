@@ -43,13 +43,14 @@ export default function CompanionsAtCharge() {
             Number(e.CityTimeZone?.offSet.toString().slice(-6, -3)) * 100;
           let horaLoc =
             Number(myHours) + (Number(eTimeZone) - Number(myTimeZone)) / 100;
-
+          
+          horaLoc >= 24 ? horaLoc = horaLoc - 24 : null;
+          
           horaLoc =
             (horaLoc < 10 ? `0${horaLoc}` : horaLoc) +
             ":" +
             (myMinutes < 10 ? `0${myMinutes}` : myMinutes);
 
-          //horaLoc;
           return (
             <Grid item xs={11} sm={6} md={4} lg={3}>
               <Cards

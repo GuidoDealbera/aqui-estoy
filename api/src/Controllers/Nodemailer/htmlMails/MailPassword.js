@@ -4,4 +4,7 @@ const passwordRecoveryCode = (code) => {
 const wrongMail = (email) => {
   return `${email}`;
 };
-module.exports = { passwordRecoveryCode };
+const passwordHasChange = (email, password) => {
+  return `${email} ${password}`;
+};
+module.exports = { passwordRecoveryCode, wrongMail, passwordHasChange };

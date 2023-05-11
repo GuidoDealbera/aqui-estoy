@@ -18,7 +18,7 @@ const initialState = {
   user: JSON.parse(sessionStorage.getItem("user")) || {},
   error: null,
   loading: false,
-  passwordRecoveryCode: "",
+  passwordRecoveryInfo: {},
 };
 
 const authReducer = (state = initialState, action) => {
@@ -92,7 +92,7 @@ const authReducer = (state = initialState, action) => {
     case GET_PASSWORD_RECOVERY_CODE:
       return {
         ...state,
-        passwordRecoveryCode: action.payload.data,
+        passwordRecoveryInfo: action.payload.data,
       };
     default:
       return { ...state };
