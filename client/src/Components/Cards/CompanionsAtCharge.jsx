@@ -49,7 +49,6 @@ export default function CompanionsAtCharge() {
             ":" +
             (myMinutes < 10 ? `0${myMinutes}` : myMinutes);
 
-          //horaLoc;
           return (
             <Grid item xs={11} sm={6} md={4} lg={3}>
               <Cards
