@@ -45,7 +45,7 @@ const getOnlineSupervisor = async (req, res) => {
               day: actualDay,
               time: {
                 [Op.gte]: startTime,
-                [Op.lt]: endTime,
+                [Op.lte]: endTime,
               },
             },
             include: [{
