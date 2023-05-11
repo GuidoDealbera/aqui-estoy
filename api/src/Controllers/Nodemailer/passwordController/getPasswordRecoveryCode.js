@@ -16,7 +16,7 @@ const getPasswordRecoveryCode = async (req, res) => {
     }
     console.log(code);
     const supervisor = await Supervisor.findOne({ where: { email: email } });
-    if (supervisor) {
+    if (supervisor && supervisor.isActive) {
       mailOptions = {
         from: "aquiestoy.prueba01@gmail.com",
         to: "carlavega231323@gmail.com", // email, // //! ACA PUEDEN CAMBIAR ESTE PARAMETRO POR SU PROPIO MAIL PARA PROBAR
@@ -25,7 +25,7 @@ const getPasswordRecoveryCode = async (req, res) => {
       };
     }
     const companion = await Companion.findOne({ where: { email: email } });
-    if (companion) {
+    if (companion && companion.isActive) {
       mailOptions = {
         from: "aquiestoy.prueba01@gmail.com",
         to: "carlavega231323@gmail.com", // email, // //! ACA PUEDEN CAMBIAR ESTE PARAMETRO POR SU PROPIO MAIL PARA PROBAR

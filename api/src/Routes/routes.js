@@ -45,9 +45,9 @@ const getAllSupervisorsPerShift = require("../Controllers/Supervisor/getAllSuper
 
 //* nodemailer
 const postCreatedAccount = require("../Controllers/Nodemailer/accountCreated/postCreatedAccount");
-const getPasswordRecoveryConde = require("../Controllers/Nodemailer/passwordController/getPasswordRecoveryCode");
+const getPasswordRecoveryCode = require("../Controllers/Nodemailer/passwordController/getPasswordRecoveryCode");
 router.post("/postCreatedAccount", postCreatedAccount);
-router.get("/getPasswordRecoveryCode/:email", getPasswordRecoveryConde);
+router.get("/getPasswordRecoveryCode/:email", getPasswordRecoveryCode);
 
 router.put("/putIsSuperAdmin/:id", requireSuperAdmin, putSuperAdmin);
 router.get("/getCompanion", getCompanion);
