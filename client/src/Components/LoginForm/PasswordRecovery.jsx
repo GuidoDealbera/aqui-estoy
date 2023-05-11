@@ -37,6 +37,8 @@ const PasswordRecovery = () => {
   const [step, setStep] = useState(0);
   const [email, setEmail] = useState("");
 
+  const [recoveryCode, setRecoveryCode] = useState("");
+
   const submitHandler = async (values) => {
     if (step === 0) {
       const { email } = values;
@@ -44,10 +46,19 @@ const PasswordRecovery = () => {
       dispatch(getPasswordRecoveryCode(email));
       setStep(1);
     } else if (step === 1) {
-      const { recoveryCode, password, confirmPassword } = values;
+      const { recoveryCode } = values;
+      setRecoveryCode(recoveryCode);
+      setStep(2);
+    } else if (step === 2) {
+      const { password, confirmPassword } = values;
       dispatch(updatePassword(email, recoveryCode, password));
     }
   };
+  const recoveryCodeValidationSchema = Yup.object().shape({
+    recoveryCode: Yup.string()
+      .length(6, 'El código de recuperación debe tener exactamente 6 caracteres')
+      .required('Requerido'),
+  });
 
   const newPasswordValidationSchema = Yup.object().shape({
     recoveryCode: Yup.string()
@@ -63,8 +74,13 @@ const PasswordRecovery = () => {
 
   return (
     <Formik
-      initialValues={step === 0 ? { email: '' } : { recoveryCode: '', password: '', confirmPassword: '' }}
-      validationSchema={step === 0 ? validationSchema : newPasswordValidationSchema}
+      initialValues={{
+        email: '',
+        recoveryCode: '',
+        password: '',
+        confirmPassword: ''
+      }}
+      validationSchema={step === 0 ? validationSchema : step === 1 ? recoveryCodeValidationSchema : newPasswordValidationSchema}
       onSubmit={submitHandler}
     >
       {({ isSubmitting }) => (
@@ -73,7 +89,9 @@ const PasswordRecovery = () => {
             <StyledPaper>
               <Grid container spacing={2}>
                 <Grid item xs={12}>
-                  <Typography variant="h5">{step === 0 ? 'Recuperar contraseña' : 'Restaurar contraseña'}</Typography>
+                  <Typography variant="h5">
+                    {step === 0 ? 'Recuperar contraseña' : step === 1 ? 'Introduce el código de recuperación' : 'Restaurar contraseña'}
+                  </Typography>
                 </Grid>
                 {step === 0 ? (
                   <>
@@ -101,7 +119,7 @@ const PasswordRecovery = () => {
                       </Box>
                     </Grid>
                   </>
-                ) : (
+                ) : step === 1 ? (
                   <>
                     <Grid item xs={12}>
                       <Field
@@ -114,6 +132,20 @@ const PasswordRecovery = () => {
                         helperText={<ErrorMessage name="recoveryCode" />}
                       />
                     </Grid>
+                    <Grid item xs={12}>
+                      <Box display="flex" justifyContent="center">
+                        <StyledButton
+                          variant="contained"
+                          type="submit"
+                          disabled={isSubmitting}
+                        >
+                          Verificar código
+                        </StyledButton>
+                      </Box>
+                    </Grid>
+                  </>
+                ) : (
+                  <>
                     <Grid item xs={12}>
                       <Field
                         as={TextField}
@@ -158,6 +190,6 @@ const PasswordRecovery = () => {
       )}
     </Formik>
   );
-                }
+}
 
 export default PasswordRecovery;
