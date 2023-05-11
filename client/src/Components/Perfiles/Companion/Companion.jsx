@@ -163,6 +163,7 @@ export default function Companion(props) {
                 <WhatsAppIcon sx={{borderRadius: "50px",marginLeft: "3%", color: "green", "&:hover":{ boxShadow: "0 0 10px grey"}}}/>
               </a>}
             </Typography>
+            {MentorName !== "No asignado" &&
             <Typography
               display="block"
               variant="p"
@@ -170,7 +171,7 @@ export default function Companion(props) {
               sx={{ fontFamily: "poppins" }}
             >
               Hora local del mentor: {horaLoc}
-            </Typography>
+            </Typography>}
           </Grid>
         </Grid>
 
