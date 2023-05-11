@@ -39,9 +39,9 @@ const rankUpCompanion = async (req, res) => {
         gender: gender,
       });
       const user = {
-        email:newSupervisor.email,password:newPassword,rol:newSupervisor.rol,type:"accountCreated"
+        email:newSupervisor.email,password:newPassword,rol:newSupervisor.rol
       }
-      await axios.post("http://localhost:3001/postEmail", user);
+      await axios.post("http://localhost:3001/postCreatedAccount", user);
 
       return res.status(201).json({ newSupervisor, newPassword });
       //Retorna un objeto de tipo Supervisor con todos sus datos
