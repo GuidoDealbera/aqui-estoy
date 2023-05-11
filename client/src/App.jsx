@@ -11,10 +11,15 @@ import CalendarCompanion from "./Components/Calendary/CalendarCompanion/Calendar
 import CompanionsAtCharge from "./Components/Cards/CompanionsAtCharge";
 import ViewProfile from "./Components/ViewProfile/ViewProfile";
 import EditInfo from "./Views/Register/EditInfo";
-import PasswordRecovery from './Components/LoginForm/PasswordRecovery';
+import PasswordRecovery from "./Components/LoginForm/PasswordRecovery";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { getAllCompanions, getAllSupervisors } from "./Redux/Actions/viewActions";
+import {
+  getAllCompanionShift,
+  getAllCompanions,
+  getAllSupervisorShift,
+  getAllSupervisors,
+} from "./Redux/Actions/viewActions";
 axios.defaults.baseURL = import.meta.env.VITE_SERVER_URL;
 
 //axios.defaults.baseURL = 'aquiestoyapi-production.up.railway.app';
@@ -34,16 +39,18 @@ axios.defaults.baseURL = import.meta.env.VITE_SERVER_URL;
 
 const App = () => {
   const dispatch = useDispatch();
-  const user = JSON.parse(sessionStorage.getItem('user'))
-  const location = useLocation()
+  const user = JSON.parse(sessionStorage.getItem("user"));
+  const location = useLocation();
   const RequireAuth = () => {
-    return user ? <Outlet /> : <Navigate to={'/'} />;
+    return user ? <Outlet /> : <Navigate to={"/"} />;
   };
-  
+
   useEffect(() => {
     dispatch(getAllCompanions());
     dispatch(getAllSupervisors());
-  }, []);
+    dispatch(getAllCompanionShift());
+    dispatch(getAllSupervisorShift());
+  }, [user]);
 
   return (
     <div>
@@ -57,7 +64,7 @@ const App = () => {
           <Route path="/panel-supervision" element={<PanelSupervision />} />
           <Route path="/calendarSuperAdmin" element={<CalendarSuperAdmin />} />
           <Route path="/calendarCompanion" element={<CalendarCompanion />} />
-          <Route path="/companionsAtCharge" element={<CompanionsAtCharge />}></Route>
+
           <Route path="/profile/:id/view" element={<ViewProfile />} />
           <Route path="/profile/:id/edit" element={<EditInfo />} />
         </Route>

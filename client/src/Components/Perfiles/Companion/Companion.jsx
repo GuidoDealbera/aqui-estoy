@@ -48,6 +48,7 @@ export default function Companion(props) {
   const myMinutes = myDate.getMinutes();
 
   let horaLoc = Number(myHours) + (superOffset - Number(myTimeZone)) / 100;
+  horaLoc >= 24 ? horaLoc = horaLoc - 24 : null;
 
   horaLoc =
     (horaLoc < 10 ? `0${horaLoc}` : horaLoc) +
@@ -157,10 +158,12 @@ export default function Companion(props) {
               sx={{ fontFamily: "poppins" }}
             >
               Mentor: {MentorName}
+              {MentorName !== "No asignado" && 
               <a href={`https://wa.me/${superPhone}`} target="_blank">
                 <WhatsAppIcon sx={{borderRadius: "50px",marginLeft: "3%", color: "green", "&:hover":{ boxShadow: "0 0 10px grey"}}}/>
-              </a>
+              </a>}
             </Typography>
+            {MentorName !== "No asignado" && 
             <Typography
               display="block"
               variant="p"
@@ -168,7 +171,7 @@ export default function Companion(props) {
               sx={{ fontFamily: "poppins" }}
             >
               Hora local del mentor: {horaLoc}
-            </Typography>
+            </Typography>}
           </Grid>
         </Grid>
 

@@ -224,3 +224,13 @@ export const putSupervisorEdit = (id, supervisor) => {
     }
   };
 };
+
+export const putUserPassword = (passwordRecoveryInfo, password) => {
+  return async function (dispatch) {
+    await axios.put("/putUserPassword", {
+      typeUser: passwordRecoveryInfo.typeUser,
+      email: passwordRecoveryInfo.email,
+      password: password,
+    });
+  };
+};

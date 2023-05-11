@@ -16,6 +16,7 @@ export default function MultiActionAreaCard(props) {
         margin: "2vw",
         boxShadow: "2px 2px 2px",
         // bgcolor:"#C8CCD8"
+        
       }}
     >
       <CardActionArea>

@@ -12,7 +12,8 @@ const postCreatedAccount = async (req, res) => {
     if (rol === "Companion1" || rol === "Companion2") {
       mailOptionsUserCreated = {
         from: "aquiestoy.prueba01@gmail.com",
-        to: "carlavega231323@gmail.com", // email, // //! ACA PUEDEN CAMBIAR ESTE PARAMETRO POR SU PROPIO MAIL PARA PROBAR
+
+        to: email, // //! ACA PUEDEN CAMBIAR ESTE PARAMETRO POR SU PROPIO MAIL PARA PROBAR
         subject: "Cuenta creada en Aqui Estoy!",
         html: companionEmailAccountCreated(email, password),
       };
@@ -20,7 +21,9 @@ const postCreatedAccount = async (req, res) => {
     if (rol === "Supervisor") {
       mailOptionsUserCreated = {
         from: "aquiestoy.prueba01@gmail.com",
-        to: "carlavega231323@gmail.com", // email, // //! ACA PUEDEN CAMBIAR ESTE PARAMETRO POR SU PROPIO MAIL PARA PROBAR
+
+        to: email, // //! ACA PUEDEN CAMBIAR ESTE PARAMETRO POR SU PROPIO MAIL PARA PROBAR
+
         subject: "Cuenta creada en Aqui Estoy!",
         html: supervisorEmailAccountCreated(email, password),
       };
@@ -28,7 +31,9 @@ const postCreatedAccount = async (req, res) => {
     if (rol === "SuperAdmin") {
       mailOptionsUserCreated = {
         from: "aquiestoy.prueba01@gmail.com",
-        to: "carlavega231323@gmail.com", // email, // //! ACA PUEDEN CAMBIAR ESTE PARAMETRO POR SU PROPIO MAIL PARA PROBAR
+ 
+        to: email, // //! ACA PUEDEN CAMBIAR ESTE PARAMETRO POR SU PROPIO MAIL PARA PROBAR
+
         subject: "Cuenta creada en Aqui Estoy!",
         html: superAdminEmailAccountCreated(email, password),
       };

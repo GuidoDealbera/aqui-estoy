@@ -30,10 +30,11 @@ const LoginForm = ({ handleMouseLeave }) => {
   const navigate = useNavigate()
 
   const redirectToPasswordRecovery = () => {
+
     console.log('Navegando a /password-recovery');
     handleMouseLeave();  // Esto cerrará la ventana de inicio de sesión
     navigate('/password-recovery');
-};
+  };
 
   const dispatch = useDispatch();
 

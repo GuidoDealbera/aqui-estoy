@@ -11,24 +11,27 @@ const getPasswordRecoveryCode = async (req, res) => {
     const { email } = req.params;
     const cadena = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     let code = "";
+    let typeUser = "";
     for (let i = 1; i < 6; i++) {
       code += cadena[Math.floor(Math.random() * (27 - 1) + 1)];
     }
     console.log(code);
     const supervisor = await Supervisor.findOne({ where: { email: email } });
-    if (supervisor) {
+    if (supervisor && supervisor.isActive) {
+      typeUser = "Supervisor";
       mailOptions = {
         from: "aquiestoy.prueba01@gmail.com",
-        to: "carlavega231323@gmail.com", // email, // //! ACA PUEDEN CAMBIAR ESTE PARAMETRO POR SU PROPIO MAIL PARA PROBAR
+        to: email, // //! ACA PUEDEN CAMBIAR ESTE PARAMETRO POR SU PROPIO MAIL PARA PROBAR
         subject: "Recupera tu cuenta en Aqui Estoy!",
         html: passwordRecoveryCode(code),
       };
     }
     const companion = await Companion.findOne({ where: { email: email } });
-    if (companion) {
+    if (companion && companion.isActive) {
+      typeUser = "Companion";
       mailOptions = {
         from: "aquiestoy.prueba01@gmail.com",
-        to: "carlavega231323@gmail.com", // email, // //! ACA PUEDEN CAMBIAR ESTE PARAMETRO POR SU PROPIO MAIL PARA PROBAR
+        to: email, // //! ACA PUEDEN CAMBIAR ESTE PARAMETRO POR SU PROPIO MAIL PARA PROBAR
         subject: "Recupera tu cuenta en Aqui Estoy!",
         html: passwordRecoveryCode(code),
       };
@@ -36,7 +39,7 @@ const getPasswordRecoveryCode = async (req, res) => {
     if (!companion && !supervisor) {
       mailOptions = {
         from: "aquiestoy.prueba01@gmail.com",
-        to: "carlavega231323@gmail.com", // email, // //! ACA PUEDEN CAMBIAR ESTE PARAMETRO POR SU PROPIO MAIL PARA PROBAR
+        to: email, // //! ACA PUEDEN CAMBIAR ESTE PARAMETRO POR SU PROPIO MAIL PARA PROBAR
         subject: "Error al recuperar tu cuenta",
         html: wrongMail(email),
       };
@@ -48,7 +51,7 @@ const getPasswordRecoveryCode = async (req, res) => {
         return error.message;
       }
     });
-    res.status(200).json(code);
+    res.status(200).json({ code, typeUser, email });
   } catch (error) {
     res.status(404).json("No se pudo mandar el mail");
   }
