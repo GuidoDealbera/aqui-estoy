@@ -34,6 +34,8 @@ export default function CompanionsAtCharge() {
           flexWrap: "wrap",
           marginTop: "2vw",
           justifyContent: "center",
+          height:"85vh",
+          width:"100vw"
         }}
       >
         {companionAtCharge?.map((e) => {
