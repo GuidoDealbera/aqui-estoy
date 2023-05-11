@@ -158,9 +158,10 @@ export default function Companion(props) {
               sx={{ fontFamily: "poppins" }}
             >
               Mentor: {MentorName}
+              {MentorName !== "No asignado" && 
               <a href={`https://wa.me/${superPhone}`} target="_blank">
                 <WhatsAppIcon sx={{borderRadius: "50px",marginLeft: "3%", color: "green", "&:hover":{ boxShadow: "0 0 10px grey"}}}/>
-              </a>
+              </a>}
             </Typography>
             <Typography
               display="block"
