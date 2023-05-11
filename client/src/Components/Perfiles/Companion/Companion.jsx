@@ -48,6 +48,7 @@ export default function Companion(props) {
   const myMinutes = myDate.getMinutes();
 
   let horaLoc = Number(myHours) + (superOffset - Number(myTimeZone)) / 100;
+  horaLoc >= 24 ? horaLoc = horaLoc - 24 : null;
 
   horaLoc =
     (horaLoc < 10 ? `0${horaLoc}` : horaLoc) +

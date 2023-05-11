@@ -43,7 +43,9 @@ export default function CompanionsAtCharge() {
             Number(e.CityTimeZone?.offSet.toString().slice(-6, -3)) * 100;
           let horaLoc =
             Number(myHours) + (Number(eTimeZone) - Number(myTimeZone)) / 100;
-
+          
+          horaLoc >= 24 ? horaLoc = horaLoc - 24 : null;
+          
           horaLoc =
             (horaLoc < 10 ? `0${horaLoc}` : horaLoc) +
             ":" +
