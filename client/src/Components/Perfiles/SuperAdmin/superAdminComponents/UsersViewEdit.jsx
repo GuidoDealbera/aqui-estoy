@@ -40,10 +40,15 @@ function UsersViewEdit(props) {
   }, [dispatch]);
   //Aqui se limpia la info para exportar los campos deseados
   companionsData = companionsData.map((usr) => {
+    let mentor = `${usr.Supervisor?.name} ${usr.Supervisor?.lastName}`;
+    (mentor.toString() === "undefined undefined") ? mentor = "---Sin Asignar" : null;
+
+    console.log(usr);
     usr.rol === "Companion2"
       ? (usrRol = "Acompañante 2")
       : (usrRol = "Acompañante 1");
-    return {
+    
+      return {
       id: usr.id,
       name: usr.name || " ",
       lastName: usr.lastName || " ",
@@ -57,12 +62,19 @@ function UsersViewEdit(props) {
       gender: usr.gender || " ",
       rol: usrRol || " ",
       isActiveText: usr.isActive ? "Si" : "No",
+      //referente: `${usr.Supervisor?.name} ${usr.Supervisor?.lastName}` || " "
+      referente: mentor,
     };
   });
+
   supervisorsData = supervisorsData.map((usr) => {
+    let mentor = `${usr.Supervisor?.name} ${usr.Supervisor?.lastName}`;
+    (mentor.toString() === "undefined undefined") ? mentor = "---Sin Asignar" : null;
+
     usr.rol === "SuperAdmin"
       ? (usrRol = "Super Admin")
       : (usrRol = "Supervisor");
+
     return {
       id: usr.id,
       name: usr.name || " ",
@@ -77,13 +89,11 @@ function UsersViewEdit(props) {
       gender: usr.gender || " ",
       rol: usrRol || " ",
       isActiveText: usr.isActive ? "Si" : "No",
+      referente: mentor,
+      
     };
   });
   let usersData = [...companionsData, ...supervisorsData];
-
-  const handleClick = (event) => {
-    toast.error(`Pronto podrás editar usuarios aquí! 😉`, toastError);
-  };
 
   const columns = [
     // {
@@ -146,7 +156,7 @@ function UsersViewEdit(props) {
       headerName: "CORREO",
       description: "",
       sortable: false,
-      width: 160,
+      width: 250,
       // valueGetter: (params) =>
       //   `${params.row.firstName || ""} ${params.row.lastName || ""}`,
     },
@@ -155,7 +165,16 @@ function UsersViewEdit(props) {
       headerName: "TELÉFONO",
       description: "",
       sortable: false,
-      width: 120,
+      width: 150,
+      // valueGetter: (params) =>
+      //   `${params.row.firstName || ""} ${params.row.lastName || ""}`,
+    },
+    {
+      field: "referente",
+      headerName: "REFERENTE",
+      description: "Supervisor Mentor",
+      sortable: true,
+      width: 220,
       // valueGetter: (params) =>
       //   `${params.row.firstName || ""} ${params.row.lastName || ""}`,
     },

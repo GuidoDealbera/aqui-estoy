@@ -132,9 +132,20 @@ export default function Companion(props) {
             >
               Ubicación: {user.country}
             </Typography>
+
+            <Typography
+              display="block"
+              variant="p"
+              marginTop={1}
+              sx={{ fontFamily: "poppins" }}
+            >
+              Mi Hora Local: {myHours}:{myMinutes}
+            </Typography>
+
             {/* <Typography display="block" variant="h7" marginTop={1}>
               {user.CityTimeZone?.offSet}
             </Typography> */}
+            
             <Typography
               display="block"
               variant="p"
