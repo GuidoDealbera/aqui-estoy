@@ -47,7 +47,6 @@ export default function CompanionsAtCharge() {
             ":" +
             (myMinutes < 10 ? `0${myMinutes}` : myMinutes);
 
-          //horaLoc;
           return (
             <Box>
               <Cards

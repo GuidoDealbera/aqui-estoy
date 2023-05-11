@@ -16,6 +16,12 @@ import {
   postCompanion,
 } from "../../../../Redux/Actions/postPutActions";
 
+//el archivo CSV debe contener las siguientes columnas:
+// correo : un email
+// clave : con minimo 6 caracteres
+// rol : a-acomp1 b-acomp2 s-supervisor t-superadmin
+// El usuario se crea siempre activo
+
 const CsvImportExport = () => {
   const dispatch = useDispatch();
   const fileInput = useRef(null);
@@ -69,18 +75,56 @@ const CsvImportExport = () => {
         let newPeople = results.data;
         console.log(newPeople);
         //array de obj con acompanantes y supervisores
-        //{clave: "xxx", correo: "xxx@xxx.xx", rol: "a||A||s||S"}
+        //{clave: "xxx6", correo: "xxx@xxx.xx", rol: "a||A||s||S"}
 
         newPeople.forEach((usr) => {
-          if (usr.rol === "a" || usr.rol === "A") {
-            dispatch(postCompanion({ email: usr.correo }));
-          } else if (usr.rol === "S" || usr.rol === "s") {
-            dispatch(
-              postSupervisor({ email: usr.correo, password: usr.clave })
-            );
+          if (usr.clave.length > 5) {
+            if (usr.rol.toLowerCase() === "a") {
+              //acompañante 1
+              dispatch(
+                postCompanion({
+                  email: usr.correo,
+                  password: usr.clave,
+                  isActive: true,
+                  rol: "Companion1",
+                })
+              );
+            } else if (usr.rol.toLowerCase() === "b") {
+              //acompañante 2
+              dispatch(
+                postCompanion({
+                  email: usr.correo,
+                  password: usr.clave,
+                  isActive: true,
+                  rol: "Companion2",
+                })
+              );
+            } else if (usr.rol.toLowerCase() === "s") {
+              //supervisor
+              dispatch(
+                postSupervisor({
+                  email: usr.correo,
+                  password: usr.clave,
+                  isActive: usr.activo,
+                  rol: "Supervisor",
+                })
+              );
+            } else if (usr.rol.toLowerCase() === "t") {
+              //super admin
+              dispatch(
+                postSupervisor({
+                  email: usr.correo,
+                  password: usr.clave,
+                  isActive: usr.activo,
+                  rol: "SuperAdmin",
+                })
+              );
+            } else {
+              //error en la declaracion del tipo de usuario
+              toast.error(`Error en el rol de ${usr.correo}`, toastError);
+            }
           } else {
-            //error en la declaracion del tipo de usuario
-            toast.error("Error en el rol del usuario", toastError);
+            toast.error(`Error en la contraseña de ${usr.correo}`, toastError);
           }
         });
       },
@@ -102,10 +146,10 @@ const CsvImportExport = () => {
   };
 
   //--------------------------------------------------------------------
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setUserData({ ...userData, [name]: value });
-  };
+  // const handleChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setUserData({ ...userData, [name]: value });
+  // };
 
   //--------------------------------------------------------------------
   const handleSubmit = (e) => {
@@ -150,7 +194,6 @@ const CsvImportExport = () => {
               >
                 Exportar CSV
               </Button>
-              
             </Box>
           </form>
         </Grid>
