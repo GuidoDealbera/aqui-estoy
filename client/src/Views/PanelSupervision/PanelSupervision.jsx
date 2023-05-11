@@ -50,6 +50,8 @@ export default function PanelSupervision() {
 
     const { allCompanionShiftAssign, allSupervisorShiftAssign } = useSelector((state) => state.view)
 
+    const { user } = useSelector((state) => state.auth);
+
     useEffect(() => { //Mando a traer la data del back
         dispatch(getAllSupervisorShiftAssign())
         dispatch(getAllCompanionShiftAssign())
@@ -67,16 +69,93 @@ export default function PanelSupervision() {
             } = person;
             const idPersona = id;
             return SupervisorShifts.map((turnos) => {
-                const { id, day, time, timezone } = turnos;
-                return {
-                    idPersona,
-                    id,
-                    name: `${name} ${lastName}`,
-                    email,
-                    phone,
-                    day,
-                    time,
-                    timezone
+                let { id, day, time, timezone } = turnos;
+                const userTimezone = parseInt(user.CityTimeZone.offSet.split("C")[1].split(":")[0]);
+                const diferencia = userTimezone - (timezone)
+                if (diferencia === 0) { //Si el usuario tiene la misma timezone que la default
+                    return {
+                        idPersona,
+                        id,
+                        name: `${name} ${lastName}`,
+                        email,
+                        phone,
+                        day,
+                        time,
+                        timezone
+                    }
+                } else {
+                    let start = parseInt(time.split("-")[0].split(":")[0]);
+                    let end = parseInt(time.split("-")[1].split(":")[0]);
+                    if (end === 0) end = 24;
+                    if ((start + (diferencia) >= 0) && (end + (diferencia) <= 24)) { //No hay cambio de dia
+                        start = start + (diferencia);
+                        end = end + (diferencia);
+                        if ((start - 10) < 0) {
+                            start = `0${start}:00`
+                        } else {
+                            start = `${start}:00`
+                        }
+
+                        if ((end - 10) < 0) {
+                            end = `0${end}:00`
+                        } else {
+                            end = `${end}:00`
+                        }
+
+                        time = `${start}-${end}`;
+                    } else { //Hay cambio de día
+                        if (start + (diferencia) < 0) { //Si cambia el dia para atras
+                            start = 24 + (diferencia);
+                            end = 25 + (diferencia);
+                            if ((start - 10) < 0) {
+                                start = `0${start}:00`
+                            } else {
+                                start = `${start}:00`
+                            }
+                            if ((end - 10) < 0) {
+                                end = `0${end}:00`
+                            } else {
+                                end = `${end}:00`
+                            }
+
+                            if (day - 1 === -1) {
+                                day = 6
+                            } else {
+                                day = day - 1
+                            }
+                            time = `${start}-${end}`;
+                        } else { //Si cambia el dia para adelante
+                            start = -1 + (diferencia);
+                            end = 0 + (diferencia);
+                            if ((start - 10) < 0) {
+                                start = `0${start}:00`
+                            } else {
+                                start = `${start}:00`
+                            }
+                            if ((end - 10) < 0) {
+                                end = `0${end}:00`
+                            } else {
+                                end = `${end}:00`
+                            }
+
+                            if (day + 1 === 7) {
+                                day = 0
+                            } else {
+                                day = day + 1
+                            }
+                            time = `${start}-${end}`;
+                        }
+                    }
+                    return {
+                        idPersona,
+                        id,
+                        name: `${name} ${lastName}`,
+                        email,
+                        phone,
+                        day,
+                        time,
+                        timezone
+                    }
                 }
             })
         })
@@ -95,20 +174,98 @@ export default function PanelSupervision() {
                 CompanionShifts,
             } = person;
             const idPersona = id;
-            return CompanionShifts.map((turno) => {
-                const { id, day, time, timezone } = turno;
-                return {
-                    idPersona,
-                    id,
-                    name: `${name} ${lastName}`,
-                    email,
-                    phone,
-                    day,
-                    time,
-                    timezone
+            return CompanionShifts.map((turnos) => {
+                let { id, day, time, timezone } = turnos;
+                const userTimezone = parseInt(user.CityTimeZone.offSet.split("C")[1].split(":")[0]);
+                const diferencia = userTimezone - (timezone)
+                if (diferencia === 0) { //Si el usuario tiene la misma timezone que la default
+                    return {
+                        idPersona,
+                        id,
+                        name: `${name} ${lastName}`,
+                        email,
+                        phone,
+                        day,
+                        time,
+                        timezone
+                    }
+                } else {
+                    let start = parseInt(time.split("-")[0].split(":")[0]);
+                    let end = parseInt(time.split("-")[1].split(":")[0]);
+                    if (end === 0) end = 24;
+                    if ((start + (diferencia) >= 0) && (end + (diferencia) <= 24)) { //No hay cambio de dia
+                        start = start + (diferencia);
+                        end = end + (diferencia);
+                        if ((start - 10) < 0) {
+                            start = `0${start}:00`
+                        } else {
+                            start = `${start}:00`
+                        }
+
+                        if ((end - 10) < 0) {
+                            end = `0${end}:00`
+                        } else {
+                            end = `${end}:00`
+                        }
+
+                        time = `${start}-${end}`;
+                    } else { //Hay cambio de día
+                        if (start + (diferencia) < 0) { //Si cambia el dia para atras
+                            start = 24 + (diferencia);
+                            end = 26 + (diferencia);
+                            if ((start - 10) < 0) {
+                                start = `0${start}:00`
+                            } else {
+                                start = `${start}:00`
+                            }
+                            if ((end - 10) < 0) {
+                                end = `0${end}:00`
+                            } else {
+                                end = `${end}:00`
+                            }
+
+                            if (day - 1 === -1) {
+                                day = 6
+                            } else {
+                                day = day - 1
+                            }
+                            time = `${start}-${end}`;
+                        } else { //Si cambia el dia para adelante
+                            start = -2 + (diferencia);
+                            end = 0 + (diferencia);
+                            if ((start - 10) < 0) {
+                                start = `0${start}:00`
+                            } else {
+                                start = `${start}:00`
+                            }
+                            if ((end - 10) < 0) {
+                                end = `0${end}:00`
+                            } else {
+                                end = `${end}:00`
+                            }
+
+                            if (day + 1 === 7) {
+                                day = 0
+                            } else {
+                                day = day + 1
+                            }
+                            time = `${start}-${end}`;
+                        }
+                    }
+                    return {
+                        idPersona,
+                        id,
+                        name: `${name} ${lastName}`,
+                        email,
+                        phone,
+                        day,
+                        time,
+                        timezone
+                    }
                 }
             })
         })
+
         const sortedCompanionsByDay = sortByDay(processedCompanionShifts);
 
         const readyCompanion = groupConsecutiveTurns(sortByTime(sortedCompanionsByDay))
@@ -139,6 +296,7 @@ export default function PanelSupervision() {
                     <MenuItem value={6}>Domingo</MenuItem>
                 </Select>
             </FormControl>
+            <Typography variant="h7" sx={{ display: "flex", padding: "10px", fontFamily: "poppins" }}>Horarios dispuestos en la zona horaria: {user.CityTimeZone.offSet} {user.CityTimeZone.zoneName}</Typography>
             <TableContainer component={Paper}>
                 <Table Table sx={{ minWidth: 650, fontSize: "small" }} size="small">
                     <Box border={"solid"} borderRadius={"10px"}>
@@ -161,7 +319,7 @@ export default function PanelSupervision() {
                                                 padding: "3px",
                                             }}
                                         >
-                                            <Typography fontSize={"small"} fontWeight={"bold"}>{hour}</Typography>
+                                            <Typography fontSize={"small"} fontWeight={"bold"}>{hour}-{hour + 1}</Typography>
                                         </TableCell>
                                     );
                                 })}
@@ -230,7 +388,7 @@ export default function PanelSupervision() {
                             </TableRow>
                             {acompananteCells[day].map((turno) => {
                                 {/* Aca se renderizan todos los turnos en cuestión */ }
-                                const { name, email, phone, time, idPersona} = turno;
+                                const { name, email, phone, time, idPersona } = turno;
                                 const initialTime = parseInt(time.split('-')[0]);
                                 const finalTime = parseInt(time.split('-')[1]);
                                 const duration = finalTime - initialTime;
@@ -271,7 +429,7 @@ export default function PanelSupervision() {
             </TableContainer>
             <PopOut setTrigger={setTogglePopOut} trigger={togglePopOut}>
                 <Button>
-                    <Typography variant="h1" onClick={()=>{navigate(`/profile/${popOutData.idPersona}/view`)}}>{popOutData.name}</Typography>
+                    <Typography variant="h1" onClick={() => { navigate(`/profile/${popOutData.idPersona}/view`) }}>{popOutData.name}</Typography>
                 </Button>
                 <Typography variant="h1">{popOutData.email}</Typography>
                 <Button>
