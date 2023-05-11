@@ -16,6 +16,7 @@ import axios from "axios";
 import { toast } from "sonner";
 import { toastSuccess, toastError } from "./alertStyle";
 import { setLoading } from "./viewActions";
+import putUserPassword from "../../../../api/src/Controllers/Nodemailer/passwordController/putUserPassword";
 export const postEmailCreatedAccount = (user) => {
   return async function (dispatch) {
     try {
@@ -222,5 +223,15 @@ export const putSupervisorEdit = (id, supervisor) => {
     } catch (error) {
       toast.error("No se pudo actualizar el SUPERVISOR", toastError);
     }
+  };
+};
+
+export const putUserPassword = (passwordRecoveryInfo, password) => {
+  return async function (dispatch) {
+    await axios.put("/putUserPassword", {
+      typeUser: passwordRecoveryInfo.typeUser,
+      email: passwordRecoveryInfo.email,
+      password: password,
+    });
   };
 };
