@@ -30,8 +30,8 @@ const LoginForm = ({ handleMouseLeave }) => {
   const navigate = useNavigate()
 
   const redirectToPasswordRecovery = () => {
-    console.log('Navegando a /password-recovery');
     navigate('/password-recovery');
+    handleMouseLeave();
   };
 
   const dispatch = useDispatch();
