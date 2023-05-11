@@ -16,7 +16,6 @@ import axios from "axios";
 import { toast } from "sonner";
 import { toastSuccess, toastError } from "./alertStyle";
 import { setLoading } from "./viewActions";
-import putUserPassword from "../../../../api/src/Controllers/Nodemailer/passwordController/putUserPassword";
 export const postEmailCreatedAccount = (user) => {
   return async function (dispatch) {
     try {
