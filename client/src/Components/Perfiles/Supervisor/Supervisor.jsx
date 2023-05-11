@@ -20,6 +20,10 @@ export default function Supervisor(props) {
     navigate(`/profile/${user.id}/edit`)
   }
 
+  const myDate = new Date();
+  const myHours = myDate.getHours();
+  const myMinutes = myDate.getMinutes();
+
   const H = "11"; //altura de los botones
 
   return Object.entries(user).length > 0 ? (
@@ -79,6 +83,9 @@ export default function Supervisor(props) {
             </Typography>
             <Typography display="block" variant="h7" marginTop={1}>
               Ubicación: {user.country}
+            </Typography>
+            <Typography display="block" variant="h7" marginTop={1}>
+              Mi Hora Local: {myHours}:{myMinutes}
             </Typography>
             <Typography display="block" variant="h7" marginTop={1}>
               {user.CityTimeZone?.offSet}
