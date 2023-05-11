@@ -32,12 +32,6 @@ const getBothRoles = async (req, res) => {
       //Retorna un acompañante con todos sus datos (Sirve para cargar el perfil)
       return res.status(200).json(companion);
     }
-    if (companion && !companion.isActive) {
-      return res
-        .status(400)
-        .json("Cuenta inactiva comuniquese con el administrador");
-    }
-
     const supervisor = await Supervisor.findOne({
       where: { email: email },
       include: [
@@ -60,6 +54,11 @@ const getBothRoles = async (req, res) => {
       //Retorna un supervisor con todos sus datos (Sirve para cargar el perfil)
       return res.status(200).json(supervisor);
     }
+    if (companion && !companion.isActive) {
+      return res
+        .status(400)
+        .json("Cuenta inactiva comuniquese con el administrador");
+    }
     if (supervisor && !supervisor.isActive) {
       return res
         .status(400)
@@ -79,7 +78,7 @@ const requireLogin = async (req, res, next) => {
     const supervisor = await Supervisor.findOne({
       where: { email: email },
     });
-    if (supervisor) {
+    if (supervisor && supervisor.isActive) {
       //Comprueba sus datos contra los datos en la bd
       const match = await bcrypt.compare(password, supervisor.password);
       if (match) {
@@ -91,7 +90,7 @@ const requireLogin = async (req, res, next) => {
     const companion = await Companion.findOne({
       where: { email: email },
     });
-    if (companion) {
+    if (companion && companion.isActive) {
       //Comprueba sus datos contra los datos en la bd
       const match = await bcrypt.compare(password, companion.password);
       if (match) {
