@@ -241,3 +241,22 @@ export const getAllCompanionsPerShift = () => {
     }
   }
 }
+export const updatePassword = (email, newPassword) => async (dispatch) => {
+  try {
+    // Realiza una petición al servidor para actualizar la contraseña del usuario
+    const response = await axios.put('../../../../api/src/Controllers/Nodemailer/passwordController/getPasswordRecoveryCode.js', { email, newPassword });
+
+    // Si la petición fue exitosa, envía la acción al store de Redux
+    if (response.status === 200) {
+      dispatch({
+        type: UPDATE_PASSWORD,
+        payload: response.data,
+      });
+    } else {
+      throw new Error('Error al actualizar la contraseña');
+    }
+  } catch (error) {
+    console.error(error);
+    // Aquí puedes manejar el error, como mostrar un mensaje o enviar una acción de error
+  }
+};
