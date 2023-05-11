@@ -13,6 +13,8 @@ import {
   GET_USER_BY_ID,
   GET_SUPERVISOR_MATCH,
   GET_PASSWORD_RECOVERY_CODE,
+  GET_ALL_SUPERVISORS_PER_SHIFT,
+  GET_ALL_COMPANIONS_PER_SHIFT,
 } from "./action-types";
 import axios from "axios";
 import { toast } from "sonner";
@@ -214,3 +216,28 @@ export const getPasswordRecoveryCode = (email) => {
     dispatch({ type: GET_PASSWORD_RECOVERY_CODE, payload: code });
   };
 };
+
+export const getAllSupervisorsPerShift = () => {
+  return async function (dispatch){
+    try{
+      const response = (await axios.get("/getAllSupervisorsPerShift")).data;
+      
+      dispatch({type: GET_ALL_SUPERVISORS_PER_SHIFT, payload: response})
+    }catch(error){
+     console.log({error: error.message});
+    }
+  }
+}
+
+
+export const getAllCompanionsPerShift = () => {
+  return async function (dispatch){
+    try{
+      const response = (await axios.get("/getAllCompanionsPerShift")).data;
+      
+      dispatch({type: GET_ALL_COMPANIONS_PER_SHIFT, payload: response})
+    }catch(error){
+     console.log({error: error.message});
+    }
+  }
+}

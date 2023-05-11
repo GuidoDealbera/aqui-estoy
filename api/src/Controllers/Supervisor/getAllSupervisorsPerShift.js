@@ -11,9 +11,11 @@ const getAllSupervisorsPerShift = async (req, res) => {
     });
 
     const shiftsWithCount = shifts.map((shift) => ({
-      shiftId: shift.id,
+      shiftId: shift.id,      
       shiftSupervisors: shift.Supervisors,
       supervisorCount: shift.Supervisors.length,
+      maxSupervisors: shift.maxSupervisors,
+      hasRules: shift.hasRules,
     }));
 
     res.status(200).json(shiftsWithCount);

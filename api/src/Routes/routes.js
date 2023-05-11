@@ -42,7 +42,7 @@ const { getBothRoles, requireLogin } = require("../Controllers/getBothRoles");
 const getUserById = require("../Controllers/getUserById");
 const getAllCompanionsPerShift = require("../Controllers/Companion/getAllCompanionsPerShift");
 const getAllSupervisorsPerShift = require("../Controllers/Supervisor/getAllSupervisorsPerShift");
-
+const getOnlineSupervisor = require("../Controllers/Supervisor/getOnlineSupervisor")
 //* nodemailer
 const postCreatedAccount = require("../Controllers/Nodemailer/accountCreated/postCreatedAccount");
 const getPasswordRecoveryConde = require("../Controllers/Nodemailer/passwordController/getPasswordRecoveryCode");
@@ -80,4 +80,5 @@ router.get("/getCityTimeZone", getCityTimeZone);
 router.post("/getBothRoles", requireLogin, getBothRoles);
 router.get("/getUserById/:id", getUserById);
 router.get("/getMatchShiftTime/:idCompanion", getMatchShiftTime);
+router.get("/getOnlineSupervisor", getOnlineSupervisor)
 module.exports = router;
