@@ -15,30 +15,67 @@ export function groupTurns(turnos) {
     };
 }
 
+// export function groupConsecutiveTurns(turnos) {
+//     console.log(turnos);
+//     const result = turnos.map((arrayTurnos) => {
+//         arrayTurnos.sort((a, b) => a.id - b.id);
+//         const result = [];
+//         let currentGroup = [];
+
+//         for (let i = 0; i < arrayTurnos.length; i++) {
+//             const turno = arrayTurnos[i];
+//             const prevTurno = arrayTurnos[i - 1];
+
+//             if (!prevTurno || prevTurno.id + 1 === turno.id) {
+//                 currentGroup.push(turno);
+//             } else {
+//                 result.push(groupTurns(currentGroup));
+//                 currentGroup = [turno];
+//             }
+//         }
+//         if (currentGroup.length > 0) {
+//             result.push(groupTurns(currentGroup));
+//         }
+
+//         return result;
+
+//     })
+//     return result;
+// }
+
 export function groupConsecutiveTurns(turnos) {
     const result = turnos.map((arrayTurnos) => {
-        arrayTurnos.sort((a, b) => a.id - b.id);
-        const result = [];
+        arrayTurnos.sort((a, b) => {
+            const aTime = new Date(`1970-01-01T${a.time.split('-')[0]}:00Z`).getTime();
+            const bTime = new Date(`1970-01-01T${b.time.split('-')[0]}:00Z`).getTime();
+            return aTime - bTime;
+        });
+
+        const groups = [];
         let currentGroup = [];
 
         for (let i = 0; i < arrayTurnos.length; i++) {
             const turno = arrayTurnos[i];
             const prevTurno = arrayTurnos[i - 1];
 
-            if (!prevTurno || prevTurno.id + 1 === turno.id) {
+            if (
+                ((!prevTurno || prevTurno.time.split("-")[1] === turno.time.split("-")[0]) &&
+                    (!prevTurno || prevTurno.day === turno.day)) || (!prevTurno || prevTurno.id + 1 === turno.id)
+            ) {
                 currentGroup.push(turno);
             } else {
-                result.push(groupTurns(currentGroup));
+                groups.push(groupTurns(currentGroup));
                 currentGroup = [turno];
             }
         }
+
         if (currentGroup.length > 0) {
-            result.push(groupTurns(currentGroup));
+            groups.push(groupTurns(currentGroup));
         }
 
-        return result;
+        return groups;
+    });
 
-    })
     return result;
 }
 

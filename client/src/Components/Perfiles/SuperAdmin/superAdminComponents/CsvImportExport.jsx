@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import Papa from "papaparse";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
@@ -15,12 +15,20 @@ import {
   postSupervisor,
   postCompanion,
 } from "../../../../Redux/Actions/postPutActions";
+import { margin } from "@mui/system";
+
+//el archivo CSV debe contener las siguientes columnas:
+// correo : un email
+// clave : con minimo 6 caracteres
+// rol : a-acomp1 b-acomp2 s-supervisor t-superadmin
+// El usuario se crea siempre activo
 
 const CsvImportExport = () => {
   const dispatch = useDispatch();
   const fileInput = useRef(null);
   let companionsData = useSelector((state) => state.view.allCompanions);
   let supervisorsData = useSelector((state) => state.view.allSupervisors);
+  const [csvErrors, setCsvErrors] = useState({});
   let usrRol = null;
 
   //Aqui se limpia la info para exportar los campos deseados
@@ -61,6 +69,8 @@ const CsvImportExport = () => {
   const usersData = [...companionsData, ...supervisorsData];
 
   //--------------------------------------------------------------------
+
+  let errors = {};
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
     Papa.parse(file, {
@@ -69,20 +79,65 @@ const CsvImportExport = () => {
         let newPeople = results.data;
         console.log(newPeople);
         //array de obj con acompanantes y supervisores
-        //{clave: "xxx", correo: "xxx@xxx.xx", rol: "a||A||s||S"}
+        //{clave: "xxx6", correo: "xxx@xxx.xx", rol: "a||A||s||S"}
 
         newPeople.forEach((usr) => {
-          if (usr.rol === "a" || usr.rol === "A") {
-            dispatch(postCompanion({ email: usr.correo }));
-          } else if (usr.rol === "S" || usr.rol === "s") {
-            dispatch(
-              postSupervisor({ email: usr.correo, password: usr.clave })
-            );
+          if (usr.clave.length > 5) {
+            if (usr.rol.toLowerCase() === "a") {
+              //acompañante 1
+              dispatch(
+                postCompanion({
+                  email: usr.correo,
+                  password: usr.clave,
+                  isActive: true,
+                  rol: "Companion1",
+                })
+              );
+            } else if (usr.rol.toLowerCase() === "b") {
+              //acompañante 2
+              dispatch(
+                postCompanion({
+                  email: usr.correo,
+                  password: usr.clave,
+                  isActive: true,
+                  rol: "Companion2",
+                })
+              );
+            } else if (usr.rol.toLowerCase() === "s") {
+              //supervisor
+              dispatch(
+                postSupervisor({
+                  email: usr.correo,
+                  password: usr.clave,
+                  isActive: usr.activo,
+                  rol: "Supervisor",
+                })
+              );
+            } else if (usr.rol.toLowerCase() === "t") {
+              //super admin
+              dispatch(
+                postSupervisor({
+                  email: usr.correo,
+                  password: usr.clave,
+                  isActive: usr.activo,
+                  rol: "SuperAdmin",
+                })
+              );
+            } else {
+              //error en la declaracion del tipo de usuario
+              // errors = csvErrors;
+              errors[usr.correo] = "Error en el rol del usuario";
+              // setCsvErrors(errors);
+              toast.error(`Error en el rol de ${usr.correo}`, toastError);
+            }
           } else {
-            //error en la declaracion del tipo de usuario
-            toast.error("Error en el rol del usuario", toastError);
+            // errors = csvErrors;
+            errors[usr.correo] = "Error en la contraseña";
+            // setCsvErrors(errors);
+            toast.error(`Error en la contraseña de ${usr.correo}`, toastError);
           }
         });
+        setCsvErrors(errors);
       },
     });
   };
@@ -102,10 +157,10 @@ const CsvImportExport = () => {
   };
 
   //--------------------------------------------------------------------
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setUserData({ ...userData, [name]: value });
-  };
+  // const handleChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setUserData({ ...userData, [name]: value });
+  // };
 
   //--------------------------------------------------------------------
   const handleSubmit = (e) => {
@@ -115,14 +170,27 @@ const CsvImportExport = () => {
   };
 
   return (
-    <Box>
+    <Box 
+    // border={1} 
+    // borderColor={"red"}
+    >
       <Typography variant="h5" sx={{ textAlign: "center", margin: "2vw" }}>
         Importar/Exportar Usuarios por CSV
       </Typography>
-      <Grid container justifyContent="center">
-        <Grid item justifyContent="center" sx={{ width: "40vw" }}>
-          <form onSubmit={handleSubmit}>
-            <Box marginBottom={2}>
+
+      <Grid
+        container
+        // border={1}
+        // borderColor={"green"}
+        justifyContent="center"
+      >
+        <Grid
+          item
+          // border={1}
+          // borderColor={"blue"}
+        >
+          {/* <form onSubmit={handleSubmit}> */}
+            <Box marginBottom={2} justifyContent={"center"}>
               <input
                 type="file"
                 accept=".csv"
@@ -131,18 +199,28 @@ const CsvImportExport = () => {
                 style={{ display: "none" }}
                 id="csv-input"
               />
-              <label htmlFor="csv-input">
+              {/* <label htmlFor="csv-input">
                 <TextField
-                  label="Seleccionar archivo CSV"
+                  label="Importar archivo CSV"
                   fullWidth
                   InputProps={{ readOnly: true }}
                   onClick={(e) =>
                     fileInput.current ? fileInput.current.click() : null
                   }
                 />
-              </label>
-            </Box>
-            <Box marginBottom={2}>
+              </label> */}
+              <Button
+              sx={{margin:"1vw"}}
+                variant="contained"
+                onClick={(e) =>
+                  fileInput.current ? fileInput.current.click() : null
+                }
+                color="primary"
+              >
+                Importar CSV
+              </Button>
+              {/* </Box>
+            <Box marginBottom={2}> */}
               <Button
                 variant="contained"
                 onClick={handleExportCsv}
@@ -150,10 +228,59 @@ const CsvImportExport = () => {
               >
                 Exportar CSV
               </Button>
-              
             </Box>
-          </form>
+          {/* </form> */}
         </Grid>
+      </Grid>
+
+      <Grid
+        container
+        // border={1}
+        // borderColor={"red"}
+        justifyContent={"space-evenly"}
+        padding={"2vw"}
+      >
+        {Object.keys(csvErrors).length === 0 ? (
+          <Grid
+            item
+            border={1}
+            borderColor={"lightGray"}
+            width={"70vw"}
+            padding={"1vw"}
+            color={"gray"}
+          >
+            <Typography textAlign={"center"}>
+              ESTRUCTURA DEL ARCHIVO CSV:
+            </Typography>
+            <Typography>
+              El archivo debe contener las siguientes columnas, conservando el
+              nombre como se muestra a continuación:
+            </Typography>
+            <Typography>correo : el correo electrónico del usuario</Typography>
+            <Typography>
+              clave : debe tener un minimo de 6 caracteres
+            </Typography>
+            <Typography>rol : puede tener los siguientes valores:</Typography>
+            <Typography>a -Acompañante 1</Typography>
+            <Typography>b -Acompañante 2</Typography>
+            <Typography>s -Supervisor</Typography>
+            <Typography>t -Super Admin</Typography>
+          </Grid>
+        ) : (
+          <Grid item border={1} borderColor={"red"}>
+            <Typography width={"70vw"} textAlign={"center"} color={"red"}>
+              HUBO ERRORES IMPORTANDO ALGUNOS USUARIOS:
+            </Typography>
+            <br></br>
+            {Object.keys(csvErrors).map((em) => {
+              return (
+                <Typography width={"70vw"} textAlign={"center"} color={"red"}>
+                  {em} : {csvErrors[em]}
+                </Typography>
+              );
+            })}
+          </Grid>
+        )}
       </Grid>
     </Box>
   );

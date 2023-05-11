@@ -13,6 +13,8 @@ import {
   GET_USER_BY_ID,
   GET_SUPERVISOR_MATCH,
   GET_PASSWORD_RECOVERY_CODE,
+  GET_ALL_SUPERVISORS_PER_SHIFT,
+  GET_ALL_COMPANIONS_PER_SHIFT,
 } from "./action-types";
 import axios from "axios";
 import { toast } from "sonner";
@@ -213,4 +215,48 @@ export const getPasswordRecoveryCode = (email) => {
     const code = await axios.get(`/getPasswordRecoveryCode/${email}`);
     dispatch({ type: GET_PASSWORD_RECOVERY_CODE, payload: code });
   };
+};
+
+export const getAllSupervisorsPerShift = () => {
+  return async function (dispatch){
+    try{
+      const response = (await axios.get("/getAllSupervisorsPerShift")).data;
+      
+      dispatch({type: GET_ALL_SUPERVISORS_PER_SHIFT, payload: response})
+    }catch(error){
+     console.log({error: error.message});
+    }
+  }
+}
+
+
+export const getAllCompanionsPerShift = () => {
+  return async function (dispatch){
+    try{
+      const response = (await axios.get("/getAllCompanionsPerShift")).data;
+      
+      dispatch({type: GET_ALL_COMPANIONS_PER_SHIFT, payload: response})
+    }catch(error){
+     console.log({error: error.message});
+    }
+  }
+}
+export const updatePassword = (email, newPassword) => async (dispatch) => {
+  try {
+    // Realiza una petición al servidor para actualizar la contraseña del usuario
+    const response = await axios.put('../../../../api/src/Controllers/Nodemailer/passwordController/getPasswordRecoveryCode.js', { email, newPassword });
+
+    // Si la petición fue exitosa, envía la acción al store de Redux
+    if (response.status === 200) {
+      dispatch({
+        type: UPDATE_PASSWORD,
+        payload: response.data,
+      });
+    } else {
+      throw new Error('Error al actualizar la contraseña');
+    }
+  } catch (error) {
+    console.error(error);
+    // Aquí puedes manejar el error, como mostrar un mensaje o enviar una acción de error
+  }
 };
