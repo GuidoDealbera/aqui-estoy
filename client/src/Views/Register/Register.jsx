@@ -225,16 +225,26 @@ export default function Register() {
                                             <MenuItem value="Estudiante">Estudiante</MenuItem>,
                                             <MenuItem value="No">No</MenuItem>]} />
                                     </Box>
-                                    <Box onBlur={() => props.setFieldTouched("studies", true)}>
-                                        <Select sx={styles.container.form.field} name="studies" >
+                                    <Box>
+                                        <Select name="studies" sx={{ marginBottom: "20px", width:"300px" }} options={[
+                                            <MenuItem value="Secundario">Secundario</MenuItem>,
+                                            <MenuItem value="Terciario">Terciario</MenuItem>,
+                                            <MenuItem value="Universitario">Universitario</MenuItem>,
+                                            <MenuItem value="Postgrado">Postgrado</MenuItem>,
+                                        ]}>
                                         </Select>
                                     </Box>
-                                    <Box onBlur={() => props.setFieldTouched("gender", true)}>
-                                        <Select sx={styles.container.form.field} name="gender">
+                                    <Box>
+                                        <Select name="gender" sx={{ marginBottom: "20px", width:"300px" }} options={[
+                                            <MenuItem value="Mujer">Mujer</MenuItem>,
+                                            <MenuItem value="Mujer-trans">Mujer-trans</MenuItem>,
+                                            <MenuItem value="Hombre">Hombre</MenuItem>,
+                                            <MenuItem value="Hombre-trans">Hombre-trans</MenuItem>,
+                                            <MenuItem value="No-binario">No-binario</MenuItem>,
+                                            <MenuItem value="Otra identidad">Otra identidad</MenuItem>,
+                                            <MenuItem value="Prefiero no responder">Prefiero no responder</MenuItem>
+                                        ]}>
                                         </Select>
-                                        <ErrorMessage name='gender'>
-                                            {msg => <Typography color="error">{msg}</Typography>}
-                                        </ErrorMessage>
                                     </Box>
                                     <Box sx={styles.container.form.buttonContainer}>
                                         <Button variant="contained" name="Anterior" onClick={clickHandler}>Volver</Button>
