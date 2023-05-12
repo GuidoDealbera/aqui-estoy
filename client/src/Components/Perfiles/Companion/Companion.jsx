@@ -31,9 +31,16 @@ export default function Companion(props) {
     color: "white",
     backgroundColor: "#1E1C4E",
     borderRadius: "10px",
-    width: "100%",
-    height: "100%",
-    boxShadow: "5px 5px 5px #C8CCD8",
+    boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+    margin: '0.5rem 0',
+    width: '100%',
+    height: '3rem',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontSize: '1rem',
+    fontFamily: 'Arial, sans-serif',
+    fontWeight: 'bold',
   };
 
   const { user } = props;
@@ -55,43 +62,45 @@ export default function Companion(props) {
     ":" +
     (myMinutes < 10 ? `0${myMinutes}` : myMinutes);
 
-  return !loading ? (
-    <Box>
-      <Grid
-        container
-        margin={"auto"}
+    return !loading ? (
+      <Box
         sx={{
-          width: "75vw",
-          flexDirection: "row",
-          justifyContent: "center",
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '1rem',
+          maxWidth: '75vw',
+          margin: 'auto',
         }}
       >
         <Grid
-          item
-          sx={{
-            flexDirection: "column",
-            width: "50vw",
-            boxShadow: "5px 5px 5px #C8CCD8",
-            borderRadius: "5%",
-            position: "relative",
-          }}
-          xs={12}
-          md={5}
-          paddingY="20px"
-          paddingX="10px"
+          container
+          direction="row"
+          alignItems="center"
+          justifyContent="space-around"
+          spacing={2}
         >
-          <Grid item margin={1}>
+          <Grid
+            item
+            xs={12}
+            md={5}
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '1rem',
+              padding: '1rem',
+              borderRadius: '5%',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+              backgroundColor: '#fff',
+            }}
+          >
             <Avatar
               alt={user.name}
               src={user.profilePhoto}
-              sx={{
-                width: 150,
-                height: 150,
-                marginBottom: "1vw",
-                margin: "auto",
-              }}
+              sx={{ width: 150, height: 150, alignSelf: 'center' }}
             />
-            <Typography variant="h5" textAlign="center">
+            <Typography variant="h5" textAlign="center" component="div">
               {user.name?.charAt(0).toUpperCase() +
                 user.name?.slice(1) +
                 " " +
@@ -206,62 +215,37 @@ export default function Companion(props) {
             justifyContent: "center",
           }}
         >
-          <Grid
-            item
-            sx={{
-              width: "90%",
-              height: "22%",
-              padding: "1vw",
-            }}
-          >
-            <Link to="/calendarCompanion">
-              <Button variant="outlined" style={estilos}>
-                Reserva de turno de voluntariado
-              </Button>
-            </Link>
-          </Grid>
-          <Grid
-            item
-            sx={{
-              width: "90%",
-              height: "22%",
-              padding: "1vw",
-            }}
-          >
-            <Button
-              onClick={() => dispatch(getSurpervisorMatch(userLog))}
-              variant="contained"
-              style={estilos}
-            >
-              Supervisor a cargo
+        <Grid
+          item
+          xs={12}
+          md={5}
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '1rem',
+          }}
+        >
+          <Link to="/calendarCompanion" style={{ textDecoration: 'none' }}>
+            <Button variant="contained" style={estilos}>
+              Reserva de turno de voluntariado
             </Button>
-          </Grid>
+          </Link>
 
-          <Grid
-            item
-            sx={{
-              width: "90%",
-              height: "22%",
-              padding: "1vw",
-            }}
+          <Button
+            onClick={() => dispatch(getSurpervisorMatch(userLog))}
+            variant="contained"
+            style={estilos}
           >
-            <Button variant="outlined" style={estilos}>
-              Centro de aprendizaje
-            </Button>
-          </Grid>
+            Supervisor a cargo
+          </Button>
 
-          <Grid
-            item
-            sx={{
-              width: "90%",
-              height: "22%",
-              padding: "1vw",
-            }}
-          >
-            <Button variant="outlined" style={estilos} onClick={toEdit}>
-              Editar mi información
-            </Button>
-          </Grid>
+          <Button variant="contained" style={estilos}>
+            Centro de aprendizaje
+          </Button>
+
+          <Button variant="contained" style={estilos} onClick={toEdit}>
+            Editar mi información
+          </Button>
         </Grid>
       </Grid>
     </Box>
