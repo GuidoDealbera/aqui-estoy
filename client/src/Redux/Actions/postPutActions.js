@@ -9,6 +9,7 @@ import {
   PUT_SUPERVISOR_CHARGE,
   POST_EMAIL_ACCOUNT_CREATED,
   DELETE_COMPANION_SHIFT,
+  DELETE_SUPERVISOR_SHIFT,
   PUT_COMPANION_EDIT,
   PUT_SUPERVISOR_EDIT,
 } from "./action-types";
@@ -105,7 +106,7 @@ export const postAssignSupervisorShift = (idSupervisor, idShift, rol) => {
       dispatch(setLoading(false));
       toast.success("Tu turno ha sido confirmado", toastSuccess);
     } catch (error) {
-      toast.error("No fue posible asignar el turno", toastError);
+      toast.error("No fue posible asignar el turno, ha alcanzado el máximo permitido", toastError);
     }
   };
 };
@@ -197,6 +198,29 @@ export const deleteCompanionShift = (id, idShift) => {
   };
 };
 
+
+export const deleteSupervisorShift = (id, idShift) => {
+  return async function (dispatch) {
+    try {
+      dispatch(setLoading(true));
+      const response = (
+        await axios.delete("/deleteSupervisorShift", {
+          data: {
+            id: id,
+            idShift: idShift,
+          },
+        })
+      ).data;
+      console.log(response);
+      dispatch({ type: DELETE_SUPERVISOR_SHIFT, payload: response });
+      dispatch(setLoading(false));
+      
+      toast.success("El turno del supervisor ha sido eliminado", toastSuccess);
+    } catch (error) {
+      toast.error("No fue posible eliminar el turno del supervisor", toastError);
+    }
+  };
+};
 export const putCompanionEdit = (id, companion) => {
   return async function (dispatch) {
     try {

@@ -46,6 +46,8 @@ const App = () => {
     return user ? <Outlet /> : <Navigate to={"/"} />;
   };
 
+  
+
   useEffect(() => {
     dispatch(getAllCompanions());
     dispatch(getAllSupervisors());
