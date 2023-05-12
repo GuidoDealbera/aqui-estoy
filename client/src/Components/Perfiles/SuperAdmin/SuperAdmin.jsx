@@ -57,7 +57,7 @@ const SuperAdmin = (props) => {
       <Tab value="createUser" label="Crear Usuario" />
       <Tab value="usersViewEdit" label="Ver/Editar Usuarios" />
       <Tab value="csvImportExport" label="Importar/Exportar CSV" />
-      <Tab value="assignSupervisor" label="Asignar Mentor" />
+      <Tab value="assignSupervisor" label="Asignar Referente" />
       <Tab value="generalSettings" label="Configuración General" />
     </Tabs>
   );
@@ -87,7 +87,7 @@ const SuperAdmin = (props) => {
             Importar/Exportar CSV
           </MenuItem>
           <MenuItem onClick={(event) => handleMenuItemClick(event, 'assignSupervisor')}>
-            Asignar Mentor
+            Asignar Referente
           </MenuItem>
           <MenuItem onClick={(event) => handleMenuItemClick(event, 'generalSettings')}>
             Configuración General
