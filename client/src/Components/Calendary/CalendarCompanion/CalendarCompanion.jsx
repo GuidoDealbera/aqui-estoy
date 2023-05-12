@@ -1,13 +1,13 @@
 import { useDispatch, useSelector } from "react-redux";
 import { getAllCompanionShift } from "../../../Redux/Actions/viewActions";
-import { Container, Row, Col, Button, Modal } from "react-bootstrap";
+import { deleteCompanionShift } from "../../../Redux/Actions/postPutActions";
+import { toastSuccess, toastError, toastWarning } from "../../../Redux/Actions/alertStyle";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
+import Swal from "sweetalert2";
+import { Container, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Button } from "@mui/material";
 import CalendarCompanionPopOut from "./CalendarCompanionPopOut";
 import "./CalendarCompanion.css";
-import { deleteCompanionShift } from "../../../Redux/Actions/postPutActions";
-import { toast } from "sonner";
-import { toastSuccess, toastError, toastWarning } from "../../../Redux/Actions/alertStyle";
-import Swal from "sweetalert2";
 
 const CalendarCompanion = () => {
   let shifts = useSelector((state) => state.view.allCompanionShift);

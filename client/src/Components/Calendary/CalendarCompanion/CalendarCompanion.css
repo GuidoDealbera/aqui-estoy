@@ -1,3 +1,6 @@
+body {
+  font-family: 'Open Sans', sans-serif;
+}
 .calendar-container {
   max-width: 100%;
   overflow-x: auto;
@@ -50,7 +53,7 @@
 .delete-button {
   margin-left: 0.5em;
   color: #fff;
-  background-color: #f44336; /* Rojo */
+  background-color: #72221c; /* Rojo */
   border: none;
   padding: 0.25em 0.5em;
   border-radius: 3px;
@@ -59,7 +62,7 @@
 }
 
 .delete-button:hover {
-  background-color: #c62828; /* Rojo oscuro */
+  background-color: #962e2e; /* Rojo oscuro */
 }
 .calendar-table td, 
 .calendar-table th {
@@ -69,3 +72,72 @@
     overflow: hidden;
     white-space: nowrap;
 }
+.delete-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: rgb(124, 22, 22);
+  transition: all 0.3s ease;
+}
+
+.delete-button:hover {
+  color: rgb(209, 209, 209);
+}
+
+.confirmButton, .cancelButton {
+  transition: all 0.3s ease;
+}
+
+.confirmButton:hover {
+  background-color: rgb(0, 63, 0);
+  color: white;
+}
+
+.cancelButton:hover {
+  background-color: rgb(50, 180, 50);
+  color: white;
+}
+
+.calendar-cell {
+  transition: background-color 0.5s ease;
+}
+
+.calendar-cell.confirmed {
+  background-color: lightgreen;
+}
+
+.reserved {
+  background-color: #f8d7da; /* color base de la celda reservada */
+  transition: background-color 3s ease; /* transición suave al cambiar el color de fondo */
+}
+
+.reserved.confirmed {
+  background-color: #5ba36d; /* color de fondo una vez confirmado el turno */
+}
+
+.reserved {
+  background-color: rgb(87, 190, 87);
+  color: black;
+  transition: background-color 0.3s ease;
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.reserved:hover {
+  background-color: rgb(76, 212, 76);
+}
+
+.delete-button {
+  background-color: rgb(187, 109, 109);
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  float: right;
+  margin-left: 10px;
+}
+
+.delete-button:hover {
+  background-color: rgb(133, 27, 27);
+}
+
