@@ -9,9 +9,9 @@ const CalendarSupervisor=()=>{
     const[togglePopOut,setTogglePopOut]=useState(false)
     const[shift,setShift]=useState({})
     const dispatch=useDispatch()
-    let shifts=useSelector(state=>state.view.allSupervisorShift)
-let supervisors=useSelector(state=>state.view.allSupervisors)
-let perShift = useSelector(state=>state.view.supervisorsPerShift)
+    let shifts=useSelector(state=>state.view.supervisorsPerShift)
+    let assignedShift=useSelector(state=>state.auth.shift)
+//let perShift = useSelector(state=>state.view.supervisorsPerShift)
 /*
 let shi = perShift.map(s => s.shiftSupervisors);
 console.log(shi);
@@ -19,7 +19,7 @@ console.log(shi);
 
 
     const user=useSelector(state=>state.auth.user)
-    shifts=shifts.map((shift)=>{
+   let perShift=shifts.map((shift)=>{
         switch (shift.day) {
          case 0:
            return{
@@ -85,17 +85,18 @@ hours = Array.from({ length: 24 }, (_, i) => {
 
 
     const handleClickCell=(hour,day)=>{
-      let found = shifts.find(shift=>shift.time===hour&&shift.day===day)
+      let found = perShift.find(shift=>shift.time===hour&&shift.day===day)
+      console.log(found);
+     // let foundPerShift = perShift.find(s=>s.shiftId ===found.id);
+     // let sup = foundPerShift.shiftSupervisors;
       setTogglePopOut(!togglePopOut)
-      setShift(found)
+      setShift(found);
+      
 
     }
-    useEffect(()=>{
-if(supervisors.length===0){
-  dispatch(getAllSupervisors())
- dispatch(getAllSupervisorsPerShift());
-}
-    },[dispatch])
+      useEffect(()=>{
+        dispatch(getAllSupervisorsPerShift());
+            },[dispatch, assignedShift])
    
 return  <Container className="calendar-container">
       <table className="calendar-table">
@@ -111,40 +112,45 @@ return  <Container className="calendar-container">
           {hours.map((hour) => (
             <tr key={hour}>
               <td className="hour">{hour}</td>
-              {days.map((day,index) => {
-                if(user.SupervisorShifts===undefined){
-                  return (
-                    <td  onClick={()=>handleClickCell(hour,day)} > ----- </td> )
-                }else{
-                      const found=user.SupervisorShifts.find(shift=>shift.day===index&&shift.time===hour)
-              if(found){
-                 return (
-                  <td id={found.id} className="reserved"
-                    onClick={()=>alert("Ya tienes este turno asignado")}
-                  >
-                Turno reservado
-                  </td>
-                )
-              }
-                }
-          
+              {days.map((day, index) => {
+                const found = shifts.find(
+                  (shift) => shift.day === index && shift.time === hour
+                );
+                const supervisorCount = found ? found.supervisorCount : 0;
+                const maxSupervisors = found ? found.maxSupervisors : 0;
+                
+               
 
-                  return (
-                  <td 
-                    onClick={()=>handleClickCell(hour,day)}
+                let countText = supervisorCount;
+                if (supervisorCount && maxSupervisors) {
+                  countText = `${supervisorCount}/${maxSupervisors}`;
+                }
+
+                return (
+                  <td
+                    key={day}
+                    onClick={() => handleClickCell(hour, day)}
                   >
-                  -----
+                    {countText || "-----"}
                   </td>
-                )
+                );
               })}
             </tr>
           ))}
         </tbody>
+
       </table>
+      
       <CalendarSuperAdminPopOut shift={shift} setTrigger={setTogglePopOut} trigger={togglePopOut}>
         <h3>Estas seguro que quieres confirmar este turno:</h3>
         <label>{shift.day}</label>
         <p>{shift.time}</p>
+        {shift.shiftSupervisors  &&  
+              <p>Supervisor: {
+                shift.shiftSupervisors.map(s=> s.name + ' | ')
+                } </p>
+        
+        }
       </CalendarSuperAdminPopOut>
       </Container>
 };

@@ -19,6 +19,7 @@ import {
   getAllCompanions,
   getAllSupervisorShift,
   getAllSupervisors,
+  getAllSupervisorsPerShift,
 } from "./Redux/Actions/viewActions";
 axios.defaults.baseURL = import.meta.env.VITE_SERVER_URL;
 
@@ -50,7 +51,9 @@ const App = () => {
     dispatch(getAllSupervisors());
     dispatch(getAllCompanionShift());
     dispatch(getAllSupervisorShift());
-  }, [user]);
+    dispatch(getAllSupervisorShift());
+    dispatch(getAllSupervisorsPerShift());
+  }, [dispatch, user]);
 
   return (
     <div>
