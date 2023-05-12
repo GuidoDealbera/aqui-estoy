@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import axios from "axios"
-import { Select, MenuItem, InputLabel, Button, Typography, TextField, Box, Input } from '@mui/material';
+import { styled } from '@mui/system';
+import { InputLabel, Button, Typography, TextField, Box, Input, Paper, MenuItem } from '@mui/material';
 import { putCompanion, putSupervisor } from '../../Redux/Actions/postPutActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -11,6 +12,9 @@ import TimezoneSelect from "./registerComponents/TimeZoneSelect";
 import { toast } from "sonner";
 import { toastSuccess } from "../../Redux/Actions/alertStyle";
 import { Container } from '@mui/system';
+import DatePicker from './registerComponents/DatePicker';
+import { Select } from './registerComponents/Select';
+import PhoneNumberInput from './registerComponents/CustomPhoneNumber';
 
 const styles = {
     container: {
@@ -20,16 +24,15 @@ const styles = {
         justifyContent: "center",
         alignItems: "center",
         form: {
-            height: "500px",
-            width: "300px",
+            height: "450px",
+            width: "350px",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            border: "solid 1px",
-            borderRadius: "5px",
             padding: "20px",
             marginTop: "10px",
             field: {
+                margin: "10px",
                 width: "300px"
             },
             buttonContainer: {
@@ -44,6 +47,11 @@ const styles = {
         }
     }
 }
+
+const StyledPaper = styled(Paper)(({ theme }) => ({
+    borderRadius: '10px',
+    boxShadow: theme.shadows[3],
+}));
 
 export default function Register() {
     const dispatch = useDispatch();
@@ -70,7 +78,6 @@ export default function Register() {
     }
 
     const submitHandler = (values) => { //Submit Handler del formulario (Aún no interactúa con el Back-End)
-        console.log(values);
         if (user.rol === 'Companion1' || user.rol === "Companion2") {
             dispatch(putCompanion(user.id, values)) //trae el id del user y lo actualiza 
         } else {
@@ -89,185 +96,24 @@ export default function Register() {
         lastName: Yup.string()
             .max(20, "Debe ser menor a 20 caracteres")
             .required('Este campo es obligatorio'),
-        birthdayDate: Yup.date()
+        birthdayDate: Yup.date('')
             .required('Este campo es obligatorio'),
-        nationality: Yup.string(),
-        country: Yup.string(),
-        cityTimeZone: Yup.string(),
+        nationality: Yup.string().required('Este campo es obligatorio'),
+        country: Yup.string().required('Este campo es obligatorio'),
+        cityTimeZone: Yup.string().required('Este campo es obligatorio'),
         phone: Yup.string()
             .matches(/^\+?[0-9\s]*[1-9][0-9]*$/, 'El número de teléfono debe contener solo números y espacios en blanco')
-            .test('is-positive', 'El número de teléfono debe ser positivo', (value) => !value || parseInt(value.replace(/\s+/g, '')) > 0),
-        studies: Yup.string(),
-        gender: Yup.string(),
+            .test('is-positive', 'El número de teléfono debe ser positivo', (value) => !value || parseInt(value.replace(/\s+/g, '')) > 0)
+            .required('Este campo es obligatorio'),
+        studies: Yup.string().required('Este campo es obligatorio'),
+        gender: Yup.string().required('Este campo es obligatorio'),
+        profession: Yup.string().required('Este campo es obligatorio'),
     });
 
-    //Estas 3 páginas es simplemente código html dividido en 3 partes, para hacer el paginado de "Siguiente", "Anterior" (Mirar Figma)
 
-    const firstPage = <>
-        <Box>
-            <InputLabel>Foto de Perfil</InputLabel>
-            <Field sx={styles.container.form.field} name="profilePhoto">
-                {({ field, form }) => (
-                    <>
-                        <Input
-                            sx={{ width: "300px" }}
-                            disableUnderline
-                            id={field.name}
-                            name={field.name}
-                            type="file"
-                            onChange={async (event) => {
-                                const file = event.target.files[0];
-                                const formData = new FormData();
-                                formData.append("file", file)
-                                formData.append("upload_preset", "mzntwjvh")
-
-                                const response = await axios.post("https://api.cloudinary.com/v1_1/dqvz1juaf/image/upload", formData)
-                                form.setFieldValue(field.name, response.data.url);
-                            }}
-                        />
-                    </>
-                )}
-            </Field>
-            <ErrorMessage name='profilePhoto' sx={{ width: 300 }}>
-                {msg => <Typography color="error">{msg}</Typography>}
-            </ErrorMessage>
-        </Box>
-        <Box>
-            <InputLabel>Nombre</InputLabel>
-            <Field as={TextField} name="name" sx={styles.container.form.field} />
-            <ErrorMessage name='name'>
-                {msg => <Typography color="error">{msg}</Typography>}
-            </ErrorMessage>
-        </Box>
-        <Box>
-            <InputLabel>Apellido</InputLabel>
-            <Field as={TextField} name="lastName" sx={styles.container.form.field} />
-            <ErrorMessage name='lastName'>
-                {msg => <Typography color="error">{msg}</Typography>}
-            </ErrorMessage>
-        </Box>
-        <Box>
-            <InputLabel>Fecha de Nacimiento</InputLabel>
-            <Field as={TextField} name="birthdayDate" type="date" sx={styles.container.form.field} />
-            <ErrorMessage name='birthdayDate'>
-                {msg => <Typography color="error">{msg}</Typography>}
-            </ErrorMessage>
-        </Box>
-        <Box sx={styles.container.form.buttonContainer}>
-            <Button name="Siguiente" onClick={clickHandler}>Continuar</Button>
-        </Box>
-    </>
-
-    const secondPage = <>
-        <Box>
-            <InputLabel>Nacionalidad</InputLabel>
-            <Field
-                component={CountrySelect}
-                name="nationality"
-                sx={styles.container.form.field}
-            >
-            </Field>
-            <ErrorMessage name='nationality'>
-                {msg => <Typography color="error">{msg}</Typography>}
-            </ErrorMessage>
-        </Box>
-        <Box>
-            <InputLabel>Pais de residencia actual</InputLabel>
-            <Field component={CountrySelect} name="country" sx={styles.container.form.field}>
-            </Field>
-            <ErrorMessage name='country'>
-                {msg => <Typography color="error">{msg}</Typography>}
-            </ErrorMessage>
-        </Box>
-        <Box>
-            <InputLabel>Ciudad / huso horario de residencia</InputLabel>
-            <Field
-                sx={styles.container.form.field}
-                component={TimezoneSelect}
-                name="cityTimeZone"
-            >
-            </Field>
-            <ErrorMessage name='cityTimeZone'>
-                {msg => <Typography color="error">{msg}</Typography>}
-            </ErrorMessage>
-        </Box>
-        <Box sx={styles.container.form.buttonContainer}>
-            <Button name="Anterior" onClick={clickHandler}>Volver</Button>
-            <Button name="Siguiente" onClick={clickHandler}>Continuar</Button>
-        </Box>
-
-    </>
-
-    const thirdPage = <>
-        <Box>
-            <InputLabel>Teléfono</InputLabel>
-            <Field name='phone' as={TextField} sx={styles.container.form.field} />
-            <ErrorMessage name='phone'>
-                {msg => <Typography color="error">{msg}</Typography>}
-            </ErrorMessage>
-        </Box>
-        <Box>
-            <InputLabel sx={{
-                fontSize: '13px',
-                maxWidth: '300px',
-                whiteSpace: 'nowrap',
-                overflow: 'visible',
-                textOverflow: 'ellipsis',
-            }}>¿Estudias o trabajas en alguna de estas areas?</InputLabel>
-            <Field as={Select} sx={styles.container.form.field} name="profession">
-                <MenuItem value="">Select an option</MenuItem>
-                <MenuItem value="Psicólogo">Psicólogo</MenuItem>
-                <MenuItem value="Psiquiatra">Psiquiatra</MenuItem>
-                <MenuItem value="Counselor">Counselor</MenuItem>
-                <MenuItem value="Coach">Coach</MenuItem>
-                <MenuItem value="Asistente Social">Asistente Social</MenuItem>
-                <MenuItem value="Acompañante Espiritual">Acompañante Espiritual</MenuItem>
-                <MenuItem value="Estudiante">Estudiante</MenuItem>
-                <MenuItem value="No">No</MenuItem>
-            </Field>
-            <ErrorMessage name='profession'>
-                {msg => <Typography color="error">{msg}</Typography>}
-            </ErrorMessage>
-        </Box>
-        <Box>
-            <InputLabel>Estudios alcanzados</InputLabel>
-            <Field as={Select} sx={styles.container.form.field} name="studies">
-                <MenuItem value="">Select an option</MenuItem>
-                
-                <MenuItem value="Secundario">Secundario</MenuItem>
-                <MenuItem value="Terciario">Terciario</MenuItem>
-                <MenuItem value="Universitario">Universitario</MenuItem>
-                <MenuItem value="Postgrado">Postgrado</MenuItem>
-            </Field>
-            <ErrorMessage name='studies'>
-                {msg => <Typography color="error">{msg}</Typography>}
-            </ErrorMessage>
-        </Box>
-        <Box>
-            <InputLabel>¿Con qué genero te identificas?</InputLabel>
-            <Field as={Select} sx={styles.container.form.field} name="gender">
-                <MenuItem value="">Select an option</MenuItem>
-                <MenuItem value="Mujer">Mujer</MenuItem>
-                <MenuItem value="Mujer-trans">Mujer-trans</MenuItem>
-                <MenuItem value="Hombre">Hombre</MenuItem>
-                <MenuItem value="Hombre-trans">Hombre-trans</MenuItem>
-                <MenuItem value="No-binario">No-binario</MenuItem>
-                <MenuItem value="Otra identidad">Otra identidad</MenuItem>
-                <MenuItem value="Prefiero no responder">Prefiero no responder</MenuItem>
-            </Field>
-            <ErrorMessage name='gender'>
-                {msg => <Typography color="error">{msg}</Typography>}
-            </ErrorMessage>
-        </Box>
-        <Box sx={styles.container.form.buttonContainer}>
-            <Button name="Anterior" onClick={clickHandler}>Volver</Button>
-            <Button type='submit'>Finalizar</Button>
-        </Box>
-    </>
 
     return (
         <Container sx={styles.container}>
-            <Typography variant="h5">Formulario de Registro</Typography>
             <Formik
                 initialValues={{ //Valores iniciales de Formik, la equivalencia Vanilla sería ir almacenando los datos en el estado local...
                     profilePhoto: "",
@@ -287,20 +133,132 @@ export default function Register() {
                 onSubmit={submitHandler}
             >
                 {(props) => {
-                    return (
+                    return (<>
+                        <StyledPaper>
+                            <Typography variant="h5" sx={{ display: "flex", alignItems: "center", justifyContent: "center", paddingTop: "20px" }}>Formulario de Registro</Typography>
+                            <Form sx={styles.form}>
 
-                        <Form sx={styles.form}>
+                                {index === 0 ? <>
+                                    <Box sx={{ marginLeft: "20px" }}>
+                                        <InputLabel>Foto de Perfil</InputLabel>
+                                        <Field sx={styles.container.form.field} name="profilePhoto">
+                                            {({ field, form }) => (
+                                                <>
+                                                    <Input
+                                                        sx={{ width: "300px" }}
+                                                        disableUnderline
+                                                        id={field.name}
+                                                        name={field.name}
+                                                        type="file"
+                                                        onChange={async (event) => {
+                                                            const file = event.target.files[0];
+                                                            const formData = new FormData();
+                                                            formData.append("file", file)
+                                                            formData.append("upload_preset", "mzntwjvh")
 
-                            {index === 0 ? firstPage : null}
-                            {index === 1 ? secondPage : null}
-                            {index === 2 ? thirdPage : null}
-                            {props.errors && Object.keys(props.errors).length > 0 &&
-                                <Typography>Hay errores en los campos. Por favor, revíselos.</Typography>
-                            }
-                            
-                        </Form>
+                                                            const response = await axios.post("https://api.cloudinary.com/v1_1/dqvz1juaf/image/upload", formData)
+                                                            form.setFieldValue(field.name, response.data.url);
+                                                        }}
+                                                    />
+                                                </>
+                                            )}
+                                        </Field>
+                                    </Box>
+                                    <Box>
+                                        <Field as={TextField} name="name" label="Nombre" sx={styles.container.form.field} helperText={<ErrorMessage name="name" />} error={!!(props.errors.name && props.touched.name)} />
+                                    </Box>
+                                    <Box>
+                                        <Field as={TextField} name="lastName" label="Apellido" sx={styles.container.form.field} helperText={<ErrorMessage name="lastName" />} error={!!(props.errors.lastName && props.touched.lastName)} />
+                                    </Box>
+                                    <Box onBlur={() => props.setFieldTouched("birthdayDate", true)}>
+                                        <Field component={DatePicker} name="birthdayDate" label="Fecha de Nacimiento" sx={styles.container.form.field} helperText={<ErrorMessage name="birthdayDate" />} error={!!(props.errors.birthdayDate && props.touched.birthdayDate)} />
+                                    </Box>
+                                    <Box sx={{ ...styles.container.form.buttonContainer, flexDirection: "row-reverse" }}>
+                                        <Button variant="contained" name="Siguiente" onClick={clickHandler}>Continuar</Button>
+                                    </Box>
+                                </> : null}
+                                {index === 1 ? <>
+                                    <Box onBlur={() => props.setFieldTouched("nationality", true)}>
+                                        <Field
+                                            component={CountrySelect}
+                                            name="nationality"
+                                            sx={styles.container.form.field}
+                                        >
+                                        </Field>
+                                    </Box>
+                                    <Box onBlur={() => props.setFieldTouched("country", true)}>
+                                        <Field component={CountrySelect} name="country" sx={styles.container.form.field}> helperText={<ErrorMessage name="country" />}</Field>
+                                    </Box>
+                                    <Box onBlur={() => props.setFieldTouched("cityTimeZone", true)}>
+                                        <Field
+                                            sx={styles.container.form.field}
+                                            component={TimezoneSelect}
+                                            name="cityTimeZone"
+                                            helperText={<ErrorMessage name="cityTimeZone" />}
+                                        >
+                                        </Field>
+                                    </Box>
+                                    <Box sx={styles.container.form.buttonContainer}>
+                                        <Button variant="contained" name="Anterior" onClick={clickHandler}>Volver</Button>
+                                        <Button variant="contained" name="Siguiente" onClick={clickHandler}>Continuar</Button>
+                                    </Box>
+                                </> : null}
+                                {index === 2 ? <Box sx={{...styles.container.form, overflow: 'auto', padding:0, paddingTop:"20px"}}>
+                                    <Box>
+                                        {/* <Field name='phone' as={TextField} sx={styles.container.form.field} label="Teléfono" helperText={<ErrorMessage name="phone" />} error={!!(props.errors.phone && props.touched.phone)} /> */}
+                                        <PhoneNumberInput name='phone' label='Número de teléfono' sx={{width:'300px', marginBottom:'10px'}}/>
+                                    </Box>
+                                    <Box>
+                                        <InputLabel sx={{
+                                            fontSize: '13px',
+                                            maxWidth: '300px',
+                                            whiteSpace: 'nowrap',
+                                            overflow: 'visible',
+                                            textOverflow: 'ellipsis',
+                                            color: !!(props.errors.profession && props.touched.profession) ? '#d32f2f' : null
+                                        }}>¿Estudias o trabajas en alguna de estas areas?</InputLabel>
+                                        <Select name='profession' sx={{ marginBottom: "20px" }}
+                                            options={["Psicólogo",
+                                                "Psiquiatra",
+                                                "Counselor",
+                                                "Coach",
+                                                "Asistente Social",
+                                                "Acompañante Espiritual",
+                                                "Estudiante",
+                                                "No"]} />
+                                    </Box>
+                                    <Box>
+                                        <Select name="studies" sx={{ marginBottom: "20px", width: "300px" }} label="Estudios alcanzados" options={[
+                                            "Secundario",
+                                            "Terciario",
+                                            "Universitario",
+                                            "Postgrado",
+                                        ]}>
+                                        </Select>
+                                    </Box>
+                                    <Box>
+                                        <Select name="gender" sx={{ marginBottom: "20px", width: "300px" }} label="¿Con qué genero te identificas?"
+                                            options={["Mujer",
+                                                "Mujer-trans",
+                                                "Hombre",
+                                                "Hombre-trans",
+                                                "No-binario",
+                                                "Otra identidad",
+                                                "Prefiero no responder"]}>
+                                        </Select>
+                                    </Box>
+                                    <Box sx={styles.container.form.buttonContainer}>
+                                        <Button variant="contained" name="Anterior" onClick={clickHandler}>Volver</Button>
+                                        <Button variant="contained" type='submit' color="success" disabled={!((Object.keys(props.errors).length === 0)&&(Object.keys(props.touched).length > 0))} sx={{ width: "113.86px" }}>Finalizar</Button>
+                                    </Box>
+                                </Box> : null}
 
-                    )
+                            </Form>
+                        </StyledPaper>
+                        {props.errors && Object.keys(props.errors).length > 0 &&
+                            <Typography sx={{ fontSize:"12px", margin: "20px", color: "red" }}>Hay errores en los campos. Por favor, revíselos.</Typography>
+                        }
+                    </>)
                 }}
             </Formik>
         </Container>
