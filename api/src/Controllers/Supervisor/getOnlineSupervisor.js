@@ -1,51 +1,21 @@
 const { Supervisor, SupervisorShift } = require("../../db");
-const moment = require("moment-timezone");
 const { Op } = require('sequelize');
-
+const getTimeDifference = require("../TimeZone/getTimeDifference")
 const getOnlineSupervisor = async (req, res) => {
   try {
     const { CityTimeZone } = req.body;
     const { zoneName } = CityTimeZone;
+    const actualTime = getTimeDifference(zoneName)
+    
+    const startTime = actualTime.time.clone().format("HH:mm"); // Obtener la hora actual en formato "hh:mm"
+    const endTime = actualTime.time.clone().add(1, "hour").format("HH:mm"); // Agregar 1 hora y obtener el formato "hh:mm" para el segundo horario
 
-    const userDateTime = moment().tz(zoneName);
-    const actualTime = userDateTime.clone().tz("America/Argentina/Buenos_Aires");
-    const actualHour = actualTime.format("HH:mm");
-    const actualDayOfWeek = actualTime.format('dddd');
-    let actualDay = null
-
-    switch (actualDayOfWeek) {
-        case 'Monday':
-            actualDay = 0
-          break;
-        case 'Tuesday':
-            actualDay = 1
-          break;
-        case 'Wednesday':
-            actualDay = 2
-          break;
-        case 'Thursday':
-            actualDay = 3
-          break;
-        case 'Friday':
-            actualDay = 4
-          break;
-        case 'Saturday':
-            actualDay = 5
-          break;
-        case 'Sunday':
-            actualDay = 6
-          break;
-        default:
-      }
-      let [startTime, endTime] = actualHour.split(':');
-      endTime = startTime+":"+endTime;
-      startTime = startTime+":"+"00";
+    const timeRange = `${startTime}-${endTime}`;
       const activeSupervisor = await SupervisorShift.findOne({
             where: {
-              day: actualDay,
+              day: actualTime.actualDay,
               time: {
-                [Op.gte]: startTime,
-                [Op.lte]: endTime,
+                [Op.lte]: timeRange,
               },
             },
             include: [{
@@ -53,9 +23,13 @@ const getOnlineSupervisor = async (req, res) => {
              attributes: ['name', 'lastName', 'phone', 'profilePhoto'],
              through: { attributes: [] },
       }],
+      //Los ordeno en descendente para que te devuelva el turno actual correctamente
+      order: [
+        ['time', 'DESC']
+      ],
       });
 
-      res.json(activeSupervisor)
+    return res.json(activeSupervisor)
   } catch (error) {
     res.status(500).json("Get Online Supervisor fallo")
   }
