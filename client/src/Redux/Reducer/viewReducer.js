@@ -16,6 +16,7 @@ import {
     GET_SUPERVISOR_MATCH,
     GET_ALL_SUPERVISORS_PER_SHIFT,
     GET_ALL_COMPANIONS_PER_SHIFT,
+    DELETE_SUPERVISOR_SHIFT,
 } from "../Actions/action-types";
 //Acá van los POST modificando a allCompanions y allSupervisors
 const initialState = {
@@ -153,13 +154,34 @@ const viewReducer = (state = initialState, { type, payload }) => {
         case GET_ALL_SUPERVISORS_PER_SHIFT:
             return{
                 ...state,
-                supervisorsPerShift: payload
+                supervisorsPerShift: payload,
+                shift: payload,
             }
         case GET_ALL_COMPANIONS_PER_SHIFT:
             return{
                 ...state,
                 companionsPerShift: payload
             }
+            case DELETE_SUPERVISOR_SHIFT:
+                const shiftIndex = state.supervisorsPerShift.findIndex(shift => shift.shiftId === payload.idShift);
+                if (shiftIndex !== -1) {
+                  const updatedShift = {
+                    ...state.supervisorsPerShift[shiftIndex],
+                    shiftSupervisors: state.supervisorsPerShift[shiftIndex].shiftSupervisors.filter(supervisor => supervisor.id !== action.payload.id)
+                  };
+                  const updatedSupervisorsPerShift = [
+                    ...state.supervisorsPerShift.slice(0, shiftIndex),
+                    updatedShift,
+                    ...state.supervisorsPerShift.slice(shiftIndex + 1)
+                  ];
+                  return {
+                    ...state,
+                    supervisorsPerShift: updatedSupervisorsPerShift,
+          
+                  };
+                }
+                return state;
+              
         default:
             return {
                 ...state

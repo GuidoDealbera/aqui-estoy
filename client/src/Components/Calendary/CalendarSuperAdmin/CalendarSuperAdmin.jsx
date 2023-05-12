@@ -4,6 +4,7 @@ import { Container, Row, Col, Button, Modal } from 'react-bootstrap';
 import { useEffect, useState } from "react";
 import CalendarSuperAdminPopOut from "./CalendarSuperAdminPopOut";
 import { useNavigate } from "react-router-dom";
+import { deleteSupervisorShift } from "../../../Redux/Actions/postPutActions";
 
 const CalendarSupervisor=()=>{
     const[togglePopOut,setTogglePopOut]=useState(false)
@@ -13,10 +14,7 @@ const CalendarSupervisor=()=>{
 
     // Estado con la totalidad de los turnos, esten asignados o no:
     let shifts=useSelector(state=>state.view.supervisorsPerShift)
-    //Estado que guarda post del turno, para el useEffect:
-    let assignedShift=useSelector(state=>state.auth.shift)
-
-
+  
     const user=useSelector(state=>state.auth.user)
     //Armado de calendario:
    let perShift=shifts.map((shift)=>{
@@ -63,9 +61,7 @@ const CalendarSupervisor=()=>{
         }
         })
     const days = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'];
-    if(shifts.length===0){
-        dispatch(getAllSupervisorShift())
-    }
+ 
     let hours=[]
   if(user&&user.rol==="SuperAdmin"){
  
@@ -90,9 +86,9 @@ hours = Array.from({ length: 24 }, (_, i) => {
       setShift(found);
     }
 
-      useEffect(()=>{
+      useEffect(()=>{      
         dispatch(getAllSupervisorsPerShift());
-            },[dispatch, assignedShift])
+            },[shifts])
    
      // Render de cada celda:
 return  <Container className="calendar-container">
@@ -137,17 +133,21 @@ return  <Container className="calendar-container">
       <CalendarSuperAdminPopOut shift={shift} setTrigger={setTogglePopOut} trigger={togglePopOut}>
   
   {shift.shiftSupervisors?.length ? (
-    <div style={{ display: 'inline-block' }}>
+    <div >
       <h3><b>Asignados en este turno:</b></h3>
       {shift.shiftSupervisors?.map((supervisor) => (
-        <p
+     <div style={{display:"flex"}}>
+     <p
           key={supervisor.id}
-          onClick={() => {
+          onClick={(e) => {
             navigate(`/profile/${supervisor.id}/view`);
           }}
         >
-          {supervisor.name}
+          {supervisor.name} 
         </p>
+        <button onClick={()=> dispatch(deleteSupervisorShift(supervisor.id, shift.shiftId))}>X</button>
+        </div>
+
       ))}
     </div>
   ) : (
