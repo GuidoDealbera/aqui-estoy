@@ -3,22 +3,22 @@ import { getAllSupervisorShift, getAllSupervisors, getAllSupervisorsPerShift } f
 import { Container, Row, Col, Button, Modal } from 'react-bootstrap';
 import { useEffect, useState } from "react";
 import CalendarSuperAdminPopOut from "./CalendarSuperAdminPopOut";
-
+import { useNavigate } from "react-router-dom";
 
 const CalendarSupervisor=()=>{
     const[togglePopOut,setTogglePopOut]=useState(false)
     const[shift,setShift]=useState({})
-    const dispatch=useDispatch()
+    const dispatch=useDispatch();
+    const navigate = useNavigate();
+
+    // Estado con la totalidad de los turnos, esten asignados o no:
     let shifts=useSelector(state=>state.view.supervisorsPerShift)
+    //Estado que guarda post del turno, para el useEffect:
     let assignedShift=useSelector(state=>state.auth.shift)
-//let perShift = useSelector(state=>state.view.supervisorsPerShift)
-/*
-let shi = perShift.map(s => s.shiftSupervisors);
-console.log(shi);
-*/
 
 
     const user=useSelector(state=>state.auth.user)
+    //Armado de calendario:
    let perShift=shifts.map((shift)=>{
         switch (shift.day) {
          case 0:
@@ -82,22 +82,19 @@ hours = Array.from({ length: 24 }, (_, i) => {
 }
 
 
-
-
     const handleClickCell=(hour,day)=>{
       let found = perShift.find(shift=>shift.time===hour&&shift.day===day)
       console.log(found);
-     // let foundPerShift = perShift.find(s=>s.shiftId ===found.id);
-     // let sup = foundPerShift.shiftSupervisors;
       setTogglePopOut(!togglePopOut)
+      //Actualizo estado local con 1 shift de onClick:
       setShift(found);
-      
-
     }
+
       useEffect(()=>{
         dispatch(getAllSupervisorsPerShift());
             },[dispatch, assignedShift])
    
+     // Render de cada celda:
 return  <Container className="calendar-container">
       <table className="calendar-table">
         <thead>
@@ -107,8 +104,8 @@ return  <Container className="calendar-container">
               <th key={index}>{day}</th>
             ))}
           </tr>
-        </thead>
-        <tbody>
+        </thead>       
+        <tbody>          
           {hours.map((hour) => (
             <tr key={hour}>
               <td className="hour">{hour}</td>
@@ -117,10 +114,7 @@ return  <Container className="calendar-container">
                   (shift) => shift.day === index && shift.time === hour
                 );
                 const supervisorCount = found ? found.supervisorCount : 0;
-                const maxSupervisors = found ? found.maxSupervisors : 0;
-                
-               
-
+                const maxSupervisors = found ? found.maxSupervisors : 0;             
                 let countText = supervisorCount;
                 if (supervisorCount && maxSupervisors) {
                   countText = `${supervisorCount}/${maxSupervisors}`;
@@ -138,20 +132,32 @@ return  <Container className="calendar-container">
             </tr>
           ))}
         </tbody>
-
       </table>
       
       <CalendarSuperAdminPopOut shift={shift} setTrigger={setTogglePopOut} trigger={togglePopOut}>
-        <h3>Estas seguro que quieres confirmar este turno:</h3>
-        <label>{shift.day}</label>
-        <p>{shift.time}</p>
-        {shift.shiftSupervisors  &&  
-              <p>Supervisor: {
-                shift.shiftSupervisors.map(s=> s.name + ' | ')
-                } </p>
-        
-        }
-      </CalendarSuperAdminPopOut>
-      </Container>
+  
+  {shift.shiftSupervisors?.length ? (
+    <div style={{ display: 'inline-block' }}>
+      <h3><b>Asignados en este turno:</b></h3>
+      {shift.shiftSupervisors?.map((supervisor) => (
+        <p
+          key={supervisor.id}
+          onClick={() => {
+            navigate(`/profile/${supervisor.id}/view`);
+          }}
+        >
+          {supervisor.name}
+        </p>
+      ))}
+    </div>
+  ) : (
+    ''
+  )}
+  <h3>Nuevo turno a asignar:</h3>
+  <label>{shift.day}</label>
+  <p>{shift.time}</p>
+</CalendarSuperAdminPopOut>
+</Container>
+
 };
 export default CalendarSupervisor
