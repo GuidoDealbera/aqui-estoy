@@ -90,6 +90,23 @@ export default function NavBar(props) {
       toast.error("No tienes acceso a este calendario", toastWarning);
     }
   };
+  const handleClick2 = (event) => {
+    if (Object.entries(user).length === 0) {
+      toast.error(
+        "Debes iniciar sesion para acceder al calendario",
+        toastWarning
+      );
+    }
+    if (user.rol === "SuperAdmin") {
+      navigate("/calendarCompanion");
+    }
+  };
+  const handleClickPanel = (event) => {
+    if (user.rol === "SuperAdmin") {
+      navigate("/panel-supervision");
+    }
+  };
+
   const closeSession = () => {
     dispatch(logOut());
     navigate("/");
@@ -208,7 +225,10 @@ export default function NavBar(props) {
                     }}
                   >
                     <MenuItem onClick={() => navigate(`/profile/${id}`)}>Perfil</MenuItem>
-                    {user.rol !== 'Supervisor' && <MenuItem onClick={handleClick}>Calendario</MenuItem>}
+                    {user.rol === 'SuperAdmin' && <MenuItem onClick={handleClick}>Calendario Supervisor</MenuItem>}
+                    {user.rol === 'SuperAdmin' && <MenuItem onClick={handleClick2}>Calendario Acompañante</MenuItem>}
+                    {user.rol === 'SuperAdmin' && <MenuItem onClick={handleClickPanel}>Panel de Supervisión</MenuItem>}
+                    {user.rol === 'Companion1' || user.rol === 'Companion2'&& <MenuItem onClick={handleClick}>Calendario</MenuItem>}
                     <MenuItem onClick={closeSession}>Cerrar Sesión</MenuItem>
                   </Menu>
                 </StyledBadge>

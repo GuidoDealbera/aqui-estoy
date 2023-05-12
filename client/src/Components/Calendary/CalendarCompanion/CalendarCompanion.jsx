@@ -1,13 +1,13 @@
 import { useDispatch, useSelector } from "react-redux";
 import { getAllCompanionShift } from "../../../Redux/Actions/viewActions";
-import { Container, Row, Col, Button, Modal } from "react-bootstrap";
-import { useEffect, useState } from "react";
-import CalendarCompanionPopOut from "./CalendarCompanionPopOut";
-import calendar from "./CalendarCompanion.css";
 import { deleteCompanionShift } from "../../../Redux/Actions/postPutActions";
-import { toast } from "sonner";
 import { toastSuccess, toastError, toastWarning } from "../../../Redux/Actions/alertStyle";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 import Swal from "sweetalert2";
+import { Container, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Button } from "@mui/material";
+import CalendarCompanionPopOut from "./CalendarCompanionPopOut";
+import "./CalendarCompanion.css";
 
 const CalendarCompanion = () => {
   let shifts = useSelector((state) => state.view.allCompanionShift);
@@ -139,30 +139,24 @@ const CalendarCompanion = () => {
             <tr key={hour}>
               <td className="hour">{hour}</td>
               {days.map((day, index) => {
-                if (user.CompanionShifts === undefined) {
+                const found = user.CompanionShifts?.find(
+                  (shift) => shift.day === index && shift.time === hour
+                );
+                if (found) {
                   return (
-                    <td onClick={() => handleClickCell(hour, day)}>-----</td>
+                    <td
+                      id={found.id}
+                      className="reserved"
+                      onClick={()=> handleDeleteShift(found.id)}
+                    >
+                      {user.rol === "Companion2" ? (<> Turno reservado <button className="delete-button">X</button> </> ) : ("Turno reservado")}
+                    </td>
                   );
                 } else {
-                  const found = user.CompanionShifts.find(
-                    (shift) => shift.day === index && shift.time === hour
+                  return (
+                    <td className="calendar-cell" onClick={() => handleClickCell(hour, day)}>-----</td>
                   );
-                  if (found) {
-                    return (
-                      <td
-                        id={found.id}
-                        className="reserved"
-                        onClick={()=> handleDeleteShift(found.id)}
-                      >
-                        {user.rol === "Companion2" ? (<> Turno reservado <button>X</button> </> ) : ("Turno reservado")}
-                      </td>
-                    );
-                  }
                 }
-
-                return (
-                  <td onClick={() => handleClickCell(hour, day)}>-----</td>
-                );
               })}
             </tr>
           ))}

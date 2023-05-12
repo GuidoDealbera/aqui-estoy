@@ -19,6 +19,7 @@ const initialState = {
   error: null,
   loading: false,
   passwordRecoveryInfo: {},
+  shift: {},
 };
 
 const authReducer = (state = initialState, action) => {
@@ -73,7 +74,8 @@ const authReducer = (state = initialState, action) => {
     case POST_ASSIGN_SUPERVISOR_SHIFT:
       return {
         ...state,
-      };
+        shift: action.payload
+      }
     case POST_ASSIGN_COMPANION_SHIFT:
       return {
         ...state,
