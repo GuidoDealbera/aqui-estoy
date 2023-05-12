@@ -4,7 +4,7 @@ const mailer = require("../mailerConfig/mailer");
 const { passwordHasChange } = require("../htmlMails/MailPassword");
 const putUserPassword = async (req, res) => {
   try {
-    const transporter = mailer();
+    const transporter = await mailer();
     const { typeUser, email, password } = req.body;
     const passwordHash = await bcrypt.hashSync(password, 10);
     let mailOptions = {};
@@ -12,13 +12,17 @@ const putUserPassword = async (req, res) => {
     if (typeUser === "Companion") {
       const companion = await Companion.findOne({ where: { email: email } });
       if (companion && companion.isActive) {
-        Companion.update({ passwordHash }, { where: { email: email } });
+        await Companion.update(
+          { password: passwordHash },
+          { where: { id: companion.id } }
+        );
         mailOptions = {
           from: "aquiestoy.prueba01@gmail.com",
           to: email, // //! ACA PUEDEN CAMBIAR ESTE PARAMETRO POR SU PROPIO MAIL PARA PROBAR
           subject: "Tu contraseña ha sido cambiada",
           html: passwordHasChange(email, password),
         };
+
         transporter.sendMail(mailOptions, (error, info) => {
           try {
             return info;
@@ -32,7 +36,10 @@ const putUserPassword = async (req, res) => {
     if (typeUser === "Supervisor") {
       const supervisor = await Supervisor.findOne({ where: { email: email } });
       if (supervisor && supervisor.isActive) {
-        Supervisor.update({ passwordHash }, { where: { email: email } });
+        await Supervisor.update(
+          { password: passwordHash },
+          { where: { email: email } }
+        );
         mailOptions = {
           from: "aquiestoy.prueba01@gmail.com",
           to: email, // //! ACA PUEDEN CAMBIAR ESTE PARAMETRO POR SU PROPIO MAIL PARA PROBAR

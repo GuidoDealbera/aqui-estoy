@@ -12,8 +12,11 @@ import {
 } from '@mui/material';
 import { styled } from '@mui/system';
 import { useDispatch, useSelector } from "react-redux";
-import { getPasswordRecoveryCode, updatePassword } from '../../Redux/Actions/viewActions';
-
+import { getPasswordRecoveryCode } from '../../Redux/Actions/viewActions';
+import { toast } from "sonner";
+import {putUserPassword}from"../../Redux/Actions/postPutActions"
+import { toastSuccess } from "../../Redux/Actions/alertStyle";
+import { useNavigate } from 'react-router-dom';
 const StyledPaper = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(4),
   borderRadius: '10px',
@@ -34,9 +37,10 @@ const validationSchema = Yup.object().shape({
 
 const PasswordRecovery = () => {
   const dispatch = useDispatch();
+  const navigate=useNavigate()
   const [step, setStep] = useState(0);
   const [email, setEmail] = useState("");
-
+const{passwordRecoveryInfo}=useSelector(status=>status.auth)
   const [recoveryCode, setRecoveryCode] = useState("");
 
   const submitHandler = async (values) => {
@@ -48,10 +52,17 @@ const PasswordRecovery = () => {
     } else if (step === 1) {
       const { recoveryCode } = values;
       setRecoveryCode(recoveryCode);
-      setStep(2);
+if (passwordRecoveryInfo.code===recoveryCode) {
+  setStep(2);
+
+}
     } else if (step === 2) {
       const { password, confirmPassword } = values;
-      dispatch(updatePassword(email, recoveryCode, password));
+      console.log(password,confirmPassword);
+      dispatch(putUserPassword(passwordRecoveryInfo,password))
+      toast.success("Tu contraseña ha sido cambiada con exito",toastSuccess)
+      navigate("/")
+      
     }
   };
   const recoveryCodeValidationSchema = Yup.object().shape({
@@ -138,6 +149,7 @@ const PasswordRecovery = () => {
                           variant="contained"
                           type="submit"
                           disabled={isSubmitting}
+                     
                         >
                           Verificar código
                         </StyledButton>

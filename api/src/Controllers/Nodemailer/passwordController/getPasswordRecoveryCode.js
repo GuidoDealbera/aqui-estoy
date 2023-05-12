@@ -12,10 +12,9 @@ const getPasswordRecoveryCode = async (req, res) => {
     const cadena = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     let code = "";
     let typeUser = "";
-    for (let i = 1; i < 6; i++) {
+    for (let i = 1; i < 7; i++) {
       code += cadena[Math.floor(Math.random() * (27 - 1) + 1)];
     }
-    console.log(code);
     const supervisor = await Supervisor.findOne({ where: { email: email } });
     if (supervisor && supervisor.isActive) {
       typeUser = "Supervisor";
