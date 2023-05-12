@@ -3,7 +3,9 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import axios from "axios"
 import { styled } from '@mui/system';
-import { InputLabel, Button, Typography, TextField, Box, Input, Paper, MenuItem } from '@mui/material';
+import { InputLabel, Button, Typography, TextField, Box, Input, Paper, IconButton, LinearProgress } from '@mui/material';
+import UploadIcon from '@mui/icons-material/Upload';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { putCompanion, putSupervisor } from '../../Redux/Actions/postPutActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -15,16 +17,18 @@ import { Container } from '@mui/system';
 import DatePicker from './registerComponents/DatePicker';
 import { Select } from './registerComponents/Select';
 import PhoneNumberInput from './registerComponents/CustomPhoneNumber';
+import CustomStepper from './registerComponents/Stepper';
 
 const styles = {
     container: {
         flexDirection: 'column',
         display: "flex",
-        height: "80vh",
         justifyContent: "center",
         alignItems: "center",
+        marginBottom: "50px",
         form: {
-            height: "450px",
+            height: "400px",
+            overflow:"auto",
             width: "350px",
             display: "flex",
             flexDirection: "column",
@@ -59,6 +63,9 @@ export default function Register() {
     const navigate = useNavigate();
 
     const [index, setIndex] = useState(0) //Estado del "paginado" de los inputs (Mirar Figma).
+
+    const [fileName, setFileName] = useState('');
+    const [loading, setLoading] = useState(false)
 
     const clickHandler = (event) => { //Handler que modifica el estado de arriba.
         const { target } = event;
@@ -110,10 +117,9 @@ export default function Register() {
         profession: Yup.string().required('Este campo es obligatorio'),
     });
 
-
-
     return (
         <Container sx={styles.container}>
+
             <Formik
                 initialValues={{ //Valores iniciales de Formik, la equivalencia Vanilla sería ir almacenando los datos en el estado local...
                     profilePhoto: "",
@@ -136,31 +142,45 @@ export default function Register() {
                     return (<>
                         <StyledPaper>
                             <Typography variant="h5" sx={{ display: "flex", alignItems: "center", justifyContent: "center", paddingTop: "20px" }}>Formulario de Registro</Typography>
+                            <CustomStepper index={index} sx={{marginTop:"20px"}}/>
                             <Form sx={styles.form}>
 
                                 {index === 0 ? <>
-                                    <Box sx={{ marginLeft: "20px" }}>
-                                        <InputLabel>Foto de Perfil</InputLabel>
+                                    <Box>
+                                        {/* <InputLabel>Foto de Perfil</InputLabel> */}
                                         <Field sx={styles.container.form.field} name="profilePhoto">
                                             {({ field, form }) => (
-                                                <>
-                                                    <Input
-                                                        sx={{ width: "300px" }}
-                                                        disableUnderline
-                                                        id={field.name}
-                                                        name={field.name}
-                                                        type="file"
-                                                        onChange={async (event) => {
+                                                <Box sx={{ width: "300px", marginBottom: "20px", display: "flex", flexDirection: "column" }}>
+                                                    <Button variant="contained" component="label">
+                                                        {" "}
+                                                        <UploadIcon sx={{ marginRight: "10px" }} /> Subir foto de perfil
+                                                        <input type="file" hidden id={field.name} name={field.name} onChange={async (event) => {
+                                                            setLoading(true)
                                                             const file = event.target.files[0];
+                                                            setFileName(file.name);
                                                             const formData = new FormData();
                                                             formData.append("file", file)
                                                             formData.append("upload_preset", "mzntwjvh")
 
                                                             const response = await axios.post("https://api.cloudinary.com/v1_1/dqvz1juaf/image/upload", formData)
                                                             form.setFieldValue(field.name, response.data.url);
-                                                        }}
-                                                    />
-                                                </>
+                                                            setLoading(false)
+                                                        }} />
+                                                    </Button>
+                                                    <Box sx={{ display: field.value ? "flex" : "none", marginTop: "10px", justifyContent: "space-between" }}>
+                                                        <Box sx={{ display: "flex", flexDirection: "column" }}>
+                                                            <Typography>Archivo seleccionado:</Typography>
+                                                            <Typography>{fileName}</Typography>
+                                                        </Box>
+
+                                                        <IconButton aria-label="delete" onClick={() => {
+                                                            form.setFieldValue(field.name, '');
+                                                        }}>
+                                                            <DeleteIcon />
+                                                        </IconButton>
+                                                    </Box>
+                                                    {loading ? <LinearProgress sx={{ marginTop: "5px" }} /> : null}
+                                                </Box>
                                             )}
                                         </Field>
                                     </Box>
@@ -203,10 +223,10 @@ export default function Register() {
                                         <Button variant="contained" name="Siguiente" onClick={clickHandler}>Continuar</Button>
                                     </Box>
                                 </> : null}
-                                {index === 2 ? <Box sx={{...styles.container.form, overflow: 'auto', padding:0, paddingTop:"20px"}}>
+                                {index === 2 ? <Box sx={{ ...styles.container.form, overflow: 'auto', padding: 0, paddingTop: "20px" }}>
                                     <Box>
                                         {/* <Field name='phone' as={TextField} sx={styles.container.form.field} label="Teléfono" helperText={<ErrorMessage name="phone" />} error={!!(props.errors.phone && props.touched.phone)} /> */}
-                                        <PhoneNumberInput name='phone' label='Número de teléfono' sx={{width:'300px', marginBottom:'10px'}}/>
+                                        <PhoneNumberInput name='phone' label='Número de teléfono' sx={{ width: '300px', marginBottom: '10px' }} />
                                     </Box>
                                     <Box>
                                         <InputLabel sx={{
@@ -249,14 +269,14 @@ export default function Register() {
                                     </Box>
                                     <Box sx={styles.container.form.buttonContainer}>
                                         <Button variant="contained" name="Anterior" onClick={clickHandler}>Volver</Button>
-                                        <Button variant="contained" type='submit' color="success" disabled={!((Object.keys(props.errors).length === 0)&&(Object.keys(props.touched).length > 0))} sx={{ width: "113.86px" }}>Finalizar</Button>
+                                       <Box title={!((Object.keys(props.errors).length === 0) && (Object.keys(props.touched).length > 0)) ? "Por favor corrige los errores en los campos" : null}><Button variant="contained" type='submit' color="success" disabled={!((Object.keys(props.errors).length === 0) && (Object.keys(props.touched).length > 0))} sx={{ width: "113.86px" }}>Finalizar</Button></Box>
                                     </Box>
                                 </Box> : null}
 
                             </Form>
                         </StyledPaper>
                         {props.errors && Object.keys(props.errors).length > 0 &&
-                            <Typography sx={{ fontSize:"12px", margin: "20px", color: "red" }}>Hay errores en los campos. Por favor, revíselos.</Typography>
+                            <Typography sx={{ fontSize: "12px", margin: "20px", color: "red" }}>Hay errores en los campos. Por favor, revíselos.</Typography>
                         }
                     </>)
                 }}
