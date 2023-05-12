@@ -25,7 +25,7 @@ export default function DatePickerValue(props) {
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DemoContainer components={['DatePicker', 'DatePicker']}>
         <DatePicker
-          sx={{ width: 300 }}
+          sx={{ width: 300, margin:"10px" }}
           format='DD/MM/YYYY'
           label="Fecha de Nacimiento"
           value={field.value ? dayjs(field.value) : null}
