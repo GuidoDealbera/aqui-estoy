@@ -1,56 +1,59 @@
 import { useDispatch, useSelector } from "react-redux";
-import s from "./CalendarCompanionPopOut.module.css";
 import {
   postAssignSupervisorShift,
   postAssignCompanionShift,
 } from "../../../Redux/Actions/postPutActions";
 import Swal from 'sweetalert2'
+import { Button } from "@mui/material";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import { useEffect, useState } from "react";
 
 const CalendarPopOut = (props) => {
+  const [open, setOpen] = useState(props.trigger);
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    setOpen(props.trigger);
+  }, [props.trigger]);
+
   const handleConfirm = () => {
     Swal.fire({
-      title: "¿Estás seguro que quieres confirmar el turno?",
+      title: "¿Confirmas tu turno?",
       showCancelButton: true,
-      confirmButtonText: "Sí, confirmar",
+      confirmButtonText: "Confirmar",
       cancelButtonText: "Cancelar",
     }).then((result) => {
       if (result.isConfirmed) {
-        if (user.rol === "Companion1" || user.rol === "Companion2") {
-          dispatch(
-            postAssignCompanionShift(
-              user.id,
-              props.shift.id.toString(),
-              user.rol
-            )
-          );
-        } else if (user.rol === "Supervisor" || user.rol === "SuperAdmin") {
-          dispatch(
-            postAssignSupervisorShift(
-              user.id,
-              props.shift.id.toString(),
-              user.rol
-            )
-          );
-        }
-        props.setTrigger();
+        const action = user.rol === "Supervisor" || user.rol === "SuperAdmin" ? postAssignSupervisorShift : postAssignCompanionShift;
+        dispatch(action(user.id, props.shift.id.toString(), user.rol)).then(() => {
+          props.setTrigger(false);
+          setOpen(false);
+        });
       } else {
-        props.setTrigger();
+        props.setTrigger(false);
+        setOpen(false);
       }
     });
   };
 
-  return props.trigger ? (
-    <div onClick={() => props.setTrigger()} className={s.popOut}>
-      <div className={s.innerPop}>
+  return (
+    <Dialog open={open} onClose={() => {props.setTrigger(false); setOpen(false);}}>
+      <DialogContent>
         {props.children}
-        <button onClick={() => handleConfirm()}>Confirma tu turno !</button>
-        <button onClick={() => props.setTrigger()}>Cancelar</button>
-      </div>
-    </div>
-  ) : (
-    ""
+      </DialogContent>
+      <DialogActions>
+      <Button className="confirmButton" onClick={handleConfirm} variant="contained" color="primary">
+  Confirmar turno
+</Button>
+<Button className="cancelButton" onClick={() => {props.setTrigger(false); setOpen(false);}} variant="outlined" color="secondary">
+  Cancelar
+</Button>
+      </DialogActions>
+    </Dialog>
   );
 };
+
 export default CalendarPopOut;
