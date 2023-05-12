@@ -2,21 +2,28 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
+import { ErrorMessage } from 'formik';
 
 export default function CountrySelect(props) {
 
-  const { field, form, ...other } = props;
+  const { field, form } = props;
+
+  const [error, setError] = React.useState(false);
+
+  React.useEffect(() => {
+    setError(!!(form.errors[field.name] && form.touched[field.name]));
+  }, [form.errors[field.name], form.touched[field.name]]);
 
   const handleChange = (event, value) => {
-    form.setFieldValue(field.name, value.label);
+    value ? form.setFieldValue(field.name, value.label) : form.setFieldValue(field.name, '');
 };
 
   return (
     <Autocomplete
       id="country-select-demo"
-      sx={{ width: 300 }}
+      sx={{ width: 300, marginBottom:"20px" }}
       options={countries}
-      autoHighlight
+      isOptionEqualToValue={(value, option) => value.label === "Andorra"}
       value={field.value}
       onChange={handleChange}
       renderOption={(props, option) => (
@@ -34,7 +41,9 @@ export default function CountrySelect(props) {
       renderInput={(params) => (
         <TextField
           {...params}
-          label="Elige un país"
+          error={error}
+          helperText={error ? props.form.errors[field.name] : null}
+          label={field.name === "nationality" ? "Nacionalidad" : "Pais de residencia actual"}
           inputProps={{
             ...params.inputProps,
             autoComplete: 'new-password', // disable autocomplete and autofill

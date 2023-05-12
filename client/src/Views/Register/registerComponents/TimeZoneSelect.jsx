@@ -3,10 +3,13 @@ import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import { useState, useEffect } from 'react';
 import axios from "axios";
+import { useField } from 'formik';
 
 export default function TimezoneSelect(props) {
 
     const { field, form, ...other } = props;
+
+    const [field1, meta] = useField("cityTimeZone")
 
     const [timezones, setTimezones] = useState([{ id: '', label: '' }]);
 
@@ -29,8 +32,17 @@ export default function TimezoneSelect(props) {
     }, [])
 
     const handleChange = (event, value) => {
-        form.setFieldValue(field.name, value.id);
+        value ? form.setFieldValue(field.name, value.id) : form.setFieldValue(field.name, '');
     };
+
+    const configSelect = {
+
+    }
+
+    if (meta && meta.touched && meta.error) {
+        configSelect.error = true;
+        configSelect.helperText = meta.error
+    }
 
     return (
         <Autocomplete
@@ -40,7 +52,7 @@ export default function TimezoneSelect(props) {
             value={timezones.find((option) => option.id === field.value) || timezones[0]}
             onChange={handleChange}
             sx={{ width: 300 }}
-            renderInput={(params) => <TextField {...params} label="Timezone" />}
+            renderInput={(params) => <TextField {...params} {...field1} {...configSelect} label="Huso horario de residencia" />}
         />
     );
 }
