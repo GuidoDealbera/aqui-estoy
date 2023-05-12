@@ -4,6 +4,7 @@ import { useField, useFormikContext } from 'formik'
 export const Select = ({
     name,
     options,
+    children,
     ...otherProps
 }) => {
 
@@ -24,7 +25,6 @@ export const Select = ({
         fullWidth: true,
         onChange: handleChange
     }
-    console.log(configSelect);
 
     if (meta && meta.touched && meta.error) {
         configSelect.error = true;
@@ -33,7 +33,13 @@ export const Select = ({
 
     return (
         <TextField {...configSelect}>
-            {options}
+            {Object.values(options).map((item, pos) => {
+                return (
+                    <MenuItem key={pos} value={item}>
+                        {item}
+                    </MenuItem>
+                )
+            })}
         </TextField>
     )
 }

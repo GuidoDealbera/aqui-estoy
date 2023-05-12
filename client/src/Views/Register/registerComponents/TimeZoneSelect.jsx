@@ -3,40 +3,46 @@ import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import { useState, useEffect } from 'react';
 import axios from "axios";
+import { useField } from 'formik';
 
 export default function TimezoneSelect(props) {
 
     const { field, form, ...other } = props;
 
-    const [error, setError] = React.useState(false);
-
-    React.useEffect(() => {
-        setError(!!(form.errors[field.name] && form.touched[field.name]));
-    }, [form.errors[field.name], form.touched[field.name]]);
+    const [field1, meta] = useField("cityTimeZone")
 
     const [timezones, setTimezones] = useState([{ id: '', label: '' }]);
 
     useEffect(() => {
-        if (timezones.length === 1) {
-            axios("/getCityTimeZone").then(
-                (response) => {
-                    const { data } = response;
-                    const result = data.map((timezone) => {
-                        return {
-                            id: timezone.id,
-                            label: `${timezone.offSet} ${timezone.zoneName}`
-                        }
-                    })
-                    setTimezones([...timezones, ...result])
-                }
-            )
+        if(timezones.length===1){
+               axios("/getCityTimeZone").then(
+            (response) => {
+                const { data } = response;
+                const result = data.map((timezone) => {
+                    return {
+                        id: timezone.id,
+                        label: `${timezone.offSet} ${timezone.zoneName}`
+                    }
+                })
+                setTimezones([...timezones, ...result])
+            }
+        )
         }
-
+     
     }, [])
 
     const handleChange = (event, value) => {
-        value ? form.setFieldValue(field.name, value.label) : form.setFieldValue(field.name, '');
+        value ? form.setFieldValue(field.name, value.id) : form.setFieldValue(field.name, '');
     };
+
+    const configSelect = {
+
+    }
+
+    if (meta && meta.touched && meta.error) {
+        configSelect.error = true;
+        configSelect.helperText = meta.error
+    }
 
     return (
         <Autocomplete
@@ -45,9 +51,8 @@ export default function TimezoneSelect(props) {
             options={timezones}
             value={timezones.find((option) => option.id === field.value) || timezones[0]}
             onChange={handleChange}
-            sx={{ width: 300, marginBottom: "20px" }}
-            renderInput={(params) => <TextField {...params} label="Huso horario de residencia" error={error}
-                helperText={error ? props.form.errors[field.name] : null} />}
-        />
-    );
+            sx={{ width: 300 }}
+            renderInput={(params) => <TextField {...params} {...field1} {...configSelect} label="Huso horario de residencia" />}
+        />
+    );
 }

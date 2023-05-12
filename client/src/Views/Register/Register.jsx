@@ -14,6 +14,7 @@ import { toastSuccess } from "../../Redux/Actions/alertStyle";
 import { Container } from '@mui/system';
 import DatePicker from './registerComponents/DatePicker';
 import { Select } from './registerComponents/Select';
+import PhoneNumberInput from './registerComponents/CustomPhoneNumber';
 
 const styles = {
     container: {
@@ -23,8 +24,8 @@ const styles = {
         justifyContent: "center",
         alignItems: "center",
         form: {
-            height: "400px",
-            width: "300px",
+            height: "450px",
+            width: "350px",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
@@ -77,7 +78,6 @@ export default function Register() {
     }
 
     const submitHandler = (values) => { //Submit Handler del formulario (Aún no interactúa con el Back-End)
-        console.log(values);
         if (user.rol === 'Companion1' || user.rol === "Companion2") {
             dispatch(putCompanion(user.id, values)) //trae el id del user y lo actualiza 
         } else {
@@ -96,7 +96,7 @@ export default function Register() {
         lastName: Yup.string()
             .max(20, "Debe ser menor a 20 caracteres")
             .required('Este campo es obligatorio'),
-        birthdayDate: Yup.date()
+        birthdayDate: Yup.date('')
             .required('Este campo es obligatorio'),
         nationality: Yup.string().required('Este campo es obligatorio'),
         country: Yup.string().required('Este campo es obligatorio'),
@@ -203,9 +203,10 @@ export default function Register() {
                                         <Button variant="contained" name="Siguiente" onClick={clickHandler}>Continuar</Button>
                                     </Box>
                                 </> : null}
-                                {index === 2 ? <>
+                                {index === 2 ? <Box sx={{...styles.container.form, overflow: 'auto', padding:0, paddingTop:"20px"}}>
                                     <Box>
-                                        <Field name='phone' as={TextField} sx={styles.container.form.field} label="Teléfono" helperText={<ErrorMessage name="phone" />} error={!!(props.errors.phone && props.touched.phone)} />
+                                        {/* <Field name='phone' as={TextField} sx={styles.container.form.field} label="Teléfono" helperText={<ErrorMessage name="phone" />} error={!!(props.errors.phone && props.touched.phone)} /> */}
+                                        <PhoneNumberInput name='phone' label='Número de teléfono' sx={{width:'300px', marginBottom:'10px'}}/>
                                     </Box>
                                     <Box>
                                         <InputLabel sx={{
@@ -214,48 +215,48 @@ export default function Register() {
                                             whiteSpace: 'nowrap',
                                             overflow: 'visible',
                                             textOverflow: 'ellipsis',
+                                            color: !!(props.errors.profession && props.touched.profession) ? '#d32f2f' : null
                                         }}>¿Estudias o trabajas en alguna de estas areas?</InputLabel>
                                         <Select name='profession' sx={{ marginBottom: "20px" }}
-                                            options={[<MenuItem value="Psicólogo">Psicólogo</MenuItem>,
-                                            <MenuItem value="Psiquiatra">Psiquiatra</MenuItem>,
-                                            <MenuItem value="Counselor">Counselor</MenuItem>,
-                                            <MenuItem value="Coach">Coach</MenuItem>,
-                                            <MenuItem value="Asistente Social">Asistente Social</MenuItem>,
-                                            <MenuItem value="Acompañante Espiritual">Acompañante Espiritual</MenuItem>,
-                                            <MenuItem value="Estudiante">Estudiante</MenuItem>,
-                                            <MenuItem value="No">No</MenuItem>]} />
+                                            options={["Psicólogo",
+                                                "Psiquiatra",
+                                                "Counselor",
+                                                "Coach",
+                                                "Asistente Social",
+                                                "Acompañante Espiritual",
+                                                "Estudiante",
+                                                "No"]} />
                                     </Box>
                                     <Box>
-                                        <Select name="studies" sx={{ marginBottom: "20px", width:"300px" }} options={[
-                                            <MenuItem value="Secundario">Secundario</MenuItem>,
-                                            <MenuItem value="Terciario">Terciario</MenuItem>,
-                                            <MenuItem value="Universitario">Universitario</MenuItem>,
-                                            <MenuItem value="Postgrado">Postgrado</MenuItem>,
+                                        <Select name="studies" sx={{ marginBottom: "20px", width: "300px" }} label="Estudios alcanzados" options={[
+                                            "Secundario",
+                                            "Terciario",
+                                            "Universitario",
+                                            "Postgrado",
                                         ]}>
                                         </Select>
                                     </Box>
                                     <Box>
-                                        <Select name="gender" sx={{ marginBottom: "20px", width:"300px" }} options={[
-                                            <MenuItem value="Mujer">Mujer</MenuItem>,
-                                            <MenuItem value="Mujer-trans">Mujer-trans</MenuItem>,
-                                            <MenuItem value="Hombre">Hombre</MenuItem>,
-                                            <MenuItem value="Hombre-trans">Hombre-trans</MenuItem>,
-                                            <MenuItem value="No-binario">No-binario</MenuItem>,
-                                            <MenuItem value="Otra identidad">Otra identidad</MenuItem>,
-                                            <MenuItem value="Prefiero no responder">Prefiero no responder</MenuItem>
-                                        ]}>
+                                        <Select name="gender" sx={{ marginBottom: "20px", width: "300px" }} label="¿Con qué genero te identificas?"
+                                            options={["Mujer",
+                                                "Mujer-trans",
+                                                "Hombre",
+                                                "Hombre-trans",
+                                                "No-binario",
+                                                "Otra identidad",
+                                                "Prefiero no responder"]}>
                                         </Select>
                                     </Box>
                                     <Box sx={styles.container.form.buttonContainer}>
                                         <Button variant="contained" name="Anterior" onClick={clickHandler}>Volver</Button>
-                                        <Button variant="contained" type='submit' color="success" sx={{ width: "113.86px" }}>Finalizar</Button>
+                                        <Button variant="contained" type='submit' color="success" disabled={!((Object.keys(props.errors).length === 0)&&(Object.keys(props.touched).length > 0))} sx={{ width: "113.86px" }}>Finalizar</Button>
                                     </Box>
-                                </> : null}
+                                </Box> : null}
 
                             </Form>
                         </StyledPaper>
                         {props.errors && Object.keys(props.errors).length > 0 &&
-                            <Typography sx={{ margin: "20px", color: "red" }}>Hay errores en los campos. Por favor, revíselos.</Typography>
+                            <Typography sx={{ fontSize:"12px", margin: "20px", color: "red" }}>Hay errores en los campos. Por favor, revíselos.</Typography>
                         }
                     </>)
                 }}
