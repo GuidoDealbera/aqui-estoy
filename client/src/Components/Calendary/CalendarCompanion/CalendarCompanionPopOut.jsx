@@ -9,31 +9,17 @@ import Swal from 'sweetalert2'
 const CalendarPopOut = (props) => {
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+
   const handleConfirm = () => {
     Swal.fire({
-      title: "¿Estás seguro que quieres confirmar el turno?",
+      title: "¿Confirmas tu turno?",
       showCancelButton: true,
-      confirmButtonText: "Sí, confirmar",
+      confirmButtonText: "Confirmar",
       cancelButtonText: "Cancelar",
     }).then((result) => {
       if (result.isConfirmed) {
-        if (user.rol === "Companion1" || user.rol === "Companion2") {
-          dispatch(
-            postAssignCompanionShift(
-              user.id,
-              props.shift.id.toString(),
-              user.rol
-            )
-          );
-        } else if (user.rol === "Supervisor" || user.rol === "SuperAdmin") {
-          dispatch(
-            postAssignSupervisorShift(
-              user.id,
-              props.shift.id.toString(),
-              user.rol
-            )
-          );
-        }
+        const action = user.rol === "Supervisor" || user.rol === "SuperAdmin" ? postAssignSupervisorShift : postAssignCompanionShift;
+        dispatch(action(user.id, props.shift.id.toString(), user.rol));
         props.setTrigger();
       } else {
         props.setTrigger();
@@ -41,16 +27,15 @@ const CalendarPopOut = (props) => {
     });
   };
 
-  return props.trigger ? (
-    <div onClick={() => props.setTrigger()} className={s.popOut}>
+  return props.trigger && (
+    <div onClick={props.setTrigger} className={s.popOut}>
       <div className={s.innerPop}>
         {props.children}
-        <button onClick={() => handleConfirm()}>Confirma tu turno !</button>
-        <button onClick={() => props.setTrigger()}>Cancelar</button>
+        <button onClick={handleConfirm} className={s.confirmButton}>Confirmar turno</button>
+        <button onClick={props.setTrigger} className={s.cancelButton}>Cancelar</button>
       </div>
     </div>
-  ) : (
-    ""
   );
 };
+
 export default CalendarPopOut;

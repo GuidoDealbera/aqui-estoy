@@ -64,7 +64,6 @@ const App = () => {
           <Route path="/panel-supervision" element={<PanelSupervision />} />
           <Route path="/calendarSuperAdmin" element={<CalendarSuperAdmin />} />
           <Route path="/calendarCompanion" element={<CalendarCompanion />} />
-
           <Route path="/profile/:id/view" element={<ViewProfile />} />
           <Route path="/profile/:id/edit" element={<EditInfo />} />
         </Route>

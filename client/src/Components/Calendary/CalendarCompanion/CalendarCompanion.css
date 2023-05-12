@@ -1,36 +1,71 @@
 .calendar-container {
-    max-width: 100%;
-    overflow-x: auto;
-  }
-  
-  .calendar-table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
-  .calendar-table th,
-  .calendar-table td {
-    border: 1px solid #dee2e6;
-    text-align: center;
-    padding: 1rem;
-  }
-  
-  .calendar-table th {
-    background-color: #f8f9fa;
-    font-weight: bold;
-  }
-  
-  .calendar-table .hour {
-    background-color: #f8f9fa;
-    font-weight: bold;
-  }
-  
-  .calendar-cell {
-    cursor: pointer;
-  }
-  
-  .booked {
-    background-color: #f8d7da;
-    color: #721c24;
-  }
-  
+  max-width: 100%;
+  overflow-x: auto;
+  padding: 1em;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.calendar-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1em;
+}
+
+.calendar-table th,
+.calendar-table td {
+  border: 1px solid #dee2e6;
+  text-align: center;
+  padding: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.calendar-table th {
+  background-color: #ffffff;
+  color: #333;
+  font-weight: 600;
+}
+
+.calendar-table .hour {
+  background-color: #ffffff;
+  color: #333;
+  font-weight: 500;
+}
+
+.calendar-cell {
+  cursor: pointer;
+  background-color: #ffffff;
+}
+
+.calendar-cell:hover {
+  background-color: #e9ecef;
+}
+
+.reserved {
+  background-color: #c8e6c9; /* Verde suave */
+  color: #2e7d32; /* Verde oscuro */
+}
+
+.delete-button {
+  margin-left: 0.5em;
+  color: #fff;
+  background-color: #f44336; /* Rojo */
+  border: none;
+  padding: 0.25em 0.5em;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.delete-button:hover {
+  background-color: #c62828; /* Rojo oscuro */
+}
+.calendar-table td, 
+.calendar-table th {
+    width: 50px !important;  /* Cambia este valor según tus necesidades */
+    height: 20px; /* Cambia este valor según tus necesidades */
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
