@@ -7,6 +7,7 @@ import Swal from "sweetalert2";
 
 
 const CalendarSuperAdminPopOut=(props)=>{
+  //  console.log(props);
     const[supervisorId,setSupervisorId]=useState({
         name:"",
         id:""
@@ -32,7 +33,7 @@ const CalendarSuperAdminPopOut=(props)=>{
           }).then((result) => {
             if (result.isConfirmed) {
               if (user.rol === "SuperAdmin") {
-                dispatch(postAssignSupervisorShift(supervisorId.id, props.shift.id.toString(), user.rol));
+                dispatch(postAssignSupervisorShift(supervisorId.id, props.shift.shiftId.toString(), user.rol));
               }
               props.setTrigger();
             } else {

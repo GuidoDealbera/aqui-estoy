@@ -75,7 +75,7 @@ const AssignSupervisor = () => {
     <Box>
       <Box marginBottom={2}>
         <Typography variant="h5" sx={{ textAlign: "center", margin: "2vw" }}>
-          Supervisor para Mentorías
+          Asignar Referente
         </Typography>
         <Grid container justifyContent="center">
           <Grid item justifyContent="center" sx={{ width: "40vw" }}>
