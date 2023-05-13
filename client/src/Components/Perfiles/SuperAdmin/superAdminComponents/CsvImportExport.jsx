@@ -16,6 +16,7 @@ import {
   postCompanion,
 } from "../../../../Redux/Actions/postPutActions";
 import { margin } from "@mui/system";
+import Tooltip from '@mui/material/Tooltip';
 
 //el archivo CSV debe contener las siguientes columnas:
 // correo : un email
@@ -32,41 +33,41 @@ const CsvImportExport = () => {
   let usrRol = null;
 
   //Aqui se limpia la info para exportar los campos deseados
-  companionsData = companionsData.map((usr) => {
+  const companionsData2 = companionsData.map((usr) => {
     usr.isSuperCompanion ? (usrRol = "Companion-2") : (usrRol = "Companion-1");
     return {
-      name: usr.name,
-      lastName: usr.lastName,
-      email: usr.email,
-      birthdayDate: usr.birthdayDate,
-      nationality: usr.nationality,
-      country: usr.residence,
-      phone: usr.phone,
-      profession: usr.profession,
-      studies: usr.studies,
-      gender: usr.gender,
+      nombre: usr.name,
+      apellido: usr.lastName,
+      correo: usr.email,
+      nacimiento: usr.birthdayDate,
+      nacionalidad: usr.nationality,
+      ubicacion: usr.residence,
+      telefono: usr.phone,
+      profesion: usr.profession,
+      estudios: usr.studies,
+      genero: usr.gender,
       rol: usrRol,
-      isActive: usr.isActive,
+      activo: usr.isActive ? "si" : "no",
     };
   });
-  supervisorsData = supervisorsData.map((usr) => {
+  const supervisorsData2 = supervisorsData.map((usr) => {
     usr.isSuperAdmin ? (usrRol = "Superadmin") : (usrRol = "Supervisor");
     return {
-      name: usr.name,
-      lastName: usr.lastName,
-      email: usr.email,
-      birthdayDate: usr.birthdayDate,
-      nationality: usr.nationality,
-      country: usr.country,
-      phone: usr.phone,
-      profession: usr.profession,
-      studies: usr.studies,
-      gender: usr.gender,
+      nombre: usr.name,
+      Aapellido: usr.lastName,
+      correo: usr.email,
+      nacimiento: usr.birthdayDate,
+      nacionalidad: usr.nationality,
+      ubicacion: usr.country,
+      telefono: usr.phone,
+      profesion: usr.profession,
+      estudios: usr.studies,
+      genero: usr.gender,
       rol: usrRol,
-      isActive: usr.isActive,
+      activo: usr.isActive ? "si" : "no",
     };
   });
-  const usersData = [...companionsData, ...supervisorsData];
+  const usersData = [...companionsData2, ...supervisorsData2];
 
   //--------------------------------------------------------------------
 
@@ -77,7 +78,6 @@ const CsvImportExport = () => {
       header: true,
       complete: (results) => {
         let newPeople = results.data;
-        console.log(newPeople);
         //array de obj con acompanantes y supervisores
         //{clave: "xxx6", correo: "xxx@xxx.xx", rol: "a||A||s||S"}
 
@@ -166,16 +166,15 @@ const CsvImportExport = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // implementar la lógica para crear el usuario, como llamar a una API o usar acciones de Redux
-    console.log(userData);
   };
 
   return (
-    <Box 
-    // border={1} 
+    <Box
+    // border={1}
     // borderColor={"red"}
     >
       <Typography variant="h5" sx={{ textAlign: "center", margin: "2vw" }}>
-        Importar/Exportar Usuarios por CSV
+        Importar/Exportar Información de usuarios por CSV
       </Typography>
 
       <Grid
@@ -189,47 +188,43 @@ const CsvImportExport = () => {
           // border={1}
           // borderColor={"blue"}
         >
-          {/* <form onSubmit={handleSubmit}> */}
-            <Box marginBottom={2} justifyContent={"center"}>
-              <input
-                type="file"
-                accept=".csv"
-                ref={fileInput}
-                onChange={handleFileUpload}
-                style={{ display: "none" }}
-                id="csv-input"
-              />
-              {/* <label htmlFor="csv-input">
-                <TextField
-                  label="Importar archivo CSV"
-                  fullWidth
-                  InputProps={{ readOnly: true }}
-                  onClick={(e) =>
-                    fileInput.current ? fileInput.current.click() : null
-                  }
-                />
-              </label> */}
-              <Button
-              sx={{margin:"1vw"}}
-                variant="contained"
-                onClick={(e) =>
-                  fileInput.current ? fileInput.current.click() : null
-                }
-                color="primary"
-              >
-                Importar CSV
-              </Button>
-              {/* </Box>
-            <Box marginBottom={2}> */}
-              <Button
-                variant="contained"
-                onClick={handleExportCsv}
-                color="primary"
-              >
-                Exportar CSV
-              </Button>
-            </Box>
-          {/* </form> */}
+          <Box marginBottom={2} justifyContent={"center"}>
+            <input
+              type="file"
+              accept=".csv"
+              ref={fileInput}
+              onChange={handleFileUpload}
+              style={{ display: "none" }}
+              id="csv-input"
+            />
+  
+              <Tooltip 
+              title="Importa lo datos para la creación de nuevos usuarios de la plataforma">
+            <Button
+              sx={{ margin: "1vw" }}
+              variant="contained"
+              onClick={(e) =>
+                fileInput.current ? fileInput.current.click() : null
+              }
+              color="primary"
+            >
+              Importar CSV
+            </Button>
+            </Tooltip>
+
+            <Tooltip 
+              title="Exporta los datos de los usuarios actuales de la plataforma">
+            <Button
+              variant="contained"
+              onClick={handleExportCsv}
+              color="primary"
+            >
+              Exportar CSV
+            </Button>
+            </Tooltip>
+            
+          </Box>
+
         </Grid>
       </Grid>
 
@@ -244,30 +239,42 @@ const CsvImportExport = () => {
           <Grid
             item
             border={1}
+            borderRadius={5}
+            boxShadow={3}
             borderColor={"lightGray"}
             width={"70vw"}
             padding={"1vw"}
             color={"gray"}
           >
             <Typography textAlign={"center"}>
-              ESTRUCTURA DEL ARCHIVO CSV:
+              ESTRUCTURA DEL ARCHIVO CSV PARA IMPORTACIÓN:
             </Typography>
             <Typography>
-              El archivo debe contener las siguientes columnas, conservando el
-              nombre como se muestra a continuación:
+              El archivo debe contener tres columnas con los nombres correo,
+              clave y rol. La información de cada columna es como se describe a
+              continuación:
             </Typography>
+            <br></br>
             <Typography>correo : el correo electrónico del usuario</Typography>
             <Typography>
               clave : debe tener un minimo de 6 caracteres
             </Typography>
-            <Typography>rol : puede tener los siguientes valores:</Typography>
+            <Typography>
+              rol : puede tener los valores valores a, b, s, t, asi::
+            </Typography>
             <Typography>a -Acompañante 1</Typography>
             <Typography>b -Acompañante 2</Typography>
             <Typography>s -Supervisor</Typography>
             <Typography>t -Super Admin</Typography>
           </Grid>
         ) : (
-          <Grid item border={1} borderColor={"red"}>
+          <Grid
+            item
+            border={1}
+            borderColor={"red"}
+            borderRadius={5}
+            boxShadow={3}
+          >
             <Typography width={"70vw"} textAlign={"center"} color={"red"}>
               HUBO ERRORES IMPORTANDO ALGUNOS USUARIOS:
             </Typography>
