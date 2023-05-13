@@ -1,9 +1,28 @@
 import { useDispatch, useSelector } from "react-redux";
-import s from "./CalendarSuperAdminPopOut.module.css";
 import { postAssignSupervisorShift } from "../../../Redux/Actions/postPutActions";
-import { Autocomplete, TextField } from "@mui/material";
+import { Autocomplete, TextField, Button } from "@mui/material";
 import { useState } from "react";
 import Swal from "sweetalert2";
+import { Box } from '@mui/system';
+import { styled } from '@mui/material/styles';
+
+const PopOut = styled(Box)(({ theme }) => ({
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  backgroundColor: theme.palette.background.paper,
+  boxShadow: 24,
+  borderRadius: '12px',
+  padding: '40px',
+}));
+
+const InnerPop = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'center',
+}));
 
 const CalendarSuperAdminPopOut = (props) => {
   const [supervisorId, setSupervisorId] = useState({
@@ -17,6 +36,7 @@ const CalendarSuperAdminPopOut = (props) => {
     label: `${supervisor.name} ${supervisor.lastName}`
   })).filter((supervisor) => supervisor.label.trim() !== "");
   const dispatch = useDispatch();
+  const [isConfirmed, setIsConfirmed] = useState(false);
 
   const handleConfirm = () => {
     Swal.fire({
@@ -27,6 +47,7 @@ const CalendarSuperAdminPopOut = (props) => {
       confirmButtonText: 'Confirmar'
     }).then((result) => {
       if (result.isConfirmed) {
+        setIsConfirmed(true);
         if (user.rol === "SuperAdmin") {
           dispatch(postAssignSupervisorShift(supervisorId.id, props.shift.shiftId.toString(), user.rol));
         }
@@ -47,8 +68,8 @@ const CalendarSuperAdminPopOut = (props) => {
   };
 
   return props.trigger ? (
-    <div className={s.popOut}>
-      <div className={s.innerPop}>
+    <PopOut>
+      <InnerPop>
         {props.children}
         <Autocomplete
           disablePortal
@@ -60,10 +81,10 @@ const CalendarSuperAdminPopOut = (props) => {
           isOptionEqualToValue={isOptionEqualToValue}
         />
         <h3>{`Para: ${supervisorId.name}`}</h3>
-        <button onClick={() => handleConfirm()}>Confirma el turno !</button>
-        <button onClick={() => props.setTrigger()}>Cancelar</button>
-      </div>
-    </div>
+        <Button variant="contained" color="primary" onClick={() => handleConfirm()}>Confirma el turno !</Button>
+        <Button variant="contained" color="secondary" onClick={() => props.setTrigger()}>Cancelar</Button>
+      </InnerPop>
+    </PopOut>
   ) : null;
 };
 
