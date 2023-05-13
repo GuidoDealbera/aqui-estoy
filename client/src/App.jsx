@@ -65,6 +65,7 @@ const App = () => {
         <Route path="/password-recovery" element={<PasswordRecovery />} />
         <Route element={<RequireAuth />}>
           <Route path="/register" element={<Register />} />
+          <Route path="/CompanionsAtCharge" element={<CompanionsAtCharge />} />
           <Route path="/profile/:id" element={<Profiles />} />
           <Route path="/panel-supervision" element={<PanelSupervision />} />
           <Route path="/calendarSuperAdmin" element={<CalendarSuperAdmin />} />

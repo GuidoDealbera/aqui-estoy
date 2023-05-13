@@ -43,7 +43,6 @@ function UsersViewEdit(props) {
     let mentor = `${usr.Supervisor?.name} ${usr.Supervisor?.lastName}`;
     (mentor.toString() === "undefined undefined") ? mentor = "---Sin Asignar" : null;
 
-    console.log(usr);
     usr.rol === "Companion2"
       ? (usrRol = "Acompañante 2")
       : (usrRol = "Acompañante 1");
