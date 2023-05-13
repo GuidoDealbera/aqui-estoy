@@ -26,10 +26,17 @@ const CreateUser = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     //  implementar la lógica para crear el usuario, como llamar a una API o usar acciones de Redux
+    if(userData.rol==="Companion1" && !userData.password || userData.rol==="Companion2" && !userData.password){
+     return dispatch(postCompanion({email:userData.email,rol:userData.rol}))
+    }
     if(userData.rol==="Companion1" || userData.rol==="Companion2"){
-      dispatch(postCompanion({email:userData.email,password:userData.password,rol:userData.rol}))
-    }else{
-      dispatch(postSupervisor({email:userData.email,password:userData.password,rol:userData.rol}))
+    return  dispatch(postCompanion({email:userData.email,password:userData.password,rol:userData.rol}))
+    }
+    if(userData.rol==="Supervisor" && !userData.password|| userData.rol==="SuperAdmin" && !userData.password){
+    return  dispatch(postSupervisor({email:userData.email,rol:userData.rol}))
+    }
+    else{
+     return dispatch(postSupervisor({email:userData.email,password:userData.password,rol:userData.rol}))
     }
     }
 

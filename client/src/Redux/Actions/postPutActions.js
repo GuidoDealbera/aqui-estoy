@@ -36,7 +36,7 @@ export const postCompanion = (companion) => {
     try {
       dispatch(setLoading(true));
       const response = await axios.post("/postCompanion", companion);
-      dispatch(postEmailCreatedAccount(companion));
+      
       dispatch({ type: POST_COMPANION, payload: response.data });
       dispatch(setLoading(false));
       toast.success("ACOMPAÑANTE creado", toastSuccess);
@@ -51,7 +51,7 @@ export const postSupervisor = (supervisor) => {
     try {
       dispatch(setLoading(true));
       const response = await axios.post("/postSupervisor", supervisor);
-      dispatch(postEmailCreatedAccount(supervisor));
+     
       dispatch({ type: POST_SUPERVISOR, payload: response.data });
       dispatch(setLoading(false));
       toast.success("SUPERVISOR creado", toastSuccess);
