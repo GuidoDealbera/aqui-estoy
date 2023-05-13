@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 
 export default function ModalEdit ({edit, handleClose, userID}){
     return (
-      <Box>
+      
         <Modal
           open={edit}
           onClose={handleClose}
@@ -14,15 +14,10 @@ export default function ModalEdit ({edit, handleClose, userID}){
             justifyContent: "center",
            }}
         >
-          <Box sx={{ 
-            backgroundColor: "white",
-            width: 400,
-            borderRadius: "5px",
-            padding: "30px",
-            }}>
-            <EditForm userID={userID}/>
+          <Box>
+            <EditForm handleClose={handleClose} userID={userID}/>
           </Box>
         </Modal>
-      </Box>
+      
     );
 }

@@ -12,10 +12,10 @@ import { useNavigate } from 'react-router-dom';
 import CountrySelect from './registerComponents/CountrySelect';
 import TimezoneSelect from "./registerComponents/TimeZoneSelect";
 import { toast } from "sonner";
-import { toastSuccess } from "../../Redux/Actions/alertStyle";
+import { toastSuccess, toastError } from "../../Redux/Actions/alertStyle";
 import { Container } from '@mui/system';
 import DatePicker from './registerComponents/DatePicker';
-import { Select } from './registerComponents/Select';
+import Select from './registerComponents/Select';
 import PhoneNumberInput from './registerComponents/CustomPhoneNumber';
 import CustomStepper from './registerComponents/Stepper';
 
@@ -269,15 +269,11 @@ export default function Register() {
                                     </Box>
                                     <Box sx={styles.container.form.buttonContainer}>
                                         <Button variant="contained" name="Anterior" onClick={clickHandler}>Volver</Button>
-                                       <Box title={!((Object.keys(props.errors).length === 0) && (Object.keys(props.touched).length > 0)) ? "Por favor corrige los errores en los campos" : null}><Button variant="contained" type='submit' color="success" disabled={!((Object.keys(props.errors).length === 0) && (Object.keys(props.touched).length > 0))} sx={{ width: "113.86px" }}>Finalizar</Button></Box>
+                                        <Box title={!((Object.keys(props.errors).length === 0) && (Object.keys(props.touched).length > 0)) ? "Por favor corrige los errores en los campos" : null}><Button onClick={()=>{(!!Object.entries(props.errors).length || Object.entries(props.touched).length === 0) ? toast.error("Por favor corrige los errores en los campos", toastError) : null}} variant="contained" type='submit' color="success" sx={{ width: "113.86px" }}>Finalizar</Button></Box>
                                     </Box>
                                 </Box> : null}
-
                             </Form>
                         </StyledPaper>
-                        {props.errors && Object.keys(props.errors).length > 0 &&
-                            <Typography sx={{ fontSize: "12px", margin: "20px", color: "red" }}>Hay errores en los campos. Por favor, revíselos.</Typography>
-                        }
                     </>)
                 }}
             </Formik>
