@@ -27,7 +27,7 @@ export default function SuperAdminDatos(props) {
             {user.name} {user.lastName}
           </Typography>
           
-          <Button variant="outlined" sx={{...styles.buttons, marginTop: "3%"}} onClick={toEdit}>
+          <Button variant="outlined" sx={{...styles.buttons, backgroundColor: "#00C8B2",color: "black", marginTop:"3%", "&:hover":{backgroundColor: "#008B7C"}}} onClick={toEdit}>
             Editar perfil
           </Button>
         
