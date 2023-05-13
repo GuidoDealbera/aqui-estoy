@@ -1,6 +1,5 @@
 const styles = {
   box: {
-    backgroundColor: "#f3f3f3",
     textAlign: "center",
   },
   container: {
