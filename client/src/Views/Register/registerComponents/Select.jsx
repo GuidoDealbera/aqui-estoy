@@ -1,7 +1,7 @@
 import React from 'react'
 import { TextField, MenuItem } from '@mui/material'
 import { useField, useFormikContext } from 'formik'
-export const Select = ({
+const Select = ({
     name,
     options,
     children,
@@ -34,12 +34,12 @@ export const Select = ({
     return (
         <TextField {...configSelect}>
             {Object.values(options).map((item, pos) => {
-                return (
+              return  item !== "" &&
                     <MenuItem key={pos} value={item}>
                         {item}
                     </MenuItem>
-                )
             })}
         </TextField>
     )
 }
+export default Select

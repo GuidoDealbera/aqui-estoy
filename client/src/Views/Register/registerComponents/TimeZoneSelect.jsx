@@ -11,10 +11,9 @@ export default function TimezoneSelect(props) {
 
     const [field1, meta] = useField("cityTimeZone")
 
-    const [timezones, setTimezones] = useState([{ id: '', label: '' }]);
+    const [timezones, setTimezones] = useState([]);
 
     useEffect(() => {
-        if(timezones.length===1){
                axios("/getCityTimeZone").then(
             (response) => {
                 const { data } = response;
@@ -27,7 +26,6 @@ export default function TimezoneSelect(props) {
                 setTimezones([...timezones, ...result])
             }
         )
-        }
      
     }, [])
 
@@ -49,7 +47,7 @@ export default function TimezoneSelect(props) {
             disablePortal
             id="combo-box-demo"
             options={timezones}
-            value={timezones.find((option) => option.id === field.value) || timezones[0]}
+            value={timezones.find((option) => option.id === field.value) || null}
             onChange={handleChange}
             sx={{ width: 300 }}
             renderInput={(params) => <TextField {...params} {...field1} {...configSelect} label="Huso horario de residencia" />}
