@@ -68,7 +68,7 @@ export default function CompanionsAtCharge() {
           height: "85vh",
           width: "100vw",
         }}
-        border={2}
+        
       >
         {companionAtCharge?.map((e) => {
           const eTimeZone =
