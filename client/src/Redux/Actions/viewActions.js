@@ -218,45 +218,25 @@ export const getPasswordRecoveryCode = (email) => {
 };
 
 export const getAllSupervisorsPerShift = () => {
-  return async function (dispatch){
-    try{
+  return async function (dispatch) {
+    try {
       const response = (await axios.get("/getAllSupervisorsPerShift")).data;
-      
-      dispatch({type: GET_ALL_SUPERVISORS_PER_SHIFT, payload: response})
-    }catch(error){
-     console.log({error: error.message});
-    }
-  }
-}
 
+      dispatch({ type: GET_ALL_SUPERVISORS_PER_SHIFT, payload: response });
+    } catch (error) {
+      console.log({ error: error.message });
+    }
+  };
+};
 
 export const getAllCompanionsPerShift = () => {
-  return async function (dispatch){
-    try{
+  return async function (dispatch) {
+    try {
       const response = (await axios.get("/getAllCompanionsPerShift")).data;
-      
-      dispatch({type: GET_ALL_COMPANIONS_PER_SHIFT, payload: response})
-    }catch(error){
-     console.log({error: error.message});
-    }
-  }
-}
-export const updatePassword = (email, newPassword) => async (dispatch) => {
-  try {
-    // Realiza una petición al servidor para actualizar la contraseña del usuario
-    const response = await axios.put('/putUserPassword', { email, newPassword });
 
-    // Si la petición fue exitosa, envía la acción al store de Redux
-    if (response.status === 200) {
-      dispatch({
-        type: UPDATE_PASSWORD,
-        payload: response.data,
-      });
-    } else {
-      throw new Error('Error al actualizar la contraseña');
+      dispatch({ type: GET_ALL_COMPANIONS_PER_SHIFT, payload: response });
+    } catch (error) {
+      console.log({ error: error.message });
     }
-  } catch (error) {
-    console.error(error);
-
-  }
+  };
 };

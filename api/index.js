@@ -11,8 +11,8 @@ const {
 } = require("./src/Controllers/Companion/getCompanionShift.js");
 const postCityTimeZone = require("./src/Controllers/TimeZone/postCityTimeZone.js");
 const fetch = require("node-fetch");
-// conn.sync({ alter: true }).then(async () => {
 conn.sync({ force: false }).then(async () => {
+  // conn.sync({ force: false }).then(async () => {
   await fillCompanionShifts();
   await fillSupervisorShifts();
   await postCityTimeZone();
