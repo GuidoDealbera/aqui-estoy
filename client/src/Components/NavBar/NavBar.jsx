@@ -128,7 +128,7 @@ export default function NavBar(props) {
   };
   return (
     <AppBar position="static" color="transparent" elevation={0}>
-      <Toolbar>
+      <Toolbar sx={{boxShadow: "0 0 5px black"}}>
         <Grid container justifyContent="space-between" alignItems="center">
           <Grid item xs={11}>
             <Link to="/">
@@ -140,40 +140,6 @@ export default function NavBar(props) {
               />
             </Link>
           </Grid>
-          {/* <Grid item>
-            <Box display="flex">
-               <Hidden smDown>
-                <NavButton variant="text" name="calendar" onClick={handleClick}>
-                  Calendario
-                </NavButton>
-              </Hidden> 
-               <Hidden mdUp>
-                <IconButton onClick={handleMenuClick}>
-                  <MenuIcon />
-                </IconButton>
-                <Menu
-                  anchorEl={anchorEl}
-                  open={Boolean(anchorEl)}
-                  onClose={handleMenuClose}
-                  anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-                  transformOrigin={{ vertical: "top", horizontal: "center" }}
-                >
-                  <MenuItem
-                    name="about"
-                    onClick={() => handleMenuItemClick("about")}
-                  >
-                    Acerca de
-                  </MenuItem>
-                  <MenuItem
-                    name="calendar"
-                    onClick={() => handleMenuItemClick("calendar")}
-                  >
-                    Calendario
-                  </MenuItem>
-                </Menu>
-              </Hidden>
-            </Box>
-          </Grid> */}
           <Grid item xs={1}>
             <Box>
               {location.pathname === "/" &&
@@ -182,11 +148,6 @@ export default function NavBar(props) {
                     Iniciar Sesión
                   </NavButton>
                 )}
-              {/* {location.pathname !== "/" && (
-                <NavButton variant="text" name="logout" onClick={closeSession}>
-                  Cerrar Sesión
-                </NavButton>
-              )} */}
               {showLogin && (
                 <ModalLogin
                   handleMouseLeave={handleMouseLeave}

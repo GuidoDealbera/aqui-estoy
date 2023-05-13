@@ -4,7 +4,6 @@ const styles = {
     textAlign: "center",
   },
   container: {
-    backgroundColor: "#f3f3f3",
     display: "flex",
     justifyContent: "center",
   },
