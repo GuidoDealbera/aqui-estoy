@@ -80,7 +80,7 @@ export default function Companion(props) {
                 </Box>
                 <Box sx={styles.body.info}>
                     <Typography sx={styles.body.info.label}>Huso horario</Typography>
-                    <Typography sx={styles.body.info.data}>{user.CityTimeZone.offSet}</Typography>
+                    <Typography sx={styles.body.info.data}>{user.CityTimeZone?.offSet}</Typography>
                 </Box>
                 <Box sx={styles.body.info}>
                     <Typography sx={styles.body.info.label}>Profesión</Typography>
