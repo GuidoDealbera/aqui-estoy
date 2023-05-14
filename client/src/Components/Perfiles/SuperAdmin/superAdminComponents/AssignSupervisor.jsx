@@ -147,7 +147,7 @@ const AssignSupervisor = () => {
             onClick={assignCompanions}
             variant="contained"
             color="primary"
-            sx={{ marginRight: 1 }}
+            sx={{ margin: 1 }}
           >
             {" "}
             Asignar{" "}
@@ -156,7 +156,7 @@ const AssignSupervisor = () => {
             onClick={putCompanions}
             variant="contained"
             color="primary"
-            sx={{ marginRight: 1 }}
+            sx={{ margin: 1 }}
           >
             {" "}
             Eliminar{" "}

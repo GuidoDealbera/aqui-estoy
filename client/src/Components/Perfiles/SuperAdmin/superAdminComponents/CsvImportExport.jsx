@@ -78,17 +78,16 @@ const CsvImportExport = () => {
       header: true,
       complete: (results) => {
         let newPeople = results.data;
+        console.log(newPeople);
         //array de obj con acompanantes y supervisores
         //{clave: "xxx6", correo: "xxx@xxx.xx", rol: "a||A||s||S"}
 
         newPeople.forEach((usr) => {
-          if (usr.clave.length > 5) {
             if (usr.rol.toLowerCase() === "a") {
               //acompañante 1
               dispatch(
                 postCompanion({
                   email: usr.correo,
-                  password: usr.clave,
                   isActive: true,
                   rol: "Companion1",
                 })
@@ -98,7 +97,6 @@ const CsvImportExport = () => {
               dispatch(
                 postCompanion({
                   email: usr.correo,
-                  password: usr.clave,
                   isActive: true,
                   rol: "Companion2",
                 })
@@ -108,7 +106,6 @@ const CsvImportExport = () => {
               dispatch(
                 postSupervisor({
                   email: usr.correo,
-                  password: usr.clave,
                   isActive: usr.activo,
                   rol: "Supervisor",
                 })
@@ -118,7 +115,6 @@ const CsvImportExport = () => {
               dispatch(
                 postSupervisor({
                   email: usr.correo,
-                  password: usr.clave,
                   isActive: usr.activo,
                   rol: "SuperAdmin",
                 })
@@ -130,12 +126,6 @@ const CsvImportExport = () => {
               // setCsvErrors(errors);
               toast.error(`Error en el rol de ${usr.correo}`, toastError);
             }
-          } else {
-            // errors = csvErrors;
-            errors[usr.correo] = "Error en la contraseña";
-            // setCsvErrors(errors);
-            toast.error(`Error en la contraseña de ${usr.correo}`, toastError);
-          }
         });
         setCsvErrors(errors);
       },
@@ -242,7 +232,7 @@ const CsvImportExport = () => {
             borderRadius={5}
             boxShadow={3}
             borderColor={"lightGray"}
-            width={"70vw"}
+            width={"50vw"}
             padding={"1vw"}
             color={"gray"}
           >
@@ -250,15 +240,16 @@ const CsvImportExport = () => {
               ESTRUCTURA DEL ARCHIVO CSV PARA IMPORTACIÓN:
             </Typography>
             <Typography>
-              El archivo debe contener tres columnas con los nombres correo,
-              clave y rol. La información de cada columna es como se describe a
+              El archivo debe contener dos columnas con los nombres: correo y
+              rol (sus nombres en letras minúsculas). 
+            </Typography>
+            <Typography>
+              La información de cada columna es como se describe a
               continuación:
             </Typography>
-            <br></br>
+            <br/>
             <Typography>correo : el correo electrónico del usuario</Typography>
-            <Typography>
-              clave : debe tener un minimo de 6 caracteres
-            </Typography>
+            <br />
             <Typography>
               rol : puede tener los valores valores a, b, s, t, asi::
             </Typography>
