@@ -1,15 +1,34 @@
 import { useDispatch, useSelector } from "react-redux";
 import { getAllCompanionShift } from "../../../Redux/Actions/viewActions";
 import { deleteCompanionShift } from "../../../Redux/Actions/postPutActions";
-import { toastSuccess, toastError, toastWarning } from "../../../Redux/Actions/alertStyle";
+import {
+  toastSuccess,
+  toastError,
+  toastWarning,
+} from "../../../Redux/Actions/alertStyle";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import Swal from "sweetalert2";
-import { Container, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Button } from "@mui/material";
+import {
+  Container,
+  Typography,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Button,
+  Grid,
+  Box,
+} from "@mui/material";
 import CalendarCompanionPopOut from "./CalendarCompanionPopOut";
 import "./CalendarCompanion.css";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { useNavigate } from "react-router-dom";
 
 const CalendarCompanion = () => {
+  const navigate = useNavigate();
   let shifts = useSelector((state) => state.view.allCompanionShift);
 
   const user = useSelector((state) => state.auth.user);
@@ -78,7 +97,7 @@ const CalendarCompanion = () => {
   }
   let hours = [];
 
-  if ((user && user.rol === "Companion1") ||user.rol==="Companion2") {
+  if ((user && user.rol === "Companion1") || user.rol === "Companion2") {
     hours = shifts.map((shift) => shift.time);
     hours = hours.slice(0, 25);
   }
@@ -87,22 +106,22 @@ const CalendarCompanion = () => {
     let found = shifts.find(
       (shift) => shift.time === hour && shift.day === day
     );
-    if(user.rol === 'Companion1' && user.CompanionShifts.length > 0){
-      toast.error("Ya tienes un turno asignado", toastError)
-    }else {
+    if (user.rol === "Companion1" && user.CompanionShifts.length > 0) {
+      toast.error("Ya tienes un turno asignado", toastError);
+    } else {
       setTogglePopOut(!togglePopOut);
-      setShift({...found, id: found.id});
+      setShift({ ...found, id: found.id });
     }
   };
-  
-  const handleDeleteShift =  (idShift) => {
-    if (user.rol === 'Companion2') {
+
+  const handleDeleteShift = (idShift) => {
+    if (user.rol === "Companion2") {
       Swal.fire({
-        title: '¿Estás seguro que deseas eliminar este turno?',
-        confirmButtonColor: '#00C8B2',
+        title: "¿Estás seguro que deseas eliminar este turno?",
+        confirmButtonColor: "#00C8B2",
         showCancelButton: true,
-        confirmButtonText: 'Sí, eliminar',
-        cancelButtonText: 'Cancelar',
+        confirmButtonText: "Sí, eliminar",
+        cancelButtonText: "Cancelar",
       }).then((result) => {
         if (result.isConfirmed) {
           dispatch(deleteCompanionShift(user.id, idShift));
@@ -118,13 +137,41 @@ const CalendarCompanion = () => {
     } else {
       toast.error("No puedes eliminar este turno", toastWarning);
     }
-  }
-  
-  
-
+  };
 
   return (
-    <Container className="calendar-container"> 
+    <Box>
+      <Grid
+        container
+        width={"100%"}
+        display={"flex"}
+        justifyContent={"center"}
+        marginTop={1}
+
+        alignItems={"center"}
+      >
+        <Grid item flex={4} margin={"2vh"}>
+          <Button
+            variant="contained"
+            size="small"
+            startIcon={<ArrowBackIcon />}
+            onClick={() => {
+              navigate(-1);
+            }}
+          >
+            Regresar
+          </Button>
+        </Grid>
+
+        <Grid item flex={8}>
+        <Typography display="block" variant="h6" marginLeft={"3vw"}>
+          Reserva de Turnos de Voluntariado
+        </Typography>
+        </Grid>
+      </Grid>
+    <Container className="calendar-container">
+
+
       <table className="calendar-table">
         <thead>
           <tr>
@@ -147,14 +194,28 @@ const CalendarCompanion = () => {
                     <td
                       id={found.id}
                       className="reserved"
-                      onClick={()=> handleDeleteShift(found.id)}
+                      onClick={() => handleDeleteShift(found.id)}
                     >
-                      {user.rol === "Companion2" ? (<> Reservado <button className="delete-button">X</button> </> ) : ("Reservado")}
+                      {user.rol === "Companion2" ? (
+                        <>
+                          {" "}
+                          Reservado <button className="delete-button">
+                            X
+                          </button>{" "}
+                        </>
+                      ) : (
+                        "Reservado"
+                      )}
                     </td>
                   );
                 } else {
                   return (
-                    <td className="calendar-cell" onClick={() => handleClickCell(hour, day)}>-----</td>
+                    <td
+                      className="calendar-cell"
+                      onClick={() => handleClickCell(hour, day)}
+                    >
+                      -----
+                    </td>
                   );
                 }
               })}
@@ -162,7 +223,7 @@ const CalendarCompanion = () => {
           ))}
         </tbody>
       </table>
-    
+
       <CalendarCompanionPopOut
         rol={rol}
         shift={shift}
@@ -172,8 +233,9 @@ const CalendarCompanion = () => {
         <h3>Estas por reservar el siguiente turno:</h3>
         <label>{shift.day}</label>
         <p>{shift.time}</p>
-      </CalendarCompanionPopOut> 
+      </CalendarCompanionPopOut>
     </Container>
+    </Box>
   );
 };
 export default CalendarCompanion;
