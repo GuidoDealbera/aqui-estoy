@@ -53,7 +53,6 @@ const styles = {
         justifyContent: "center",
         alignItems: "center",
         margin: "1%",
-        
         color: "white",
         backgroundColor: "#1E1C4E",
         borderRadius: "10px",
