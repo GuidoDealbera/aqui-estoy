@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { getAllCompanionShift } from "../../../Redux/Actions/viewActions";
+import { getAllCompanionShift, getAllCompanionsPerShift } from "../../../Redux/Actions/viewActions";
 import { deleteCompanionShift } from "../../../Redux/Actions/postPutActions";
 import { toastSuccess, toastError, toastWarning } from "../../../Redux/Actions/alertStyle";
 import { useEffect, useState } from "react";
@@ -10,8 +10,9 @@ import CalendarCompanionPopOut from "./CalendarCompanionPopOut";
 import "./CalendarCompanion.css";
 
 const CalendarCompanion = () => {
-  let shifts = useSelector((state) => state.view.allCompanionShift);
+  let shifts=useSelector(state=>state.view.companionsPerShift)
 
+  
   const user = useSelector((state) => state.auth.user);
   const [togglePopOut, setTogglePopOut] = useState(false);
   const [shift, setShift] = useState({
@@ -73,14 +74,18 @@ const CalendarCompanion = () => {
     "Sabado",
     "Domingo",
   ];
-  if (shifts.length === 0) {
-    dispatch(getAllCompanionShift());
-  }
+  useEffect(()=>{      
+    dispatch(getAllCompanionsPerShift());
+        },[shifts])
+
   let hours = [];
 
   if ((user && user.rol === "Companion1") ||user.rol==="Companion2") {
-    hours = shifts.map((shift) => shift.time);
-    hours = hours.slice(0, 25);
+    hours = Array.from({ length: 24 }, (_, i) => {
+        const currentHour = i < 10 ? `0${i}` : `${i}`;
+        const nextHour = i === 23 ? "00" : ((i + 2) % 24 < 10 ? `0${(i + 2) % 24}` : `${(i + 2) % 24}`);
+        return `${currentHour}:00-${nextHour}:00`;
+      });
   }
 
   const handleClickCell = (hour, day) => {
@@ -92,8 +97,10 @@ const CalendarCompanion = () => {
     }else {
       setTogglePopOut(!togglePopOut);
       setShift({...found, id: found.id});
+      console.log(found);
     }
   };
+
   
   const handleDeleteShift =  (idShift) => {
     if (user.rol === 'Companion2') {

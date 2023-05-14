@@ -20,6 +20,7 @@ const CalendarPopOut = (props) => {
   }, [props.trigger]);
 
   const handleConfirm = () => {
+    props.setTrigger(false);
     Swal.fire({
       title: "¿Confirmas tu turno?",
       showCancelButton: true,
@@ -28,7 +29,7 @@ const CalendarPopOut = (props) => {
     }).then((result) => {
       if (result.isConfirmed) {
         const action = user.rol === "Supervisor" || user.rol === "SuperAdmin" ? postAssignSupervisorShift : postAssignCompanionShift;
-        dispatch(action(user.id, props.shift.id.toString(), user.rol)).then(() => {
+        dispatch(action(user.id, props.shift.shiftId.toString(), user.rol)).then(() => {
           props.setTrigger(false);
           setOpen(false);
         });
@@ -46,7 +47,7 @@ const CalendarPopOut = (props) => {
       </DialogContent>
       <DialogActions>
       <Button className="confirmButton" onClick={handleConfirm} variant="contained" color="primary">
-  Confirmar turno
+  Ok
 </Button>
 <Button className="cancelButton" onClick={() => {props.setTrigger(false); setOpen(false);}} variant="outlined" color="secondary">
   Cancelar

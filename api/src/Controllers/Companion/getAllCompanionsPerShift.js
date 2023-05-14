@@ -12,13 +12,14 @@ const getAllCompanionsPerShift = async (req, res) => {
 
     const shiftsWithCount = shifts.map((shift) => ({
       shiftId: shift.id, // Incluir cualquier otro campo que necesites del turno
+      day: shift.day,
+      time: shift.time, 
       shiftCompanions: shift.Companions,
       companionCount: shift.Companions.length,
       maxCompanions: shift.maxCompanions,
       hasRules: shift.hasRules,
     }));
-
-    res.status(200).json( shiftsWithCount);
+     res.status(200).json( shiftsWithCount);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
