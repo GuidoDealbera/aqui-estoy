@@ -32,6 +32,7 @@ import FormControl from "@mui/material/FormControl";
 import { Box } from "@mui/system";
 import { Button } from "@mui/material";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 export default function PanelSupervision() {
   const dispatch = useDispatch(); //Para mandar traer los turnos del back.
@@ -132,6 +133,7 @@ export default function PanelSupervision() {
       <Button
           variant="contained"
           size="small"
+          startIcon={<ArrowBackIcon />}
           onClick={() => {
             navigate(-1);
           }}

@@ -10,6 +10,7 @@ import Tooltip from "@mui/material/Tooltip";
 import Papa from "papaparse";
 import { bgcolor, border } from "@mui/system";
 import { useNavigate } from "react-router-dom";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 export default function CompanionsAtCharge() {
   const dispatch = useDispatch();
@@ -65,6 +66,7 @@ export default function CompanionsAtCharge() {
         <Button
           variant="contained"
           size="small"
+          startIcon={<ArrowBackIcon />}
           onClick={() => {
             navigate(-1);
           }}
