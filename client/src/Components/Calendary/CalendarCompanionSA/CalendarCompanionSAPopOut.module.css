@@ -1,0 +1,18 @@
+.popOut{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: #25252580;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.innerPop{
+position: relative;
+padding: 5em;
+background-color: beige;
+border-radius: 3em;
+}

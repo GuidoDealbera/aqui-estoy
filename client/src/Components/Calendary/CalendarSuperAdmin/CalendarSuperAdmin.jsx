@@ -86,6 +86,12 @@ hours = Array.from({ length: 24 }, (_, i) => {
       setShift(found);
     }
 
+    const handleDeleteSupervisor = (supervisorId, shiftId) => {
+      dispatch(deleteSupervisorShift(supervisorId, shiftId));    
+      // Cerrar el pop-out después de eliminar el supervisor
+      setTogglePopOut(false);
+    };
+
       useEffect(()=>{      
         dispatch(getAllSupervisorsPerShift());
             },[shifts])
@@ -137,7 +143,7 @@ hours = Array.from({ length: 24 }, (_, i) => {
               {shift.shiftSupervisors?.map((supervisor) => (
                 <div style={{display:"flex"}} key={supervisor.id}>
                   <p onClick={() => navigate(`/profile/${supervisor.id}/view`)}>{supervisor.name}</p>
-                  <Button variant="contained" onClick={() => dispatch(deleteSupervisorShift(supervisor.id, shift.shiftId))}>
+                  <Button variant="contained" onClick={() => handleDeleteSupervisor(supervisor.id, shift.shiftId)}>
                     X
                   </Button>
                 </div>
