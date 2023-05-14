@@ -25,6 +25,7 @@ const styles = {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        marginTop: "5%",
         marginBottom: "50px",
         form: {
             height: "400px",
