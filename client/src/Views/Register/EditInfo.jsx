@@ -483,8 +483,8 @@ export default function Register() {
                         >
                           <Button
                             onClick={() => {
-                              !!Object.entries(props.errors).length ||
-                              Object.entries(props.touched).length === 0
+                              !!(props.errors).length ||
+                              (props.touched).length === 0
                                 ? toast.error(
                                     "Por favor corrige los errores en los campos",
                                     toastError
