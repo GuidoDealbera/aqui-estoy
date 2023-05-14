@@ -5,6 +5,7 @@ const styles = {
   container: {
     display: "flex",
     justifyContent: "center",
+    marginTop: "5%"
   },
   header: {
     color: "#19154E",
@@ -19,8 +20,8 @@ const styles = {
     height: "400px",
     avatar: {
       margin: "30px",
-      height: "200px",
-      width: "200px",
+      height: "150px",
+      width: "150px",
     },
   },
   body: {
@@ -48,9 +49,6 @@ const styles = {
       },
     },
   },
-  whatsApp: {
-    color: "green",
-  },
   buttons: {
     justifyContent: "center",
     alignItems: "center",
@@ -63,6 +61,9 @@ const styles = {
         color: "white",
         backgroundColor: "#4A235A"
     }
+  },
+  whatsApp: {
+    color: "green",
   },
 };
 

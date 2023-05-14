@@ -1,11 +1,11 @@
 const styles = {
+    box: {
+        textAlign: "center",
+      },
     container: {
-        // backgroundColor: "#f3f3f3",
         display: "flex",
         justifyContent: "center",
-        marginTop: "5%"
-        
-       
+        marginTop: "5%"   
     },
     header: {
         color: "#19154E",
@@ -36,7 +36,7 @@ const styles = {
         info: {
             borderTop: "solid 2px #e1e1e1",
             display: "flex",
-            padding: "10px",
+            padding: "4px",
             alignItems: "center",
             justifyContent: "space-between",
             width: "100%",
@@ -53,7 +53,6 @@ const styles = {
         justifyContent: "center",
         alignItems: "center",
         margin: "1%",
-        
         color: "white",
         backgroundColor: "#1E1C4E",
         borderRadius: "10px",
@@ -62,9 +61,6 @@ const styles = {
             color: "white",
             backgroundColor: "#4A235A"
         }
-      },
-      box: {
-        textAlign: "center",
       },
 };
 
