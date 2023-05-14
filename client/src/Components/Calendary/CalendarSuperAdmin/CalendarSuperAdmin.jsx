@@ -1,10 +1,10 @@
-import { useDispatch, useSelector } from "react-redux"
-import { getAllSupervisorShift, getAllSupervisors, getAllSupervisorsPerShift } from "../../../Redux/Actions/viewActions"
-import { Container, Row, Col, Button, Modal } from 'react-bootstrap';
+import { useDispatch, useSelector } from "react-redux";
+import { getAllSupervisorsPerShift } from "../../../Redux/Actions/viewActions";
 import { useEffect, useState } from "react";
 import CalendarSuperAdminPopOut from "./CalendarSuperAdminPopOut";
 import { useNavigate } from "react-router-dom";
 import { deleteSupervisorShift } from "../../../Redux/Actions/postPutActions";
+import { Container, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from "@mui/material";
 
 const CalendarSupervisor=()=>{
     const[togglePopOut,setTogglePopOut]=useState(false)
@@ -91,73 +91,67 @@ hours = Array.from({ length: 24 }, (_, i) => {
             },[shifts])
    
      // Render de cada celda:
-return  <Container className="calendar-container">
-      <table className="calendar-table">
-        <thead>
-          <tr>
-            <th></th>
-            {days.map((day, index) => (
-              <th key={index}>{day}</th>
-            ))}
-          </tr>
-        </thead>       
-        <tbody>          
-          {hours.map((hour) => (
-            <tr key={hour}>
-              <td className="hour">{hour}</td>
-              {days.map((day, index) => {
-                const found = shifts.find(
-                  (shift) => shift.day === index && shift.time === hour
-                );
-                const supervisorCount = found ? found.supervisorCount : 0;
-                const maxSupervisors = found ? found.maxSupervisors : 0;             
-                let countText = supervisorCount;
-                if (supervisorCount && maxSupervisors) {
-                  countText = `${supervisorCount}/${maxSupervisors}`;
-                }
-
-                return (
-                  <td
-                    key={day}
-                    onClick={() => handleClickCell(hour, day)}
-                  >
-                    {countText || "-----"}
-                  </td>
-                );
-              })}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      
-      <CalendarSuperAdminPopOut shift={shift} setTrigger={setTogglePopOut} trigger={togglePopOut}>
+     return (
+      <Container>
+        <TableContainer component={Paper}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell></TableCell>
+                {days.map((day, index) => (
+                  <TableCell key={index}>{day}</TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {hours.map((hour) => (
+                <TableRow key={hour}>
+                  <TableCell>{hour}</TableCell>
+                  {days.map((day, index) => {
+                    const found = shifts.find(
+                      (shift) => shift.day === index && shift.time === hour
+                    );
+                    const supervisorCount = found ? found.supervisorCount : 0;
+                    const maxSupervisors = found ? found.maxSupervisors : 0;
+                    let countText = supervisorCount;
+                    if (supervisorCount && maxSupervisors) {
+                      countText = `${supervisorCount}/${maxSupervisors}`;
+                    }
   
-  {shift.shiftSupervisors?.length ? (
-    <div >
-      <h3><b>Asignados en este turno:</b></h3>
-      {shift.shiftSupervisors?.map((supervisor) => (
-     <div style={{display:"flex"}}>
-     <p
-          key={supervisor.id}
-          onClick={(e) => {
-            navigate(`/profile/${supervisor.id}/view`);
-          }}
-        >
-          {supervisor.name} 
-        </p>
-        <button onClick={()=> dispatch(deleteSupervisorShift(supervisor.id, shift.shiftId))}>X</button>
-        </div>
-
-      ))}
-    </div>
-  ) : (
-    ''
-  )}
-  <h3>Nuevo turno a asignar:</h3>
-  <label>{shift.day}</label>
-  <p>{shift.time}</p>
-</CalendarSuperAdminPopOut>
-</Container>
-
-};
-export default CalendarSupervisor
+                    return (
+                      <TableCell key={day} onClick={() => handleClickCell(hour, day)}>
+                        {countText || "-----"}
+                      </TableCell>
+                    );
+                  })}
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+  
+        <CalendarSuperAdminPopOut shift={shift} setTrigger={setTogglePopOut} trigger={togglePopOut}>
+          {shift.shiftSupervisors?.length ? (
+            <div>
+              <h3><b>Asignados en este turno:</b></h3>
+              {shift.shiftSupervisors?.map((supervisor) => (
+                <div style={{display:"flex"}} key={supervisor.id}>
+                  <p onClick={() => navigate(`/profile/${supervisor.id}/view`)}>{supervisor.name}</p>
+                  <Button variant="contained" onClick={() => dispatch(deleteSupervisorShift(supervisor.id, shift.shiftId))}>
+                    X
+                  </Button>
+                </div>
+              ))}
+            </div>
+          ) : (
+            ''
+          )}
+          <h3>Nuevo turno a asignar:</h3>
+          <label>{shift.day}</label>
+          <p>{shift.time}</p>
+        </CalendarSuperAdminPopOut>
+      </Container>
+    );
+  };
+  
+  export default CalendarSupervisor;
