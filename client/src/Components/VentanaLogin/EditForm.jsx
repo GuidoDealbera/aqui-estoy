@@ -475,11 +475,6 @@ export default function EditForm({userID, handleClose}) {
                             variant="contained"
                             type="submit"
                             color="success"
-                            // disabled={
-                            //   !(
-                            //     Object.keys(props.errors).length === 0
-                            //   )
-                            // }
                             sx={{ width: "113.86px" }}
                           >
                             Finalizar

@@ -26,6 +26,7 @@ export default function SuperAdminDatos(props) {
           <Typography variant="h5">
             {user.name} {user.lastName}
           </Typography>
+          <Typography variant="h7" sx={{...styles.body.info.data, fontFamily: 'poppins'}}>{user.rol}</Typography>
           
           <Button variant="outlined" sx={{...styles.buttons, backgroundColor: "#00C8B2",color: "black", marginTop:"3%", "&:hover":{backgroundColor: "#008B7C"}}} onClick={toEdit}>
             Editar perfil
@@ -42,9 +43,6 @@ export default function SuperAdminDatos(props) {
           <Box sx={styles.body.info}>
             <Typography sx={styles.body.info.label}>Teléfono</Typography>
             <Typography
-              component="a"
-              href={`https://wa.me/${user.phone}`}
-              target="_blank"
               sx={styles.body.info.data}
             >
               {user.phone} <WhatsAppIcon/>
@@ -57,13 +55,23 @@ export default function SuperAdminDatos(props) {
             </Typography>
           </Box>
           <Box sx={styles.body.info}>
+            <Typography sx={styles.body.info.label}>Reside en</Typography>
+            <Typography sx={styles.body.info.data}>
+              {user.country}
+            </Typography>
+          </Box>
+          <Box sx={styles.body.info}>
+                    <Typography sx={styles.body.info.label}>Huso horario</Typography>
+                    <Typography sx={styles.body.info.data}>{user.CityTimeZone?.offSet}</Typography>
+                </Box>
+          <Box sx={styles.body.info}>
             <Typography sx={styles.body.info.label}>Profesión</Typography>
             <Typography sx={styles.body.info.data}>
               {user.profession}
             </Typography>
           </Box>
           <Box sx={styles.body.info}>
-            <Typography sx={styles.body.info.label}>Estudios</Typography>
+            <Typography sx={styles.body.info.label}>Nivel de estudios alcanzado</Typography>
             <Typography sx={styles.body.info.data}>{user.studies}</Typography>
           </Box>
           <Box sx={styles.body.info}>

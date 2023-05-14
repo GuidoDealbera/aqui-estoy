@@ -40,6 +40,9 @@ export default function Companion(props) {
     (horaLoc < 10 ? `0${horaLoc}` : horaLoc) +
     ":" +
     (myMinutes < 10 ? `0${myMinutes}` : myMinutes);
+  const newRol = (rol) => {
+    return rol === 'Companion1' ? rol = 'Acompañante 1' : rol = 'Acompañante 2'
+  }
   return !loading ? (
     <Box>
     <Grid
@@ -53,6 +56,7 @@ export default function Companion(props) {
       <Grid item sx={styles.header} sm={10} md={5}>
         <Avatar sx={styles.header.avatar} src={user.profilePhoto} />
         <Typography variant="h5">{user.name} {user.lastName}</Typography>
+        <Typography variant="h7" sx={{...styles.body.info.data, fontFamily: 'poppins'}}>{newRol(user.rol)}</Typography>
         {MentorName !== 'No asignado' && (
         <Box>
         <Typography sx={{...styles.body.info.label, marginTop: "1.5%"}}>Mentor: {user.Supervisor?.name} {user.Supervisor?.lastName}<a href={`https://wa.me/${superPhone}`} target="_blank"><WhatsAppIcon sx={styles.whatsApp}/></a></Typography>
@@ -80,7 +84,7 @@ export default function Companion(props) {
                 </Box>
                 <Box sx={styles.body.info}>
                     <Typography sx={styles.body.info.label}>Huso horario</Typography>
-                    <Typography sx={styles.body.info.data}>{user.CityTimeZone.offSet}</Typography>
+                    <Typography sx={styles.body.info.data}>{user.CityTimeZone?.offSet}</Typography>
                 </Box>
                 <Box sx={styles.body.info}>
                     <Typography sx={styles.body.info.label}>Profesión</Typography>
