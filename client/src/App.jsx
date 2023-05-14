@@ -75,7 +75,6 @@ const App = () => {
           <Route path="/calendarCompanion" element={<CalendarCompanion />} />
           <Route path= "/calendarCompanionSA" element={<CalendarCompanionSA/>}/>
           <Route path="/profile/:id/view" element={<ViewProfile />} />
-          <Route path="/profile/:id/edit" element={<EditInfo />} />
         </Route>
       </Routes>
       {location.pathname === "/" && <Footer />}

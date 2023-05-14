@@ -2,9 +2,11 @@ import { Button, Box, Avatar, Typography, Grid, useTheme } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../Loader/Loader";
+import ProfileEdit from "../../Modals/ProfileEdit";
 import { getSurpervisorMatch } from "../../../Redux/Actions/viewActions";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import styles from "./CompanionProfile";
+import { useState } from "react";
 
 export default function Companion(props) {
   const theme = useTheme();
@@ -13,6 +15,7 @@ export default function Companion(props) {
   const navigate = useNavigate();
   const allSupervisors = useSelector((state) => state.view.allSupervisors);
   const { loading } = useSelector((state) => state.auth);
+  const [edit, setEdit] = useState(false);
   const SuperId = props.user.SupervisorId;
   let MentorName = "No asignado";
   let superOffset = "";
@@ -27,8 +30,8 @@ export default function Companion(props) {
     superPhone = phone;
   }
   const { user } = props;
-  const toEdit = () => {
-    navigate(`/profile/${user.id}/edit`);
+  const handleClose = () => {
+    setEdit(false);
   };
   const myDate = new Date();
   const myTimeZone = myDate.toString().match(/([\+-][0-9]+)/)[1];
@@ -63,7 +66,7 @@ export default function Companion(props) {
         <Typography>Hora del mentor: {horaLoc} hs</Typography>
         </Box>
         )}
-        <Button sx={{...styles.buttons, backgroundColor: "#00C8B2",color: "black", "&:hover":{backgroundColor: "#008B7C"}}} onClick={toEdit}>Editar perfil</Button>
+        <Button sx={{...styles.buttons, backgroundColor: "#00C8B2",color: "black", "&:hover":{backgroundColor: "#008B7C"}}} onClick={()=>setEdit(true)}>Editar perfil</Button>
       </Grid>
       <Grid item sx={styles.body} sm={10} md={5}>
         <Box sx={{ ...styles.body.info, borderTop: "none" }} id="primero">
@@ -109,6 +112,7 @@ export default function Companion(props) {
     <Button sx={styles.buttons}>Supervisores OnLine</Button>
     <Button sx={styles.buttons}>Centro de aprendizaje</Button>
     </Box>
+    {edit && <ProfileEdit edit={edit} handleClose={handleClose} />}
     </Box>
   ) : (
     <Loader />

@@ -23,7 +23,7 @@ import { useNavigate } from "react-router-dom";
 import { logOut } from "../../Redux/Actions/viewActions";
 import { toast } from "sonner";
 import { toastWarning } from "../../Redux/Actions/alertStyle";
-import ModalLogin from "../VentanaLogin/ModalLogin";
+import ModalLogin from "../Modals/ModalLogin";
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
