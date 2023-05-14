@@ -98,7 +98,7 @@ export default function NavBar(props) {
       );
     }
     if (user.rol === "SuperAdmin") {
-      navigate("/calendarCompanion");
+      navigate("/calendarCompanionSA");
     }
   };
   const handleClickPanel = (event) => {

@@ -15,7 +15,7 @@ import {
 } from "./action-types";
 import axios from "axios";
 import { toast } from "sonner";
-import { toastSuccess, toastError } from "./alertStyle";
+import { toastSuccess, toastError, toastWarning } from "./alertStyle";
 import { setLoading } from "./viewActions";
 export const postEmailCreatedAccount = (user) => {
   return async function (dispatch) {
@@ -215,7 +215,7 @@ export const deleteSupervisorShift = (id, idShift) => {
       dispatch({ type: DELETE_SUPERVISOR_SHIFT, payload: response });
       dispatch(setLoading(false));
       
-      toast.success("El turno del supervisor ha sido eliminado", toastSuccess);
+      toast.error("El turno del supervisor ha sido eliminado", toastWarning);
     } catch (error) {
       toast.error("No fue posible eliminar el turno del supervisor", toastError);
     }

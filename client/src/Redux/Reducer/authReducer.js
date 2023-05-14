@@ -85,10 +85,12 @@ const authReducer = (state = initialState, action) => {
         loading: action.payload,
       };
     case DELETE_COMPANION_SHIFT:
-      return {
-        ...state,
-        user: action.payload,
-      };
+      if(state.user.rol === "Companion2"){
+        return {
+          ...state,
+          user: action.payload,
+        };
+      }
     case GET_PASSWORD_RECOVERY_CODE:
       return {
         ...state,
