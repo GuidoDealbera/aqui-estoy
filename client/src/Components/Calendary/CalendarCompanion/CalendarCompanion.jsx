@@ -149,7 +149,7 @@ const CalendarCompanion = () => {
                       className="reserved"
                       onClick={()=> handleDeleteShift(found.id)}
                     >
-                      {user.rol === "Companion2" ? (<> Turno reservado <button className="delete-button">X</button> </> ) : ("Turno reservado")}
+                      {user.rol === "Companion2" ? (<> Reservado <button className="delete-button">X</button> </> ) : ("Reservado")}
                     </td>
                   );
                 } else {

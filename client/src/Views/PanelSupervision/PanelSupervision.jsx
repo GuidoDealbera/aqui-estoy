@@ -20,6 +20,7 @@ import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
+import Grid from "@mui/material/Grid";
 import TableRow from "@mui/material/TableRow";
 import Typography from "@mui/material/Typography";
 import TableContainer from "@mui/material/TableContainer";
@@ -31,6 +32,7 @@ import FormControl from "@mui/material/FormControl";
 import { Box } from "@mui/system";
 import { Button } from "@mui/material";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 export default function PanelSupervision() {
   const dispatch = useDispatch(); //Para mandar traer los turnos del back.
@@ -121,7 +123,27 @@ export default function PanelSupervision() {
 
   return (
     <Box>
-      <FormControl sx={{ minWidth: "100px", margin: "10px" }}>
+      <Grid container 
+      width={"100%"} display={"flex"} 
+      justifyContent={"center"}
+      // border={2}
+      >
+
+      <Grid item flex={4} margin={"2vh"}>
+      <Button
+          variant="contained"
+          size="small"
+          startIcon={<ArrowBackIcon />}
+          onClick={() => {
+            navigate(-1);
+          }}
+        >
+          Regresar
+        </Button>
+        </Grid>
+
+      <Grid item flex={6}>
+      <FormControl sx={{ minWidth: "100px", margin: "2vh" }}>
         {" "}
         {/*Este Form Control Renderiza el Botón de los días*/}
         <InputLabel>Día</InputLabel>
@@ -135,6 +157,9 @@ export default function PanelSupervision() {
           <MenuItem value={6}>Domingo</MenuItem>
         </Select>
       </FormControl>
+      </Grid>
+</Grid>
+
       <Typography
         variant="h7"
         sx={{ display: "flex", padding: "10px", fontFamily: "poppins" }}

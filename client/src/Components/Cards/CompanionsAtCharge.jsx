@@ -6,12 +6,15 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
-import Tooltip from '@mui/material/Tooltip';
+import Tooltip from "@mui/material/Tooltip";
 import Papa from "papaparse";
 import { bgcolor, border } from "@mui/system";
+import { useNavigate } from "react-router-dom";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 export default function CompanionsAtCharge() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { companionAtCharge } = useSelector((state) => state.view);
   const { user } = useSelector((state) => state.auth);
 
@@ -24,11 +27,11 @@ export default function CompanionsAtCharge() {
   const myHours = myDate.getHours();
   const myMinutes = myDate.getMinutes();
 
-  const email = companionAtCharge.map(comp=>{
-    return{
-      email: comp.email
-    } 
-  })
+  const email = companionAtCharge.map((comp) => {
+    return {
+      email: comp.email,
+    };
+  });
 
   const handleExportEmail = () => {
     const csv = Papa.unparse(email);
@@ -42,7 +45,7 @@ export default function CompanionsAtCharge() {
     link.click();
     document.body.removeChild(link);
   };
-  
+
   return (
     <Grid container>
       <Grid item xs={12}>
@@ -50,13 +53,39 @@ export default function CompanionsAtCharge() {
           Acompañantes a mi Cargo
         </Typography>
       </Grid>
-      <Grid item width={"100%"} display={"flex"} justifyContent={"center"}>
-      <Tooltip 
-              title="Exporta un archivo CSV con la lista de correos de los acompañantes a mi cargo">
-        <Button variant="outlined" onClick={handleExportEmail}>
-          Exportar Lista de Correos CSV
+
+      <Grid container 
+      width={"100%"} display={"flex"} 
+      justifyContent={"center"}
+      marginTop={2}
+      >
+        <Grid item
+        flex={4}
+        marginLeft={2}
+        >
+        <Button
+          variant="contained"
+          size="small"
+          startIcon={<ArrowBackIcon />}
+          onClick={() => {
+            navigate(-1);
+          }}
+        >
+          Regresar
         </Button>
-        </ Tooltip>
+        </Grid>
+
+        <Grid item 
+        flex={6}
+        >
+        <Tooltip title="Exporta un archivo CSV con la lista de correos de los acompañantes a mi cargo">
+          <Button variant="outlined" 
+          flex={8} 
+          onClick={handleExportEmail}>
+            Exportar Lista de Correos CSV
+          </Button>
+        </Tooltip>
+        </Grid>
       </Grid>
       <Box
         key={user.id}
@@ -68,7 +97,6 @@ export default function CompanionsAtCharge() {
           height: "85vh",
           width: "100vw",
         }}
-        
       >
         {companionAtCharge?.map((e) => {
           const eTimeZone =
