@@ -3,13 +3,16 @@ import { useNavigate } from "react-router-dom";
 import Loader from "../../Loader/Loader";
 import styles from "./SuperAdminStyle";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
+import { useState } from "react";
+import ProfileEdit from '../../Modals/ProfileEdit'
 
 export default function SuperAdminDatos(props) {
   const theme = useTheme();
   const { user } = props;
   const navigate = useNavigate();
-  const toEdit = () => {
-    navigate(`/profile/${user.id}/edit`);
+  const [edit, setEdit] = useState(false)
+  const handleClose = () => {
+    setEdit(false)
   };
   return Object.entries(user).length > 0 ? (
     <Box>
@@ -26,12 +29,12 @@ export default function SuperAdminDatos(props) {
           <Typography variant="h5">
             {user.name} {user.lastName}
           </Typography>
-          <Typography variant="h7" sx={{...styles.body.info.data, fontFamily: 'poppins'}}>{user.rol}</Typography>
-          
-          <Button variant="outlined" sx={{...styles.buttons, backgroundColor: "#00C8B2",color: "black", marginTop:"3%", "&:hover":{backgroundColor: "#008B7C"}}} onClick={toEdit}>
+          <Typography variant="h7" sx={{ ...styles.body.info.data, fontFamily: 'poppins' }}>{user.rol}</Typography>
+
+          <Button variant="outlined" sx={{ ...styles.buttons, backgroundColor: "#00C8B2", color: "black", marginTop: "3%", "&:hover": { backgroundColor: "#008B7C" } }} onClick={() => setEdit(true)}>
             Editar perfil
           </Button>
-        
+
         </Grid>
         <Grid item sx={styles.body} sm={10} md={6}>
           <Box sx={{ ...styles.body.info, borderTop: "none" }} id="primero">
@@ -45,7 +48,7 @@ export default function SuperAdminDatos(props) {
             <Typography
               sx={styles.body.info.data}
             >
-              {user.phone} <WhatsAppIcon/>
+              {user.phone} <WhatsAppIcon />
             </Typography>
           </Box>
           <Box sx={styles.body.info}>
@@ -61,9 +64,9 @@ export default function SuperAdminDatos(props) {
             </Typography>
           </Box>
           <Box sx={styles.body.info}>
-                    <Typography sx={styles.body.info.label}>Huso horario</Typography>
-                    <Typography sx={styles.body.info.data}>{user.CityTimeZone?.offSet}</Typography>
-                </Box>
+            <Typography sx={styles.body.info.label}>Huso horario</Typography>
+            <Typography sx={styles.body.info.data}>{user.CityTimeZone?.offSet}</Typography>
+          </Box>
           <Box sx={styles.body.info}>
             <Typography sx={styles.body.info.label}>Profesión</Typography>
             <Typography sx={styles.body.info.data}>
@@ -88,12 +91,12 @@ export default function SuperAdminDatos(props) {
           </Box>
         </Grid>
       </Grid>
-        <Box sx={styles.box}>
-          <Button sx={styles.buttons} onClick={() => {navigate("/calendarSuperAdmin")}}>Calendario Supervisor</Button>
-          <Button sx={styles.buttons} onClick={() => {navigate("/companionsAtCharge")}}>Acompañantes a mi cargo</Button>
-          <Button sx={styles.buttons} onClick={() => {navigate("/panel-supervision")}}>Panel de supervisión</Button>
-        </Box>
-      
+      <Box sx={styles.box}>
+        <Button sx={styles.buttons} onClick={() => { navigate("/calendarSuperAdmin") }}>Calendario Supervisor</Button>
+        <Button sx={styles.buttons} onClick={() => { navigate("/companionsAtCharge") }}>Acompañantes a mi cargo</Button>
+        <Button sx={styles.buttons} onClick={() => { navigate("/panel-supervision") }}>Panel de supervisión</Button>
+      </Box>
+      {edit && <ProfileEdit edit={edit} handleClose={handleClose} />}
     </Box>
   ) : (
     <Loader />

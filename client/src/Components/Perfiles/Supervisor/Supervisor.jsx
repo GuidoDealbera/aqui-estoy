@@ -3,13 +3,16 @@ import { useNavigate } from "react-router-dom";
 import Loader from "../../Loader/Loader";
 import styles from './SupervisorStyles'
 import WhatsAppIcon from '@mui/icons-material/WhatsApp'
+import ProfileEdit from "../../Modals/ProfileEdit";
+import { useState } from "react";
 
 export default function Supervisor(props) {
   const theme = useTheme();
   const navigate = useNavigate();
   const { user } = props;
-  const toEdit = () => {
-    navigate(`/profile/${user.id}/edit`)
+  const [edit, setEdit] = useState(false);
+  const handleClose = () => {
+    setEdit(false)
   }
   const myDate = new Date();
   const myHours = myDate.getHours();
@@ -22,7 +25,7 @@ export default function Supervisor(props) {
         <Avatar sx={styles.header.avatar} src={user.profilePhoto} />
         <Typography variant="h5">{user.name} {user.lastName}</Typography>
         <Typography variant="h7" sx={{...styles.body.info.data, fontFamily: 'poppins'}}>{user.rol}</Typography>
-        <Button sx={{...styles.buttons, backgroundColor: "#00C8B2",color: "black", "&:hover":{backgroundColor: "#008B7C"}}} onClick={toEdit}>Editar perfil</Button>
+        <Button sx={{...styles.buttons, backgroundColor: "#00C8B2",color: "black", "&:hover":{backgroundColor: "#008B7C"}}} onClick={()=>setEdit(true)}>Editar perfil</Button>
         </Grid>
         <Grid item sx={styles.body} sm={10} md={5}>
         <Box sx={{ ...styles.body.info, borderTop: "none" }} id="primero">
@@ -68,6 +71,7 @@ export default function Supervisor(props) {
           <Button sx={styles.buttons} onClick={() => {navigate("/companionsAtCharge")}}>Acompañantes a mi cargo</Button>
           <Button sx={styles.buttons} onClick={() => {navigate("/panel-supervision")}}>Panel de supervisión</Button>
         </Box>
+        {edit && <ProfileEdit edit={edit} handleClose={handleClose} />}
     </Box>
   ) : (
     <Loader />

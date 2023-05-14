@@ -5,7 +5,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import { Button, Grid, Paper, TableContainer, Typography } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
-import ModalEdit from "../../../VentanaLogin/ModalEdit";
+import ModalEdit from "../../../Modals/ModalEdit";
 import AutoFixHighIcon from "@mui/icons-material/AutoFixHigh";
 import Popover from '@mui/material/Popover';
 import {

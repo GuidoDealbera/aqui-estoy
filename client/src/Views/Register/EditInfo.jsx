@@ -70,7 +70,7 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
   boxShadow: theme.shadows[3],
 }));
 
-export default function Register() {
+export default function Register({handleClose}) {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
@@ -106,7 +106,7 @@ export default function Register() {
       dispatch(putSupervisor(user.id, values));
     }
     toast.success("Datos actualizados", toastSuccess);
-    navigate(`/profile/${user.id}`);
+    handleClose()
   };
 
   const validationSchema = Yup.object().shape({
@@ -320,7 +320,7 @@ export default function Register() {
                         <Button
                           variant="contained"
                           name="Siguiente"
-                          onClick={()=>{navigate(-1)}}
+                          onClick={handleClose}
                         >
                           Cancelar
                         </Button>
