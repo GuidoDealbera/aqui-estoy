@@ -8,10 +8,11 @@ import Select from '@mui/material/Select';
 import Box from '@mui/material/Box';
 import { useDispatch } from 'react-redux'
 import { postCompanion,postSupervisor } from '../../../../Redux/Actions/postPutActions';
-import { Grid, Typography } from '@mui/material';
+import { FormControlLabel, Grid, Switch, Typography } from '@mui/material';
 
 const CreateUser = () => {
   const dispatch=useDispatch()
+  const [checked, setChecked] = useState(false);
   const [userData, setUserData] = useState({
     email: '',
     password: '',
@@ -21,6 +22,9 @@ const CreateUser = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setUserData({ ...userData, [name]: value });
+  };
+  const checkedHandler = (event) => {
+    setChecked(event.target.checked);
   };
   
   const handleSubmit = (e) => {
@@ -48,15 +52,6 @@ const CreateUser = () => {
       <Grid container justifyContent="center">
       <Grid item justifyContent="center" sx={{width:"40vw"}}>
       <form onSubmit={handleSubmit}>
-        {/* <Box marginBottom={2}>
-          <TextField
-            label="Nombre de usuario"
-            name="username"
-            value={userData.username}
-            onChange={handleChange}
-            fullWidth
-          />
-        </Box> */}
         <Box marginBottom={2}>
           <TextField
             label="Email"
@@ -67,6 +62,13 @@ const CreateUser = () => {
             fullWidth
           />
         </Box>
+        <FormControlLabel
+          value="end"
+          control={<Switch color="primary" checked={checked} onChange={checkedHandler} />}
+          label={checked ? 'Contraseña manual' : 'Contraseña automática'}
+          labelPlacement="end"
+        />
+        {checked && 
         <Box marginBottom={2}>
           <TextField
             label="Contraseña"
@@ -76,7 +78,7 @@ const CreateUser = () => {
             onChange={handleChange}
             fullWidth
           />
-        </Box>
+        </Box>}
         <Box marginBottom={2}>
           <FormControl fullWidth>
             <InputLabel>Rol</InputLabel>
