@@ -87,7 +87,7 @@ const CalendarSuperAdminPopOut = (props) => {
           
           </div>
         }  
-        <Button variant="contained" color="secondary" onClick={() => props.setTrigger()}>Cancelar</Button>    
+        <Button variant="contained" color="secondary" onClick={() => props.setTrigger()}>Cerrar</Button>    
       </InnerPop>
     </PopOut>
   ) : null;

@@ -105,8 +105,9 @@ const CalendarCompanion = () => {
     hours = Array.from({ length: 24 }, (_, i) => {
       const currentHour = i < 10 ? `0${i}` : `${i}`;
       const nextHour =
-        i === 23
-          ? "00"
+        i === 22
+          ? "24"
+          
           : (i + 2) % 24 < 10
           ? `0${(i + 2) % 24}`
           : `${(i + 2) % 24}`;
@@ -224,7 +225,7 @@ const CalendarCompanion = () => {
                         className="calendar-cell"
                         onClick={() => handleClickCell(hour, day)}
                       >
-                        -----
+                        Disponible
                       </td>
                     );
                   }
