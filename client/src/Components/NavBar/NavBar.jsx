@@ -85,7 +85,7 @@ export default function NavBar(props) {
     if (user.rol === "SuperAdmin") {
       navigate("/calendarSuperAdmin");
     } else if (user.rol === "Companion1" || user.rol === "Companion2") {
-      navigate("/calendarCompanionSA");
+      navigate("/calendarCompanion");
     } else {
       toast.error("No tienes acceso a este calendario", toastWarning);
     }
@@ -98,7 +98,7 @@ export default function NavBar(props) {
       );
     }
     if (user.rol === "SuperAdmin") {
-      navigate("/calendarCompanionSA");
+      navigate("/calendarCompanion");
     }
   };
   const handleClickPanel = (event) => {
