@@ -108,7 +108,7 @@ export default function Companion(props) {
       </Grid>
     </Grid>
     <Box sx={styles.box}>
-    <Button sx={styles.buttons} onClick={() => navigate("/calendarCompanion")}>Reserva de turnos</Button>
+    <Button sx={styles.buttons} onClick={() => navigate("/calendarCompanionSA")}>Reserva de turnos</Button>
     <Button sx={styles.buttons}>Supervisores OnLine</Button>
     <Button sx={styles.buttons}>Centro de aprendizaje</Button>
     </Box>

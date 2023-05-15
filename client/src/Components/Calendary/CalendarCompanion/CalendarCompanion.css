@@ -1,143 +1,41 @@
-body {
-  font-family: 'Open Sans', sans-serif;
-}
 .calendar-container {
-  max-width: 100%;
-  overflow-x: auto;
-  padding: 1em;
-  background-color: #f8f9fa;
-  border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-}
-
-.calendar-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 1em;
-}
-
-.calendar-table th,
-.calendar-table td {
-  border: 1px solid #dee2e6;
-  text-align: center;
-  padding: 1rem;
-  transition: background-color 0.3s ease;
-}
-
-.calendar-table th {
-  background-color: #ffffff;
-  color: #333;
-  font-weight: 600;
-}
-
-.calendar-table .hour {
-  background-color: #ffffff;
-  color: #333;
-  font-weight: 500;
-}
-
-.calendar-cell {
-  cursor: pointer;
-  background-color: #ffffff;
-}
-
-.calendar-cell:hover {
-  background-color: #e9ecef;
-}
-
-.reserved {
-  background-color: #c8e6c9; /* Verde suave */
-  color: #2e7d32; /* Verde oscuro */
-}
-
-.delete-button {
-  margin-left: 0.5em;
-  color: #fff;
-  background-color: #72221c; /* Rojo */
-  border: none;
-  padding: 0.25em 0.5em;
-  border-radius: 3px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.delete-button:hover {
-  background-color: #962e2e; /* Rojo oscuro */
-}
-.calendar-table td, 
-.calendar-table th {
-    width: 50px !important;  /* Cambia este valor según tus necesidades */
-    height: 20px; /* Cambia este valor según tus necesidades */
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-}
-.delete-button {
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  color: rgb(124, 22, 22);
-  transition: all 0.3s ease;
-}
-
-.delete-button:hover {
-  color: rgb(209, 209, 209);
-}
-
-.confirmButton, .cancelButton {
-  transition: all 0.3s ease;
-}
-
-.confirmButton:hover {
-  background-color: rgb(0, 63, 0);
-  color: white;
-}
-
-.cancelButton:hover {
-  background-color: rgb(50, 180, 50);
-  color: white;
-}
-
-.calendar-cell {
-  transition: background-color 0.5s ease;
-}
-
-.calendar-cell.confirmed {
-  background-color: lightgreen;
-}
-
-.reserved {
-  background-color: #f8d7da; /* color base de la celda reservada */
-  transition: background-color 3s ease; /* transición suave al cambiar el color de fondo */
-}
-
-.reserved.confirmed {
-  background-color: #5ba36d; /* color de fondo una vez confirmado el turno */
-}
-
-.reserved {
-  background-color: rgb(87, 190, 87);
-  color: black;
-  transition: background-color 0.3s ease;
-  border: 1px solid #ddd;
-  padding: 8px;
-}
-
-.reserved:hover {
-  background-color: rgb(76, 212, 76);
-}
-
-.delete-button {
-  background-color: rgb(187, 109, 109);
-  color: white;
-  border: none;
-  padding: 5px 10px;
-  cursor: pointer;
-  float: right;
-  margin-left: 10px;
-}
-
-.delete-button:hover {
-  background-color: rgb(133, 27, 27);
-}
-
+    max-width: 100%;
+    overflow-x: auto;
+  }
+  
+  .calendar-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .calendar-table th,
+  .calendar-table td {
+    border: 1px solid #dee2e6;
+    text-align: center;
+    padding: 1rem;
+  }
+  
+  .calendar-table th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+  }
+  
+  .calendar-table .hour {
+    background-color: #f8f9fa;
+    font-weight: bold;
+  }
+  
+  .calendar-cell {
+    cursor: pointer;
+  }
+  
+  .booked {
+    background-color: #f8d7da;
+    color: #721c24;
+  }
+  .reserved{
+    background-color: #721c24;
+    color: #dee2e6;
+    border-radius: 1em;
+  }
+  
