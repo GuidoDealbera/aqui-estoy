@@ -8,7 +8,6 @@ import Footer from "./Components/Footer/Footer";
 import PanelSupervision from "./Views/PanelSupervision/PanelSupervision";
 import axios from "axios";
 import CalendarCompanion from "./Components/Calendary/CalendarCompanion/CalendarCompanion";
-import CalendarCompanionSA from "./Components/Calendary/CalendarCompanionSA/CalendarCompanionSA";
 import CompanionsAtCharge from "./Components/Cards/CompanionsAtCharge";
 import ViewProfile from "./Components/ViewProfile/ViewProfile";
 import EditInfo from "./Views/Register/EditInfo";
@@ -72,8 +71,7 @@ const App = () => {
           <Route path="/profile/:id" element={<Profiles />} />
           <Route path="/panel-supervision" element={<PanelSupervision />} />
           <Route path="/calendarSuperAdmin" element={<CalendarSuperAdmin />} />
-          <Route path="/calendarCompanion" element={<CalendarCompanion />} />
-          <Route path= "/calendarCompanionSA" element={<CalendarCompanionSA/>}/>
+          <Route path= "/calendarCompanion" element={<CalendarCompanion/>}/>
           <Route path="/profile/:id/view" element={<ViewProfile />} />
         </Route>
       </Routes>

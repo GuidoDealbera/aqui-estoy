@@ -85,7 +85,7 @@ export default function NavBar(props) {
     if (user.rol === "SuperAdmin") {
       navigate("/calendarSuperAdmin");
     } else if (user.rol === "Companion1" || user.rol === "Companion2") {
-      navigate("/calendarCompanion");
+      navigate("/calendarCompanionSA");
     } else {
       toast.error("No tienes acceso a este calendario", toastWarning);
     }
