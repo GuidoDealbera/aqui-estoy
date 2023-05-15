@@ -101,7 +101,7 @@ const CalendarCompanionSA = () => {
 
   useEffect(() => {
     dispatch(getAllCompanionsPerShift());
-  }, [shifts]);
+  }, [togglePopOut]);
 
   // Render de cada celda:
   return (
@@ -172,10 +172,6 @@ const CalendarCompanionSA = () => {
                     }
                   }
 
-//========================================================================
-//El siguiente console log muestra que la ejecución nunca se detiene:      
-//========================================================================            
-                  {console.log(hour)}
 
                   return (
                     <td
@@ -193,9 +189,11 @@ const CalendarCompanionSA = () => {
         </table>
 
         <CalendarCompanionSAPopOut
-          shift={shift}
-          setTrigger={setTogglePopOut}
-          trigger={togglePopOut}
+        shift={shift}
+        setTrigger={setTogglePopOut}
+        trigger={togglePopOut}
+        togglePopOut={togglePopOut}
+        setTogglePopOut={setTogglePopOut}
         ></CalendarCompanionSAPopOut>
       </Container>
     </Box>

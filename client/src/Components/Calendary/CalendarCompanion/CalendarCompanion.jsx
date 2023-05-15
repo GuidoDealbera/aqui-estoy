@@ -97,7 +97,7 @@ const CalendarCompanion = () => {
   ];
   useEffect(() => {
     dispatch(getAllCompanionsPerShift());
-  }, [shifts]);
+  }, [togglePopOut]);
 
   let hours = [];
 
