@@ -402,6 +402,19 @@ export default function Register({handleClose}) {
                         />
                       </Box>
                       <Box>
+                        <Select
+                          name="studies"
+                          sx={{ marginBottom: "20px", width: "300px" }}
+                          label="Estudios alcanzados"
+                          options={[
+                            "Secundario",
+                            "Terciario",
+                            "Universitario",
+                            "Postgrado",
+                          ]}
+                        ></Select>
+                      </Box>
+                      <Box>
                         <InputLabel
                           sx={{
                             fontSize: "13px",
@@ -434,19 +447,7 @@ export default function Register({handleClose}) {
                           ]}
                         />
                       </Box>
-                      <Box>
-                        <Select
-                          name="studies"
-                          sx={{ marginBottom: "20px", width: "300px" }}
-                          label="Estudios alcanzados"
-                          options={[
-                            "Secundario",
-                            "Terciario",
-                            "Universitario",
-                            "Postgrado",
-                          ]}
-                        ></Select>
-                      </Box>
+                
                       <Box>
                         <Select
                           name="gender"
