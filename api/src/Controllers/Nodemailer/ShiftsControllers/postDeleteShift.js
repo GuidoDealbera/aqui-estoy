@@ -5,14 +5,16 @@ const {
   SupervisorShift,
   CompanionShift,
 } = require("../../../db");
+const { deleteShift } = require("../htmlMails/MailShifts");
 const postDeleteShift = async (req, res) => {
   try {
     const transporter = await mailer();
     let mailOptions = {};
     const { idUser, idShift, rol } = req.body;
+    console.log(idUser);
     if (rol === "Companion") {
       const companion = await Companion.findOne({ where: { id: idUser } });
-      const shift = CompanionShift.findOne({ where: { id: idShift } });
+      const shift = await CompanionShift.findOne({ where: { id: idShift } });
       let day = "";
       switch (shift.day) {
         case 0:
@@ -40,11 +42,24 @@ const postDeleteShift = async (req, res) => {
         default:
           break;
       }
+      mailOptions = {
+        from: "aquiestoy.prueba01@gmail.com",
+        to: companion.email, // //! ACA PUEDEN CAMBIAR ESTE PARAMETRO POR SU PROPIO MAIL PARA PROBAR
+        subject: "Se ha eliminado un turno de tu agenda de Aqui Estoy!",
+        html: deleteShift(day, shift.time),
+      };
+      transporter.sendMail(mailOptions, (error, info) => {
+        try {
+          return info;
+        } catch (error) {
+          return error.message;
+        }
+      });
       res.status(200).json("Se ha enviado el email");
     }
     if (rol === "Supervisor") {
       const supervisor = await Supervisor.findOne({ where: { id: idUser } });
-      const shift = SupervisorShift.findOne({ where: { id: idShift } });
+      const shift = await SupervisorShift.findOne({ where: { id: idShift } });
       let day = "";
       switch (shift.day) {
         case 0:
@@ -72,7 +87,19 @@ const postDeleteShift = async (req, res) => {
         default:
           break;
       }
-
+      mailOptions = {
+        from: "aquiestoy.prueba01@gmail.com",
+        to: supervisor.email, // //! ACA PUEDEN CAMBIAR ESTE PARAMETRO POR SU PROPIO MAIL PARA PROBAR
+        subject: "Se ha eliminado un turno de tu agenda de Aqui Estoy!",
+        html: deleteShift(day, shift.time),
+      };
+      transporter.sendMail(mailOptions, (error, info) => {
+        try {
+          return info;
+        } catch (error) {
+          return error.message;
+        }
+      });
       res.status(200).json("Se ha enviado el email");
     }
   } catch (error) {

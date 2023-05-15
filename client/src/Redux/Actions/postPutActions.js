@@ -101,6 +101,16 @@ export const addShiftEmail = (user) => {
   };
 };
 
+export const deleteShiftEmail = (user) => {
+  return async function (dispatch) {
+    await axios.post("./postDeleteShift", {
+      idUser: user.idUser,
+      idShift: user.idShift,
+      rol: user.rol,
+    });
+  };
+};
+
 export const postAssignSupervisorShift = (idSupervisor, idShift, rol) => {
   return async function (dispatch) {
     try {
@@ -217,6 +227,13 @@ export const deleteCompanionShift = (id, idShift) => {
         })
       ).data;
       console.log(response);
+      dispatch(
+        deleteShiftEmail({
+          idUser: id,
+          idShift: idShift,
+          rol: "Companion",
+        })
+      );
       dispatch({ type: DELETE_COMPANION_SHIFT, payload: response });
       dispatch(setLoading(false));
       toast.success("Tu turno ha sido eliminado", toastSuccess);
@@ -229,6 +246,7 @@ export const deleteCompanionShift = (id, idShift) => {
 export const deleteSupervisorShift = (id, idShift) => {
   return async function (dispatch) {
     try {
+      console.log(id);
       dispatch(setLoading(true));
       const response = (
         await axios.delete("/deleteSupervisorShift", {
@@ -239,6 +257,13 @@ export const deleteSupervisorShift = (id, idShift) => {
         })
       ).data;
       console.log(response);
+      dispatch(
+        deleteShiftEmail({
+          idUser: id,
+          idShift: idShift,
+          rol: "Supervisor",
+        })
+      );
       dispatch({ type: DELETE_SUPERVISOR_SHIFT, payload: response });
       dispatch(setLoading(false));
 
