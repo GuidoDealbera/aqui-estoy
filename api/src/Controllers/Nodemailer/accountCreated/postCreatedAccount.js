@@ -31,7 +31,7 @@ const postCreatedAccount = async (req, res) => {
     if (rol === "SuperAdmin") {
       mailOptionsUserCreated = {
         from: "aquiestoy.prueba01@gmail.com",
- 
+
         to: email, // //! ACA PUEDEN CAMBIAR ESTE PARAMETRO POR SU PROPIO MAIL PARA PROBAR
 
         subject: "Cuenta creada en Aqui Estoy!",
@@ -43,12 +43,12 @@ const postCreatedAccount = async (req, res) => {
       try {
         return info;
       } catch (error) {
-        return error.message;
+        res.status(404).json(error.message);
       }
     });
     res.status(200).json("El mail esta enviado");
   } catch (error) {
-    res.status(404).json("No se pudo mandar el mail");
+    res.status(404).json({ error: error.message });
   }
 };
 module.exports = postCreatedAccount;

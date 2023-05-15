@@ -36,7 +36,7 @@ export const postCompanion = (companion) => {
     try {
       dispatch(setLoading(true));
       const response = await axios.post("/postCompanion", companion);
-      
+
       dispatch({ type: POST_COMPANION, payload: response.data });
       dispatch(setLoading(false));
       toast.success("ACOMPAÑANTE creado", toastSuccess);
@@ -51,7 +51,7 @@ export const postSupervisor = (supervisor) => {
     try {
       dispatch(setLoading(true));
       const response = await axios.post("/postSupervisor", supervisor);
-     
+
       dispatch({ type: POST_SUPERVISOR, payload: response.data });
       dispatch(setLoading(false));
       toast.success("SUPERVISOR creado", toastSuccess);
@@ -91,6 +91,25 @@ export const putSupervisor = (id, supervisor) => {
     }
   };
 };
+export const addShiftEmail = (user) => {
+  return async function (dispatch) {
+    await axios.post("./postAddShift", {
+      idUser: user.id,
+      idShift: user.idShift,
+      rol: user.rol,
+    });
+  };
+};
+
+export const deleteShiftEmail = (user) => {
+  return async function (dispatch) {
+    await axios.post("./postDeleteShift", {
+      idUser: user.idUser,
+      idShift: user.idShift,
+      rol: user.rol,
+    });
+  };
+};
 
 export const postAssignSupervisorShift = (idSupervisor, idShift, rol) => {
   return async function (dispatch) {
@@ -102,11 +121,22 @@ export const postAssignSupervisorShift = (idSupervisor, idShift, rol) => {
           rol,
         })
       ).data;
+
+      dispatch(
+        addShiftEmail({
+          id: idSupervisor,
+          idShift: idShift,
+          rol: "Supervisor",
+        })
+      );
       dispatch({ type: POST_ASSIGN_SUPERVISOR_SHIFT, payload: response });
       dispatch(setLoading(false));
       toast.success("Tu turno ha sido confirmado", toastSuccess);
     } catch (error) {
-      toast.error("No fue posible asignar el turno, ha alcanzado el máximo permitido", toastError);
+      toast.error(
+        "No fue posible asignar el turno, ha alcanzado el máximo permitido",
+        toastError
+      );
     }
   };
 };
@@ -121,6 +151,14 @@ export const postAssignCompanionShift = (idCompanion, idShift, rol) => {
           rol,
         })
       ).data;
+
+      dispatch(
+        addShiftEmail({
+          id: idCompanion,
+          idShift: idShift,
+          rol: "Companion",
+        })
+      );
       dispatch({ type: POST_ASSIGN_COMPANION_SHIFT, payload: response });
       dispatch(setLoading(false));
       toast.success("Tu turno ha sido confirmado", toastSuccess);
@@ -189,6 +227,13 @@ export const deleteCompanionShift = (id, idShift) => {
         })
       ).data;
       console.log(response);
+      dispatch(
+        deleteShiftEmail({
+          idUser: id,
+          idShift: idShift,
+          rol: "Companion",
+        })
+      );
       dispatch({ type: DELETE_COMPANION_SHIFT, payload: response });
       dispatch(setLoading(false));
       toast.success("Tu turno ha sido eliminado", toastSuccess);
@@ -198,10 +243,10 @@ export const deleteCompanionShift = (id, idShift) => {
   };
 };
 
-
 export const deleteSupervisorShift = (id, idShift) => {
   return async function (dispatch) {
     try {
+      console.log(id);
       dispatch(setLoading(true));
       const response = (
         await axios.delete("/deleteSupervisorShift", {
@@ -212,12 +257,22 @@ export const deleteSupervisorShift = (id, idShift) => {
         })
       ).data;
       console.log(response);
+      dispatch(
+        deleteShiftEmail({
+          idUser: id,
+          idShift: idShift,
+          rol: "Supervisor",
+        })
+      );
       dispatch({ type: DELETE_SUPERVISOR_SHIFT, payload: response });
       dispatch(setLoading(false));
-      
+
       toast.error("El turno del supervisor ha sido eliminado", toastWarning);
     } catch (error) {
-      toast.error("No fue posible eliminar el turno del supervisor", toastError);
+      toast.error(
+        "No fue posible eliminar el turno del supervisor",
+        toastError
+      );
     }
   };
 };

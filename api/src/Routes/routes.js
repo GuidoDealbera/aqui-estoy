@@ -47,6 +47,10 @@ const getOnlineSupervisor = require("../Controllers/Supervisor/getOnlineSupervis
 const postCreatedAccount = require("../Controllers/Nodemailer/accountCreated/postCreatedAccount");
 const getPasswordRecoveryCode = require("../Controllers/Nodemailer/passwordController/getPasswordRecoveryCode");
 const putUserPassword = require("../Controllers/Nodemailer/passwordController/putUserPassword");
+const postAddShift = require("../Controllers/Nodemailer/ShiftsControllers/postAddShift");
+const postDeleteShift = require("../Controllers/Nodemailer/ShiftsControllers/postDeleteShift");
+router.post("/postAddShift", postAddShift);
+router.post("/postDeleteShift", postDeleteShift);
 router.post("/postCreatedAccount", postCreatedAccount);
 router.get("/getPasswordRecoveryCode/:email", getPasswordRecoveryCode);
 router.put("/putUserPassword", putUserPassword);
