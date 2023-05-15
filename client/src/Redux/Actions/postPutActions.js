@@ -163,10 +163,18 @@ export const postAssignCompanionShift = (idCompanion, idShift, rol) => {
       dispatch(setLoading(false));
       toast.success("Tu turno ha sido confirmado", toastSuccess);
     } catch (error) {
-      toast.error("Ya cuentas con un turno asignado", toastError);
-    }
+      if (error.response) {
+        const { status, data } = error.response;
+        if (status === 400) {
+          toast.error("Ya cuentas con un turno asignado", toastError);
+      } else if (status === 500) {
+        toast.error("Error interno del servidor", toastError)
+    }  else if (status === 404) {
+      toast.error("Turno completo, seleccione otro turno", toastError)
+  } 
   };
-};
+}}
+}; 
 
 export const postSupervisorCharge = (idSupervisor, arrayCompanion) => {
   return async function (dispatch) {
