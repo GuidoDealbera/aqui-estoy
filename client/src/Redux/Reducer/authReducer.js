@@ -20,7 +20,7 @@ const initialState = {
   error: null,
   loading: false,
   passwordRecoveryInfo: {},
-  supervisorsOnline: [],
+  supervisorsOnline: {},
 };
 
 const authReducer = (state = initialState, action) => {

@@ -246,7 +246,7 @@ export const getSupervisorsOnline = (CityTimeZone) => {
   return async function (dispatch){
     try {
       dispatch(setLoading(true));
-      const response = await axios.get("/getOnlineSupervisor", {CityTimeZone});
+      const response = await axios.post("/getOnlineSupervisor", {CityTimeZone});
       dispatch({type: GET_SUPERVISOR_ONLINE, payload: response.data});
       dispatch(setLoading(false));
     } catch (error) {
