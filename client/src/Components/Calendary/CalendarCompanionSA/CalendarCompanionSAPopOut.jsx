@@ -24,6 +24,7 @@ const CalendarSuperAdminPopOut = (props) => {
   
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { togglePopOut, setTogglePopOut } = props;
 
   const handleConfirm = () => {
     Swal.fire({

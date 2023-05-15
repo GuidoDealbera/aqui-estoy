@@ -114,7 +114,7 @@ const CalendarSupervisor = () => {
 
   useEffect(() => {
     dispatch(getAllSupervisorsPerShift());
-  }, [shifts]);
+  }, [togglePopOut]);
 
   // Render de cada celda:
   return (
