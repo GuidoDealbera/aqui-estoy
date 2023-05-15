@@ -11,6 +11,7 @@ import {
   SET_LOADING,
   DELETE_COMPANION_SHIFT,
   GET_PASSWORD_RECOVERY_CODE,
+  GET_SUPERVISOR_ONLINE,
 } from "../Actions/action-types";
 //Acá pongo los GET_ONE y los PUT modificando user;
 const initialState = {
@@ -19,6 +20,7 @@ const initialState = {
   error: null,
   loading: false,
   passwordRecoveryInfo: {},
+  supervisorsOnline: [],
 };
 
 const authReducer = (state = initialState, action) => {
@@ -96,6 +98,11 @@ const authReducer = (state = initialState, action) => {
         ...state,
         passwordRecoveryInfo: action.payload.data,
       };
+    case GET_SUPERVISOR_ONLINE:
+      return {
+        ...state,
+        supervisorsOnline: action.payload
+      }
     default:
       return { ...state };
   }

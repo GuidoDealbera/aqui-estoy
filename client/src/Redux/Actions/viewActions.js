@@ -15,10 +15,11 @@ import {
   GET_PASSWORD_RECOVERY_CODE,
   GET_ALL_SUPERVISORS_PER_SHIFT,
   GET_ALL_COMPANIONS_PER_SHIFT,
+  GET_SUPERVISOR_ONLINE,
 } from "./action-types";
 import axios from "axios";
 import { toast } from "sonner";
-import { toastError } from "./alertStyle";
+import { toastError, toastWarning } from "./alertStyle";
 
 export const getAllCompanions = () => {
   return async function (dispatch) {
@@ -240,3 +241,16 @@ export const getAllCompanionsPerShift = () => {
     }
   };
 };
+
+export const getSupervisorsOnline = (CityTimeZone) => {
+  return async function (dispatch){
+    try {
+      dispatch(setLoading(true));
+      const response = await axios.get("/getOnlineSupervisor", {CityTimeZone});
+      dispatch({type: GET_SUPERVISOR_ONLINE, payload: response.data});
+      dispatch(setLoading(false));
+    } catch (error) {
+      toast.error('Intentenlo nuevamente más tarde', toastWarning);
+    }
+  }
+}
