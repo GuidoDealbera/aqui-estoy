@@ -18,6 +18,8 @@ import {
   Typography
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { toast } from "sonner";
+import { toastWarning } from "../../../Redux/Actions/alertStyle";
 
 const CalendarSupervisor = () => {
   const [togglePopOut, setTogglePopOut] = useState(false);
@@ -95,13 +97,15 @@ const CalendarSupervisor = () => {
       return `${i}:00-${i === 23 ? "00" : i + 1}:00`;
     });
   }
-
   const handleClickCell = (hour, day) => {
     let found = perShift.find(
       (shift) => shift.time === hour && shift.day === day
     );
-    console.log(found);
-    setTogglePopOut(!togglePopOut);
+  
+    if(found.supervisorCount>0 && user.rol === 'Supervisor') {setTogglePopOut(!togglePopOut)}
+    console.log(found.supervisorCount);
+    if(found.supervisorCount === 0 && user.rol === 'Supervisor') toast.error('Para reservar un turno, comunícate con el Administrador', toastWarning)
+    if(user.rol === 'SuperAdmin')  {setTogglePopOut(!togglePopOut)};
     //Actualizo estado local con 1 shift de onClick:
     setShift(found);
   };
@@ -204,8 +208,7 @@ const CalendarSupervisor = () => {
           </TableBody>
         </Table>
       </TableContainer>
-{shift.shiftSupervisors?.length
- &&     
+   
       <CalendarSuperAdminPopOut
         shift={shift}
         setTrigger={setTogglePopOut}
@@ -257,7 +260,7 @@ const CalendarSupervisor = () => {
 
        
       </CalendarSuperAdminPopOut>
-}
+
     </Container>
   );
 };

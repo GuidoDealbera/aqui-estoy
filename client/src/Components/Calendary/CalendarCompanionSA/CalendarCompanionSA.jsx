@@ -77,11 +77,14 @@ const CalendarCompanionSA = () => {
   ];
   let hours = [];
   if (user && (user.rol === "SuperAdmin" || user.rol === "Supervisor")) {
-    hours = Array.from({ length: 23 }, (_, i) => {
+    hours = Array.from({ length: 24 }, (_, i) => {
       const currentHour = i < 10 ? `0${i}` : `${i}`;
       const nextHour =
-        i === 22
-          ? "00"
+        i === 22 
+        ? "24"
+        :
+        i === 23
+          ? "01"
           : (i + 2) % 24 < 10
           ? `0${(i + 2) % 24}`
           : `${(i + 2) % 24}`;
