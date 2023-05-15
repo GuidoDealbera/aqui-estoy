@@ -211,11 +211,11 @@ export default function Register({handleClose}) {
                                     formData.append("file", file);
                                     formData.append(
                                       "upload_preset",
-                                      "mzntwjvh"
+                                      "x75zrl2a"
                                     );
 
                                     const response = await axios.post(
-                                      "https://api.cloudinary.com/v1_1/dqvz1juaf/image/upload",
+                                      "https://api.cloudinary.com/v1_1/dws4qq5ak/image/upload",
                                       formData
                                     );
                                     form.setFieldValue(
