@@ -22,8 +22,6 @@ import {
   getAllSupervisors,
   getAllSupervisorsPerShift,
 } from "./Redux/Actions/viewActions";
-// import OnlineSupervisors from "./Components/OnlineSupervisors/OnlineSupervisors";
-import SupervisorsOnline from "./Components/Modals/SupervisorsOnline";
 axios.defaults.baseURL = import.meta.env.VITE_SERVER_URL;
 
 //axios.defaults.baseURL = 'aquiestoyapi-production.up.railway.app';
@@ -76,7 +74,6 @@ const App = () => {
           <Route path="/calendarCompanion" element={<CalendarCompanion />} />
           <Route path= "/calendarCompanionSA" element={<CalendarCompanionSA/>}/>
           <Route path="/profile/:id/view" element={<ViewProfile />} />
-          <Route path="/prueba" element={<SupervisorsOnline />} />
         </Route>
       </Routes>
       {location.pathname === "/" && <Footer />}
