@@ -14,6 +14,7 @@ import {
   Select,
 } from "@mui/material";
 import {
+  postSupervisorCharge,
   putCompanionEdit,
   putSupervisorEdit,
 } from "../../Redux/Actions/postPutActions";
@@ -22,7 +23,6 @@ import {
   getAllSupervisors,
 } from "../../Redux/Actions/viewActions";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import CountrySelect from "../../Views/Register/registerComponents/CountrySelect";
 import TimezoneSelect from "../../Views/Register/registerComponents/TimeZoneSelect";
 import { toast } from "sonner";
@@ -77,6 +77,12 @@ export default function EditForm({userID, handleClose}) {
   const adminUser = useSelector((state) => state.auth.user);
   const [user, setUser] = useState({});
   const [index, setIndex] = useState(0);
+  const [supervisorSelected, setSupervisorSelected] = useState("");
+  const asignSupervisor = () => {
+    if((user.rol === 'Companion1' || user.rol === 'Companion2')){
+      dispatch(postSupervisorCharge(supervisorSelected, [userID]))
+    }
+  }
   useEffect(() => {
     let allUsers = [...allCompanions, ...allSupervisors];
     setUser(allUsers.find((user) => user.id === userID));
@@ -139,10 +145,10 @@ export default function EditForm({userID, handleClose}) {
       dispatch(getAllCompanions());
       dispatch(getAllSupervisors());
     }
+    asignSupervisor();
     toast.success("Datos actualizados exitosamente", toastSuccess);
     handleClose();
   };
-
   const validationSchema = Yup.object().shape({
     rol: Yup.string().required("Este campo es obligatorio"),
     isActive: Yup.boolean().required("Este campo es obligatorio"),
@@ -252,7 +258,7 @@ export default function EditForm({userID, handleClose}) {
                         <MenuItem disabled value="">Seleccione un supervisor</MenuItem>
                         {allSupervisors?.map((supervisor) => {
                           if(supervisor.name) return (
-                            <MenuItem key={supervisor?.id} value={supervisor?.id}>{`${supervisor?.name} ${supervisor.lastName}`}</MenuItem>
+                            <MenuItem key={supervisor?.id} value={supervisor?.id} onClick={() => setSupervisorSelected(supervisor.id)}>{`${supervisor?.name} ${supervisor.lastName}`}</MenuItem>
                           )
                         })}
                       </Field>

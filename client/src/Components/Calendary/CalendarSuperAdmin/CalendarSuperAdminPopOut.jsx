@@ -70,19 +70,24 @@ const CalendarSuperAdminPopOut = (props) => {
   return props.trigger ? (
     <PopOut>
       <InnerPop>
-        {props.children}
-        <Autocomplete
-          disablePortal
-          id="combo-box"
-          options={supervisors}
-          onChange={handleChange}
-          sx={{ width: 300 }}
-          renderInput={(params) => <TextField {...params} label="Selecciona un supervisor" />}
-          isOptionEqualToValue={isOptionEqualToValue}
-        />
-        <h3>{`Para: ${supervisorId.name}`}</h3>
-        <Button variant="contained" color="primary" onClick={() => handleConfirm()}>Confirma el turno !</Button>
-        <Button variant="contained" color="secondary" onClick={() => props.setTrigger()}>Cancelar</Button>
+      {props.children}
+        { user.rol === "SuperAdmin" &&
+        <div>              
+          <Autocomplete
+            disablePortal
+            id="combo-box"
+            options={supervisors}
+            onChange={handleChange}
+            sx={{ width: 300 }}
+            renderInput={(params) => <TextField {...params} label="Selecciona un supervisor" />}
+            isOptionEqualToValue={isOptionEqualToValue}
+          />
+          <h3>{`Para: ${supervisorId.name}`}</h3>
+          <Button variant="contained" color="primary" onClick={() => handleConfirm()}>Confirma el turno !</Button>
+          
+          </div>
+        }  
+        <Button variant="contained" color="secondary" onClick={() => props.setTrigger()}>Cancelar</Button>    
       </InnerPop>
     </PopOut>
   ) : null;

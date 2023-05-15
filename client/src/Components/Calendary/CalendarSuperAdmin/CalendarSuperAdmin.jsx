@@ -83,7 +83,7 @@ const CalendarSupervisor = () => {
   ];
 
   let hours = [];
-  if (user && user.rol === "SuperAdmin") {
+  if (user && (user.rol === "SuperAdmin" || user.rol === "Supervisor")) {
     hours = Array.from({ length: 24 }, (_, i) => {
       if (i < 9) {
         return `0${i}:00-0${i + 1}:00`;
@@ -160,7 +160,7 @@ const CalendarSupervisor = () => {
           <TableBody>
             {hours.map((hour) => (
               <TableRow key={hour}>
-                <TableCell>{hour}</TableCell>
+                <TableCell >{hour}</TableCell>
                 {days.map((day, index) => {
                   const found = shifts.find(
                     (shift) => shift.day === index && shift.time === hour
@@ -169,15 +169,33 @@ const CalendarSupervisor = () => {
                   const maxSupervisors = found ? found.maxSupervisors : 0;
                   let countText = supervisorCount;
                   if (supervisorCount && maxSupervisors) {
-                    countText = `${supervisorCount}/${maxSupervisors}`;
+                    countText = `${supervisorCount} de ${maxSupervisors}`;
                   }
+                   // Determinar color de disponibilidad y estilos en línea
+              let cellStyle = {};
+              if (found) {
+                const availabilityRatio = supervisorCount / maxSupervisors;
+  
+                if (availabilityRatio <= 0.3) {
+                  cellStyle.backgroundColor = 'lightgreen'; // Alta disponibilidad
+                } 
+                else if (availabilityRatio <= 0.5) {
+                  cellStyle.backgroundColor = "#F0F34E"; // Disponibilidad moderada
+                } else if (availabilityRatio > 0.5) {
+                  cellStyle.backgroundColor = "#C93838" ; 
+                   // Sin disponibilidad
+                }
+              }
+
+          
 
                   return (
-                    <TableCell
+                    <TableCell 
                       key={day}
                       onClick={() => handleClickCell(hour, day)}
+                      style={{...cellStyle, color: "grey"}}
                     >
-                      {countText || "-----"}
+                      {countText || "Disponible"}
                     </TableCell>
                   );
                 })}
@@ -186,7 +204,8 @@ const CalendarSupervisor = () => {
           </TableBody>
         </Table>
       </TableContainer>
-
+{shift.shiftSupervisors?.length
+ &&     
       <CalendarSuperAdminPopOut
         shift={shift}
         setTrigger={setTogglePopOut}
@@ -202,24 +221,43 @@ const CalendarSupervisor = () => {
                 <p onClick={() => navigate(`/profile/${supervisor.id}/view`)}>
                   {supervisor.name}
                 </p>
-                <Button
-                  variant="contained"
-                  onClick={() =>
-                    handleDeleteSupervisor(supervisor.id, shift.shiftId)
-                  }
-                >
-                  X
-                </Button>
+
+                { user.rol === "SuperAdmin" && 
+                 <Button  style={{
+           
+                  fontSize: "12px",
+                  padding: "2px 5px",
+                  border: "none",
+                  borderRadius: "5px",
+                  cursor: "pointer",
+                  margin: "10px"
+                }}
+                        variant="contained"
+                        onClick={() =>
+                          handleDeleteSupervisor(supervisor.id, shift.shiftId)
+                        }
+                      >
+                        X
+                      </Button>
+                }
+               
               </div>
             ))}
           </div>
         ) : (
           ""
         )}
-        <h3>Nuevo turno a asignar:</h3>
-        <label>{shift.day}</label>
-        <p>{shift.time}</p>
+     {user.rol === "SuperAdmin" && (
+  <div>
+    <h3>Nuevo turno a asignar:</h3>
+    <label>{shift.day}</label>
+    <p>{shift.time}</p>
+  </div>
+)}
+
+       
       </CalendarSuperAdminPopOut>
+}
     </Container>
   );
 };

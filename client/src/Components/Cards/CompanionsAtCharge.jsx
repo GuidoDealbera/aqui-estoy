@@ -114,6 +114,7 @@ export default function CompanionsAtCharge() {
           return (
             <Grid item xs={11} sm={6} md={4} lg={3}>
               <Cards
+                key={e?.id}
                 id={e?.id}
                 name={e?.name}
                 lastName={e?.lastName}

@@ -32,7 +32,7 @@ module.exports = (sequelize) => {
       
       maxSupervisors :{
         type: DataTypes.INTEGER,
-        defaultValue : 1,
+        defaultValue : 2,
       },
       hasRules :{
         type: DataTypes.BOOLEAN,

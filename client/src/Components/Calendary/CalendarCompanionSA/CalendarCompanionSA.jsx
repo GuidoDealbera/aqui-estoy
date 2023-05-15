@@ -61,7 +61,7 @@ const CalendarCompanionSA=()=>{
         })
     const days = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'];
     let hours = [];
-    if (user && user.rol === "SuperAdmin") {
+    if (user && (user.rol === "SuperAdmin" || user.rol === "Supervisor")) {
       hours = Array.from({ length: 24 }, (_, i) => {
         const currentHour = i < 10 ? `0${i}` : `${i}`;
         const nextHour = i === 23 ? "00" : ((i + 2) % 24 < 10 ? `0${(i + 2) % 24}` : `${(i + 2) % 24}`);
@@ -107,7 +107,7 @@ return  <Container className="calendar-container">
                 const maxCompanions = found ? found.maxCompanions : 0;             
                 let countText = companionCount;
                 if (companionCount && maxCompanions) {
-                  countText = `${companionCount}/${maxCompanions}`;
+                  countText = `${companionCount} de ${maxCompanions}`;
                 }
                 
               // Determinar color de disponibilidad y estilos en línea
@@ -119,9 +119,9 @@ return  <Container className="calendar-container">
                   cellStyle.backgroundColor = 'lightgreen'; // Alta disponibilidad
                 } 
                 else if (availabilityRatio <= 0.5) {
-                  cellStyle.backgroundColor = 'yellow'; // Disponibilidad moderada
+                  cellStyle.backgroundColor = "#F0F34E"; // Disponibilidad moderada
                 } else if (availabilityRatio > 0.5) {
-                  cellStyle.backgroundColor = 'red'; // Sin disponibilidad
+                  cellStyle.backgroundColor = "#C93838" ; // Sin disponibilidad
                 }
               }
 
@@ -129,9 +129,9 @@ return  <Container className="calendar-container">
                   <td
                   key={day}
                   onClick={() => handleClickCell(hour, day)}
-                  style={cellStyle}
+                style={{...cellStyle, color: "grey"}}
                 >
-                  {countText || "-----"}
+                  {countText || "Disponible"}
                 </td>
                 );
               })}
