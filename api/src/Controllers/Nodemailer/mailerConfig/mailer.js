@@ -22,7 +22,7 @@ const mailer = async () => {
     secure: false,
     auth: {
       type: "OAuth2",
-      user: "aquiestoy.prueba01@gmail.com",
+      user: "aquiestoy.notificacion@gmail.com",
       clientId: oauth2Client.CLIENT_ID,
       clientSecret: oauth2Client.CLIENT_SECRET,
       refreshToken: oauth2Client.REFRESH_TOKEN,

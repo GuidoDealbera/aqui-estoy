@@ -43,7 +43,7 @@ const postDeleteShift = async (req, res) => {
           break;
       }
       mailOptions = {
-        from: "aquiestoy.prueba01@gmail.com",
+        from: "aquiestoy.notificacion@gmail.com",
         to: companion.email, // //! ACA PUEDEN CAMBIAR ESTE PARAMETRO POR SU PROPIO MAIL PARA PROBAR
         subject: "Se ha eliminado un turno de tu agenda de Aqui Estoy!",
         html: deleteShift(day, shift.time),
@@ -88,7 +88,7 @@ const postDeleteShift = async (req, res) => {
           break;
       }
       mailOptions = {
-        from: "aquiestoy.prueba01@gmail.com",
+        from: "aquiestoy.notificacion@gmail.com",
         to: supervisor.email, // //! ACA PUEDEN CAMBIAR ESTE PARAMETRO POR SU PROPIO MAIL PARA PROBAR
         subject: "Se ha eliminado un turno de tu agenda de Aqui Estoy!",
         html: deleteShift(day, shift.time),
