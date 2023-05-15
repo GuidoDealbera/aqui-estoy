@@ -51,9 +51,135 @@ const passwordRecoveryCode = (code) => {
   `;
 };
 const wrongMail = (email) => {
-  return `${email}`;
+  return `<!DOCTYPE html>
+  <html>
+  <head>
+    <title>Email no encontrado</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f2f2f2;
+      }
+      
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        border-radius: 5px;
+        text-align: center;
+      }
+      
+      h1 {
+        color: #333;
+      }
+      
+      p {
+        color: #666;
+        margin-bottom: 20px;
+      }
+      
+      .error-message {
+        margin-top: 30px;
+  
+        color: #333;
+        padding: 10px;
+        border-radius: 5px;
+      }
+      
+      .error-message p {
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Email no encontrado</h1>
+      <p>Lo sentimos, pero la dirección de correo electrónico proporcionada no pertenece a un usuario activo en nuestra plataforma.</p>
+      
+      <div class="error-message">
+        <p>Verifica la dirección de correo electrónico y asegúrate de que esté registrada correctamente en nuestra plataforma.</p>
+      </div>
+    </div>
+  </body>
+  </html>`;
 };
 const passwordHasChange = (email, password) => {
-  return `${email} ${password}`;
+  return `<!DOCTYPE html>
+  <html>
+  <head>
+    <title>Confirmación de Cambio de Contraseña</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f2f2f2;
+      }
+      
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f9f9f9;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        border-radius: 5px;
+        text-align: center;
+      }
+      
+      h1 {
+        color: #333;
+        margin-bottom: 20px;
+      }
+      
+      p {
+        color: #666;
+        margin-bottom: 20px;
+      }
+      
+      .credentials {
+        margin-top: 30px;
+      }
+      
+      .credentials h2 {
+        color: #333;
+        margin-bottom: 10px;
+      }
+      a{
+        color: #FFF;
+      }
+      .credentials p {
+        color: #666;
+      }
+      
+      .email {
+        color: #FFF;
+        background-color: #5C6BC0;
+        padding: 10px 20px;
+        border-radius: 3px;
+        display: inline-block;
+      }
+      
+      .password {
+        color: #FFF;
+        background-color: #43A047;
+        padding: 10px 20px;
+        border-radius: 3px;
+        display: inline-block;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Cambio de Contraseña Exitoso</h1>
+      <p>Tu contraseña ha sido cambiada con éxito. A continuación, se encuentran los detalles de tu cuenta:</p>
+      
+      <div class="credentials">
+        <h2>Detalles de la cuenta</h2>
+        <p><strong>Correo Electrónico:</strong> <span class="email">${email}</span></p>
+        <p><strong>Nueva Contraseña:</strong> <span class="password">${password}</span></p>
+      </div>
+    </div>
+  </body>
+  </html>`;
 };
 module.exports = { passwordRecoveryCode, wrongMail, passwordHasChange };
