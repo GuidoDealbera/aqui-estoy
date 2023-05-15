@@ -161,9 +161,9 @@ export default function Register() {
                                                             setFileName(file.name);
                                                             const formData = new FormData();
                                                             formData.append("file", file)
-                                                            formData.append("upload_preset", "mzntwjvh")
+                                                            formData.append("upload_preset", "x75zrl2a")
 
-                                                            const response = await axios.post("https://api.cloudinary.com/v1_1/dqvz1juaf/image/upload", formData)
+                                                            const response = await axios.post("https://api.cloudinary.com/v1_1/dws4qq5ak/image/upload", formData)
                                                             form.setFieldValue(field.name, response.data.url);
                                                             setLoading(false)
                                                         }} />
