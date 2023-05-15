@@ -106,6 +106,11 @@ export default function NavBar(props) {
       navigate("/panel-supervision");
     }
   };
+  const handleClickCargo = (event) => {
+    if (user.rol === "SuperAdmin") {
+      navigate("/CompanionsAtCharge");
+    }
+  };
 
   const closeSession = () => {
     dispatch(logOut());
@@ -188,6 +193,7 @@ export default function NavBar(props) {
                     <MenuItem onClick={() => navigate(`/profile/${id}`)}>Perfil</MenuItem>
                     {user.rol === 'SuperAdmin' && <MenuItem onClick={handleClick}>Calendario Supervisor</MenuItem>}
                     {user.rol === 'SuperAdmin' && <MenuItem onClick={handleClick2}>Calendario Acompañante</MenuItem>}
+                    {user.rol === 'SuperAdmin' && <MenuItem onClick={handleClickCargo}>Acompañante a mi cargo</MenuItem>}
                     {user.rol === 'SuperAdmin' && <MenuItem onClick={handleClickPanel}>Panel de Supervisión</MenuItem>}
                     {user.rol === 'Companion1' || user.rol === 'Companion2'&& <MenuItem onClick={handleClick}>Calendario</MenuItem>}
                     <MenuItem onClick={closeSession}>Cerrar Sesión</MenuItem>

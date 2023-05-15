@@ -8,6 +8,14 @@ const assignCompanionShift = async (req, res) => {
     const { idShift } = req.body;
     const shift = await CompanionShift.findOne({ where: { id: idShift } });
 
+     // Verificar si el turno ya tiene el número máximo de companions asignados
+     const currentCompanions = await shift.getCompanions();
+     const maxCompanions = shift.maxCompanions;
+ 
+     if (currentCompanions.length >= maxCompanions) {
+       return res.status(404).json({ error: "El turno ya tiene el máximo de acompañantes asignados" });
+     }
+
     if (companion.rol === "Companion2") {
       await companion.addCompanionShifts(shift);
       const updatedCompanion = await Companion.findOne({

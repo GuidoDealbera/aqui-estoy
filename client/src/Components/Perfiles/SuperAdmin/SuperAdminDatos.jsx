@@ -93,6 +93,7 @@ export default function SuperAdminDatos(props) {
       </Grid>
       <Box sx={styles.box}>
         <Button sx={styles.buttons} onClick={() => { navigate("/calendarSuperAdmin") }}>Calendario Supervisor</Button>
+        <Button sx={styles.buttons} onClick={() => { navigate("/calendarCompanionSA") }}>Calendario Acompañantes</Button>
         <Button sx={styles.buttons} onClick={() => { navigate("/companionsAtCharge") }}>Acompañantes a mi cargo</Button>
         <Button sx={styles.buttons} onClick={() => { navigate("/panel-supervision") }}>Panel de supervisión</Button>
       </Box>
