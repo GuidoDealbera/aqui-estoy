@@ -1,11 +1,12 @@
-import { Modal, Box } from "@mui/material";
+import { Modal, Box, Button } from "@mui/material";
 import OnlineSupervisors from '../OnlineSupervisors/OnlineSupervisors';
 
-export default function SupervisorsOnline ({edit, handleClose}){
+export default function SupervisorsOnline ({open, closeOpen}){
     return (
+        <Box>
         <Modal
-          open={edit}
-          onClose={handleClose}
+          open={open}
+          onClose={closeOpen}
           sx={{
             display: "flex",
             alignItems: "center",
@@ -13,8 +14,9 @@ export default function SupervisorsOnline ({edit, handleClose}){
            }}
         >
           <Box>
-            <OnlineSupervisors handleClose={handleClose} />
+            <OnlineSupervisors onClose={closeOpen}/>
           </Box>
         </Modal>
+        </Box>
     );
 }

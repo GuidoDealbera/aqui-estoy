@@ -11,7 +11,6 @@ import CalendarCompanion from "./Components/Calendary/CalendarCompanion/Calendar
 import CalendarCompanionSA from "./Components/Calendary/CalendarCompanionSA/CalendarCompanionSA";
 import CompanionsAtCharge from "./Components/Cards/CompanionsAtCharge";
 import ViewProfile from "./Components/ViewProfile/ViewProfile";
-import EditInfo from "./Views/Register/EditInfo";
 import PasswordRecovery from "./Components/LoginForm/PasswordRecovery";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -23,6 +22,8 @@ import {
   getAllSupervisors,
   getAllSupervisorsPerShift,
 } from "./Redux/Actions/viewActions";
+// import OnlineSupervisors from "./Components/OnlineSupervisors/OnlineSupervisors";
+import SupervisorsOnline from "./Components/Modals/SupervisorsOnline";
 axios.defaults.baseURL = import.meta.env.VITE_SERVER_URL;
 
 //axios.defaults.baseURL = 'aquiestoyapi-production.up.railway.app';
@@ -75,6 +76,7 @@ const App = () => {
           <Route path="/calendarCompanion" element={<CalendarCompanion />} />
           <Route path= "/calendarCompanionSA" element={<CalendarCompanionSA/>}/>
           <Route path="/profile/:id/view" element={<ViewProfile />} />
+          <Route path="/prueba" element={<SupervisorsOnline />} />
         </Route>
       </Routes>
       {location.pathname === "/" && <Footer />}

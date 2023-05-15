@@ -1,13 +1,42 @@
-import { Button, Box, Avatar, Typography, Grid, useTheme } from "@mui/material";
+import { Button, Box, Avatar, Typography, Grid, useTheme, styled, Badge } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../Loader/Loader";
 import ProfileEdit from "../../Modals/ProfileEdit";
-import { getSurpervisorMatch } from "../../../Redux/Actions/viewActions";
+import { getSupervisorsOnline, getSurpervisorMatch } from "../../../Redux/Actions/viewActions";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import styles from "./CompanionProfile";
 import { useState } from "react";
+import SupervisorsOnline from "../../Modals/SupervisorsOnline";
 
+const StyledBadge = styled(Badge)(({ theme }) => ({
+  '& .MuiBadge-badge': {
+    backgroundColor: '#44b700',
+    color: '#44b700',
+    right: -15,
+    boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
+    '&::after': {
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      borderRadius: '50%',
+      animation: 'ripple 1.2s infinite ease-in-out',
+      border: '1px solid currentColor',
+      content: '""',
+    },
+  },
+  '@keyframes ripple': {
+    '0%': {
+      transform: 'scale(.8)',
+      opacity: 1,
+    },
+    '100%': {
+      transform: 'scale(2.8)',
+      opacity: 0.01,
+    },
+  },
+}));
 export default function Companion(props) {
   const theme = useTheme();
   const userLog = props.user.id;
@@ -15,7 +44,9 @@ export default function Companion(props) {
   const navigate = useNavigate();
   const allSupervisors = useSelector((state) => state.view.allSupervisors);
   const { loading } = useSelector((state) => state.auth);
+  const loginUser = useSelector(state => state.auth.user);
   const [edit, setEdit] = useState(false);
+  const [open, setOpen] = useState(false);
   const SuperId = props.user.SupervisorId;
   let MentorName = "No asignado";
   let superOffset = "";
@@ -30,9 +61,17 @@ export default function Companion(props) {
     superPhone = phone;
   }
   const { user } = props;
+  const timeZone = loginUser.CityTimeZone;
+  const handleOpen = () => {
+    dispatch(getSupervisorsOnline(timeZone));
+    setOpen(true);
+  }
   const handleClose = () => {
     setEdit(false);
   };
+  const closeOpen = () => {
+    setOpen(false);
+  }
   const myDate = new Date();
   const myTimeZone = myDate.toString().match(/([\+-][0-9]+)/)[1];
   const myHours = myDate.getHours();
@@ -109,10 +148,17 @@ export default function Companion(props) {
     </Grid>
     <Box sx={styles.box}>
     <Button sx={styles.buttons} onClick={() => navigate("/calendarCompanion")}>Reserva de turnos</Button>
-    <Button sx={styles.buttons}>Supervisores OnLine</Button>
+    <Button sx={{...styles.buttons, width: "210px"}} onClick={handleOpen}>Supervisores Online        
+      <StyledBadge 
+     overlap="circular"
+     anchor={{ vertical: 'bottom', horizontal: 'right' }}
+     variant="dot"
+    />
+    </Button>
     <Button sx={styles.buttons}>Centro de aprendizaje</Button>
     </Box>
     {edit && <ProfileEdit edit={edit} handleClose={handleClose} />}
+    {open && <SupervisorsOnline open={open} closeOpen={closeOpen}/>}
     </Box>
   ) : (
     <Loader />
