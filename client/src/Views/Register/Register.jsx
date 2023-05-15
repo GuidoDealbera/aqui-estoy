@@ -230,6 +230,15 @@ export default function Register() {
                                         <PhoneNumberInput name='phone' label='Número de teléfono' sx={{ width: '300px', marginBottom: '10px' }} />
                                     </Box>
                                     <Box>
+                                        <Select name="studies" sx={{ marginBottom: "20px", width: "300px" }} label="Estudios alcanzados" options={[
+                                            "Secundario",
+                                            "Terciario",
+                                            "Universitario",
+                                            "Postgrado",
+                                        ]}>
+                                        </Select>
+                                    </Box>
+                                    <Box>
                                         <InputLabel sx={{
                                             fontSize: '13px',
                                             maxWidth: '300px',
@@ -248,15 +257,7 @@ export default function Register() {
                                                 "Estudiante",
                                                 "No"]} />
                                     </Box>
-                                    <Box>
-                                        <Select name="studies" sx={{ marginBottom: "20px", width: "300px" }} label="Estudios alcanzados" options={[
-                                            "Secundario",
-                                            "Terciario",
-                                            "Universitario",
-                                            "Postgrado",
-                                        ]}>
-                                        </Select>
-                                    </Box>
+                         
                                     <Box>
                                         <Select name="gender" sx={{ marginBottom: "20px", width: "300px" }} label="¿Con qué genero te identificas?"
                                             options={["Mujer",
