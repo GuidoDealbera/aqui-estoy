@@ -16,7 +16,7 @@ import {
   postCompanion,
 } from "../../../../Redux/Actions/postPutActions";
 import { margin } from "@mui/system";
-import Tooltip from '@mui/material/Tooltip';
+import Tooltip from "@mui/material/Tooltip";
 
 //el archivo CSV debe contener las siguientes columnas:
 // correo : un email
@@ -30,6 +30,7 @@ const CsvImportExport = () => {
   let companionsData = useSelector((state) => state.view.allCompanions);
   let supervisorsData = useSelector((state) => state.view.allSupervisors);
   const [csvErrors, setCsvErrors] = useState({});
+  // const [csvPswErrors, setCsvPswErrors] = useState([]);
   let usrRol = null;
 
   //Aqui se limpia la info para exportar los campos deseados
@@ -72,24 +73,28 @@ const CsvImportExport = () => {
   //--------------------------------------------------------------------
 
   let errors = {};
+
+  //----------------------------UPLOAD CSV-----------------------------
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
     Papa.parse(file, {
       header: true,
       complete: (results) => {
         let newPeople = results.data;
-        console.log(newPeople);
         //array de obj con acompanantes y supervisores
         //{clave: "xxx6", correo: "xxx@xxx.xx", rol: "a||A||s||S"}
-
+     
         newPeople.forEach((usr) => {
+          if (usr.clave.length > 5 || usr.clave.length === 0) {
+           
             if (usr.rol.toLowerCase() === "a") {
               //acompañante 1
               dispatch(
                 postCompanion({
                   email: usr.correo,
-                  isActive: true,
+                  // isActive: true,
                   rol: "Companion1",
+                  password: usr.clave,
                 })
               );
             } else if (usr.rol.toLowerCase() === "b") {
@@ -97,8 +102,9 @@ const CsvImportExport = () => {
               dispatch(
                 postCompanion({
                   email: usr.correo,
-                  isActive: true,
+                  // isActive: true,
                   rol: "Companion2",
+                  password: usr.clave,
                 })
               );
             } else if (usr.rol.toLowerCase() === "s") {
@@ -106,8 +112,9 @@ const CsvImportExport = () => {
               dispatch(
                 postSupervisor({
                   email: usr.correo,
-                  isActive: usr.activo,
+                  // isActive: true,
                   rol: "Supervisor",
+                  password: usr.clave,
                 })
               );
             } else if (usr.rol.toLowerCase() === "t") {
@@ -115,24 +122,42 @@ const CsvImportExport = () => {
               dispatch(
                 postSupervisor({
                   email: usr.correo,
-                  isActive: usr.activo,
+                  // isActive: true,
                   rol: "SuperAdmin",
+                  password: usr.clave,
                 })
               );
             } else {
-              //error en la declaracion del tipo de usuario
-              // errors = csvErrors;
               errors[usr.correo] = "Error en el rol del usuario";
-              // setCsvErrors(errors);
-              toast.error(`Error en el rol de ${usr.correo}`, toastError);
+              // errors.rol = "Error en el rol del usuario";
             }
+          } else {
+            errors[usr.correo] = "Error en la contraseña";
+            //toast.error(`Error en la contraseña de ${usr.correo}`, toastError);
+          }
+
+          // console.log("errors");
+          // console.log(errors);
+          // errors.rol
+          //   ? toast.error(`Error en el rol de ${usr.correo}`, toastError)
+          //   : null;
+          // console.log(`Error en el rol de ${usr.correo}`);
+          // errors.psw
+          //   ? toast.error(
+          //       `El password de ${usr.correo} debe tener al menos 6 caracteres`,
+          //       toastError
+          //     )
+          //   : null;
+          // console.log(
+          //   `El password de ${usr.correo} debe tener al menos 6 caracteres`
+          // );
         });
         setCsvErrors(errors);
       },
     });
   };
 
-  //--------------------------------------------------------------------
+  //-------------------------------DOWNLOAD CSV-------------------------------------
   const handleExportCsv = () => {
     const csv = Papa.unparse(usersData);
     const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
@@ -187,34 +212,30 @@ const CsvImportExport = () => {
               style={{ display: "none" }}
               id="csv-input"
             />
-  
-              <Tooltip 
-              title="Importa lo datos para la creación de nuevos usuarios de la plataforma">
-            <Button
-              sx={{ margin: "1vw" }}
-              variant="contained"
-              onClick={(e) =>
-                fileInput.current ? fileInput.current.click() : null
-              }
-              color="primary"
-            >
-              Importar CSV
-            </Button>
+
+            <Tooltip title="Importa lo datos para la creación de nuevos usuarios de la plataforma">
+              <Button
+                sx={{ margin: "1vw" }}
+                variant="contained"
+                onClick={(e) =>
+                  fileInput.current ? fileInput.current.click() : null
+                }
+                color="primary"
+              >
+                Importar CSV
+              </Button>
             </Tooltip>
 
-            <Tooltip 
-              title="Exporta los datos de los usuarios actuales de la plataforma">
-            <Button
-              variant="contained"
-              onClick={handleExportCsv}
-              color="primary"
-            >
-              Exportar CSV
-            </Button>
+            <Tooltip title="Exporta los datos de los usuarios actuales de la plataforma">
+              <Button
+                variant="contained"
+                onClick={handleExportCsv}
+                color="primary"
+              >
+                Exportar CSV
+              </Button>
             </Tooltip>
-            
           </Box>
-
         </Grid>
       </Grid>
 
@@ -225,6 +246,7 @@ const CsvImportExport = () => {
         justifyContent={"space-evenly"}
         padding={"2vw"}
       >
+       
         {Object.keys(csvErrors).length === 0 ? (
           <Grid
             item
@@ -232,7 +254,7 @@ const CsvImportExport = () => {
             borderRadius={5}
             boxShadow={3}
             borderColor={"lightGray"}
-            width={"50vw"}
+            width={"70vw"}
             padding={"1vw"}
             color={"gray"}
           >
@@ -240,15 +262,21 @@ const CsvImportExport = () => {
               ESTRUCTURA DEL ARCHIVO CSV PARA IMPORTACIÓN:
             </Typography>
             <Typography>
-              El archivo debe contener dos columnas con los nombres: correo y
-              rol (sus nombres en letras minúsculas). 
+              El archivo debe contener tres columnas con los nombres: correo,
+              rol y clave. (sus nombres en letras minúsculas).
             </Typography>
             <Typography>
-              La información de cada columna es como se describe a
-              continuación:
+              La información de cada columna es como se describe a continuación:
             </Typography>
-            <br/>
+            <br />
             <Typography>correo : el correo electrónico del usuario</Typography>
+            <br />
+            
+            <Typography>
+              clave : la contraseña puede estalecerse o dejarse en blanco
+              y el sistema la asignará automaticamente.  El usuario recibirá un 
+              correo con su contraseña.
+            </Typography>
             <br />
             <Typography>
               rol : puede tener los valores valores a, b, s, t, asi::
@@ -259,6 +287,7 @@ const CsvImportExport = () => {
             <Typography>t -Super Admin</Typography>
           </Grid>
         ) : (
+          
           <Grid
             item
             border={1}
