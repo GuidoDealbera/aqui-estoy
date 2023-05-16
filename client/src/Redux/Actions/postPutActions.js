@@ -58,7 +58,6 @@ export const postSupervisor = (supervisor) => {
       dispatch(setLoading(false));
       toast.success("SUPERVISOR creado", toastSuccess);
     } catch (error) {
-      console.log(error.message);
       toast.error("No se pudo crear el SUPERVISOR", toastError);
     }
   };
@@ -209,8 +208,6 @@ export const putSupervisorCharge = (idSupervisor, arrayCompanion) => {
           arrayCompanion,
         })
       ).data;
-
-      console.log(response);
       dispatch({ type: PUT_SUPERVISOR_CHARGE, payload: response });
       dispatch(setLoading(false));
       toast.success(
@@ -255,7 +252,6 @@ export const deleteCompanionShift = (id, idShift) => {
 export const deleteSupervisorShift = (id, idShift) => {
   return async function (dispatch) {
     try {
-      console.log(id);
       dispatch(setLoading(true));
       const response = (
         await axios.delete("/deleteSupervisorShift", {
@@ -265,7 +261,6 @@ export const deleteSupervisorShift = (id, idShift) => {
           },
         })
       ).data;
-      console.log(response);
       dispatch(
         deleteShiftEmail({
           idUser: id,
