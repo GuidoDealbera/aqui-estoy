@@ -7,7 +7,7 @@ const putSupervisorShifts = async (req, res) => {
       return res.status(401).json("No se asignó ningun valor máximo");
       }
     let shifts = []
-    if (day && max && hour) {
+    if (hour && max >=0) {
       const shift = await SupervisorShift.findOne({where:{
         day: day,
         time: hour
@@ -23,13 +23,14 @@ const putSupervisorShifts = async (req, res) => {
       },
         order: [['id', 'ASC']]
       });
-      const response =  shifts.map((shift) => {
-        if (!shift.hasRules) {
-          shift.maxSupervisors = max;
-          shift.save();
-        }
-        return shift
-      });
+      await Promise.all(
+        shifts.map(async (shift) => {
+          if (!shift.hasRules) {
+            shift.maxSupervisors = max;
+            await shift.save();
+          }
+        })
+      );
     }
     shifts = await SupervisorShift.findAll({
       include: {

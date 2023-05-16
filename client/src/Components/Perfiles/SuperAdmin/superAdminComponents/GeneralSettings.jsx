@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import { styled } from "@mui/material/styles";
 import { Select, Typography, MenuItem, Menu, Button } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { putCompanionShift } from "../../../../Redux/Actions/postPutActions";
+import { putSpecificCompanionShift,putGeneralCompanionShift } from "../../../../Redux/Actions/postPutActions";
 
 const StyledInputContainer = styled("div")(({ theme }) => ({
   marginBottom: theme.spacing(2),
@@ -20,7 +20,7 @@ const GeneralSettings = () => {
   companionShifts.sort((a, b) => a.id - b.id);
   //const supervisorShifts = useSelector(state => state.view.allSupervisorShift)
   // Datos de ejemplo, reemplaza esto con las configuraciones reales de tu aplicación
-  const [maxCompanions, setMaxCompanions] = useState(10);
+  const [maxCompanions, setMaxCompanions] = useState(0);
   const [specificMaxCompanions, setSpecificMaxCompanions] = useState({
     day: 0,
     hour: "",
@@ -39,13 +39,25 @@ const GeneralSettings = () => {
       [name]: value,
     });
   };
-  const handleSpecificSubmit = (event)=>{
+  const handleSpecificCompanionSubmit = (event)=>{
     event.preventDefault();
     if(specificMaxCompanions.hour !== ''){
-      console.log(specificMaxCompanions);
-    dispatch(putCompanionShift(specificMaxCompanions))
+    dispatch(putSpecificCompanionShift(specificMaxCompanions))
+    setSpecificMaxCompanions({
+      day: '',
+      hour: '',
+      max: 0,
+    })
     }else{
       alert("Debe seleccionar un horario")
+    }
+  }
+  const handleGeneralCompanionSubmit = (event)=>{
+    event.preventDefault();
+    if(maxCompanions >= 0){
+    dispatch(putGeneralCompanionShift(maxCompanions))
+    }else{
+      alert("El máximo no puede ser menor a 0")
     }
   }
   //  agregar el código para actualizar la configuración en tu base de datos o estado de Redux
@@ -66,6 +78,7 @@ const GeneralSettings = () => {
             onChange={handleMaxCompanionsChange}
             fullWidth
           />
+          <Button onClick={handleGeneralCompanionSubmit}>Guardar</Button>
         </StyledInputContainer>
         <StyledInputContainer>
           <Typography variant="h6">
@@ -125,7 +138,7 @@ const GeneralSettings = () => {
               />
             </label>
           </div>
-          <Button onClick={handleSpecificSubmit}>Guardar Cambios</Button>
+          <Button onClick={handleSpecificCompanionSubmit}>Guardar</Button>
         </StyledInputContainer>
       </Box>
     </Box>
