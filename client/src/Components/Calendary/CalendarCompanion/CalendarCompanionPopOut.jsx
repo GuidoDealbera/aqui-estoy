@@ -4,7 +4,7 @@ import {
   postAssignCompanionShift,
 } from "../../../Redux/Actions/postPutActions";
 import Swal from 'sweetalert2'
-import { Button } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -43,7 +43,9 @@ const CalendarPopOut = (props) => {
   return (
     <Dialog open={open} onClose={() => {props.setTrigger(false); setOpen(false);}}>
       <DialogContent>
+        <Typography variant="p" sx={{fontFamily: "poppins"}}>
         {props.children}
+        </Typography>
       </DialogContent>
       <DialogActions>
       <Button className="confirmButton" onClick={handleConfirm} variant="contained" color="primary">

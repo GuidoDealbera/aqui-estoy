@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import s from "./CalendarCompanionSAPopOut.module.css";
 import { postAssignSupervisorShift } from "../../../Redux/Actions/postPutActions";
-import { Autocomplete, TextField } from "@mui/material";
+import { Autocomplete, Button, TextField, Box, Typography } from "@mui/material";
 import { useState } from "react";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
@@ -22,25 +22,25 @@ const CalendarSuperAdminPopOut = (props) => {
     setTogglePopOut(false);
   };
   return props.trigger ? (
-    <div className={s.popOut}>
-      <div className={s.innerPop}>
+    <Box className={s.popOut} onClick={() => setTogglePopOut(false)}>
+      <Box className={s.innerPop}>
        
-        <div>
+        <Box>
          {props.shift.shiftCompanions?.length ? (
-    <div >
-      <h3><b>Asignados en este turno:</b></h3>
+    <Box>
+      <Typography variant="h6">Asignados en este turno:</Typography>
       {props.shift.shiftCompanions?.map((companion) => (
-     <div style={{display:"flex"}}>
-     <p
+     <Box sx={{display:"flex", alignItems: "center", justifyContent: "space-between"}}>
+     <Typography variant="p" sx={{fontFamily: "poppins", color: "grey", margin: "1%"}}
           key={companion.id}
           onClick={(e) => {
             navigate(`/profile/${companion.id}/view`);
           }}
         >
           {companion.name} 
-        </p>
+        </Typography>
         { (companion.rol === "Companion1" || companion.rol === "Companion2") &&
-          <button onClick={() => handleDeleteCompanion(companion.id, props.shift.shiftId)}   style={{
+          <Button onClick={() => handleDeleteCompanion(companion.id, props.shift.shiftId)}   style={{
             backgroundColor: "grey",
             color: "white",
             fontSize: "12px",
@@ -49,20 +49,21 @@ const CalendarSuperAdminPopOut = (props) => {
             borderRadius: "5px",
             cursor: "pointer",
             margin: "10px"
-          }}>X</button>
+          }}>Borrar</Button>
           }
-        </div>
+        </Box>
 
       ))}
-    </div>
+    </Box>
   ) : (
     ''
   )}
-        </div>
-       <button onClick={() => props.setTrigger()}>Cancelar</button>
-       
-      </div>
-    </div>
+        </Box>
+        <Box sx={{display: "flex", justifyContent: "center", marginTop: "30px"}}>
+       <Button variant="contained" onClick={() => props.setTrigger()}>Aceptar</Button>
+       </Box>
+      </Box>
+    </Box>
   ) : null;
 };
 

@@ -18,6 +18,8 @@ import {
     GET_ALL_COMPANIONS_PER_SHIFT,
     DELETE_SUPERVISOR_SHIFT,
     DELETE_COMPANION_SHIFT,
+    PUT_COMPANION_SHIFT,
+    PUT_SUPERVISOR_SHIFT,
 } from "../Actions/action-types";
 //Acá van los POST modificando a allCompanions y allSupervisors
 const initialState = {
@@ -201,7 +203,16 @@ const viewReducer = (state = initialState, { type, payload }) => {
                   };
                 }
                 return state;
-              
+            case PUT_COMPANION_SHIFT:
+                return {
+                    ...state,
+                    companionsPerShift: payload
+                }
+            case PUT_SUPERVISOR_SHIFT:
+                return {
+                        ...state,
+                        supervisorsPerShift: payload
+                }
         default:
             return {
                 ...state
