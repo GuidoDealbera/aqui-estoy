@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { getAllCompanionsPerShift } from "../../../Redux/Actions/viewActions";
-// import {  Row, Col, Modal } from "react-bootstrap";
+import TimezoneMiddleware from './TimezoneMiddleware';
 import { useEffect, useState } from "react";
 import CalendarCompanionSAPopOut from "./CalendarCompanionSAPopOut";
 import CalendarCompanionPopOut from './CalendarCompanionPopOut';
@@ -32,10 +32,11 @@ const CalendarCompanion = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // Estado con la totalidad de los turnos, esten asignados o no:
-  let shifts = useSelector((state) => state.view.companionsPerShift);
-
   const user = useSelector((state) => state.auth.user);
+
+  // Estado con la totalidad de los turnos, esten asignados o no:
+  let unprocessedShifts = useSelector((state) => state.view.companionsPerShift);
+  let shifts = TimezoneMiddleware(unprocessedShifts, user.CityTimeZone.offSet);
   //Armado de calendario:
   let perShift = shifts.map((shift) => {
     switch (shift.day) {
@@ -176,6 +177,13 @@ const CalendarCompanion = () => {
           </Typography>
         </Grid>
       </Grid>
+      <Typography
+        variant="h7"
+        sx={{ display: "flex", padding: "10px", fontFamily: "poppins" }}
+      >
+        Horarios dispuestos en la zona horaria: {user.CityTimeZone.offSet}{" "}
+        {user.CityTimeZone.zoneName}
+      </Typography>
       <TableContainer component={Paper} className="calendar-container">
         <Table className="calendar-table">
           <TableHead>
@@ -223,7 +231,7 @@ const CalendarCompanion = () => {
                     (user.rol === 'Companion1' || user.rol === 'Companion2') ?
                       <TableCell
                         key={day}
-                        onClick={() => (found && found.shiftCompanions.some(companion => companion.id === user.id)) ? handleDeleteShift(found.shiftId) : handleClickCell(hour, day)}
+                        onClick={() => (found && found.shiftCompanions.some(companion => companion.id === user.id)) ? handleDeleteShift(found.originalShift.shiftId) : handleClickCell(hour, day)}
                         style={{
                           ...cellStyle,
                           color: "grey",

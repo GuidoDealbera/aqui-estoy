@@ -29,7 +29,7 @@ const CalendarPopOut = (props) => {
     }).then((result) => {
       if (result.isConfirmed) {
         const action = user.rol === "Supervisor" || user.rol === "SuperAdmin" ? postAssignSupervisorShift : postAssignCompanionShift;
-        dispatch(action(user.id, props.shift.shiftId.toString(), user.rol)).then(() => {
+        dispatch(action(user.id, props.shift.originalShift.shiftId.toString(), user.rol)).then(() => {
           props.setTrigger(false);
           setOpen(false);
         });
