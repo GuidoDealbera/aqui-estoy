@@ -139,7 +139,7 @@ const CalendarCompanion = () => {
         }
       });
     } else {
-      toast.error("No puedes eliminar este turno", toastWarning);
+      toast.error("No puedes eliminar este turno, comunícate con administración", toastWarning);
     }
   };
 
@@ -206,7 +206,7 @@ const CalendarCompanion = () => {
                   const maxCompanions = found ? found.maxCompanions : 0;
                   let countText = companionCount;
                   if (companionCount && maxCompanions) {
-                    countText = `${companionCount} de ${maxCompanions}`;
+                    countText = 'Disponibles:  ' + ( maxCompanions - companionCount);
                   }
 
                   // Determinar color de disponibilidad y estilos en línea
@@ -214,12 +214,12 @@ const CalendarCompanion = () => {
                   if (found) {
                     const availabilityRatio = companionCount / maxCompanions;
 
-                    if (availabilityRatio <= 0.1) {
+                    if (availabilityRatio <= 0.2) {
                       cellStyle.backgroundColor = "lightgreen"; // Alta disponibilidad
                     } else if (availabilityRatio <= 0.5) {
                       cellStyle.backgroundColor = "#F0F34E"; // Disponibilidad moderada
                     } else if (availabilityRatio > 0.5) {
-                      cellStyle.backgroundColor = "coral";
+                      cellStyle.backgroundColor = "lightyellow";
                     }
                     else if (availabilityRatio == 1) {
                       cellStyle.backgroundColor = "lightgrey"; // Sin disponibilidad
@@ -234,15 +234,17 @@ const CalendarCompanion = () => {
                         onClick={() => (found && found.shiftCompanions.some(companion => companion.id === user.id)) ? handleDeleteShift(found.originalShift.shiftId) : handleClickCell(hour, day)}
                         style={{
                           ...cellStyle,
-                          color: "grey",
+                          color: ((user.rol === 'Companion1' || user.rol === 'Companion2') && found && found.shiftCompanions.some(companion => companion.id === user.id))
+                          ? "#fff"  // Letra blanca para 'Mi turno'
+                          : cellStyle.color,  // Mantener el fondo según la disponibilidad
                           backgroundColor: ((user.rol === 'Companion1' || user.rol === 'Companion2') && found && found.shiftCompanions.some(companion => companion.id === user.id))
-                            ? "pink"  // Fondo blanco para 'Mi turno'
+                            ? "#1976d2"  // Fondo blanco para 'Mi turno'
                             : cellStyle.backgroundColor,  // Mantener el fondo según la disponibilidad
                         }}
                       >
                         {((user.rol === 'Companion1' || user.rol === 'Companion2') && found && found.shiftCompanions.some(companion => companion.id === user.id))
                           ? <> Mi turno {user.rol === 'Companion2' && <button className="delete-button">X</button>}{" "} </>
-                          : (countText || "Libre")
+                          : countText || 'Disponibles:  ' + maxCompanions
                         }
                       </TableCell>
 
@@ -250,9 +252,9 @@ const CalendarCompanion = () => {
                       <TableCell
                         key={day}
                         onClick={() => handleClickCell(hour, day)}
-                        style={{ ...cellStyle, color: "grey" }}
+                        style={cellStyle}
                       >
-                        {countText || "Disponible"}
+                         {countText || 'Disponibles:  ' + maxCompanions}
                       </TableCell>
                   );
                 })}
