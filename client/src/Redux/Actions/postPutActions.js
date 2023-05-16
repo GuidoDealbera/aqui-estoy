@@ -154,13 +154,13 @@ export const postAssignCompanionShift = (idCompanion, idShift, rol) => {
         })
       ).data;
 
-      // dispatch(
-      //   addShiftEmail({
-      //     id: idCompanion,
-      //     idShift: idShift,
-      //     rol: "Companion",
-      //   })
-      // );
+      dispatch(
+        addShiftEmail({
+          id: idCompanion,
+          idShift: idShift,
+          rol: "Companion",
+        })
+      );
       dispatch({ type: POST_ASSIGN_COMPANION_SHIFT, payload: response });
       dispatch(setLoading(false));
       toast.success("Tu turno ha sido confirmado", toastSuccess);
@@ -174,7 +174,7 @@ export const postAssignCompanionShift = (idCompanion, idShift, rol) => {
     }  else if (status === 404) {
       toast.error("Turno completo, seleccione otro turno", toastError)
   } 
-  }
+  };
 }}
 }; 
 
@@ -236,13 +236,13 @@ export const deleteCompanionShift = (id, idShift) => {
           },
         })
       ).data;
-      // dispatch(
-      //   deleteShiftEmail({
-      //     idUser: id,
-      //     idShift: idShift,
-      //     rol: "Companion",
-      //   })
-      // );
+      dispatch(
+        deleteShiftEmail({
+          idUser: id,
+          idShift: idShift,
+          rol: "Companion",
+        })
+      );
       dispatch({ type: DELETE_COMPANION_SHIFT, payload: response });
       dispatch(setLoading(false));
       toast.success("Tu turno ha sido eliminado", toastSuccess);
