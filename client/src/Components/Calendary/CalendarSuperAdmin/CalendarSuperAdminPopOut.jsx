@@ -39,6 +39,7 @@ const CalendarSuperAdminPopOut = (props) => {
   const [isConfirmed, setIsConfirmed] = useState(false);
 
   const handleConfirm = () => {
+    console.log(props.shift);
     Swal.fire({
       title: '¿Estás seguro que quieres confirmar el turno?',
       showCancelButton: true,
@@ -49,7 +50,7 @@ const CalendarSuperAdminPopOut = (props) => {
       if (result.isConfirmed) {
         setIsConfirmed(true);
         if (user.rol === "SuperAdmin") {
-          dispatch(postAssignSupervisorShift(supervisorId.id, props.shift.shiftId.toString(), user.rol));
+          dispatch(postAssignSupervisorShift(supervisorId.id, props.shift.originalShift.shiftId.toString(), user.rol));
         }
         props.setTrigger();
       } else {

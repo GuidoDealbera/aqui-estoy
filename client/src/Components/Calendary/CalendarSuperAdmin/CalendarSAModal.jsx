@@ -53,8 +53,8 @@ export default function CalendarSAModal ({trigger, setTrigger, shift}){
                   marginLeft: "10px"
                 }}
                         variant="contained"
-                        onClick={() =>
-                          handleDeleteSupervisor(supervisor.id, shift.shiftId)
+                        onClick={() =>{
+                          handleDeleteSupervisor(supervisor.id, shift.originalShift.shiftId)}
                         }
                       >
                         Borrar
