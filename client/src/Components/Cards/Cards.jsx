@@ -2,24 +2,21 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import { Button, CardActionArea, CardActions } from "@mui/material";
+import Button from "@mui/material/Button";
+import CardActionArea from "@mui/material/CardActionArea";
+import CardActions from "@mui/material/CardActions";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import { useNavigate } from "react-router-dom";
-import { positions } from "@mui/system";
 
 export default function MultiActionAreaCard(props) {
   const navigate = useNavigate();
   return (
     <Card
-    
       sx={{
-        // width: "20vw",
-      //  height: "500px",
         margin: "2vw",
-      
+
         boxShadow: "2px 2px 2px",
-        // bgcolor:"#C8CCD8"
-        height:"475px"
+        height: "475px",
       }}
     >
       <CardActionArea>
@@ -27,7 +24,6 @@ export default function MultiActionAreaCard(props) {
           component="img"
           height="220"
           width={100}
-          
           image={props.profilePhoto}
           alt={props.name}
         />
@@ -69,16 +65,14 @@ export default function MultiActionAreaCard(props) {
         </CardContent>
       </CardActionArea>
 
-      <CardActions sx={{ justifyContent: "center", position: "relative"}}>
+      <CardActions sx={{ justifyContent: "center", position: "relative" }}>
         <Button
           margin="2px"
           variant="outlined"
           color="primary"
           onClick={() => {
             navigate(`/profile/${props.id}/view`);
-            
           }}
-
         >
           Ver Perfil
         </Button>

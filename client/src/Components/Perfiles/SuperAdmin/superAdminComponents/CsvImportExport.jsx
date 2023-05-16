@@ -1,21 +1,14 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Papa from "papaparse";
-import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
-import { Grid, Typography } from "@mui/material";
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import { toast } from "sonner";
-import { toastSuccess, toastError } from "../../../../Redux/Actions/alertStyle";
 import { useDispatch, useSelector } from "react-redux";
 import {
   postSupervisor,
   postCompanion,
 } from "../../../../Redux/Actions/postPutActions";
-import { margin } from "@mui/system";
 import Tooltip from "@mui/material/Tooltip";
 
 //el archivo CSV debe contener las siguientes columnas:
@@ -30,7 +23,6 @@ const CsvImportExport = () => {
   let companionsData = useSelector((state) => state.view.allCompanions);
   let supervisorsData = useSelector((state) => state.view.allSupervisors);
   const [csvErrors, setCsvErrors] = useState({});
-  // const [csvPswErrors, setCsvPswErrors] = useState([]);
   let usrRol = null;
 
   //Aqui se limpia la info para exportar los campos deseados
@@ -92,7 +84,6 @@ const CsvImportExport = () => {
               dispatch(
                 postCompanion({
                   email: usr.correo,
-                  // isActive: true,
                   rol: "Companion1",
                   password: usr.clave,
                 })
@@ -102,7 +93,6 @@ const CsvImportExport = () => {
               dispatch(
                 postCompanion({
                   email: usr.correo,
-                  // isActive: true,
                   rol: "Companion2",
                   password: usr.clave,
                 })
@@ -112,7 +102,6 @@ const CsvImportExport = () => {
               dispatch(
                 postSupervisor({
                   email: usr.correo,
-                  // isActive: true,
                   rol: "Supervisor",
                   password: usr.clave,
                 })
@@ -122,37 +111,19 @@ const CsvImportExport = () => {
               dispatch(
                 postSupervisor({
                   email: usr.correo,
-                  // isActive: true,
                   rol: "SuperAdmin",
                   password: usr.clave,
                 })
               );
             } else {
               errors[usr.correo] = "Error en el rol del usuario";
-              // errors.rol = "Error en el rol del usuario";
             }
           } else {
             errors[usr.correo] = "Error en la contraseña";
-            //toast.error(`Error en la contraseña de ${usr.correo}`, toastError);
           }
-
-          // console.log("errors");
-          // console.log(errors);
-          // errors.rol
-          //   ? toast.error(`Error en el rol de ${usr.correo}`, toastError)
-          //   : null;
-          // console.log(`Error en el rol de ${usr.correo}`);
-          // errors.psw
-          //   ? toast.error(
-          //       `El password de ${usr.correo} debe tener al menos 6 caracteres`,
-          //       toastError
-          //     )
-          //   : null;
-          // console.log(
-          //   `El password de ${usr.correo} debe tener al menos 6 caracteres`
-          // );
         });
         setCsvErrors(errors);
+        // setImported('true')
       },
     });
   };
@@ -171,22 +142,8 @@ const CsvImportExport = () => {
     document.body.removeChild(link);
   };
 
-  //--------------------------------------------------------------------
-  // const handleChange = (e) => {
-  //   const { name, value } = e.target;
-  //   setUserData({ ...userData, [name]: value });
-  // };
-
-  //--------------------------------------------------------------------
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // implementar la lógica para crear el usuario, como llamar a una API o usar acciones de Redux
-  };
-
   return (
     <Box
-    // border={1}
-    // borderColor={"red"}
     >
       <Typography variant="h5" sx={{ textAlign: "center", margin: "2vw" }}>
         Importar/Exportar Información de usuarios por CSV
@@ -194,14 +151,10 @@ const CsvImportExport = () => {
 
       <Grid
         container
-        // border={1}
-        // borderColor={"green"}
         justifyContent="center"
       >
         <Grid
           item
-          // border={1}
-          // borderColor={"blue"}
         >
           <Box marginBottom={2} justifyContent={"center"}>
             <input
@@ -241,8 +194,6 @@ const CsvImportExport = () => {
 
       <Grid
         container
-        // border={1}
-        // borderColor={"red"}
         justifyContent={"space-evenly"}
         padding={"2vw"}
       >
@@ -281,8 +232,8 @@ const CsvImportExport = () => {
             <Typography>
               rol : puede tener los valores valores a, b, s, t, asi::
             </Typography>
-            <Typography>a -Acompañante 1</Typography>
-            <Typography>b -Acompañante 2</Typography>
+            <Typography>a -Acompañante Inicial</Typography>
+            <Typography>b -Acompañante Avanzado</Typography>
             <Typography>s -Supervisor</Typography>
             <Typography>t -Super Admin</Typography>
           </Grid>

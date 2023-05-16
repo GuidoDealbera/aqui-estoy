@@ -8,9 +8,8 @@ import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import Papa from "papaparse";
-import { bgcolor, border } from "@mui/system";
 import { useNavigate } from "react-router-dom";
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 export default function CompanionsAtCharge() {
   const dispatch = useDispatch();
@@ -54,37 +53,32 @@ export default function CompanionsAtCharge() {
         </Typography>
       </Grid>
 
-      <Grid container 
-      width={"100%"} display={"flex"} 
-      justifyContent={"center"}
-      marginTop={2}
+      <Grid
+        container
+        width={"100%"}
+        display={"flex"}
+        justifyContent={"center"}
+        marginTop={2}
       >
-        <Grid item
-        flex={4}
-        marginLeft={2}
-        >
-        <Button
-          variant="contained"
-          size="small"
-          startIcon={<ArrowBackIcon />}
-          onClick={() => {
-            navigate(-1);
-          }}
-        >
-          Regresar
-        </Button>
+        <Grid item flex={4} marginLeft={2}>
+          <Button
+            variant="contained"
+            size="small"
+            startIcon={<ArrowBackIcon />}
+            onClick={() => {
+              navigate(-1);
+            }}
+          >
+            Regresar
+          </Button>
         </Grid>
 
-        <Grid item 
-        flex={6}
-        >
-        <Tooltip title="Exporta un archivo CSV con la lista de correos de los acompañantes a mi cargo">
-          <Button variant="outlined" 
-          flex={8} 
-          onClick={handleExportEmail}>
-            Exportar Lista de Correos CSV
-          </Button>
-        </Tooltip>
+        <Grid item flex={6}>
+          <Tooltip title="Exporta un archivo CSV con la lista de correos de los acompañantes a mi cargo">
+            <Button variant="outlined" flex={8} onClick={handleExportEmail}>
+              Exportar Lista de Correos CSV
+            </Button>
+          </Tooltip>
         </Grid>
       </Grid>
       <Box
@@ -112,7 +106,7 @@ export default function CompanionsAtCharge() {
             (myMinutes < 10 ? `0${myMinutes}` : myMinutes);
 
           return (
-            <Grid item xs={11} sm={6} md={4} lg={3}>
+            <Grid key={e?.id} item xs={11} sm={6} md={4} lg={3}>
               <Cards
                 key={e?.id}
                 id={e?.id}
