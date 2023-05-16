@@ -14,7 +14,7 @@ const postAddShift = async (req, res) => {
     if (rol === "Companion") {
       const companion = await Companion.findOne({ where: { id: idUser } });
       const shift = await CompanionShift.findOne({ where: { id: idShift } });
-      console.log(shift);
+
       let day = "";
       switch (shift.day) {
         case 0:
@@ -42,15 +42,16 @@ const postAddShift = async (req, res) => {
         default:
           break;
       }
-      console.log(day, shift.time);
+
       mailOptions = {
-        from: "aquiestoy.prueba01@gmail.com",
+        from: "aquiestoy.notificacion@gmail.com",
         to: companion.email, // //! ACA PUEDEN CAMBIAR ESTE PARAMETRO POR SU PROPIO MAIL PARA PROBAR
         subject: "Se ha añadido un nuevo turno en tu agenda de Aqui Estoy!",
         html: addShift(day, shift.time),
       };
       transporter.sendMail(mailOptions, (error, info) => {
         try {
+          console.log(error.message);
           return info;
         } catch (error) {
           return error.message;
@@ -96,8 +97,10 @@ const postAddShift = async (req, res) => {
       };
       transporter.sendMail(mailOptions, (error, info) => {
         try {
+          console.log(info);
           return info;
         } catch (error) {
+          console.log(error.message);
           return error.message;
         }
       });
