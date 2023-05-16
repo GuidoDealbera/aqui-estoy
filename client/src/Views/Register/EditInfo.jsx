@@ -398,14 +398,14 @@ export default function Register({handleClose}) {
                         <PhoneNumberInput
                           name="phone"
                           label="Número de teléfono"
-                          sx={{ width: "300px", marginBottom: "10px" }}
+                          sx={{ width: "300px", marginBottom: "20px" }}
                         />
                       </Box>
                       <Box>
                         <Select
                           name="studies"
                           sx={{ marginBottom: "20px", width: "300px" }}
-                          label="Estudios alcanzados"
+                          label="Nivel de estudios alcanzados"
                           options={[
                             "Secundario",
                             "Terciario",
@@ -415,35 +415,18 @@ export default function Register({handleClose}) {
                         ></Select>
                       </Box>
                       <Box>
-                        <InputLabel
-                          sx={{
-                            fontSize: "13px",
-                            maxWidth: "300px",
-                            whiteSpace: "nowrap",
-                            overflow: "visible",
-                            textOverflow: "ellipsis",
-                            color: !!(
-                              props.errors.profession &&
-                              props.touched.profession
-                            )
-                              ? "#d32f2f"
-                              : null,
-                          }}
-                        >
-                          ¿Estudias o trabajas en alguna de estas areas?
-                        </InputLabel>
                         <Select
                           name="profession"
-                          sx={{ marginBottom: "20px" }}
+                          sx={{ marginBottom: "20px", width: "300px" }}
+                          label="¿Trabajas en alguna de estas áreas?"
                           options={[
+                            "No",
                             "Psicólogo",
                             "Psiquiatra",
                             "Counselor",
                             "Coach",
                             "Asistente Social",
                             "Acompañante Espiritual",
-                            "Estudiante",
-                            "No",
                           ]}
                         />
                       </Box>
