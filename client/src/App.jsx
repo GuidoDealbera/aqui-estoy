@@ -10,7 +10,6 @@ import axios from "axios";
 import CalendarCompanion from "./Components/Calendary/CalendarCompanion/CalendarCompanion";
 import CompanionsAtCharge from "./Components/Cards/CompanionsAtCharge";
 import ViewProfile from "./Components/ViewProfile/ViewProfile";
-import EditInfo from "./Views/Register/EditInfo";
 import PasswordRecovery from "./Components/LoginForm/PasswordRecovery";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";

@@ -90,4 +90,7 @@ router.get("/getMatchShiftTime/:idCompanion", getMatchShiftTime);
 router.get("/getOnlineSupervisor", getOnlineSupervisor);
 router.put("/putSupervisorShifts", putSupervisorShifts)
 router.put("/putCompanionShifts", putCompanionShifts)
+
+
+
 module.exports = router;

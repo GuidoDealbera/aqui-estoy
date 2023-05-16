@@ -17,7 +17,7 @@ const putUserPassword = async (req, res) => {
           { where: { id: companion.id } }
         );
         mailOptions = {
-          from: "aquiestoy.prueba01@gmail.com",
+          from: "aquiestoy.notificacion@gmail.com",
           to: email, // //! ACA PUEDEN CAMBIAR ESTE PARAMETRO POR SU PROPIO MAIL PARA PROBAR
           subject: "Tu contraseña ha sido cambiada",
           html: passwordHasChange(email, password),
@@ -41,7 +41,7 @@ const putUserPassword = async (req, res) => {
           { where: { email: email } }
         );
         mailOptions = {
-          from: "aquiestoy.prueba01@gmail.com",
+          from: "aquiestoy.notificacion@gmail.com",
           to: email, // //! ACA PUEDEN CAMBIAR ESTE PARAMETRO POR SU PROPIO MAIL PARA PROBAR
           subject: "Tu contraseña ha sido cambiada",
           html: passwordHasChange(email, password),

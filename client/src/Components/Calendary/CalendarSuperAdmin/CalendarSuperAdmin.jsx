@@ -185,8 +185,8 @@ const CalendarSupervisor = () => {
                 } 
                 else if (availabilityRatio <= 0.5) {
                   cellStyle.backgroundColor = "#F0F34E"; // Disponibilidad moderada
-                } else if (availabilityRatio > 0.5) {
-                  cellStyle.backgroundColor = "#C93838" ; 
+                } else if (availabilityRatio == 1) {
+                  cellStyle.backgroundColor = "lightgrey" ; 
                    // Sin disponibilidad
                 }
               }

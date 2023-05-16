@@ -89,7 +89,7 @@ const postAddShift = async (req, res) => {
           break;
       }
       mailOptions = {
-        from: "aquiestoy.prueba01@gmail.com",
+        from: "aquiestoy.notificacion@gmail.com",
         to: supervisor.email, // //! ACA PUEDEN CAMBIAR ESTE PARAMETRO POR SU PROPIO MAIL PARA PROBAR
         subject: "Se ha añadido un nuevo turno en tu agenda de Aqui Estoy!",
         html: addShift(day, shift.time),
