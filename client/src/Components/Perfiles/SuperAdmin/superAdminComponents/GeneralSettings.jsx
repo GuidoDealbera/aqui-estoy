@@ -1,96 +1,201 @@
+import React, { useState } from "react";
+import TextField from "@mui/material/TextField";
+import Box from "@mui/material/Box";
+import { styled } from "@mui/material/styles";
+import { Select, Typography, MenuItem, Menu, Button } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { putSpecificCompanionShift,putGeneralCompanionShift } from "../../../../Redux/Actions/postPutActions";
 
-import React, { useState } from 'react';
-import TextField from '@mui/material/TextField';
-import Box from '@mui/material/Box';
-import { styled } from '@mui/material/styles';
-import { Typography } from '@mui/material';
-
-const StyledInputContainer = styled('div')(({ theme }) => ({
+const StyledInputContainer = styled("div")(({ theme }) => ({
   marginBottom: theme.spacing(2),
 }));
 
-const StyledLabel = styled('h3')(({ theme }) => ({
-  fontWeight: 'bold',
+const StyledLabel = styled("h3")(({ theme }) => ({
+  fontWeight: "bold",
 }));
 
 const GeneralSettings = () => {
+  const dispatch = useDispatch();
+  const companionShifts = useSelector((state) => state.view.allCompanionShift);
+  companionShifts.sort((a, b) => a.id - b.id);
+  //const supervisorShifts = useSelector(state => state.view.allSupervisorShift)
   // Datos de ejemplo, reemplaza esto con las configuraciones reales de tu aplicación
-  const [maxAccompanists, setMaxAccompanists] = useState(10);
-  const [specificMaxAccompanists, setSpecificMaxAccompanists] = useState({
-    day: 'Viernes',
-    hours: '20:00 - 22:00',
-    max: 15,
+  const [maxCompanions, setMaxCompanions] = useState({
+    max:0,
+    startTime:"",
+    endTime:"",
+  });
+  const [specificMaxCompanions, setSpecificMaxCompanions] = useState({
+    day: 0,
+    hour: "",
+    max: 0,
   });
 
-  const handleMaxAccompanistsChange = (event) => {
-    setMaxAccompanists(event.target.value);
+  const handleMaxCompanionsChange = (event) => {
+    const { name , value}= event.target
+    setMaxCompanions({
+      ...maxCompanions,
+      [name]:value,
+    });
     // agregar el código para actualizar la configuración en tu base de datos o estado de Redux
   };
 
-  const handleSpecificMaxAccompanistsChange = (event) => {
-    setSpecificMaxAccompanists({
-      ...specificMaxAccompanists,
-      [event.target.name]: event.target.value,
+  const handleSpecificMaxCompanionsChange = (event) => {
+    const { name, value } = event.target;
+    setSpecificMaxCompanions({
+      ...specificMaxCompanions,
+      [name]: value,
     });
-    //  agregar el código para actualizar la configuración en tu base de datos o estado de Redux
   };
+  const handleSpecificCompanionSubmit = (event)=>{
+    event.preventDefault();
+    if(specificMaxCompanions.hour !== ''){
+    dispatch(putSpecificCompanionShift(specificMaxCompanions))
+    setSpecificMaxCompanions({
+      day: '',
+      hour: '',
+      max: 0,
+    })
+    }else{
+      alert("Debe seleccionar un horario")
+    }
+  }
+  const handleGeneralCompanionSubmit = (event)=>{
+    event.preventDefault();
+    if(maxCompanions.max >= 0){
+    dispatch(putGeneralCompanionShift(maxCompanions))
+    }else{
+      alert("El máximo no puede ser menor a 0")
+    }
+  }
+  //  agregar el código para actualizar la configuración en tu base de datos o estado de Redux
 
   return (
     <Box>
-      <Typography variant="h5" sx={{textAlign:"center", margin:"2vw"}}>
-      Configuración General</Typography>
-      <Box sx={{margin:"25vw", marginTop:5}}>
-      <StyledInputContainer>
-        <Typography variant='h6'>Número máximo de acompañantes por turno</Typography>
-        <TextField
-          type="number"
-          value={maxAccompanists}
-          onChange={handleMaxAccompanistsChange}
-          fullWidth
-        />
-      </StyledInputContainer>
-      <StyledInputContainer>
-        <Typography variant='h6'>
-          Número máximo de acompañantes en un turno específico
-        </Typography>
-        <div>
-          <label>
-            <Typography variant='h6'>Día:</Typography>
-            <TextField
-              type="text"
-              name="day"
-              value={specificMaxAccompanists.day}
-              onChange={handleSpecificMaxAccompanistsChange}
-              fullWidth
-            />
-          </label>
-        </div>
-        <div>
-          <label>
-            <Typography variant='h6'>Horario:</Typography>
-            <TextField
-              type="text"
-              name="hours"
-              value={specificMaxAccompanists.hours}
-              onChange={handleSpecificMaxAccompanistsChange}
-              fullWidth
-            />
-          </label>
-        </div>
-        <div>
-          <label>
-            <Typography variant='h6'>Máximo:</Typography>
-            <TextField
-              type="number"
-              name="max"
-              value={specificMaxAccompanists.max}
-              onChange={handleSpecificMaxAccompanistsChange}
-              fullWidth
-            />
-          </label>
-        </div>
-      </StyledInputContainer>
-</Box>
+      <Typography variant="h5" sx={{ textAlign: "center", margin: "2vw" }}>
+        Configuración General
+      </Typography>
+      <Box sx={{ margin: "25vw", marginTop: 5 }}>
+        <StyledInputContainer>
+          <Typography variant="h6">
+            Número máximo de acompañantes por turno
+          </Typography>
+          <TextField
+            type="number"
+            name="max"
+            value={maxCompanions.max}
+            onChange={handleMaxCompanionsChange}
+            fullWidth
+          />
+          <div>
+            <label>
+              <Typography variant="h6">Desde:</Typography>
+              <Select
+                name="startTime"
+                value={maxCompanions.startTime}
+                onChange={handleMaxCompanionsChange}
+                fullWidth
+              >
+                {companionShifts
+                  .sort((a, b) => a.id - b.id)
+                  .map((shift) => {
+                    if (shift.day == specificMaxCompanions.day) {
+                      return (
+                        <MenuItem key={shift.id} value={shift.time.split("-")[0]}>
+                          {shift.time.split("-")[0]}
+                        </MenuItem>
+                      );
+                    }
+                  })}
+              </Select>
+            </label>
+          </div>
+          <div>
+            <label>
+              <Typography variant="h6">Hasta:</Typography>
+              <Select
+                name="endTime"
+                value={maxCompanions.endTime}
+                onChange={handleMaxCompanionsChange}
+                fullWidth
+              >
+                {companionShifts
+                  .sort((a, b) => a.id - b.id)
+                  .map((shift) => {
+                    if (shift.day == specificMaxCompanions.day) {
+                      return (
+                        <MenuItem key={shift.id} value={shift.time.split("-")[1]}>
+                          {shift.time.split("-")[1]}
+                        </MenuItem>
+                      );
+                    }
+                  })}
+              </Select>
+            </label>
+          </div>
+          <Button onClick={handleGeneralCompanionSubmit}>Guardar</Button>
+        </StyledInputContainer>
+        <StyledInputContainer>
+          <Typography variant="h6">
+            Número máximo de acompañantes en un turno específico
+          </Typography>
+          <div>
+            <label>
+              <Typography variant="h6">Día:</Typography>
+              <Select
+                name="day"
+                value={specificMaxCompanions.day}
+                onChange={handleSpecificMaxCompanionsChange}
+                fullWidth
+              >
+                <MenuItem value="0">Lunes</MenuItem>
+                <MenuItem value="1">Martes</MenuItem>
+                <MenuItem value="2">Miércoles</MenuItem>
+                <MenuItem value="3">Jueves</MenuItem>
+                <MenuItem value="4">Viernes</MenuItem>
+                <MenuItem value="5">Sábado</MenuItem>
+                <MenuItem value="6">Domingo</MenuItem>
+              </Select>
+            </label>
+          </div>
+          <div>
+            <label>
+              <Typography variant="h6">Horario:</Typography>
+              <Select
+                name="hour"
+                value={specificMaxCompanions.hour}
+                onChange={handleSpecificMaxCompanionsChange}
+                fullWidth
+              >
+                {companionShifts
+                  .sort((a, b) => a.id - b.id)
+                  .map((shift) => {
+                    if (shift.day == specificMaxCompanions.day) {
+                      return (
+                        <MenuItem key={shift.id} value={shift.time}>
+                          {shift.time}
+                        </MenuItem>
+                      );
+                    }
+                  })}
+              </Select>
+            </label>
+          </div>
+          <div>
+            <label>
+              <Typography variant="h6">Máximo:</Typography>
+              <TextField
+                type="number"
+                name="max"
+                value={specificMaxCompanions.max}
+                onChange={handleSpecificMaxCompanionsChange}
+                fullWidth
+              />
+            </label>
+          </div>
+          <Button onClick={handleSpecificCompanionSubmit}>Guardar</Button>
+        </StyledInputContainer>
+      </Box>
     </Box>
   );
 };

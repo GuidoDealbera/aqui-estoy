@@ -49,6 +49,8 @@ const getPasswordRecoveryCode = require("../Controllers/Nodemailer/passwordContr
 const putUserPassword = require("../Controllers/Nodemailer/passwordController/putUserPassword");
 const postAddShift = require("../Controllers/Nodemailer/ShiftsControllers/postAddShift");
 const postDeleteShift = require("../Controllers/Nodemailer/ShiftsControllers/postDeleteShift");
+const putSupervisorShifts = require("../Controllers/Shift/putSupervisorShifts");
+const putCompanionShifts = require("../Controllers/Shift/putCompanionShifts");
 router.post("/postAddShift", postAddShift);
 router.post("/postDeleteShift", postDeleteShift);
 router.post("/postCreatedAccount", postCreatedAccount);
@@ -85,5 +87,10 @@ router.get("/getCityTimeZone", getCityTimeZone);
 router.post("/getBothRoles", requireLogin, getBothRoles);
 router.get("/getUserById/:id", getUserById);
 router.get("/getMatchShiftTime/:idCompanion", getMatchShiftTime);
-router.post("/getOnlineSupervisor", getOnlineSupervisor);
+router.get("/getOnlineSupervisor", getOnlineSupervisor);
+router.put("/putSupervisorShifts", putSupervisorShifts)
+router.put("/putCompanionShifts", putCompanionShifts)
+
+
+
 module.exports = router;

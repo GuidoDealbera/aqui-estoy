@@ -12,6 +12,8 @@ import {
   DELETE_SUPERVISOR_SHIFT,
   PUT_COMPANION_EDIT,
   PUT_SUPERVISOR_EDIT,
+  PUT_COMPANION_SHIFT,
+  PUT_SUPERVISOR_SHIFT,
 } from "./action-types";
 import axios from "axios";
 import { toast } from "sonner";
@@ -56,7 +58,6 @@ export const postSupervisor = (supervisor) => {
       dispatch(setLoading(false));
       toast.success("SUPERVISOR creado", toastSuccess);
     } catch (error) {
-      console.log(error.message);
       toast.error("No se pudo crear el SUPERVISOR", toastError);
     }
   };
@@ -92,8 +93,7 @@ export const putSupervisor = (id, supervisor) => {
   };
 };
 export const addShiftEmail = (user) => {
-  return async function (dispatch) {
-    console.log(user);
+  return async function () {
     await axios.post("./postAddShift", {
       idUser: user.id,
       idShift: user.idShift,
@@ -103,7 +103,7 @@ export const addShiftEmail = (user) => {
 };
 
 export const deleteShiftEmail = (user) => {
-  return async function (dispatch) {
+  return async function () {
     await axios.post("./postDeleteShift", {
       idUser: user.idUser,
       idShift: user.idShift,
@@ -165,18 +165,17 @@ export const postAssignCompanionShift = (idCompanion, idShift, rol) => {
       toast.success("Tu turno ha sido confirmado", toastSuccess);
     } catch (error) {
       if (error.response) {
-        const { status, data } = error.response;
+        const { status } = error.response;
         if (status === 400) {
           toast.error("Ya cuentas con un turno asignado", toastError);
-        } else if (status === 500) {
-          toast.error("Error interno del servidor", toastError);
-        } else if (status === 404) {
-          toast.error("Turno completo, seleccione otro turno", toastError);
-        }
-      }
-    }
+      } else if (status === 500) {
+        toast.error("Error interno del servidor", toastError)
+    }  else if (status === 404) {
+      toast.error("Turno completo, seleccione otro turno", toastError)
+  } 
   };
-};
+}}
+}; 
 
 export const postSupervisorCharge = (idSupervisor, arrayCompanion) => {
   return async function (dispatch) {
@@ -209,8 +208,6 @@ export const putSupervisorCharge = (idSupervisor, arrayCompanion) => {
           arrayCompanion,
         })
       ).data;
-
-      console.log(response);
       dispatch({ type: PUT_SUPERVISOR_CHARGE, payload: response });
       dispatch(setLoading(false));
       toast.success(
@@ -236,13 +233,13 @@ export const deleteCompanionShift = (id, idShift) => {
           },
         })
       ).data;
-      // dispatch(
-      //   deleteShiftEmail({
-      //     idUser: id,
-      //     idShift: idShift,
-      //     rol: "Companion",
-      //   })
-      // );
+      dispatch(
+        deleteShiftEmail({
+          idUser: id,
+          idShift: idShift,
+          rol: "Companion",
+        })
+      );
       dispatch({ type: DELETE_COMPANION_SHIFT, payload: response });
       dispatch(setLoading(false));
       toast.success("Tu turno ha sido eliminado", toastSuccess);
@@ -255,7 +252,6 @@ export const deleteCompanionShift = (id, idShift) => {
 export const deleteSupervisorShift = (id, idShift) => {
   return async function (dispatch) {
     try {
-      console.log(id);
       dispatch(setLoading(true));
       const response = (
         await axios.delete("/deleteSupervisorShift", {
@@ -265,7 +261,6 @@ export const deleteSupervisorShift = (id, idShift) => {
           },
         })
       ).data;
-      console.log(response);
       dispatch(
         deleteShiftEmail({
           idUser: id,
@@ -314,11 +309,60 @@ export const putSupervisorEdit = (id, supervisor) => {
 };
 
 export const putUserPassword = (passwordRecoveryInfo, password) => {
-  return async function (dispatch) {
+  return async function () {
     await axios.put("/putUserPassword", {
       typeUser: passwordRecoveryInfo.typeUser,
       email: passwordRecoveryInfo.email,
       password: password,
     });
+  };
+};
+
+export const putSpecificCompanionShift = ({day,hour,max}) => {
+  return async function (dispatch) {
+    try {
+      dispatch(setLoading(true));
+     const response = await axios.put(`/putCompanionShifts`, {day,hour,max});
+      dispatch({ type: PUT_COMPANION_SHIFT, payload: response.data });
+      dispatch(setLoading(false));
+    } catch (error) {
+      toast.error("No se pudo actualizar el turno", toastError);
+    }
+  };
+};
+export const putGeneralCompanionShift = ({max,startTime,endTime}) => {
+  return async function (dispatch) {
+    try {
+      dispatch(setLoading(true));
+     const response = await axios.put(`/putCompanionShifts`, {max,startTime,endTime});
+      dispatch({ type: PUT_COMPANION_SHIFT, payload: response.data });
+      dispatch(setLoading(false));
+    } catch (error) {
+      toast.error("No se pudieron actualizar los turnos", toastError);
+    }
+  };
+};
+export const putSpecificSupervisorShift = ({day,hour,max}) => {
+  return async function (dispatch) {
+    try {
+      dispatch(setLoading(true));
+      const response = await axios.put(`/putSupervisorShifts`, {day,hour,max});
+      dispatch({ type: PUT_SUPERVISOR_SHIFT, payload: response.data });
+      dispatch(setLoading(false));
+    } catch (error) {
+      toast.error("No se pudo actualizar el turno", toastError);
+    }
+  };
+};
+export const putGeneralSupervisorShift = (maxSupervisors) => {
+  return async function (dispatch) {
+    try {
+      dispatch(setLoading(true));
+      const response = await axios.put(`/putSupervisorShifts`, {max: maxSupervisors});
+      dispatch({ type: PUT_SUPERVISOR_SHIFT, payload: response.data });
+      dispatch(setLoading(false));
+    } catch (error) {
+      toast.error("No se pudieron actualizar los turnos", toastError);
+    }
   };
 };
