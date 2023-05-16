@@ -20,7 +20,11 @@ const GeneralSettings = () => {
   companionShifts.sort((a, b) => a.id - b.id);
   //const supervisorShifts = useSelector(state => state.view.allSupervisorShift)
   // Datos de ejemplo, reemplaza esto con las configuraciones reales de tu aplicación
-  const [maxCompanions, setMaxCompanions] = useState(0);
+  const [maxCompanions, setMaxCompanions] = useState({
+    max:0,
+    startTime:"",
+    endTime:"",
+  });
   const [specificMaxCompanions, setSpecificMaxCompanions] = useState({
     day: 0,
     hour: "",
@@ -28,7 +32,11 @@ const GeneralSettings = () => {
   });
 
   const handleMaxCompanionsChange = (event) => {
-    setMaxCompanions(event.target.value);
+    const { name , value}= event.target
+    setMaxCompanions({
+      ...maxCompanions,
+      [name]:value,
+    });
     // agregar el código para actualizar la configuración en tu base de datos o estado de Redux
   };
 
@@ -54,7 +62,7 @@ const GeneralSettings = () => {
   }
   const handleGeneralCompanionSubmit = (event)=>{
     event.preventDefault();
-    if(maxCompanions >= 0){
+    if(maxCompanions.max >= 0){
     dispatch(putGeneralCompanionShift(maxCompanions))
     }else{
       alert("El máximo no puede ser menor a 0")
@@ -74,10 +82,57 @@ const GeneralSettings = () => {
           </Typography>
           <TextField
             type="number"
-            value={maxCompanions}
+            name="max"
+            value={maxCompanions.max}
             onChange={handleMaxCompanionsChange}
             fullWidth
           />
+          <div>
+            <label>
+              <Typography variant="h6">Desde:</Typography>
+              <Select
+                name="startTime"
+                value={maxCompanions.startTime}
+                onChange={handleMaxCompanionsChange}
+                fullWidth
+              >
+                {companionShifts
+                  .sort((a, b) => a.id - b.id)
+                  .map((shift) => {
+                    if (shift.day == specificMaxCompanions.day) {
+                      return (
+                        <MenuItem key={shift.id} value={shift.time.split("-")[0]}>
+                          {shift.time.split("-")[0]}
+                        </MenuItem>
+                      );
+                    }
+                  })}
+              </Select>
+            </label>
+          </div>
+          <div>
+            <label>
+              <Typography variant="h6">Hasta:</Typography>
+              <Select
+                name="endTime"
+                value={maxCompanions.endTime}
+                onChange={handleMaxCompanionsChange}
+                fullWidth
+              >
+                {companionShifts
+                  .sort((a, b) => a.id - b.id)
+                  .map((shift) => {
+                    if (shift.day == specificMaxCompanions.day) {
+                      return (
+                        <MenuItem key={shift.id} value={shift.time.split("-")[1]}>
+                          {shift.time.split("-")[1]}
+                        </MenuItem>
+                      );
+                    }
+                  })}
+              </Select>
+            </label>
+          </div>
           <Button onClick={handleGeneralCompanionSubmit}>Guardar</Button>
         </StyledInputContainer>
         <StyledInputContainer>

@@ -2,7 +2,7 @@ const { CompanionShift, Companion } = require("../../db");
 
 const putCompanionShifts = async (req, res) => {
   try {
-    const { day, max, hour } = req.body;
+    let { day, max, hour, startTime, endTime } = req.body;
     if (max < 0 || max === undefined) {
       return res.status(401).json("No se asignó ningun valor máximo");
     }
@@ -26,6 +26,27 @@ const putCompanionShifts = async (req, res) => {
         },
         order: [["id", "ASC"]],
       });
+      
+      if(startTime && endTime){
+       
+        await Promise.all(
+          shifts.map(async (shift) => {
+            if (!shift.hasRules) {
+              const [shiftStartTime, shiftEndTime] = shift.time.split('-');
+              if(endTime === "24:00" && shiftEndTime === "01:00"){
+
+              }else{
+              if (
+                startTime <= shiftStartTime && endTime >= shiftEndTime
+              ) {
+                shift.maxCompanions = max;
+                await shift.save();
+              }
+            }
+          }
+          })
+        );
+      }else{
       await Promise.all(
         shifts.map(async (shift) => {
           if (!shift.hasRules) {
@@ -35,6 +56,7 @@ const putCompanionShifts = async (req, res) => {
         })
       );
     }
+  }
     shifts = await CompanionShift.findAll({
       include: {
         model: Companion,

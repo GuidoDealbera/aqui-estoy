@@ -335,15 +335,15 @@ export const putSpecificCompanionShift = ({day,hour,max}) => {
     }
   };
 };
-export const putGeneralCompanionShift = (maxCompanions) => {
+export const putGeneralCompanionShift = ({max,startTime,endTime}) => {
   return async function (dispatch) {
     try {
       dispatch(setLoading(true));
-     const response = await axios.put(`/putCompanionShifts`, {max: maxCompanions});
+     const response = await axios.put(`/putCompanionShifts`, {max,startTime,endTime});
       dispatch({ type: PUT_COMPANION_SHIFT, payload: response.data });
       dispatch(setLoading(false));
     } catch (error) {
-      toast.error("No se pudo actualizar el turno", toastError);
+      toast.error("No se pudieron actualizar los turnos", toastError);
     }
   };
 };
@@ -355,7 +355,7 @@ export const putSpecificSupervisorShift = ({day,hour,max}) => {
       dispatch({ type: PUT_SUPERVISOR_SHIFT, payload: response.data });
       dispatch(setLoading(false));
     } catch (error) {
-      toast.error("No se pudo actualizar el SUPERVISOR", toastError);
+      toast.error("No se pudo actualizar el turno", toastError);
     }
   };
 };
@@ -367,7 +367,7 @@ export const putGeneralSupervisorShift = (maxSupervisors) => {
       dispatch({ type: PUT_SUPERVISOR_SHIFT, payload: response.data });
       dispatch(setLoading(false));
     } catch (error) {
-      toast.error("No se pudo actualizar el SUPERVISOR", toastError);
+      toast.error("No se pudieron actualizar los turnos", toastError);
     }
   };
 };
