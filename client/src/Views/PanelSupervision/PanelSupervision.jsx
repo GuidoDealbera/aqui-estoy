@@ -33,6 +33,7 @@ import { Box } from "@mui/system";
 import { Button } from "@mui/material";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import styles from "../../Components/Perfiles/SuperAdmin/SuperAdminStyle"
 
 export default function PanelSupervision() {
   const dispatch = useDispatch(); //Para mandar traer los turnos del back.
@@ -127,6 +128,7 @@ export default function PanelSupervision() {
       width={"100%"} display={"flex"} 
       justifyContent={"center"}
       // border={2}
+      
       >
 
       <Grid item flex={4} margin={"2vh"}>
@@ -134,6 +136,7 @@ export default function PanelSupervision() {
           variant="contained"
           size="small"
           startIcon={<ArrowBackIcon />}
+          sx={{ ...styles.buttons, backgroundColor: "#00C8B2", color: "black", marginTop: "3%", "&:hover": { backgroundColor: "#008B7C" } }}
           onClick={() => {
             navigate(-1);
           }}
