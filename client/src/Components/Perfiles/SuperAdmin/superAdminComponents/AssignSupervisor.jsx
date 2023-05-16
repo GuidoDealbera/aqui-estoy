@@ -14,6 +14,7 @@ import {
 import { toast } from "sonner";
 import { toastError } from "../../../../Redux/Actions/alertStyle";
 
+
 const AssignSupervisor = () => {
   const dispatch = useDispatch();
 
@@ -24,18 +25,27 @@ const AssignSupervisor = () => {
   const [selectedCompanions, setSelectedCompanions] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
 
+  const handleSelectCompanion = (event) => {
+    const selectedCompanionIds = event.target.value;
+    setSelectedCompanions(selectedCompanionIds);
+
+    if (selectedCompanionIds.length === allCompanions.length) {
+      setSelectAll(true);
+    } else {
+      setSelectAll(false);
+    }
+  };
+
   const handleSelectAll = () => {
     if (selectAll) {
       setSelectAll(false);
       setSelectedCompanions([]);
     } else {
       setSelectAll(true);
-      const allCompanionIds = allCompanions
-        .filter((companion) => companion.name)
-        .map((companion) => companion.id);
-      setSelectedCompanions(allCompanionIds);
+      setSelectedCompanions(allCompanions.map((companion) => companion.id));
     }
   };
+  
 
   const assignCompanions = () => {
     if (selectedSupervisor) {
@@ -43,6 +53,8 @@ const AssignSupervisor = () => {
         toast.error("Selecciona al menos un acompañante", toastError);
       } else {
         dispatch(postSupervisorCharge(selectedSupervisor, selectedCompanions));
+        setSelectedCompanions([]);
+        setSelectedSupervisor('');
         console.log(
           `Acompañantes ${selectedCompanions.join(
             ", "
@@ -60,6 +72,8 @@ const AssignSupervisor = () => {
         toast.error("Selecciona al menos un acompañante", toastError);
       } else {
         dispatch(putSupervisorCharge(selectedSupervisor, selectedCompanions));
+        setSelectedCompanions([]);
+         setSelectedSupervisor('');
         console.log(
           `Acompañantes ${selectedCompanions.join(
             ", "
@@ -83,9 +97,27 @@ const AssignSupervisor = () => {
               <InputLabel>Supervisor</InputLabel>
               <Select
                 value={selectedSupervisor}
-                onChange={(e) => setSelectedSupervisor(e.target.value)}
+                onChange={(e) => {
+                  const selectedSupervisorId = e.target.value;
+                  setSelectedSupervisor(selectedSupervisorId);
+                 
+                  // Obtén los companions del supervisor seleccionado
+                  const supervisor = allSupervisors.find(
+                    (supervisor) => supervisor.id === selectedSupervisorId
+                  );
+                  if (supervisor) {
+                    const supervisorCompanions = supervisor.Companions.map(
+                      (companion) => companion.id
+                    );
+                    setSelectedCompanions(supervisorCompanions);
+                  } else {
+                    setSelectedCompanions([]);
+                  }
+                }}
                 label="Supervisor"
               >
+                {/* ...opciones de supervisores */}
+        
                 <MenuItem value="">
                   <em>Selecciona un supervisor</em>
                 </MenuItem>
@@ -111,24 +143,32 @@ const AssignSupervisor = () => {
             <FormControl fullWidth>
               <InputLabel>Acompañantes</InputLabel>
               <Select
-                multiple
-                value={
-                  selectAll
-                    ? allCompanions.map((companion) => companion.id)
-                    : selectedCompanions
-                }
-                onChange={(e) => setSelectedCompanions(e.target.value)}
-                label="Acompañante"
-              >
-                {allCompanions.map(
-                  (companion) =>
-                    companion.name && companion.isActive && (
-                      <MenuItem key={companion.id} value={companion.id}>
-                        {companion.name} {companion.lastName}
-                      </MenuItem>
-                    )
-                )}
-              </Select>
+    multiple
+    value={
+      selectAll
+        ? allCompanions.map((companion) => companion.id)
+        : selectedCompanions
+    }
+    onChange={handleSelectCompanion}
+    label="Acompañante"
+  >
+    {allCompanions.map((companion) => {
+      if (companion.name && companion.isActive) {
+        const isSelected = selectedCompanions.includes(companion.id);
+        return (
+          <MenuItem
+            key={companion.id}
+            value={companion.id}
+            style={isSelected ? { fontWeight: "bold" } : {}}
+          >
+            {companion.name} {companion.lastName}
+          </MenuItem>
+        );
+      } else {
+        return null;
+      }
+    })}
+  </Select>
             </FormControl>
           </Grid>
         </Grid>
