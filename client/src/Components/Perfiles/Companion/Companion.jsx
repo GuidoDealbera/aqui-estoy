@@ -155,7 +155,7 @@ export default function Companion(props) {
      variant="dot"
     />
     </Button>
-    <Button sx={styles.buttons}>Centro de aprendizaje</Button>
+    <Button href="https://app.go4clic.com/aqui-estoy-1" sx={styles.buttons}>Centro de aprendizaje</Button>
     </Box>
     {edit && <ProfileEdit edit={edit} handleClose={handleClose} />}
     {open && <SupervisorsOnline open={open} closeOpen={closeOpen}/>}

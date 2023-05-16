@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { getAllSupervisorsPerShift } from "../../../Redux/Actions/viewActions";
 import { useEffect, useState } from "react";
+import CalendarSAModal from './CalendarSAModal'
 import CalendarSuperAdminPopOut from "./CalendarSuperAdminPopOut";
 import { useNavigate } from "react-router-dom";
 import { deleteSupervisorShift } from "../../../Redux/Actions/postPutActions";
@@ -110,11 +111,11 @@ const CalendarSupervisor = () => {
     setShift(found);
   };
 
-  const handleDeleteSupervisor = (supervisorId, shiftId) => {
-    dispatch(deleteSupervisorShift(supervisorId, shiftId));
-    // Cerrar el pop-out después de eliminar el supervisor
-    setTogglePopOut(false);
-  };
+  // const handleDeleteSupervisor = (supervisorId, shiftId) => {
+  //   dispatch(deleteSupervisorShift(supervisorId, shiftId));
+  //   // Cerrar el pop-out después de eliminar el supervisor
+  //   setTogglePopOut(false);
+  // };
 
   useEffect(() => {
     dispatch(getAllSupervisorsPerShift());
@@ -208,8 +209,11 @@ const CalendarSupervisor = () => {
           </TableBody>
         </Table>
       </TableContainer>
-   
-      <CalendarSuperAdminPopOut
+   {togglePopOut && <CalendarSAModal 
+   shift={shift}
+   setTrigger={setTogglePopOut}
+   trigger={togglePopOut}/>}
+      {/* <CalendarSuperAdminPopOut
         shift={shift}
         setTrigger={setTogglePopOut}
         trigger={togglePopOut}
@@ -259,7 +263,7 @@ const CalendarSupervisor = () => {
 )}
 
        
-      </CalendarSuperAdminPopOut>
+      </CalendarSuperAdminPopOut> */}
 
     </Container>
   );

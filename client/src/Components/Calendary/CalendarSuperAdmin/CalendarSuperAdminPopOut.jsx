@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { postAssignSupervisorShift } from "../../../Redux/Actions/postPutActions";
-import { Autocomplete, TextField, Button } from "@mui/material";
+import { Autocomplete, TextField, Button, Typography } from "@mui/material";
 import { useState } from "react";
 import Swal from "sweetalert2";
 import { Box } from '@mui/system';
@@ -78,16 +78,19 @@ const CalendarSuperAdminPopOut = (props) => {
             id="combo-box"
             options={supervisors}
             onChange={handleChange}
-            sx={{ width: 300 }}
+            sx={{ width: 300, marginTop: 2 }}
             renderInput={(params) => <TextField {...params} label="Selecciona un supervisor" />}
             isOptionEqualToValue={isOptionEqualToValue}
           />
-          <h3>{`Para: ${supervisorId.name}`}</h3>
-          <Button variant="contained" color="primary" onClick={() => handleConfirm()}>Confirma el turno !</Button>
-          
           </div>
-        }  
+        }
+        <Box sx={{marginTop: 2.5, padding: 1}}>  
+        <Button variant="contained" color="primary" sx={{marginRight: 2}} onClick={() => {
+          handleConfirm()
+          props.setTrigger(false)}}>Confirmar</Button>
+        
         <Button variant="contained" color="secondary" onClick={() => props.setTrigger()}>Cerrar</Button>    
+        </Box>
       </InnerPop>
     </PopOut>
   ) : null;
