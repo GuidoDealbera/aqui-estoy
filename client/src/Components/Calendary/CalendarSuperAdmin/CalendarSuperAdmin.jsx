@@ -21,6 +21,7 @@ import {
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { toast } from "sonner";
 import { toastWarning } from "../../../Redux/Actions/alertStyle";
+import TimezoneMiddleware from "./TimezoneMiddleware";
 
 const CalendarSupervisor = () => {
   const [togglePopOut, setTogglePopOut] = useState(false);
@@ -28,10 +29,12 @@ const CalendarSupervisor = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // Estado con la totalidad de los turnos, esten asignados o no:
-  let shifts = useSelector((state) => state.view.supervisorsPerShift);
-
   const user = useSelector((state) => state.auth.user);
+
+  // Estado con la totalidad de los turnos, esten asignados o no:
+  let unprocessedShifts = useSelector((state) => state.view.supervisorsPerShift);
+  let shifts = TimezoneMiddleware(unprocessedShifts, user.CityTimeZone.offSet);
+
   //Armado de calendario:
   let perShift = shifts.map((shift) => {
     switch (shift.day) {
@@ -102,11 +105,10 @@ const CalendarSupervisor = () => {
     let found = perShift.find(
       (shift) => shift.time === hour && shift.day === day
     );
-  
-    if(found.supervisorCount>0 && user.rol === 'Supervisor') {setTogglePopOut(!togglePopOut)}
-    console.log(found.supervisorCount);
-    if(found.supervisorCount === 0 && user.rol === 'Supervisor') toast.error('Para reservar un turno, comunícate con el Administrador', toastWarning)
-    if(user.rol === 'SuperAdmin')  {setTogglePopOut(!togglePopOut)};
+
+    if (found.supervisorCount > 0 && user.rol === 'Supervisor') { setTogglePopOut(!togglePopOut) }
+    if (found.supervisorCount === 0 && user.rol === 'Supervisor') toast.error('Para reservar un turno, comunícate con el Administrador', toastWarning)
+    if (user.rol === 'SuperAdmin') { setTogglePopOut(!togglePopOut) };
     //Actualizo estado local con 1 shift de onClick:
     setShift(found);
   };
@@ -151,9 +153,15 @@ const CalendarSupervisor = () => {
           </Typography>
         </Grid>
       </Grid>
-
+      <Typography
+        variant="h7"
+        sx={{ display: "flex", padding: "10px", fontFamily: "poppins" }}
+      >
+        Horarios dispuestos en la zona horaria: {user.CityTimeZone.offSet}{" "}
+        {user.CityTimeZone.zoneName}
+      </Typography>
       <TableContainer component={Paper}>
-        <Table border={1} borderColor={"lightGray"}>
+        <Table border={1} bordercolor={"lightGray"}>
           <TableHead>
             <TableRow>
               <TableCell></TableCell>
@@ -174,33 +182,33 @@ const CalendarSupervisor = () => {
                   const maxSupervisors = found ? found.maxSupervisors : 0;
                   let countText = supervisorCount;
                   if (supervisorCount && maxSupervisors) {
-                    countText ='Disponibles:  ' +  (maxSupervisors - supervisorCount) ;
+                    countText = 'Disponibles:  ' + (maxSupervisors - supervisorCount);
                   }
-                   // Determinar color de disponibilidad y estilos en línea
-              let cellStyle = {};
-              if (found) {
-                const availabilityRatio = supervisorCount / maxSupervisors;
-  
-                if (availabilityRatio <= 0.3) {
-                  cellStyle.backgroundColor = 'lightgreen'; // Alta disponibilidad
-                } 
-                else if (availabilityRatio <= 0.5) {
-                  cellStyle.backgroundColor = "#F0F34E"; // Disponibilidad moderada
-                } else if (availabilityRatio == 1) {
-                  cellStyle.backgroundColor = "lightgrey" ; 
-                   // Sin disponibilidad
-                }
-              }
+                  // Determinar color de disponibilidad y estilos en línea
+                  let cellStyle = {};
+                  if (found) {
+                    const availabilityRatio = supervisorCount / maxSupervisors;
 
-          
+                    if (availabilityRatio <= 0.3) {
+                      cellStyle.backgroundColor = 'lightgreen'; // Alta disponibilidad
+                    }
+                    else if (availabilityRatio <= 0.5) {
+                      cellStyle.backgroundColor = "#F0F34E"; // Disponibilidad moderada
+                    } else if (availabilityRatio == 1) {
+                      cellStyle.backgroundColor = "lightgrey";
+                      // Sin disponibilidad
+                    }
+                  }
+
+
 
                   return (
-                    <TableCell 
+                    <TableCell
                       key={day}
                       onClick={() => handleClickCell(hour, day)}
                       style={cellStyle}
                     >
-                     {countText || 'Disponibles: ' + maxSupervisors}
+                      {countText || 'Disponibles: ' + maxSupervisors}
                     </TableCell>
                   );
                 })}
@@ -209,10 +217,10 @@ const CalendarSupervisor = () => {
           </TableBody>
         </Table>
       </TableContainer>
-   {togglePopOut && <CalendarSAModal 
-   shift={shift}
-   setTrigger={setTogglePopOut}
-   trigger={togglePopOut}/>}
+      {togglePopOut && <CalendarSAModal
+        shift={shift}
+        setTrigger={setTogglePopOut}
+        trigger={togglePopOut} />}
       {/* <CalendarSuperAdminPopOut
         shift={shift}
         setTrigger={setTogglePopOut}

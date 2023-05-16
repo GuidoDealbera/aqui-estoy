@@ -132,7 +132,7 @@ export default function NavBar(props) {
     // ...
   };
   return (
-    <AppBar position="static" color="transparent" elevation={0}>
+    <AppBar position="sticky" sx={{backgroundColor:"#fff"}} elevation={0}>
       <Toolbar sx={{boxShadow: "0 0 5px black"}}>
         <Grid container justifyContent="space-between" alignItems="center">
           <Grid item xs={11}>
