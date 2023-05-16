@@ -111,7 +111,12 @@ const CalendarCompanion = () => {
 
     if (user.rol === 'Companion1' && user.CompanionShifts?.length > 0) {
       return; // Si Companion1 ya tiene un turno reservado, no hacer nada
-    } else {
+    }  
+    if ((user.rol === 'SuperAdmin' || user.rol === 'Supervisor') && found && !found.shiftCompanions?.length) {
+      return toast.error('Los acompanantes reservan sus propios turnos', toastWarning)   
+    }
+    
+    else {
       setTogglePopOut(!togglePopOut);
       setShift(found);
     }
@@ -214,7 +219,7 @@ const CalendarCompanion = () => {
                     } else if (availabilityRatio <= 0.5) {
                       cellStyle.backgroundColor = "#F0F34E"; // Disponibilidad moderada
                     } else if (availabilityRatio > 0.5) {
-                      cellStyle.backgroundColor = "#C93838";
+                      cellStyle.backgroundColor = "coral";
                     }
                     else if (availabilityRatio == 1) {
                       cellStyle.backgroundColor = "lightgrey"; // Sin disponibilidad

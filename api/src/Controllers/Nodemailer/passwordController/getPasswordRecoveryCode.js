@@ -19,7 +19,7 @@ const getPasswordRecoveryCode = async (req, res) => {
     if (supervisor && supervisor.isActive) {
       typeUser = "Supervisor";
       mailOptions = {
-        from: "aquiestoy.prueba01@gmail.com",
+        from: "aquiestoy.notificacion@gmail.com",
         to: email, // //! ACA PUEDEN CAMBIAR ESTE PARAMETRO POR SU PROPIO MAIL PARA PROBAR
         subject: "Recupera tu cuenta en Aqui Estoy!",
         html: passwordRecoveryCode(code),
@@ -29,7 +29,7 @@ const getPasswordRecoveryCode = async (req, res) => {
     if (companion && companion.isActive) {
       typeUser = "Companion";
       mailOptions = {
-        from: "aquiestoy.prueba01@gmail.com",
+        from: "aquiestoy.notificacion@gmail.com",
         to: email, // //! ACA PUEDEN CAMBIAR ESTE PARAMETRO POR SU PROPIO MAIL PARA PROBAR
         subject: "Recupera tu cuenta en Aqui Estoy!",
         html: passwordRecoveryCode(code),
@@ -37,7 +37,7 @@ const getPasswordRecoveryCode = async (req, res) => {
     }
     if (!companion && !supervisor) {
       mailOptions = {
-        from: "aquiestoy.prueba01@gmail.com",
+        from: "aquiestoy.notificacion@gmail.com",
         to: email, // //! ACA PUEDEN CAMBIAR ESTE PARAMETRO POR SU PROPIO MAIL PARA PROBAR
         subject: "Error al recuperar tu cuenta",
         html: wrongMail(email),

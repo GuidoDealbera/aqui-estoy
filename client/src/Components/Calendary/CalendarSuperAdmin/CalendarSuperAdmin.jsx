@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { getAllSupervisorsPerShift } from "../../../Redux/Actions/viewActions";
 import { useEffect, useState } from "react";
+import CalendarSAModal from './CalendarSAModal'
 import CalendarSuperAdminPopOut from "./CalendarSuperAdminPopOut";
 import { useNavigate } from "react-router-dom";
 import { deleteSupervisorShift } from "../../../Redux/Actions/postPutActions";
@@ -110,11 +111,11 @@ const CalendarSupervisor = () => {
     setShift(found);
   };
 
-  const handleDeleteSupervisor = (supervisorId, shiftId) => {
-    dispatch(deleteSupervisorShift(supervisorId, shiftId));
-    // Cerrar el pop-out después de eliminar el supervisor
-    setTogglePopOut(false);
-  };
+  // const handleDeleteSupervisor = (supervisorId, shiftId) => {
+  //   dispatch(deleteSupervisorShift(supervisorId, shiftId));
+  //   // Cerrar el pop-out después de eliminar el supervisor
+  //   setTogglePopOut(false);
+  // };
 
   useEffect(() => {
     dispatch(getAllSupervisorsPerShift());
@@ -173,7 +174,7 @@ const CalendarSupervisor = () => {
                   const maxSupervisors = found ? found.maxSupervisors : 0;
                   let countText = supervisorCount;
                   if (supervisorCount && maxSupervisors) {
-                    countText = `${supervisorCount} de ${maxSupervisors}`;
+                    countText ='Disponibles:  ' +  (maxSupervisors - supervisorCount) ;
                   }
                    // Determinar color de disponibilidad y estilos en línea
               let cellStyle = {};
@@ -185,8 +186,8 @@ const CalendarSupervisor = () => {
                 } 
                 else if (availabilityRatio <= 0.5) {
                   cellStyle.backgroundColor = "#F0F34E"; // Disponibilidad moderada
-                } else if (availabilityRatio > 0.5) {
-                  cellStyle.backgroundColor = "#C93838" ; 
+                } else if (availabilityRatio == 1) {
+                  cellStyle.backgroundColor = "lightgrey" ; 
                    // Sin disponibilidad
                 }
               }
@@ -197,9 +198,9 @@ const CalendarSupervisor = () => {
                     <TableCell 
                       key={day}
                       onClick={() => handleClickCell(hour, day)}
-                      style={{...cellStyle, color: "grey"}}
+                      style={cellStyle}
                     >
-                      {countText || "Disponible"}
+                     {countText || 'Disponibles: ' + maxSupervisors}
                     </TableCell>
                   );
                 })}
@@ -208,8 +209,11 @@ const CalendarSupervisor = () => {
           </TableBody>
         </Table>
       </TableContainer>
-   
-      <CalendarSuperAdminPopOut
+   {togglePopOut && <CalendarSAModal 
+   shift={shift}
+   setTrigger={setTogglePopOut}
+   trigger={togglePopOut}/>}
+      {/* <CalendarSuperAdminPopOut
         shift={shift}
         setTrigger={setTogglePopOut}
         trigger={togglePopOut}
@@ -259,7 +263,7 @@ const CalendarSupervisor = () => {
 )}
 
        
-      </CalendarSuperAdminPopOut>
+      </CalendarSuperAdminPopOut> */}
 
     </Container>
   );
