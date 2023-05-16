@@ -12,6 +12,8 @@ import {
   DELETE_SUPERVISOR_SHIFT,
   PUT_COMPANION_EDIT,
   PUT_SUPERVISOR_EDIT,
+  PUT_COMPANION_SHIFT,
+  PUT_SUPERVISOR_SHIFT,
 } from "./action-types";
 import axios from "axios";
 import { toast } from "sonner";
@@ -319,5 +321,30 @@ export const putUserPassword = (passwordRecoveryInfo, password) => {
       email: passwordRecoveryInfo.email,
       password: password,
     });
+  };
+};
+
+export const putCompanionShift = ({day,hour,max}) => {
+  return async function (dispatch) {
+    try {
+      dispatch(setLoading(true));
+      const response = await axios.put(`/putCompanionShifts`, {day,hour,max});
+      dispatch({ type: PUT_COMPANION_SHIFT, payload: response.data });
+      dispatch(setLoading(false));
+    } catch (error) {
+      toast.error("No se pudo actualizar el turno", toastError);
+    }
+  };
+};
+export const putSupervisorShift = (specificMaxSupervisor) => {
+  return async function (dispatch) {
+    try {
+      dispatch(setLoading(true));
+      const response = await axios.put(`/putCompanionShifts`, {specificMaxSupervisor});
+      dispatch({ type: PUT_SUPERVISOR_SHIFT, payload: response.data });
+      dispatch(setLoading(false));
+    } catch (error) {
+      toast.error("No se pudo actualizar el SUPERVISOR", toastError);
+    }
   };
 };
