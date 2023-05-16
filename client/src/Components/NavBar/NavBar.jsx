@@ -139,7 +139,7 @@ export default function NavBar(props) {
             <Link to="/">
               <CardMedia
                 component="img"
-                style={{ height: "20%", width: "20%" }}
+                style={{ minWidth: "140px", maxWidth: "280px"}}
                 image={image}
                 alt="aquiEstoy"
               />
