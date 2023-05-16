@@ -15,21 +15,21 @@ const StyledLabel = styled('h3')(({ theme }) => ({
 
 const GeneralSettings = () => {
   // Datos de ejemplo, reemplaza esto con las configuraciones reales de tu aplicación
-  const [maxAccompanists, setMaxAccompanists] = useState(10);
-  const [specificMaxAccompanists, setSpecificMaxAccompanists] = useState({
+  const [maxCompanions, setMaxAccompanists] = useState(10);
+  const [specificMaxCompanions, setSpecificMaxCompanions] = useState({
     day: 'Viernes',
     hours: '20:00 - 22:00',
     max: 15,
   });
 
-  const handleMaxAccompanistsChange = (event) => {
+  const handleMaxCompanionsChange = (event) => {
     setMaxAccompanists(event.target.value);
     // agregar el código para actualizar la configuración en tu base de datos o estado de Redux
   };
 
-  const handleSpecificMaxAccompanistsChange = (event) => {
-    setSpecificMaxAccompanists({
-      ...specificMaxAccompanists,
+  const handleSpecificMaxCompanionsChange = (event) => {
+    setSpecificMaxCompanions({
+      ...specificMaxCompanions,
       [event.target.name]: event.target.value,
     });
     //  agregar el código para actualizar la configuración en tu base de datos o estado de Redux
@@ -44,8 +44,8 @@ const GeneralSettings = () => {
         <Typography variant='h6'>Número máximo de acompañantes por turno</Typography>
         <TextField
           type="number"
-          value={maxAccompanists}
-          onChange={handleMaxAccompanistsChange}
+          value={maxCompanions}
+          onChange={handleMaxCompanionsChange}
           fullWidth
         />
       </StyledInputContainer>
@@ -59,8 +59,8 @@ const GeneralSettings = () => {
             <TextField
               type="text"
               name="day"
-              value={specificMaxAccompanists.day}
-              onChange={handleSpecificMaxAccompanistsChange}
+              value={specificMaxCompanions.day}
+              onChange={handleSpecificMaxCompanionsChange}
               fullWidth
             />
           </label>
@@ -71,8 +71,8 @@ const GeneralSettings = () => {
             <TextField
               type="text"
               name="hours"
-              value={specificMaxAccompanists.hours}
-              onChange={handleSpecificMaxAccompanistsChange}
+              value={specificMaxCompanions.hours}
+              onChange={handleSpecificMaxCompanionsChange}
               fullWidth
             />
           </label>
@@ -83,8 +83,8 @@ const GeneralSettings = () => {
             <TextField
               type="number"
               name="max"
-              value={specificMaxAccompanists.max}
-              onChange={handleSpecificMaxAccompanistsChange}
+              value={specificMaxCompanions.max}
+              onChange={handleSpecificMaxCompanionsChange}
               fullWidth
             />
           </label>
