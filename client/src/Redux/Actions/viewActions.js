@@ -202,10 +202,11 @@ export const getUserById = (id) => {
 export const getSurpervisorMatch = (idCompanion) => {
   return async function (dispatch) {
     try {
+      dispatch(setLoading(true))
       const response = (await axios.get(`/getMatchShiftTime/${idCompanion}`))
         .data;
-      console.log(response);
       dispatch({ type: GET_SUPERVISOR_MATCH, payload: response });
+      dispatch(setLoading(false))
     } catch (error) {
       toast.error("No se pudo cargar el supervisor", toastError);
     }
@@ -221,9 +222,10 @@ export const getPasswordRecoveryCode = (email) => {
 export const getAllSupervisorsPerShift = () => {
   return async function (dispatch) {
     try {
+      dispatch(setLoading(true))
       const response = (await axios.get("/getAllSupervisorsPerShift")).data;
-
       dispatch({ type: GET_ALL_SUPERVISORS_PER_SHIFT, payload: response });
+      dispatch(setLoading(false))
     } catch (error) {
       console.log({ error: error.message });
     }
@@ -233,9 +235,10 @@ export const getAllSupervisorsPerShift = () => {
 export const getAllCompanionsPerShift = () => {
   return async function (dispatch) {
     try {
+      setLoading(true)
       const response = (await axios.get("/getAllCompanionsPerShift")).data;
-
       dispatch({ type: GET_ALL_COMPANIONS_PER_SHIFT, payload: response });
+      setLoading(false)
     } catch (error) {
       console.log({ error: error.message });
     }

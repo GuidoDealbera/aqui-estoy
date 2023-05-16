@@ -1,9 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
 import { getAllCompanionsPerShift } from "../../../Redux/Actions/viewActions";
-import TimezoneMiddleware from './TimezoneMiddleware';
+import TimezoneMiddleware from "./TimezoneMiddleware";
 import { useEffect, useState } from "react";
 import CalendarCompanionSAPopOut from "./CalendarCompanionSAPopOut";
-import CalendarCompanionPopOut from './CalendarCompanionPopOut';
+import CalendarCompanionPopOut from "./CalendarCompanionPopOut";
 import { useNavigate } from "react-router-dom";
 import {
   Typography,
@@ -17,20 +17,26 @@ import {
   TableRow,
   TableCell,
   TableBody,
-  Paper
+  Paper,
 } from "@mui/material";
-import "./CalendarCompanion.css"
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import "./CalendarCompanion.css";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { deleteCompanionShift } from "../../../Redux/Actions/postPutActions";
-import { toastSuccess, toastError, toastWarning, } from "../../../Redux/Actions/alertStyle";
+import {
+  toastSuccess,
+  toastError,
+  toastWarning,
+} from "../../../Redux/Actions/alertStyle";
 import { toast } from "sonner";
 import Swal from "sweetalert2";
+import Loader from "../../Loader/Loader";
 
 const CalendarCompanion = () => {
   const [togglePopOut, setTogglePopOut] = useState(false);
   const [shift, setShift] = useState({});
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { loading } = useSelector((state) => state.auth);
 
   const user = useSelector((state) => state.auth.user);
 
@@ -96,33 +102,36 @@ const CalendarCompanion = () => {
     const nextHour =
       i === 22
         ? "24"
-        :
-        i === 23
-          ? "01"
-          : (i + 2) % 24 < 10
-            ? `0${(i + 2) % 24}`
-            : `${(i + 2) % 24}`;
+        : i === 23
+        ? "01"
+        : (i + 2) % 24 < 10
+        ? `0${(i + 2) % 24}`
+        : `${(i + 2) % 24}`;
     return `${currentHour}:00-${nextHour}:00`;
   });
 
-
   const handleClickCell = (hour, day) => {
-    const found = perShift.find((shift) => shift.time === hour && shift.day === day);
+    const found = perShift.find(
+      (shift) => shift.time === hour && shift.day === day
+    );
 
-    if (user.rol === 'Companion1' && user.CompanionShifts?.length > 0) {
+    if (user.rol === "Companion1" && user.CompanionShifts?.length > 0) {
       return; // Si Companion1 ya tiene un turno reservado, no hacer nada
-    }  
-    if ((user.rol === 'SuperAdmin' || user.rol === 'Supervisor') && found && !found.shiftCompanions?.length) {
-      return toast.error('Los acompanantes reservan sus propios turnos', toastWarning)   
     }
-    
-    else {
+    if (
+      (user.rol === "SuperAdmin" || user.rol === "Supervisor") &&
+      found &&
+      !found.shiftCompanions?.length
+    ) {
+      return toast.error(
+        "Los acompanantes reservan sus propios turnos",
+        toastWarning
+      );
+    } else {
       setTogglePopOut(!togglePopOut);
       setShift(found);
     }
   };
-
-
 
   const handleDeleteShift = (idShift) => {
     if (user.rol === "Companion2") {
@@ -135,11 +144,13 @@ const CalendarCompanion = () => {
       }).then((result) => {
         if (result.isConfirmed) {
           dispatch(deleteCompanionShift(user.id, idShift));
-
         }
       });
     } else {
-      toast.error("No puedes eliminar este turno, comunícate con administración", toastWarning);
+      toast.error(
+        "No puedes eliminar este turno, comunícate con administración",
+        toastWarning
+      );
     }
   };
 
@@ -148,7 +159,7 @@ const CalendarCompanion = () => {
   }, [togglePopOut, user]);
 
   // Render de cada celda:
-  return (
+  return !loading ? (
     <Container>
       <Grid
         container
@@ -206,7 +217,8 @@ const CalendarCompanion = () => {
                   const maxCompanions = found ? found.maxCompanions : 0;
                   let countText = companionCount;
                   if (companionCount && maxCompanions) {
-                    countText = 'Disponibles:  ' + ( maxCompanions - companionCount);
+                    countText =
+                      "Disponibles:  " + (maxCompanions - companionCount);
                   }
 
                   // Determinar color de disponibilidad y estilos en línea
@@ -214,48 +226,79 @@ const CalendarCompanion = () => {
                   if (found) {
                     const availabilityRatio = companionCount / maxCompanions;
 
-                    if (availabilityRatio <= 0.2) {
+                    if (availabilityRatio <= 0.3) {
                       cellStyle.backgroundColor = "lightgreen"; // Alta disponibilidad
                     } else if (availabilityRatio <= 0.5) {
                       cellStyle.backgroundColor = "#F0F34E"; // Amarillo Disponibilidad moderada
                     } else if (1 > availabilityRatio > 0.5) {
-                      cellStyle.backgroundColor = "lightyellow";
-                    }
-                    else if (availabilityRatio == 1) {
+                      cellStyle.backgroundColor = "lightyellow"; //Poca disponibilidad
+                    } else if (availabilityRatio == 1) {
                       cellStyle.backgroundColor = "lightgrey"; // Sin disponibilidad
                     }
                   }
 
-
-                  return (
-                    (user.rol === 'Companion1' || user.rol === 'Companion2') ?
-                      <TableCell
-                        key={day}
-                        onClick={() => (found && found.shiftCompanions.some(companion => companion.id === user.id)) ? handleDeleteShift(found.originalShift.shiftId) : handleClickCell(hour, day)}
-                        style={{
-                          ...cellStyle,
-                          color: ((user.rol === 'Companion1' || user.rol === 'Companion2') && found && found.shiftCompanions.some(companion => companion.id === user.id))
-                          ? "#fff"  // Letra blanca para 'Mi turno'
-                          : cellStyle.color,  // Mantener el fondo según la disponibilidad
-                          backgroundColor: ((user.rol === 'Companion1' || user.rol === 'Companion2') && found && found.shiftCompanions.some(companion => companion.id === user.id))
-                            ? "#1976d2"  // Fondo blanco para 'Mi turno'
-                            : cellStyle.backgroundColor,  // Mantener el fondo según la disponibilidad
-                        }}
-                      >
-                        {((user.rol === 'Companion1' || user.rol === 'Companion2') && found && found.shiftCompanions.some(companion => companion.id === user.id))
-                          ? <> Mi turno {user.rol === 'Companion2' && <button className="delete-button">X</button>}{" "} </>
-                          : countText || 'Disponibles:  ' + maxCompanions
-                        }
-                      </TableCell>
-
-                      : (user.rol === 'SuperAdmin' || user.rol === 'Supervisor') &&
+                  return user.rol === "Companion1" ||
+                    user.rol === "Companion2" ? (
+                    <TableCell
+                      key={day}
+                      onClick={() =>
+                        found &&
+                        found.shiftCompanions.some(
+                          (companion) => companion.id === user.id
+                        )
+                          ? handleDeleteShift(found.originalShift.shiftId)
+                          : handleClickCell(hour, day)
+                      }
+                      style={{
+                        ...cellStyle,
+                        color:
+                          (user.rol === "Companion1" ||
+                            user.rol === "Companion2") &&
+                          found &&
+                          found.shiftCompanions.some(
+                            (companion) => companion.id === user.id
+                          )
+                            ? "#fff" // Letra blanca para 'Mi turno'
+                            : cellStyle.color, // Mantener el fondo según la disponibilidad
+                        backgroundColor:
+                          (user.rol === "Companion1" ||
+                            user.rol === "Companion2") &&
+                          found &&
+                          found.shiftCompanions.some(
+                            (companion) => companion.id === user.id
+                          )
+                            ? "#1976d2" // Fondo blanco para 'Mi turno'
+                            : cellStyle.backgroundColor, // Mantener el fondo según la disponibilidad
+                      }}
+                    >
+                      {(user.rol === "Companion1" ||
+                        user.rol === "Companion2") &&
+                      found &&
+                      found.shiftCompanions.some(
+                        (companion) => companion.id === user.id
+                      ) ? (
+                        <>
+                          {" "}
+                          Mi turno{" "}
+                          {user.rol === "Companion2" && (
+                            <button className="delete-button">X</button>
+                          )}{" "}
+                        </>
+                      ) : (
+                        countText || "Disponibles:  " + maxCompanions
+                      )}
+                    </TableCell>
+                  ) : (
+                    (user.rol === "SuperAdmin" ||
+                      user.rol === "Supervisor") && (
                       <TableCell
                         key={day}
                         onClick={() => handleClickCell(hour, day)}
                         style={cellStyle}
                       >
-                         {countText || 'Disponibles:  ' + maxCompanions}
+                        {countText || "Disponibles:  " + maxCompanions}
                       </TableCell>
+                    )
                   );
                 })}
               </TableRow>
@@ -263,8 +306,7 @@ const CalendarCompanion = () => {
           </TableBody>
         </Table>
 
-
-        {(user.rol === 'SuperAdmin' || user.rol === 'Supervisor') ?
+        {user.rol === "SuperAdmin" || user.rol === "Supervisor" ? (
           <CalendarCompanionSAPopOut
             shift={shift}
             setTrigger={setTogglePopOut}
@@ -272,7 +314,7 @@ const CalendarCompanion = () => {
             togglePopOut={togglePopOut}
             setTogglePopOut={setTogglePopOut}
           ></CalendarCompanionSAPopOut>
-          :
+        ) : (
           <CalendarCompanionPopOut
             shift={shift}
             setTrigger={setTogglePopOut}
@@ -283,11 +325,12 @@ const CalendarCompanion = () => {
             <h3>Estas por reservar el siguiente turno:</h3>
             <label>{shift.day}</label>
             <p>{shift.time}</p>
-
           </CalendarCompanionPopOut>
-        }
+        )}
       </TableContainer>
     </Container>
+  ) : (
+    <Loader />
   );
 };
 export default CalendarCompanion;

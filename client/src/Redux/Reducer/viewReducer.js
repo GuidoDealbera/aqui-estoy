@@ -32,8 +32,8 @@ const initialState = {
     allCompanionShiftAssign: [],
     viewUser: {},
     SupervisorMatch: {},
-    supervisorsPerShift: {},
-    companionsPerShift: {},
+    supervisorsPerShift: [],
+    companionsPerShift: [],
 }
 const viewReducer = (state = initialState, { type, payload }) => {
     switch (type) {

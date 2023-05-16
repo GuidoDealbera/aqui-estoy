@@ -5,6 +5,10 @@ import Loader from "../../Loader/Loader";
 import ProfileEdit from "../../Modals/ProfileEdit";
 import { getSupervisorsOnline, getSurpervisorMatch } from "../../../Redux/Actions/viewActions";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
+import EditIcon from '@mui/icons-material/Edit';
+import AssignmentIcon from '@mui/icons-material/Assignment';
+import PersonIcon from '@mui/icons-material/Person';
+import Diversity3Icon from '@mui/icons-material/Diversity3';
 import styles from "./CompanionProfile";
 import { useState } from "react";
 import SupervisorsOnline from "../../Modals/SupervisorsOnline";
@@ -13,7 +17,7 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
   '& .MuiBadge-badge': {
     backgroundColor: '#44b700',
     color: '#44b700',
-    right: -15,
+    right: -8,
     boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
     '&::after': {
       top: 0,
@@ -32,8 +36,8 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
       opacity: 1,
     },
     '100%': {
-      transform: 'scale(2.8)',
-      opacity: 0.01,
+      transform: 'scale(3.5)',
+      opacity: 0.1,
     },
   },
 }));
@@ -105,7 +109,7 @@ export default function Companion(props) {
         <Typography>Hora del mentor: {horaLoc} hs</Typography>
         </Box>
         )}
-        <Button sx={{...styles.buttons, backgroundColor: "#00C8B2",color: "black", "&:hover":{backgroundColor: "#008B7C"}}} onClick={()=>setEdit(true)}>Editar perfil</Button>
+        <Button startIcon={<EditIcon/>} sx={{...styles.buttons, backgroundColor: "#00C8B2",color: "black", "&:hover":{backgroundColor: "#008B7C"}}} onClick={()=>setEdit(true)}>Editar perfil</Button>
       </Grid>
       <Grid item sx={styles.body} sm={10} md={5}>
         <Box sx={{ ...styles.body.info, borderTop: "none" }} id="primero">
@@ -147,15 +151,16 @@ export default function Companion(props) {
       </Grid>
     </Grid>
     <Box sx={styles.box}>
-    <Button sx={styles.buttons} onClick={() => navigate("/calendarCompanion")}>Reserva de turnos</Button>
-    <Button sx={{...styles.buttons, width: "210px"}} onClick={handleOpen}>Supervisores Online        
+    <Button startIcon={<AssignmentIcon/>} sx={styles.buttons} onClick={() => navigate("/calendarCompanion")}>Reserva de turnos</Button>
+    <Button startIcon={<PersonIcon/>} sx={{...styles.buttons, width: "230px", paddingLeft: 0}} onClick={handleOpen}>Supervisores Online        
       <StyledBadge 
      overlap="circular"
      anchor={{ vertical: 'bottom', horizontal: 'right' }}
      variant="dot"
+     sx={{paddingLeft: "8px"}}
     />
     </Button>
-    <Button href="https://app.go4clic.com/aqui-estoy-1" sx={styles.buttons}>Centro de aprendizaje</Button>
+    <Button startIcon={<Diversity3Icon/>} href="https://app.go4clic.com/aqui-estoy-1" sx={styles.buttons}>Centro de aprendizaje</Button>
     </Box>
     {edit && <ProfileEdit edit={edit} handleClose={handleClose} />}
     {open && <SupervisorsOnline open={open} closeOpen={closeOpen}/>}

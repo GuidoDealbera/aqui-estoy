@@ -34,8 +34,8 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 }));
 
 export default function OnlineSupervisors({onClose}) {
-  const { supervisorsOnline, loading } = useSelector((state) => state.auth);
-  return (
+  const { supervisorsOnline} = useSelector((state) => state.auth);
+  return supervisorsOnline.length && (
     <Box
       sx={{
         display: "flex",
