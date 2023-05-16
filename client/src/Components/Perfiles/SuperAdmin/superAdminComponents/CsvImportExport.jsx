@@ -83,12 +83,10 @@ const CsvImportExport = () => {
         let newPeople = results.data;
         //array de obj con acompanantes y supervisores
         //{clave: "xxx6", correo: "xxx@xxx.xx", rol: "a||A||s||S"}
-        console.log('newPeople');
-        console.log(newPeople);
+     
         newPeople.forEach((usr) => {
           if (usr.clave.length > 5 || usr.clave.length === 0) {
-            console.log('usr.rol');
-              console.log(usr.rol);
+           
             if (usr.rol.toLowerCase() === "a") {
               //acompañante 1
               dispatch(
@@ -248,7 +246,7 @@ const CsvImportExport = () => {
         justifyContent={"space-evenly"}
         padding={"2vw"}
       >
-        {console.log(csvErrors)}
+       
         {Object.keys(csvErrors).length === 0 ? (
           <Grid
             item
@@ -256,7 +254,7 @@ const CsvImportExport = () => {
             borderRadius={5}
             boxShadow={3}
             borderColor={"lightGray"}
-            width={"50vw"}
+            width={"70vw"}
             padding={"1vw"}
             color={"gray"}
           >
@@ -264,14 +262,21 @@ const CsvImportExport = () => {
               ESTRUCTURA DEL ARCHIVO CSV PARA IMPORTACIÓN:
             </Typography>
             <Typography>
-              El archivo debe contener dos columnas con los nombres: correo y
-              rol (sus nombres en letras minúsculas).
+              El archivo debe contener tres columnas con los nombres: correo,
+              rol y clave. (sus nombres en letras minúsculas).
             </Typography>
             <Typography>
               La información de cada columna es como se describe a continuación:
             </Typography>
             <br />
             <Typography>correo : el correo electrónico del usuario</Typography>
+            <br />
+            
+            <Typography>
+              clave : la contraseña puede estalecerse o dejarse en blanco
+              y el sistema la asignará automaticamente.  El usuario recibirá un 
+              correo con su contraseña.
+            </Typography>
             <br />
             <Typography>
               rol : puede tener los valores valores a, b, s, t, asi::
