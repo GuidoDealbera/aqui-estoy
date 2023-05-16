@@ -39,7 +39,7 @@ const CalendarSuperAdminPopOut = (props) => {
         >
           {companion.name} 
         </p>
-        { companion.rol === "Companion1" &&
+        { (companion.rol === "Companion1" || companion.rol === "Companion2") &&
           <button onClick={() => handleDeleteCompanion(companion.id, props.shift.shiftId)}   style={{
             backgroundColor: "grey",
             color: "white",
@@ -59,7 +59,6 @@ const CalendarSuperAdminPopOut = (props) => {
     ''
   )}
         </div>
-        <p>Nota: Solo puede eliminar los turnos de Acompañantes nivel 1</p>
        <button onClick={() => props.setTrigger()}>Cancelar</button>
        
       </div>

@@ -174,7 +174,7 @@ const CalendarSupervisor = () => {
                   const maxSupervisors = found ? found.maxSupervisors : 0;
                   let countText = supervisorCount;
                   if (supervisorCount && maxSupervisors) {
-                    countText = `${supervisorCount} de ${maxSupervisors}`;
+                    countText ='Disponibles:  ' +  (maxSupervisors - supervisorCount) ;
                   }
                    // Determinar color de disponibilidad y estilos en línea
               let cellStyle = {};
@@ -198,9 +198,9 @@ const CalendarSupervisor = () => {
                     <TableCell 
                       key={day}
                       onClick={() => handleClickCell(hour, day)}
-                      style={{...cellStyle, color: "grey"}}
+                      style={cellStyle}
                     >
-                      {countText || "Disponible"}
+                     {countText || 'Disponibles: ' + maxSupervisors}
                     </TableCell>
                   );
                 })}
