@@ -217,8 +217,8 @@ const CalendarCompanion = () => {
                     if (availabilityRatio <= 0.2) {
                       cellStyle.backgroundColor = "lightgreen"; // Alta disponibilidad
                     } else if (availabilityRatio <= 0.5) {
-                      cellStyle.backgroundColor = "#F0F34E"; // Disponibilidad moderada
-                    } else if (availabilityRatio > 0.5) {
+                      cellStyle.backgroundColor = "#F0F34E"; // Amarillo Disponibilidad moderada
+                    } else if (1 > availabilityRatio > 0.5) {
                       cellStyle.backgroundColor = "lightyellow";
                     }
                     else if (availabilityRatio == 1) {

@@ -79,7 +79,7 @@ export default function EditForm({userID, handleClose}) {
   const [index, setIndex] = useState(0);
   const [supervisorSelected, setSupervisorSelected] = useState("");
   const asignSupervisor = () => {
-    if((user.rol === 'Companion1' || user.rol === 'Companion2')){
+    if((user.rol === 'Companion1' || user.rol === 'Companion2') && supervisorSelected.length > 0 ){
       dispatch(postSupervisorCharge(supervisorSelected, [userID]))
     }
   }
