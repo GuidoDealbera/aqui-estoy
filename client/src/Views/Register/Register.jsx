@@ -4,7 +4,6 @@ import * as Yup from "yup";
 import axios from "axios";
 import { styled } from "@mui/system";
 import {
-  
   Button,
   Typography,
   TextField,
@@ -14,6 +13,8 @@ import {
   IconButton,
   LinearProgress,
   Badge,
+  FormControl,
+  FormHelperText,
 } from "@mui/material";
 import UploadIcon from "@mui/icons-material/Upload";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -32,7 +33,6 @@ import DatePicker from "./registerComponents/DatePicker";
 import Select from "./registerComponents/Select";
 import PhoneNumberInput from "./registerComponents/CustomPhoneNumber";
 import CustomStepper from "./registerComponents/Stepper";
-
 
 const styles = {
   container: {
@@ -115,7 +115,9 @@ export default function Register() {
 
   const validationSchema = Yup.object().shape({
     //Validaciones de Yup (Aún en desarrollo)
-    profilePhoto: Yup.string().url("URL de la imágen inválida"),
+    profilePhoto: Yup.string()
+      .url("URL de la imágen inválida")
+      .required("Este campo es obligatorio"),
     name: Yup.string()
       .max(15, "Debe ser menor a 15 caracteres")
       .required("Este campo es obligatorio"),
@@ -147,17 +149,17 @@ export default function Register() {
       <Formik
         initialValues={{
           //Valores iniciales de Formik, la equivalencia Vanilla sería ir almacenando los datos en el estado local...
-          profilePhoto: "",
-          name: "",
-          lastName: "",
-          birthdayDate: "",
-          nationality: "",
-          country: "",
-          cityTimeZone: "",
-          phone: "",
-          profession: "",
-          studies: "",
-          gender: "",
+          profilePhoto: user.profilePhoto ? user.profilePhoto : "",
+          name: user.name ? user.name : "",
+          lastName: user.lastName ? user.lastName : "",
+          birthdayDate: user.birthdayDate ? user.birthdayDate : "",
+          nationality: user.nationality ? user.nationality : "",
+          country: user.country ? user.country : "",
+          cityTimeZone: user.cityTimeZone ? user.cityTimeZone : "",
+          phone: user.phone ? user.phone : "",
+          profession: user.profession ? user.profession : "",
+          studies: user.studies ? user.studies : "",
+          gender: user.gender ? user.gender : "",
           rol: user.rol,
         }}
         validationSchema={validationSchema}
@@ -183,13 +185,11 @@ export default function Register() {
                   {index === 0 ? (
                     <>
                       <Box>
-                        {/* <InputLabel>Foto de Perfil</InputLabel> */}
                         <Field
                           sx={styles.container.form.field}
                           name="profilePhoto"
                         >
                           {({ field, form }) => (
-                            
                             <Box
                               sx={{
                                 width: "300px",
@@ -198,48 +198,75 @@ export default function Register() {
                                 flexDirection: "column",
                               }}
                             >
-                              <Badge 
-                            overlap="circular"
-                            anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
-                            badgeContent={
-                              <Avatar alt="Photo" src={previewImage} sx={{ width: 50, height: 50 }}/>
-                            }
-                            sx={{position:"absolute"}}
-                            />
-                              <Button variant="contained" component="label">
-                                {" "}
-                                <UploadIcon sx={{ marginRight: "10px" }} />{" "}
-                                Subir foto de perfil
-                                <input
-                                  type="file"
-                                  hidden
-                                  id={field.name}
-                                  name={field.name}
-                                  onChange={async (event) => {
-                                    
-                                    const file = event.target.files[0]
-                                    file ? setLoading(true): null;
-                                    setFileName(file.name);
-                                    const formData = new FormData();
-                                    formData.append("file", file);
-                                    formData.append(
-                                      "upload_preset",
-                                      "x75zrl2a"
-                                    );
+                              <Badge
+                                overlap="circular"
+                                anchorOrigin={{
+                                  vertical: "top",
+                                  horizontal: "left",
+                                }}
+                                badgeContent={
+                                  <Avatar
+                                    alt="Photo"
+                                    src={previewImage}
+                                    sx={{ width: 50, height: 50 }}
+                                  />
+                                }
+                                sx={{ position: "absolute" }}
+                              />
+                              <FormControl
+                                error={
+                                  !!(
+                                    props.errors.profilePhoto &&
+                                    props.touched.profilePhoto
+                                  )
+                                }
+                              >
+                                <Button variant="contained" component="label">
+                                  {" "}
+                                  <UploadIcon
+                                    sx={{ marginRight: "10px" }}
+                                  />{" "}
+                                  Subir foto de perfil
+                                  <input
+                                    type="file"
+                                    hidden
+                                    id={field.name}
+                                    name={field.name}
+                                    onChange={async (event) => {
+                                      const file = event.target.files[0];
+                                      file ? setLoading(true) : null;
+                                      setFileName(file.name);
+                                      const formData = new FormData();
+                                      formData.append("file", file);
+                                      formData.append(
+                                        "upload_preset",
+                                        "x75zrl2a"
+                                      );
 
-                                    const response = await axios.post(
-                                      "https://api.cloudinary.com/v1_1/dws4qq5ak/image/upload",
-                                      formData
-                                    );
-                                    form.setFieldValue(
-                                      field.name,
-                                      response.data.url
-                                    );
-                                    setLoading(false);
-                                    setPreviewImage(URL.createObjectURL(file));
-                                  }}
-                                />
-                              </Button>
+                                      const response = await axios.post(
+                                        "https://api.cloudinary.com/v1_1/dws4qq5ak/image/upload",
+                                        formData
+                                      );
+                                      form.setFieldValue(
+                                        field.name,
+                                        response.data.url
+                                      );
+                                      setLoading(false);
+                                      setPreviewImage(
+                                        URL.createObjectURL(file)
+                                      );
+                                    }}
+                                  />
+                                </Button>
+                                {!!(
+                                  props.errors.profilePhoto &&
+                                  props.touched.profilePhoto
+                                ) && (
+                                  <FormHelperText>
+                                    <ErrorMessage name="profilePhoto" />
+                                  </FormHelperText>
+                                )}
+                              </FormControl>
                               <Box
                                 sx={{
                                   display: field.value ? "flex" : "none",
@@ -261,6 +288,7 @@ export default function Register() {
                                   aria-label="delete"
                                   onClick={() => {
                                     form.setFieldValue(field.name, "");
+                                    setPreviewImage(null)
                                   }}
                                 >
                                   <DeleteIcon />
@@ -270,7 +298,6 @@ export default function Register() {
                                 <LinearProgress sx={{ marginTop: "5px" }} />
                               ) : null}
                             </Box>
-                            
                           )}
                         </Field>
                       </Box>

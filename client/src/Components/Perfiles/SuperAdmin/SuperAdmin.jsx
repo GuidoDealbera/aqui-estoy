@@ -12,7 +12,7 @@ import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 import ImportExportIcon from '@mui/icons-material/ImportExport';
 import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
 import SettingsIcon from '@mui/icons-material/Settings';
-import { Box, Button, IconButton, Tab, Tabs, Hidden, Menu, MenuItem, ListItemIcon, ListItemText } from '@mui/material';
+import { Box, IconButton, Tab, Tabs, Hidden, Menu, MenuItem, ListItemIcon, ListItemText } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 
 const SuperAdmin = (props) => {
@@ -36,24 +36,19 @@ const SuperAdmin = (props) => {
         return <CreateUser />;
     }
   };
-
   const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);
   };
-
   const handleMenuClick = (event) => {
     setMenuAnchorEl(event.currentTarget);
   };
-
   const handleMenuClose = () => {
     setMenuAnchorEl(null);
   };
-
   const handleMenuItemClick = (event, newValue) => {
     setActiveTab(newValue);
     handleMenuClose();
   };
-
   const renderTabs = () => (
     <Box sx={{display: "flex", justifyContent: "center"}}>
     <Tabs value={activeTab} onChange={handleTabChange} variant="scrollable" scrollButtons>
@@ -128,7 +123,6 @@ const mapStateToProps = (state) => {
     user: state.auth.user,
   };
 };
-
 const mapDispatchToProps = (dispatch) => {
   return {
     loginSuccess: (userData) => dispatch(loginSuccess(userData)),
