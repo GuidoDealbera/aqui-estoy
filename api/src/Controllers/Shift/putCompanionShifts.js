@@ -28,22 +28,20 @@ const putCompanionShifts = async (req, res) => {
       });
       
       if(startTime && endTime){
-       
+        let adjustedEndTime = endTime;
+        if (endTime === "01:00") {
+          adjustedEndTime = "25:00";
+        }
         await Promise.all(
           shifts.map(async (shift) => {
             if (!shift.hasRules) {
               const [shiftStartTime, shiftEndTime] = shift.time.split('-');
-              if(endTime === "24:00" && shiftEndTime === "01:00"){
-
-              }else{
-              if (
-                startTime <= shiftStartTime && endTime >= shiftEndTime
-              ) {
+             
+              if (shiftStartTime >= startTime && shiftEndTime <= adjustedEndTime) {
                 shift.maxCompanions = max;
                 await shift.save();
               }
             }
-          }
           })
         );
       }else{
