@@ -15,13 +15,14 @@ import styles from "../Perfiles/SuperAdmin/SuperAdminStyle";
 export default function CompanionsAtCharge() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { companionAtCharge } = useSelector((state) => state.view);
+  let { companionAtCharge } = useSelector((state) => state.view);
   const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {
     dispatch(getCompanionsAtCharge(user.id));
   }, []);
 
+companionAtCharge= companionAtCharge?.filter((comp)=>comp.name&&comp.lastName)
   const myDate = new Date();
   const myTimeZone = myDate.toString().match(/([\+-][0-9]+)/)[1];
   const myHours = myDate.getHours();
