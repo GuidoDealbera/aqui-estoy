@@ -12,16 +12,12 @@ import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 import ImportExportIcon from '@mui/icons-material/ImportExport';
 import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
 import SettingsIcon from '@mui/icons-material/Settings';
-
-// Importar componentes y utilidades de MUI
 import { Box, Button, IconButton, Tab, Tabs, Hidden, Menu, MenuItem, ListItemIcon, ListItemText } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-
 
 const SuperAdmin = (props) => {
   const [activeTab, setActiveTab] = useState('profile');
   const [menuAnchorEl, setMenuAnchorEl] = useState(null);
-
   const renderTabContent = () => {
     switch (activeTab) {
       case 'createUser':
@@ -135,7 +131,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    // Mapea las acciones relevantes al componente
     loginSuccess: (userData) => dispatch(loginSuccess(userData)),
     loginFail: (error) => dispatch(loginFail(error)),
     logout: () => dispatch({ type: LOGOUT }),
@@ -143,3 +138,4 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SuperAdmin);
+git s
