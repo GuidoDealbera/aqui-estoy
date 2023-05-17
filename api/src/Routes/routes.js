@@ -51,6 +51,8 @@ const postAddShift = require("../Controllers/Nodemailer/ShiftsControllers/postAd
 const postDeleteShift = require("../Controllers/Nodemailer/ShiftsControllers/postDeleteShift");
 const putSupervisorShifts = require("../Controllers/Shift/putSupervisorShifts");
 const putCompanionShifts = require("../Controllers/Shift/putCompanionShifts");
+const putSupervisorShiftRules = require("../Controllers/Shift/putSupervisorShiftRules");
+const putCompanionShiftRules = require("../Controllers/Shift/putCompanionShiftRules");
 router.post("/postAddShift", postAddShift);
 router.post("/postDeleteShift", postDeleteShift);
 router.post("/postCreatedAccount", postCreatedAccount);
@@ -90,7 +92,8 @@ router.get("/getMatchShiftTime/:idCompanion", getMatchShiftTime);
 router.post("/getOnlineSupervisor", getOnlineSupervisor);
 router.put("/putSupervisorShifts", putSupervisorShifts)
 router.put("/putCompanionShifts", putCompanionShifts)
-
+router.put("/putSupervisorShiftRules", putSupervisorShiftRules)
+router.put("/putCompanionShiftRules", putCompanionShiftRules)
 
 
 module.exports = router;
