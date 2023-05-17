@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import { styled } from "@mui/material/styles";
-import {Select,Typography,MenuItem,Menu,Button,Switch,FormControlLabel,} from "@mui/material";
+import {Select,Typography,MenuItem,Button,Switch,Stack} from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import {putSpecificCompanionShift,putGeneralCompanionShift, putGeneralSupervisorShift, putSpecificSupervisorShift} from "../../../../Redux/Actions/postPutActions";
 import { toast } from "sonner";
@@ -15,6 +15,49 @@ const StyledInputContainer = styled("div")(({ theme }) => ({
 const StyledLabel = styled("h3")(({ theme }) => ({
   fontWeight: "bold",
 }));
+
+const AntSwitch = styled(Switch)(({ theme }) => ({
+  width: 28,
+  height: 16,
+  padding: 0,
+  display: 'flex',
+  '&:active': {
+    '& .MuiSwitch-thumb': {
+      width: 15,
+    },
+    '& .MuiSwitch-switchBase.Mui-checked': {
+      transform: 'translateX(9px)',
+    },
+  },
+  '& .MuiSwitch-switchBase': {
+    padding: 2,
+    '&.Mui-checked': {
+      transform: 'translateX(12px)',
+      color: '#fff',
+      '& + .MuiSwitch-track': {
+        opacity: 1,
+        backgroundColor: theme.palette.mode === 'dark' ? '#177ddc' : '#1890ff',
+      },
+    },
+  },
+  '& .MuiSwitch-thumb': {
+    boxShadow: '0 2px 4px 0 rgb(0 35 11 / 20%)',
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+    transition: theme.transitions.create(['width'], {
+      duration: 200,
+    }),
+  },
+  '& .MuiSwitch-track': {
+    borderRadius: 16 / 2,
+    opacity: 1,
+    backgroundColor:
+      theme.palette.mode === 'dark' ? 'rgba(255,255,255,.35)' : 'rgba(0,0,0,.25)',
+    boxSizing: 'border-box',
+  },
+}));
+
 const GeneralSettings = () => {
   const dispatch = useDispatch();
   const companionShifts = useSelector((state) => state.view.allCompanionShift);
@@ -68,6 +111,11 @@ const GeneralSettings = () => {
     event.preventDefault();
     if (maxCompanions.max >= 0) {
       dispatch(putGeneralCompanionShift(maxCompanions));
+      setMaxCompanions({
+        endTime:'',
+        startTime:'',
+        max: 0
+      });
     } else {
       toast.error("El máximo no puede ser menor a 0", toastWarning);
     }
@@ -120,6 +168,11 @@ const GeneralSettings = () => {
     event.preventDefault();
     if (maxSupervisors.max >= 0) {
       dispatch(putGeneralSupervisorShift(maxSupervisors));
+      setMaxSupervisors({
+        endTime:'',
+        startTime:'',
+        max: 0
+      });
     } else {
       toast.error("El máximo no puede ser menor a 0", toastWarning);
     }
@@ -130,14 +183,11 @@ const GeneralSettings = () => {
   return (
     <>
       <Box sx={{ display: "flex", justifyContent: "center" }}>
-        <FormControlLabel
-          value="end"
-          control={
-            <Switch color="primary" checked={toggle} onChange={toggleHandler} />
-          }
-          label={toggle ? "Supervisores" : "Acompañantes"}
-          labelPlacement="end"
-        />
+      <Stack direction="row" spacing={1} alignItems="center">
+        <Typography>Acompañantes</Typography>
+        <AntSwitch  inputProps={{ 'aria-label': 'ant design' }} checked={toggle} onChange={toggleHandler}/>
+        <Typography>Supervisores</Typography>
+      </Stack>
       </Box>
       {toggle ? (
         <Box>
