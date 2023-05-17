@@ -113,7 +113,7 @@ export default function CompanionsAtCharge() {
             (myMinutes < 10 ? `0${myMinutes}` : myMinutes);
 
           return (
-            <Grid item xs={11} sm={6} md={4} lg={3}>
+            <Grid item xs={11} sm={6} md={4} lg={3} key={e.id}>
               <Cards
                 key={e?.id}
                 id={e?.id}

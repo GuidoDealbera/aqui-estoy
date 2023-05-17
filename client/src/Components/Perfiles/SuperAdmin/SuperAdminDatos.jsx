@@ -24,7 +24,7 @@ export default function SuperAdminDatos(props) {
         container
         sx={{
           ...styles.container,
-          [theme.breakpoints.down("sm")]: { paddingTop: "20px" },
+          [theme.breakpoints.down("sm")]: { paddingTop: 0, marginTop: "5px" },
         }}
         maxWidth="false"
       >

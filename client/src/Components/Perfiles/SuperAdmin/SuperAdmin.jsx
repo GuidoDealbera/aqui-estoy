@@ -6,8 +6,15 @@ import AssignSupervisor from './superAdminComponents/AssignSupervisor';
 import GeneralSettings from './superAdminComponents/GeneralSettings';
 import UsersViewEdit from './superAdminComponents/UsersViewEdit';
 import SuperAdminDatos from './SuperAdminDatos';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import AddBoxIcon from '@mui/icons-material/AddBox';
+import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
+import ImportExportIcon from '@mui/icons-material/ImportExport';
+import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
+import SettingsIcon from '@mui/icons-material/Settings';
+
 // Importar componentes y utilidades de MUI
-import { Box, Button, IconButton, Tab, Tabs, Hidden, Menu, MenuItem } from '@mui/material';
+import { Box, Button, IconButton, Tab, Tabs, Hidden, Menu, MenuItem, ListItemIcon, ListItemText } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 
 
@@ -52,7 +59,8 @@ const SuperAdmin = (props) => {
   };
 
   const renderTabs = () => (
-    <Tabs value={activeTab} onChange={handleTabChange}>
+    <Box sx={{display: "flex", justifyContent: "center"}}>
+    <Tabs value={activeTab} onChange={handleTabChange} variant="scrollable" scrollButtons>
       <Tab value="profile" label="Perfil" />
       <Tab value="createUser" label="Crear Usuario" />
       <Tab value="usersViewEdit" label="Ver/Editar Usuarios" />
@@ -60,12 +68,13 @@ const SuperAdmin = (props) => {
       <Tab value="assignSupervisor" label="Asignar Referente" />
       <Tab value="generalSettings" label="Configuración General" />
     </Tabs>
+    </Box>
   );
 
   return (
     <Box className="super-admin">
       <Hidden smDown>{renderTabs()}</Hidden>
-      <Hidden mdUp>
+      <Hidden smUp>
         <IconButton onClick={handleMenuClick}>
           <MenuIcon />
         </IconButton>
@@ -75,22 +84,40 @@ const SuperAdmin = (props) => {
           onClose={handleMenuClose}
         >
           <MenuItem onClick={(event) => handleMenuItemClick(event, 'profile')}>
-            Perfil
+            <ListItemIcon>
+              <AccountBoxIcon/>
+            </ListItemIcon>
+            <ListItemText>Perfil</ListItemText>
           </MenuItem>
           <MenuItem onClick={(event) => handleMenuItemClick(event, 'createUser')}>
-            Crear Usuario
+            <ListItemIcon>
+              <AddBoxIcon/>  
+            </ListItemIcon>
+            <ListItemText>Crear Usuario</ListItemText>
           </MenuItem>
           <MenuItem onClick={(event) => handleMenuItemClick(event, 'usersViewEdit')}>
-            Ver o Editar Usuarios
+          <ListItemIcon>
+              <AppRegistrationIcon/>  
+            </ListItemIcon>
+            <ListItemText>Ver/Editar Usuarios</ListItemText>
           </MenuItem>
           <MenuItem onClick={(event) => handleMenuItemClick(event, 'csvImportExport')}>
-            Importar/Exportar CSV
+          <ListItemIcon>
+              <ImportExportIcon/>  
+            </ListItemIcon>
+            <ListItemText>Importar/Exportar CSV</ListItemText>
           </MenuItem>
           <MenuItem onClick={(event) => handleMenuItemClick(event, 'assignSupervisor')}>
-            Asignar Referente
+          <ListItemIcon>
+              <SupervisorAccountIcon/>  
+            </ListItemIcon>
+            <ListItemText>Asignar Referente</ListItemText>
           </MenuItem>
           <MenuItem onClick={(event) => handleMenuItemClick(event, 'generalSettings')}>
-            Configuración General
+          <ListItemIcon>
+              <SettingsIcon/>  
+            </ListItemIcon>
+            <ListItemText>Configuración General</ListItemText>
           </MenuItem>
         </Menu>
       </Hidden>

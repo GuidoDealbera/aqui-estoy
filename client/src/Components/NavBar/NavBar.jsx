@@ -16,6 +16,10 @@ import {
   Toolbar,
   Avatar,
   Badge,
+  Divider,
+  ListItemText,
+  ListItemIcon,
+  useTheme,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useSelector, useDispatch } from "react-redux";
@@ -24,11 +28,18 @@ import { logOut } from "../../Redux/Actions/viewActions";
 import { toast } from "sonner";
 import { toastWarning } from "../../Redux/Actions/alertStyle";
 import ModalLogin from "../Modals/ModalLogin";
+import AccountBoxIcon from "@mui/icons-material/AccountBox";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import GroupsIcon from "@mui/icons-material/Groups";
+import PowerInputIcon from "@mui/icons-material/PowerInput";
+import LogoutIcon from "@mui/icons-material/Logout";
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
     backgroundColor: "#44b700",
     color: "#44b700",
+    [theme.breakpoints.down("xl")]: { marginRight: "10px" },
+    [theme.breakpoints.up("xl")]: { marginRight: "87px" },
     boxShadow: `0 0 0 1px ${theme.palette.background.paper}`,
     "&::after": {
       position: "absolute",
@@ -45,26 +56,26 @@ const NavButton = (props) => (
   <Button
     {...props}
     sx={{
-      color: "inherit",
+      color: "rgb(25, 21, 78)",
       textTransform: "none",
       fontWeight: "bold",
-      position: "relative",
+      //position: "relative",
       "&:hover": {
         backgroundColor: "rgba(0, 0, 0, 0.1)",
-        color: "rgb(25, 21, 78)", // Verde fuerte
       },
     }}
   />
 );
 
 export default function NavBar(props) {
+  const theme = useTheme();
   const { user } = useSelector((state) => state.auth);
   const { id } = user;
   const location = useLocation();
   const dispatch = useDispatch();
   const [showLogin, setShowLogin] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const handleMouseEnter = () => {
     setShowLogin(true);
@@ -73,8 +84,8 @@ export default function NavBar(props) {
     setShowLogin(false);
   };
   useEffect(() => {
-    setOpen(false)
-  }, [user])
+    setOpen(false);
+  }, [user]);
   const handleClick = (event) => {
     if (Object.entries(user).length === 0) {
       toast.error(
@@ -111,41 +122,47 @@ export default function NavBar(props) {
       navigate("/CompanionsAtCharge");
     }
   };
-
   const closeSession = () => {
     dispatch(logOut());
     navigate("/");
   };
-
   const handleMenuClick = (event) => {
     setAnchorEl(event.currentTarget);
-    setOpen(true)
+    setOpen(true);
   };
-
   const handleMenuClose = () => {
     setAnchorEl(null);
-    setOpen(false)
+    setOpen(false);
   };
-
   const handleMenuItemClick = (name) => {
     handleMenuClose();
     // ...
   };
   return (
-    <AppBar position="sticky" sx={{backgroundColor:"#fff"}} elevation={0}>
-      <Toolbar sx={{boxShadow: "0 0 5px black"}}>
+    <AppBar
+      position="sticky"
+      sx={{ backgroundColor: "#fff", width: "100vw" }}
+      elevation={0}
+    >
+      <Toolbar sx={{ boxShadow: "0 0 5px black" }}>
         <Grid container justifyContent="space-between" alignItems="center">
-          <Grid item xs={11}>
+          <Grid item xs={7} md={10} xl={11}>
             <Link to="/">
               <CardMedia
                 component="img"
-                style={{ minWidth: "140px", maxWidth: "280px"}}
+                style={{ minWidth: "140px", maxWidth: "250px", margin: 0 }}
                 image={image}
                 alt="aquiEstoy"
               />
             </Link>
           </Grid>
-          <Grid item xs={1}>
+          <Grid
+            item
+            xs={5}
+            md={2}
+            xl={1}
+            sx={{ display: "flex", justifyContent: "flex-end" }}
+          >
             <Box>
               {location.pathname === "/" &&
                 Object.entries(user).length === 0 && (
@@ -168,13 +185,15 @@ export default function NavBar(props) {
                 >
                   <Avatar
                     id="profile-button"
-                    aria-controls={open ? 'profile-menu' : undefined}
-                    aria-haspopup='true'
-                    aria-expanded={open ? 'true' : undefined}
+                    aria-controls={open ? "profile-menu" : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={open ? "true" : undefined}
                     onClick={handleMenuClick}
                     alt={user.name}
                     src={user.profilePhoto}
                     sx={{
+                      [theme.breakpoints.down("xl")]: { marginRight: "10px" },
+                      [theme.breakpoints.up("xl")]: { marginRight: "100px" },
                       "&:hover": {
                         cursor: "pointer",
                         boxShadow: "0 0 3px rgb(25, 21, 78)",
@@ -189,14 +208,69 @@ export default function NavBar(props) {
                     MenuListProps={{
                       "aria-labelledby": "profile-button",
                     }}
+                    anchorOrigin={{
+                      vertical: "bottom",
+                      horizontal: "center",
+                    }}
+                    transformOrigin={{
+                      vertical: "top",
+                      horizontal: "right",
+                    }}
                   >
-                    <MenuItem onClick={() => navigate(`/profile/${id}`)}>Perfil</MenuItem>
-                    {user.rol === 'SuperAdmin' && <MenuItem onClick={handleClick}>Calendario Supervisores</MenuItem>}
-                    {user.rol === 'SuperAdmin' && <MenuItem onClick={handleClick2}>Calendario Acompañantes</MenuItem>}
-                    {user.rol === 'SuperAdmin' && <MenuItem onClick={handleClickCargo}>Acompañantes a mi cargo</MenuItem>}
-                    {user.rol === 'SuperAdmin' && <MenuItem onClick={handleClickPanel}>Panel de Supervisión</MenuItem>}
-                    {user.rol === 'Companion1' || user.rol === 'Companion2'&& <MenuItem onClick={handleClick}>Calendario</MenuItem>}
-                    <MenuItem onClick={closeSession}>Cerrar Sesión</MenuItem>
+                    <MenuItem onClick={() => navigate(`/profile/${id}`)}>
+                      <ListItemIcon>
+                        <AccountBoxIcon />
+                      </ListItemIcon>
+                      <ListItemText>Perfil</ListItemText>
+                    </MenuItem>
+                    {user.rol === "SuperAdmin" && (
+                      <MenuItem onClick={handleClick}>
+                        <ListItemIcon>
+                          <CalendarMonthIcon />
+                        </ListItemIcon>
+                        <ListItemText>Calendario Supervisores</ListItemText>
+                      </MenuItem>
+                    )}
+                    {user.rol === "SuperAdmin" && (
+                      <MenuItem onClick={handleClick2}>
+                        <ListItemIcon>
+                          <CalendarMonthIcon />
+                        </ListItemIcon>
+                        <ListItemText>Calendario Acompañantes</ListItemText>
+                      </MenuItem>
+                    )}
+                    {user.rol === "SuperAdmin" && (
+                      <MenuItem onClick={handleClickCargo}>
+                        <ListItemIcon>
+                          <GroupsIcon />
+                        </ListItemIcon>
+                        <ListItemText>Acompañantes a mi cargo</ListItemText>
+                      </MenuItem>
+                    )}
+                    {user.rol === "SuperAdmin" && (
+                      <MenuItem onClick={handleClickPanel}>
+                        <ListItemIcon>
+                          <PowerInputIcon />
+                        </ListItemIcon>
+                        <ListItemText>Panel de supervisión</ListItemText>
+                      </MenuItem>
+                    )}
+                    {(user.rol === "Companion1" ||
+                      user.rol === "Companion2") && (
+                      <MenuItem onClick={handleClick}>
+                        <ListItemIcon>
+                          <CalendarMonthIcon />
+                        </ListItemIcon>
+                        <ListItemText>Calendario</ListItemText>
+                      </MenuItem>
+                    )}
+                    <Divider />
+                    <MenuItem onClick={closeSession}>
+                      <ListItemIcon>
+                        <LogoutIcon />
+                      </ListItemIcon>
+                      <ListItemText>Cerrar Sesión</ListItemText>
+                    </MenuItem>
                   </Menu>
                 </StyledBadge>
               )}

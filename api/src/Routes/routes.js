@@ -87,7 +87,7 @@ router.get("/getCityTimeZone", getCityTimeZone);
 router.post("/getBothRoles", requireLogin, getBothRoles);
 router.get("/getUserById/:id", getUserById);
 router.get("/getMatchShiftTime/:idCompanion", getMatchShiftTime);
-router.get("/getOnlineSupervisor", getOnlineSupervisor);
+router.post("/getOnlineSupervisor", getOnlineSupervisor);
 router.put("/putSupervisorShifts", putSupervisorShifts)
 router.put("/putCompanionShifts", putCompanionShifts)
 
