@@ -26,7 +26,8 @@ const postSupervisor = async (req, res) => {
         const user = {
           email:newSupervisor.email,password:password,rol:newSupervisor.rol
         }
-        axios.post("http://localhost:3001/postCreatedAccount", user);
+        axios.post("/postCreatedAccount", user);
+        // axios.post("http://localhost:3001/postCreatedAccount", user);
         return res.status(201).json(newSupervisor);
       } else {
         let pass = passwordGenerator(8)
@@ -40,7 +41,8 @@ const postSupervisor = async (req, res) => {
         const user = {
           email:newSupervisor.email,password:pass,rol:newSupervisor.rol
         }
-        axios.post("http://localhost:3001/postCreatedAccount", user);
+        axios.post("/postCreatedAccount", user);
+        // axios.post("http://localhost:3001/postCreatedAccount", user);
         return res.status(201).json(newSupervisor);
       }
     } else {

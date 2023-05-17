@@ -23,7 +23,8 @@ const postCompanion = async (req, res) => {
           password: password,
           rol: newCompanion.rol,
         };
-        axios.post("http://localhost:3001/postCreatedAccount", user);
+        axios.post("/postCreatedAccount", user);
+        // axios.post("http://localhost:3001/postCreatedAccount", user);
         return res.status(201).json(newCompanion);
       } else {
         let pass = passwordGenerator(8)
@@ -38,7 +39,8 @@ const postCompanion = async (req, res) => {
           password: pass,
           rol: newCompanion.rol,
         };
-        axios.post("http://localhost:3001/postCreatedAccount", user);
+        axios.post("/postCreatedAccount", user);
+        // axios.post("http://localhost:3001/postCreatedAccount", user);
         return res.status(201).json(newCompanion);
       }
     } else {

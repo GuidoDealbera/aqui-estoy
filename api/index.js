@@ -1,4 +1,5 @@
 require("dotenv").config();
+const axios = require ('axios');
 const port = process.env.PORT || 3001;
 const SERVER_URL = process.env.SERVER_URL;
 const server = require("./src/app.js");
@@ -11,6 +12,9 @@ const {
 } = require("./src/Controllers/Companion/getCompanionShift.js");
 const postCityTimeZone = require("./src/Controllers/TimeZone/postCityTimeZone.js");
 const fetch = require("node-fetch");
+
+axios.defaults.baseURL = process.env.AXIOS_BASE;
+
 conn.sync({ force: false }).then(async () => {
   // conn.sync({ force: false }).then(async () => {
   await fillCompanionShifts();
