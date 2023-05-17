@@ -1,21 +1,13 @@
 import React, { useRef, useState } from "react";
 import Papa from "papaparse";
-import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
 import { Grid, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
-import { toast } from "sonner";
-import { toastSuccess, toastError } from "../../../../Redux/Actions/alertStyle";
 import { useDispatch, useSelector } from "react-redux";
 import {
   postSupervisor,
   postCompanion,
 } from "../../../../Redux/Actions/postPutActions";
-import { margin } from "@mui/system";
 import Tooltip from "@mui/material/Tooltip";
 
 //el archivo CSV debe contener las siguientes columnas:
@@ -35,7 +27,9 @@ const CsvImportExport = () => {
 
   //Aqui se limpia la info para exportar los campos deseados
   const companionsData2 = companionsData.map((usr) => {
-    usr.isSuperCompanion ? (usrRol = "Companion-2") : (usrRol = "Companion-1");
+    usr.isSuperCompanion
+      ? (usrRol = "Acompañante Avanzado")
+      : (usrRol = "Acompañante Inicial");
     return {
       nombre: usr.name,
       apellido: usr.lastName,
@@ -52,7 +46,7 @@ const CsvImportExport = () => {
     };
   });
   const supervisorsData2 = supervisorsData.map((usr) => {
-    usr.isSuperAdmin ? (usrRol = "Superadmin") : (usrRol = "Supervisor");
+    usr.isSuperAdmin ? (usrRol = "Super Admin") : (usrRol = "Supervisor");
     return {
       nombre: usr.name,
       Aapellido: usr.lastName,
@@ -77,16 +71,16 @@ const CsvImportExport = () => {
   //----------------------------UPLOAD CSV-----------------------------
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
+    console.log('ingresando a upload');
     Papa.parse(file, {
       header: true,
       complete: (results) => {
         let newPeople = results.data;
         //array de obj con acompanantes y supervisores
         //{clave: "xxx6", correo: "xxx@xxx.xx", rol: "a||A||s||S"}
-     
+
         newPeople.forEach((usr) => {
           if (usr.clave.length > 5 || usr.clave.length === 0) {
-           
             if (usr.rol.toLowerCase() === "a") {
               //acompañante 1
               dispatch(
@@ -129,28 +123,10 @@ const CsvImportExport = () => {
               );
             } else {
               errors[usr.correo] = "Error en el rol del usuario";
-              // errors.rol = "Error en el rol del usuario";
             }
           } else {
             errors[usr.correo] = "Error en la contraseña";
-            //toast.error(`Error en la contraseña de ${usr.correo}`, toastError);
           }
-
-          // console.log("errors");
-          // console.log(errors);
-          // errors.rol
-          //   ? toast.error(`Error en el rol de ${usr.correo}`, toastError)
-          //   : null;
-          // console.log(`Error en el rol de ${usr.correo}`);
-          // errors.psw
-          //   ? toast.error(
-          //       `El password de ${usr.correo} debe tener al menos 6 caracteres`,
-          //       toastError
-          //     )
-          //   : null;
-          // console.log(
-          //   `El password de ${usr.correo} debe tener al menos 6 caracteres`
-          // );
         });
         setCsvErrors(errors);
       },
@@ -171,38 +147,14 @@ const CsvImportExport = () => {
     document.body.removeChild(link);
   };
 
-  //--------------------------------------------------------------------
-  // const handleChange = (e) => {
-  //   const { name, value } = e.target;
-  //   setUserData({ ...userData, [name]: value });
-  // };
-
-  //--------------------------------------------------------------------
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // implementar la lógica para crear el usuario, como llamar a una API o usar acciones de Redux
-  };
-
   return (
-    <Box
-    // border={1}
-    // borderColor={"red"}
-    >
+    <Box>
       <Typography variant="h5" sx={{ textAlign: "center", margin: "2vw" }}>
         Importar/Exportar Información de usuarios por CSV
       </Typography>
 
-      <Grid
-        container
-        // border={1}
-        // borderColor={"green"}
-        justifyContent="center"
-      >
-        <Grid
-          item
-          // border={1}
-          // borderColor={"blue"}
-        >
+      <Grid container justifyContent="center">
+        <Grid item>
           <Box marginBottom={2} justifyContent={"center"}>
             <input
               type="file"
@@ -239,14 +191,7 @@ const CsvImportExport = () => {
         </Grid>
       </Grid>
 
-      <Grid
-        container
-        // border={1}
-        // borderColor={"red"}
-        justifyContent={"space-evenly"}
-        padding={"2vw"}
-      >
-       
+      <Grid container justifyContent={"space-evenly"} padding={"2vw"}>
         {Object.keys(csvErrors).length === 0 ? (
           <Grid
             item
@@ -271,23 +216,22 @@ const CsvImportExport = () => {
             <br />
             <Typography>correo : el correo electrónico del usuario</Typography>
             <br />
-            
+
             <Typography>
-              clave : la contraseña puede estalecerse o dejarse en blanco
-              y el sistema la asignará automaticamente.  El usuario recibirá un 
-              correo con su contraseña.
+              clave : la contraseña puede estalecerse o dejarse en blanco y el
+              sistema la asignará automaticamente. El usuario recibirá un correo
+              con su contraseña.
             </Typography>
             <br />
             <Typography>
               rol : puede tener los valores valores a, b, s, t, asi::
             </Typography>
-            <Typography>a -Acompañante 1</Typography>
-            <Typography>b -Acompañante 2</Typography>
+            <Typography>a -Acompañante Inicial</Typography>
+            <Typography>b -Acompañante Avanzado</Typography>
             <Typography>s -Supervisor</Typography>
             <Typography>t -Super Admin</Typography>
           </Grid>
         ) : (
-          
           <Grid
             item
             border={1}

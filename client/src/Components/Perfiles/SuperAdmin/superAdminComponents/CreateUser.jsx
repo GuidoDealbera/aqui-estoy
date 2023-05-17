@@ -93,8 +93,8 @@ const CreateUser = () => {
               </MenuItem>
               <MenuItem value="SuperAdmin">Super Admin</MenuItem>
               <MenuItem value="Supervisor">Supervisor</MenuItem>
-              <MenuItem value="Companion1">Acompañante 1</MenuItem>
-              <MenuItem value="Companion2">Acompañante 2</MenuItem>
+              <MenuItem value="Companion1">Acompañante Inicial</MenuItem>
+              <MenuItem value="Companion2">Acompañante Avanzado</MenuItem>
             </Select>
           </FormControl>
         </Box>

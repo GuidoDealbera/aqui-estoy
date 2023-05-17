@@ -1,18 +1,14 @@
 import Box from "@mui/material/Box";
-import { toast } from "sonner";
-import { toastError } from "../../../../Redux/Actions/alertStyle";
 import { DataGrid } from "@mui/x-data-grid";
-import { Button, Grid, Paper, TableContainer, Typography } from "@mui/material";
+import { Grid, Paper, TableContainer, Typography } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import ModalEdit from "../../../Modals/ModalEdit";
 import AutoFixHighIcon from "@mui/icons-material/AutoFixHigh";
-import Popover from '@mui/material/Popover';
 import {
   getAllCompanions,
   getAllSupervisors,
 } from "../../../../Redux/Actions/viewActions";
-import HelpIcon from '@mui/icons-material/HelpOutlineTwoTone';
 
 function UsersViewEdit(props) {
   const dispatch = useDispatch();
@@ -21,12 +17,6 @@ function UsersViewEdit(props) {
   let usrRol = null;
   const [edit, setEdit] = useState(false);
   const [rowID, setRowID] = useState("");
-  const [sortModel, setSortModel] = useState([
-    {
-      field: "isActiveText",
-      sort: "asc",
-    },
-  ]);
 
   const handleEdit = () => {
     setEdit(true);
@@ -41,13 +31,15 @@ function UsersViewEdit(props) {
   //Aqui se limpia la info para exportar los campos deseados
   companionsData = companionsData.map((usr) => {
     let mentor = `${usr.Supervisor?.name} ${usr.Supervisor?.lastName}`;
-    (mentor.toString() === "undefined undefined") ? mentor = "---Sin Asignar" : null;
+    mentor.toString() === "undefined undefined"
+      ? (mentor = "---Sin Asignar")
+      : null;
 
     usr.rol === "Companion2"
-      ? (usrRol = "Acompañante 2")
-      : (usrRol = "Acompañante 1");
-    
-      return {
+      ? (usrRol = "Acompañante Avanzado")
+      : (usrRol = "Acompañante Inicial");
+
+    return {
       id: usr.id,
       name: usr.name || " ",
       lastName: usr.lastName || " ",
@@ -68,7 +60,9 @@ function UsersViewEdit(props) {
 
   supervisorsData = supervisorsData.map((usr) => {
     let mentor = `${usr.Supervisor?.name} ${usr.Supervisor?.lastName}`;
-    (mentor.toString() === "undefined undefined") ? mentor = "---Sin Asignar" : null;
+    mentor.toString() === "undefined undefined"
+      ? (mentor = "---Sin Asignar")
+      : null;
 
     usr.rol === "SuperAdmin"
       ? (usrRol = "Super Admin")
@@ -89,21 +83,11 @@ function UsersViewEdit(props) {
       rol: usrRol || " ",
       isActiveText: usr.isActive ? "Si" : "No",
       referente: mentor,
-      
     };
   });
   let usersData = [...companionsData, ...supervisorsData];
 
   const columns = [
-    // {
-    //   field: "id",
-    //   headerName: "N",
-    //   description: "",
-    //   sortable: true,
-    //   width: 160,
-    //   // valueGetter: (params) =>
-    //   //   `${params.row.firstName || ""} ${params.row.lastName || ""}`,
-    // },
     {
       field: "edit",
       headerName: "Editar",
@@ -120,17 +104,13 @@ function UsersViewEdit(props) {
       description: "Describe si el usuario está activo en la plataforma",
       sortable: true,
       width: 80,
-      // valueGetter: (params) =>
-      //   `${params.row.firstName || ""} ${params.row.lastName || ""}`,
     },
     {
       field: "rol",
       headerName: "ROL",
       description: "Rol del usuario en la fundación",
       sortable: true,
-      width: 160,
-      // valueGetter: (params) =>
-      //   `${params.row.firstName || ""} ${params.row.lastName || ""}`,
+      width: 200,
     },
     {
       field: "name",
@@ -138,8 +118,6 @@ function UsersViewEdit(props) {
       description: "",
       sortable: true,
       width: 160,
-      // valueGetter: (params) =>
-      //   `${params.row.firstName || ""} ${params.row.lastName || ""}`,
     },
     {
       field: "lastName",
@@ -147,8 +125,6 @@ function UsersViewEdit(props) {
       description: "",
       sortable: true,
       width: 160,
-      // valueGetter: (params) =>
-      //   `${params.row.firstName || ""} ${params.row.lastName || ""}`,
     },
     {
       field: "email",
@@ -156,8 +132,6 @@ function UsersViewEdit(props) {
       description: "",
       sortable: false,
       width: 250,
-      // valueGetter: (params) =>
-      //   `${params.row.firstName || ""} ${params.row.lastName || ""}`,
     },
     {
       field: "phone",
@@ -165,8 +139,6 @@ function UsersViewEdit(props) {
       description: "",
       sortable: false,
       width: 150,
-      // valueGetter: (params) =>
-      //   `${params.row.firstName || ""} ${params.row.lastName || ""}`,
     },
     {
       field: "referente",
@@ -174,8 +146,6 @@ function UsersViewEdit(props) {
       description: "Supervisor Mentor",
       sortable: true,
       width: 220,
-      // valueGetter: (params) =>
-      //   `${params.row.firstName || ""} ${params.row.lastName || ""}`,
     },
     {
       field: "country",
@@ -183,8 +153,6 @@ function UsersViewEdit(props) {
       description: "País de residencia actual",
       sortable: true,
       width: 120,
-      // valueGetter: (params) =>
-      //   `${params.row.firstName || ""} ${params.row.lastName || ""}`,
     },
     {
       field: "nationality",
@@ -192,8 +160,6 @@ function UsersViewEdit(props) {
       description: "País de nacimiento",
       sortable: true,
       width: 120,
-      // valueGetter: (params) =>
-      //   `${params.row.firstName || ""} ${params.row.lastName || ""}`,
     },
     {
       field: "birthdayDate",
@@ -201,8 +167,6 @@ function UsersViewEdit(props) {
       description: "",
       sortable: false,
       width: 160,
-      // valueGetter: (params) =>
-      //   `${params.row.firstName || ""} ${params.row.lastName || ""}`,
     },
     {
       field: "profession",
@@ -210,9 +174,6 @@ function UsersViewEdit(props) {
       description: "",
       sortable: true,
       width: 120,
-
-      // valueGetter: (params) =>
-      //   `${params.row.firstName || ""} ${params.row.lastName || ""}`,
     },
     {
       field: "studies",
@@ -220,8 +181,6 @@ function UsersViewEdit(props) {
       description: "",
       sortable: true,
       width: 120,
-      // valueGetter: (params) =>
-      //   `${params.row.firstName || ""} ${params.row.lastName || ""}`,
     },
     {
       field: "gender",
@@ -229,8 +188,6 @@ function UsersViewEdit(props) {
       description: "",
       sortable: true,
       width: 130,
-      // valueGetter: (params) =>
-      //   `${params.row.firstName || ""} ${params.row.lastName || ""}`,
     },
   ];
 
@@ -250,14 +207,11 @@ function UsersViewEdit(props) {
     return 0;
   };
 
-  const help = () => {}
+  const help = () => {};
 
   return (
     <Box>
-      <Typography 
-      variant="h5" 
-      sx={{ margin: "2vw", textAlign: "center" }}
-      >
+      <Typography variant="h5" sx={{ margin: "2vw", textAlign: "center" }}>
         Ver / Editar Usuarios
       </Typography>
 
@@ -283,8 +237,6 @@ function UsersViewEdit(props) {
               }}
               pageSizeOptions={[5, 10]}
               //options for the user to choose on how many rows the table has
-              //checkboxSelection={true}
-              //onRowSelectionModelChange={handleRowSelection}
               onCellClick={handleCellClick}
             />
           </TableContainer>
