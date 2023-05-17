@@ -354,11 +354,11 @@ export const putSpecificSupervisorShift = ({day,hour,max}) => {
     }
   };
 };
-export const putGeneralSupervisorShift = (maxSupervisors) => {
+export const putGeneralSupervisorShift = ({max,startTime,endTime}) => {
   return async function (dispatch) {
     try {
       dispatch(setLoading(true));
-      const response = await axios.put(`/putSupervisorShifts`, {max: maxSupervisors});
+      const response = await axios.put(`/putSupervisorShifts`, {max,startTime,endTime});
       dispatch({ type: PUT_SUPERVISOR_SHIFT, payload: response.data });
       dispatch(setLoading(false));
     } catch (error) {
