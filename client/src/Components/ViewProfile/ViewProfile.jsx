@@ -6,6 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserById } from "../../Redux/Actions/viewActions";
 // IMPORTACIONES DE MUI/ESTILOS
+import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import { Avatar, Typography, Box, Grid, Button } from "@mui/material";
 import { useTheme } from "@mui/material";
 import styles from "./ViewProfileStyles";
@@ -14,6 +15,9 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 export default function ViewProfile() {
   const navigate = useNavigate();
   const theme = useTheme();
+  const newRol = (rol) => {
+    return rol === 'Companion1' ? rol = 'Acompañante Inicial' : rol = 'Acompañante Avanzado'
+  }
 
   const { viewUser } = useSelector((state) => state.view);
   const {
@@ -27,6 +31,7 @@ export default function ViewProfile() {
     studies,
     gender,
     profession,
+    rol
   } = viewUser;
 
   const dispatch = useDispatch();
@@ -77,6 +82,7 @@ export default function ViewProfile() {
           <Typography variant="h5">
             {name} {lastName}
           </Typography>
+          <Typography variant="h7" sx={{...styles.body.info.data, fontFamily: 'poppins'}}>{newRol(rol)}</Typography>
         </Grid>
         <Grid item sx={styles.body} sm={10} md={5}>
           <Box sx={{ ...styles.body.info, borderTop: "none" }} id="primero">
@@ -94,6 +100,7 @@ export default function ViewProfile() {
               sx={styles.body.info.data}
             >
               {phone}
+              <WhatsAppIcon sx={styles.body.info.data}/>
             </Typography>
           </Box>
           <Box sx={styles.body.info}>

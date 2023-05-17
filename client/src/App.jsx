@@ -30,6 +30,9 @@ const App = () => {
   const RequireAuth = () => {
     return user ? <Outlet /> : <Navigate to={"/"} />;
   };
+  const RequireRol = ({ rol, rol2 }) => {
+    return user.rol === rol || user.rol === rol2 ? <Outlet /> : <Navigate to={"/"} />;
+  };
   useEffect(() => {
     dispatch(getAllCompanions());
     dispatch(getAllSupervisors());
@@ -43,15 +46,17 @@ const App = () => {
     <div>
       <NavBar />
       <Routes>
-          <Route exact path="/" element={<Landing />} />
-          <Route path="/password-recovery" element={<PasswordRecovery />} />
-          <Route element={<RequireAuth />}>
+        <Route exact path="/" element={<Landing />} />
+        <Route path="/password-recovery" element={<PasswordRecovery />} />
+        <Route element={<RequireAuth />}>
+          <Route element={<RequireRol rol={'SuperAdmin'} rol2={'Supervisor'} />}>
+            <Route path="/panel-supervision" element={<PanelSupervision />} />
+            <Route path="/calendarSuperAdmin" element={<CalendarSuperAdmin />} />
+            <Route path="/CompanionsAtCharge" element={<CompanionsAtCharge />} />
+          </Route>
           <Route path="/register" element={<Register />} />
-          <Route path="/CompanionsAtCharge" element={<CompanionsAtCharge />} />
           <Route path="/profile/:id" element={<Profiles />} />
-          <Route path="/panel-supervision" element={<PanelSupervision />} />
-          <Route path="/calendarSuperAdmin" element={<CalendarSuperAdmin />} />
-          <Route path= "/calendarCompanion" element={<CalendarCompanion/>}/>
+          <Route path="/calendarCompanion" element={<CalendarCompanion />} />
           <Route path="/profile/:id/view" element={<ViewProfile />} />
         </Route>
       </Routes>
