@@ -93,13 +93,14 @@ export default function NavBar(props) {
         toastWarning
       );
     }
-    if (user.rol === "SuperAdmin") {
+    if (user.rol === "SuperAdmin" || user.rol === "Supervisor") {
       navigate("/calendarSuperAdmin");
     } else if (user.rol === "Companion1" || user.rol === "Companion2") {
       navigate("/calendarCompanion");
     } else {
       toast.error("No tienes acceso a este calendario", toastWarning);
     }
+    setOpen(false)
   };
   const handleClick2 = (event) => {
     if (Object.entries(user).length === 0) {
@@ -108,19 +109,22 @@ export default function NavBar(props) {
         toastWarning
       );
     }
-    if (user.rol === "SuperAdmin") {
+    if (user.rol === "SuperAdmin" || user.rol === "Supervisor") {
       navigate("/calendarCompanion");
     }
+    setOpen(false)
   };
   const handleClickPanel = (event) => {
-    if (user.rol === "SuperAdmin") {
+    if (user.rol === "SuperAdmin" || user.rol === "Supervisor") {
       navigate("/panel-supervision");
     }
+    setOpen(false)
   };
   const handleClickCargo = (event) => {
-    if (user.rol === "SuperAdmin") {
+    if (user.rol === "SuperAdmin" || user.rol === "Supervisor") {
       navigate("/CompanionsAtCharge");
     }
+    setOpen(false)
   };
   const closeSession = () => {
     dispatch(logOut());
@@ -217,44 +221,39 @@ export default function NavBar(props) {
                       horizontal: "right",
                     }}
                   >
-                    <MenuItem onClick={() => navigate(`/profile/${id}`)}>
+                    <MenuItem onClick={() => {navigate(`/profile/${id}`); setOpen(false)}}>
                       <ListItemIcon>
                         <AccountBoxIcon />
                       </ListItemIcon>
                       <ListItemText>Perfil</ListItemText>
                     </MenuItem>
-                    {user.rol === "SuperAdmin" && (
+                    {(user.rol === "SuperAdmin" || user.rol === "Supervisor") && (
+                      <Box>
                       <MenuItem onClick={handleClick}>
                         <ListItemIcon>
                           <CalendarMonthIcon />
                         </ListItemIcon>
                         <ListItemText>Calendario Supervisores</ListItemText>
                       </MenuItem>
-                    )}
-                    {user.rol === "SuperAdmin" && (
                       <MenuItem onClick={handleClick2}>
                         <ListItemIcon>
                           <CalendarMonthIcon />
                         </ListItemIcon>
                         <ListItemText>Calendario Acompañantes</ListItemText>
                       </MenuItem>
-                    )}
-                    {user.rol === "SuperAdmin" && (
                       <MenuItem onClick={handleClickCargo}>
                         <ListItemIcon>
                           <GroupsIcon />
                         </ListItemIcon>
                         <ListItemText>Acompañantes a mi cargo</ListItemText>
                       </MenuItem>
-                    )}
-                    {user.rol === "SuperAdmin" && (
                       <MenuItem onClick={handleClickPanel}>
                         <ListItemIcon>
                           <PowerInputIcon />
                         </ListItemIcon>
                         <ListItemText>Panel de supervisión</ListItemText>
                       </MenuItem>
-                    )}
+                      </Box>)}
                     {(user.rol === "Companion1" ||
                       user.rol === "Companion2") && (
                       <MenuItem onClick={handleClick}>
