@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../Loader/Loader";
 import ProfileEdit from "../../Modals/ProfileEdit";
-import { getSupervisorsOnline, getSurpervisorMatch } from "../../../Redux/Actions/viewActions";
+import { getSupervisorsOnline } from "../../../Redux/Actions/viewActions";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import EditIcon from '@mui/icons-material/Edit';
 import AssignmentIcon from '@mui/icons-material/Assignment';
@@ -43,7 +43,6 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 }));
 export default function Companion(props) {
   const theme = useTheme();
-  const userLog = props.user.id;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const allSupervisors = useSelector((state) => state.view.allSupervisors);
@@ -87,7 +86,7 @@ export default function Companion(props) {
     ":" +
     (myMinutes < 10 ? `0${myMinutes}` : myMinutes);
   const newRol = (rol) => {
-    return rol === 'Companion1' ? rol = 'Acompañante 1' : rol = 'Acompañante 2'
+    return rol === 'Companion1' ? rol = 'Acompañante Inicial' : rol = 'Acompañante Avanzado'
   }
   return !loading ? (
     <Box>

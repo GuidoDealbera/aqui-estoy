@@ -199,19 +199,6 @@ export const getUserById = (id) => {
   };
 };
 
-export const getSurpervisorMatch = (idCompanion) => {
-  return async function (dispatch) {
-    try {
-      dispatch(setLoading(true))
-      const response = (await axios.get(`/getMatchShiftTime/${idCompanion}`))
-        .data;
-      dispatch({ type: GET_SUPERVISOR_MATCH, payload: response });
-      dispatch(setLoading(false))
-    } catch (error) {
-      toast.error("No se pudo cargar el supervisor", toastError);
-    }
-  };
-};
 export const getPasswordRecoveryCode = (email) => {
   return async function (dispatch) {
     const code = await axios.get(`/getPasswordRecoveryCode/${email}`);
