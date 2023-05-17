@@ -12,7 +12,7 @@ import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 import ImportExportIcon from '@mui/icons-material/ImportExport';
 import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
 import SettingsIcon from '@mui/icons-material/Settings';
-import { Box, Button, IconButton, Tab, Tabs, Hidden, Menu, MenuItem, ListItemIcon, ListItemText } from '@mui/material';
+import { Box, IconButton, Tab, Tabs, Hidden, Menu, MenuItem, ListItemIcon, ListItemText } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 
 const SuperAdmin = (props) => {
