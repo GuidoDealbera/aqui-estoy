@@ -43,7 +43,8 @@ const downgradeSupervisor = async (req, res) => {
       const user = {
         email:newCompanion.email,password:newPassword,rol:newCompanion.rol
       }
-      await axios.post("http://localhost:3001/postCreatedAccount", user);
+      await axios.post("/postCreatedAccount", user);
+      // await axios.post("http://localhost:3001/postCreatedAccount", user);
       return res.status(201).json({newCompanion, newPassword});
     } else {
       return res.status(400).json({ error: "Faltan datos obligatorios" });
