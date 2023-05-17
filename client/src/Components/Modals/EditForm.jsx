@@ -42,7 +42,8 @@ const styles = {
     alignItems: "center",
     marginBottom: "50px",
     form: {
-      height: "400px",
+      // height: "450px",
+      height: "70vh",
       overflow: "auto",
       width: "350px",
       display: "flex",
@@ -71,7 +72,10 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
   borderRadius: "10px",
   boxShadow: theme.shadows[3],
 }));
-export default function EditForm({userID, handleClose}) {
+
+
+//------------------COMPONENT------------------------
+export default function EditForm({ userID, handleClose }) {
   const dispatch = useDispatch();
   const { allCompanions, allSupervisors } = useSelector((state) => state.view);
   const adminUser = useSelector((state) => state.auth.user);
@@ -79,10 +83,14 @@ export default function EditForm({userID, handleClose}) {
   const [index, setIndex] = useState(0);
   const [supervisorSelected, setSupervisorSelected] = useState("");
   const asignSupervisor = () => {
-    if((user.rol === 'Companion1' || user.rol === 'Companion2') && supervisorSelected.length > 0 ){
-      dispatch(postSupervisorCharge(supervisorSelected, [userID]))
+    if (
+      (user.rol === "Companion1" || user.rol === "Companion2") &&
+      supervisorSelected.length > 0
+    ) {
+      dispatch(postSupervisorCharge(supervisorSelected, [userID]));
     }
-  }
+  };
+
   useEffect(() => {
     let allUsers = [...allCompanions, ...allSupervisors];
     setUser(allUsers.find((user) => user.id === userID));
@@ -153,27 +161,11 @@ export default function EditForm({userID, handleClose}) {
     rol: Yup.string().required("Este campo es obligatorio"),
     isActive: Yup.boolean().required("Este campo es obligatorio"),
     referent: Yup.string().required("Este campo es obligatorio"),
-    // name: Yup.string()/*.required("Este campo es obligatorio")*/,
-    // lastName: Yup.string()/*.required("Este campo es obligatorio")*/,
-    // birthdayDate: Yup.date("")/*.required("Este campo es obligatorio")*/,
-    // nationality: Yup.string()/*.required("Este campo es obligatorio")*/,
-    // country: Yup.string()/*.required("Este campo es obligatorio")*/,
-    // cityTimeZone: Yup.string()/*.required("Este campo es obligatorio")*/,
-    // phone: Yup.string(),
-      // .matches(
-      //   /^\+?[0-9\s]*[1-9][0-9]*$/,
-      //   "El número de teléfono debe contener solo números y espacios en blanco"
-      // )
-      // .test(
-      //   "is-positive",
-      //   "El número de teléfono debe ser positivo",
-      //   (value) => !value || parseInt(value.replace(/\s+/g, "")) > 0
-      // ),
-      //.required("Este campo es obligatorio"),
-    studies: Yup.string()/*.required("Este campo es obligatorio")*/,
-    gender: Yup.string()/*.required("Este campo es obligatorio")*/,
-    profession: Yup.string()/*.required("Este campo es obligatorio")*/,
+    studies: Yup.string(),
+    gender: Yup.string(),
+    profession: Yup.string(),
   });
+
   return Object.entries(user).length > 0 ? (
     <Container sx={styles.container}>
       <Formik
@@ -226,7 +218,11 @@ export default function EditForm({userID, handleClose}) {
                         >
                           Estado de la cuenta
                         </InputLabel>
-                        <Field as={Select} sx={styles.container.form.field} name="isActive">
+                        <Field
+                          as={Select}
+                          sx={styles.container.form.field}
+                          name="isActive"
+                        >
                           <MenuItem disabled value="">
                             Seleccione el estado de la cuenta
                           </MenuItem>
@@ -240,32 +236,62 @@ export default function EditForm({userID, handleClose}) {
                         </ErrorMessage>
                       </Box>
                       <Box>
-                      <Field as={Select} sx={styles.container.form.field} name="rol">
-                        <MenuItem disabled value="">Seleccione un rol</MenuItem>
-                        <MenuItem value="SuperAdmin">SuperAdmin</MenuItem>
-                        <MenuItem value="Supervisor">Supervisor</MenuItem>
-                        <MenuItem value="Companion1">Acompañante 1</MenuItem>
-                        <MenuItem value="Companion2">Acompañante 2</MenuItem>
-                      </Field>
-                      <ErrorMessage name="rol">
-                        {(msg) => <Typography color="error">{msg}</Typography>}
-                      </ErrorMessage>
+                        <Field
+                          as={Select}
+                          sx={styles.container.form.field}
+                          name="rol"
+                        >
+                          <MenuItem disabled value="">
+                            Seleccione un rol
+                          </MenuItem>
+                          <MenuItem value="SuperAdmin">SuperAdmin</MenuItem>
+                          <MenuItem value="Supervisor">Supervisor</MenuItem>
+                          <MenuItem value="Companion1">Acompañante 1</MenuItem>
+                          <MenuItem value="Companion2">Acompañante 2</MenuItem>
+                        </Field>
+                        <ErrorMessage name="rol">
+                          {(msg) => (
+                            <Typography color="error">{msg}</Typography>
+                          )}
+                        </ErrorMessage>
                       </Box>
-                      {user.rol !== 'Supervisor' && user.rol !== 'SuperAdmin' &&
-                      <Box>
-                      <Field as={Select} sx={styles.container.form.field} name="referent">
-                        <MenuItem value="No asignado" sx={{display: "none"}}>No asignado</MenuItem>
-                        <MenuItem disabled value="">Seleccione un supervisor</MenuItem>
-                        {allSupervisors?.map((supervisor) => {
-                          if(supervisor.name) return (
-                            <MenuItem key={supervisor?.id} value={supervisor?.id} onClick={() => setSupervisorSelected(supervisor.id)}>{`${supervisor?.name} ${supervisor.lastName}`}</MenuItem>
-                          )
-                        })}
-                      </Field>
-                      <ErrorMessage name="referent">
-                        {(msg) => <Typography color="error">{msg}</Typography>}
-                      </ErrorMessage>
-                      </Box>}
+                      {user.rol !== "Supervisor" &&
+                        user.rol !== "SuperAdmin" && (
+                          <Box>
+                            <Field
+                              as={Select}
+                              sx={styles.container.form.field}
+                              name="referent"
+                            >
+                              <MenuItem
+                                value="No asignado"
+                                sx={{ display: "none" }}
+                              >
+                                No asignado
+                              </MenuItem>
+                              <MenuItem disabled value="">
+                                Seleccione un supervisor
+                              </MenuItem>
+                              {allSupervisors?.map((supervisor) => {
+                                if (supervisor.name)
+                                  return (
+                                    <MenuItem
+                                      key={supervisor?.id}
+                                      value={supervisor?.id}
+                                      onClick={() =>
+                                        setSupervisorSelected(supervisor.id)
+                                      }
+                                    >{`${supervisor?.name} ${supervisor.lastName}`}</MenuItem>
+                                  );
+                              })}
+                            </Field>
+                            <ErrorMessage name="referent">
+                              {(msg) => (
+                                <Typography color="error">{msg}</Typography>
+                              )}
+                            </ErrorMessage>
+                          </Box>
+                        )}
                       <Box>
                         <Field
                           as={TextField}
@@ -301,12 +327,19 @@ export default function EditForm({userID, handleClose}) {
                         >
                           Continuar
                         </Button>
+                        <Button
+                          variant="contained"
+                          name="Cancelar"
+                          onClick={handleClose}
+                        >
+                          Cancelar
+                        </Button>
                       </Box>
                     </>
                   ) : null}
                   {index === 1 ? (
                     <>
-                    <Box
+                      <Box
                         onBlur={() =>
                           props.setFieldTouched("birthdayDate", true)
                         }
