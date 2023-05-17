@@ -4,15 +4,16 @@ import * as Yup from "yup";
 import axios from "axios";
 import { styled } from "@mui/system";
 import {
-  InputLabel,
+  
   Button,
   Typography,
   TextField,
   Box,
-  Input,
+  Avatar,
   Paper,
   IconButton,
   LinearProgress,
+  Badge,
 } from "@mui/material";
 import UploadIcon from "@mui/icons-material/Upload";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -31,6 +32,7 @@ import DatePicker from "./registerComponents/DatePicker";
 import Select from "./registerComponents/Select";
 import PhoneNumberInput from "./registerComponents/CustomPhoneNumber";
 import CustomStepper from "./registerComponents/Stepper";
+
 
 const styles = {
   container: {
@@ -80,6 +82,7 @@ export default function Register() {
 
   const [fileName, setFileName] = useState("");
   const [loading, setLoading] = useState(false);
+  const [previewImage, setPreviewImage] = useState(null);
 
   const clickHandler = (event) => {
     //Handler que modifica el estado de arriba.
@@ -186,6 +189,7 @@ export default function Register() {
                           name="profilePhoto"
                         >
                           {({ field, form }) => (
+                            
                             <Box
                               sx={{
                                 width: "300px",
@@ -194,6 +198,14 @@ export default function Register() {
                                 flexDirection: "column",
                               }}
                             >
+                              <Badge 
+                            overlap="circular"
+                            anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+                            badgeContent={
+                              <Avatar alt="Photo" src={previewImage} sx={{ width: 50, height: 50 }}/>
+                            }
+                            sx={{position:"absolute"}}
+                            />
                               <Button variant="contained" component="label">
                                 {" "}
                                 <UploadIcon sx={{ marginRight: "10px" }} />{" "}
@@ -204,8 +216,9 @@ export default function Register() {
                                   id={field.name}
                                   name={field.name}
                                   onChange={async (event) => {
-                                    setLoading(true);
-                                    const file = event.target.files[0];
+                                    
+                                    const file = event.target.files[0]
+                                    file ? setLoading(true): null;
                                     setFileName(file.name);
                                     const formData = new FormData();
                                     formData.append("file", file);
@@ -223,6 +236,7 @@ export default function Register() {
                                       response.data.url
                                     );
                                     setLoading(false);
+                                    setPreviewImage(URL.createObjectURL(file));
                                   }}
                                 />
                               </Button>
@@ -256,6 +270,7 @@ export default function Register() {
                                 <LinearProgress sx={{ marginTop: "5px" }} />
                               ) : null}
                             </Box>
+                            
                           )}
                         </Field>
                       </Box>
