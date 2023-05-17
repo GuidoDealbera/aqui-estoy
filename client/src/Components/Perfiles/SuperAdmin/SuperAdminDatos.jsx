@@ -5,7 +5,7 @@ import styles from "./SuperAdminStyle";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import EditIcon from '@mui/icons-material/Edit';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import GroupsIcon from "@mui/icons-material/Groups";
 import DateRangeIcon from '@mui/icons-material/DateRange';
 import { useState } from "react";
 import ProfileEdit from '../../Modals/ProfileEdit'
@@ -98,7 +98,7 @@ export default function SuperAdminDatos(props) {
       <Box sx={styles.box}>
         <Button sx={styles.buttons} onClick={() => { navigate("/calendarSuperAdmin") }} startIcon={<CalendarMonthIcon/>}>Calendario Supervisores</Button>
         <Button sx={styles.buttons} onClick={() => { navigate("/calendarCompanion") }} startIcon={<CalendarMonthIcon/>}>Calendario Acompañantes</Button>
-        <Button sx={styles.buttons} onClick={() => { navigate("/companionsAtCharge") }} startIcon={<AccountBoxIcon/>}>Acompañantes a mi cargo</Button>
+        <Button sx={styles.buttons} onClick={() => { navigate("/companionsAtCharge") }} startIcon={<GroupsIcon/>}>Acompañantes a mi cargo</Button>
         <Button sx={styles.buttons} onClick={() => { navigate("/panel-supervision") }} startIcon={<DateRangeIcon/>}>Panel de supervisión</Button>
       </Box>
       {edit && <ProfileEdit edit={edit} handleClose={handleClose} />}
