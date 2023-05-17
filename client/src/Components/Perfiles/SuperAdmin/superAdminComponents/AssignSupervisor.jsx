@@ -31,7 +31,8 @@ const AssignSupervisor = ({setActiveTab}) => {
   useEffect(()=>{
     dispatch(getAllCompanions());
     dispatch(getAllSupervisors());
-  },[dispatch,selectedSupervisor])
+  },[selectedSupervisor])
+
 
   
   const handleSelectCompanion = (event) => {
@@ -64,10 +65,13 @@ const AssignSupervisor = ({setActiveTab}) => {
       setSelectAll(false);
       const rest = allCompanions.filter((companion) => !companion.Supervisor);
       setSelectedCompanions(rest.map((companion) => companion.id));
+      console.log(rest);
     }
   };
   
-    
+  
+  
+  
 
   const assignCompanions = () => {
     if (selectedSupervisor) {
@@ -77,7 +81,13 @@ const AssignSupervisor = ({setActiveTab}) => {
         dispatch(postSupervisorCharge(selectedSupervisor, selectedCompanions));
         setSelectAll(false);
         setSelectedCompanions([]);
-        setSelectedSupervisor('');
+        setSelectedSupervisor([]);
+    //    setActiveTab('assignSupervisor');
+    //    window.location.reload();
+        
+     console.log(selectedSupervisor);
+        console.log(selectedCompanions);
+       
       }
     } else {
       toast.error("Selecciona un supervisor", toastError);
@@ -91,7 +101,12 @@ const AssignSupervisor = ({setActiveTab}) => {
       } else {
         dispatch(putSupervisorCharge(selectedSupervisor, selectedCompanions));
         setSelectedCompanions([]);
-         setSelectedSupervisor('');
+         setSelectedSupervisor([]);
+        console.log(
+          `Acompañantes ${selectedCompanions.join(
+            ", "
+          )} eliminados del supervisor ${selectedSupervisor}`
+        );
       }
     } else {
       toast.error("Selecciona un supervisor", toastError);
@@ -116,7 +131,8 @@ const AssignSupervisor = ({setActiveTab}) => {
                   setSelectedSupervisor(selectedSupervisorId);
                   setSelectAll(false);
                   setRestCompanions(false);
-                           
+                  
+                   console.log(selectedSupervisor);              
                   // Obtén los companions del supervisor seleccionado
                   const supervisor = allSupervisors.find(
                     (supervisor) => supervisor.id === selectedSupervisorId
@@ -125,6 +141,8 @@ const AssignSupervisor = ({setActiveTab}) => {
                     const supervisorCompanions = supervisor.Companions.map(
                       (companion) => companion.id
                     );
+                 //   dispatch(getAllSupervisors());
+                 //   dispatch(getAllCompanions());
                     setSelectedCompanions(supervisorCompanions);
                   } else {
                     setSelectedCompanions([]);
@@ -134,7 +152,7 @@ const AssignSupervisor = ({setActiveTab}) => {
               >
                 {/* ...opciones de supervisores */}
         
-                <MenuItem value="">
+                <MenuItem value={[]}>
                   <em>Selecciona un supervisor</em>
                 </MenuItem>
                 {allSupervisors.map((supervisor) => {
