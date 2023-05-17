@@ -1,15 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import { styled } from "@mui/system";
 import {
-  InputLabel,
   Button,
   Typography,
   TextField,
   Box,
-  Input,
   Paper,
   IconButton,
   LinearProgress,
@@ -73,33 +71,24 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
 export default function Register({handleClose}) {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
-  const navigate = useNavigate();
-
-  const [index, setIndex] = useState(0); //Estado del "paginado" de los inputs (Mirar Figma).
-
+  //const navigate = useNavigate();
+  const [index, setIndex] = useState(0);
   const [fileName, setFileName] = useState("");
   const [loading, setLoading] = useState(false);
-
   const clickHandler = (event) => {
-    //Handler que modifica el estado de arriba.
-    const { target } = event;
-    const { name } = target;
+    const { name } = event.target;
     switch (name) {
       case "Siguiente":
         setIndex(index + 1);
         break;
-
       case "Anterior":
         setIndex(index - 1);
         break;
-
       default:
         break;
     }
   };
-
   const submitHandler = (values) => {
-    //Submit Handler del formulario (Aún no interactúa con el Back-End)
     if (user.rol === "Companion1" || user.rol === "Companion2") {
       dispatch(putCompanion(user.id, values)); //trae el id del user y lo actualiza
     } else {
@@ -108,9 +97,7 @@ export default function Register({handleClose}) {
     toast.success("Datos actualizados", toastSuccess);
     handleClose()
   };
-
   const validationSchema = Yup.object().shape({
-    //Validaciones de Yup (Aún en desarrollo)
     profilePhoto: Yup.string().url("URL de la imágen inválida"),
     name: Yup.string()
       .max(15, "Debe ser menor a 15 caracteres")
@@ -143,7 +130,6 @@ export default function Register({handleClose}) {
        
       <Formik
         initialValues={{
-          //Valores iniciales de Formik, la equivalencia Vanilla sería ir almacenando los datos en el estado local...
           profilePhoto: user.profilePhoto,
           name: user.name,
           lastName: user.lastName,
@@ -164,7 +150,6 @@ export default function Register({handleClose}) {
           return (
             <>
               <StyledPaper>
-               
                 <Typography
                   variant="h5"
                   sx={{
@@ -213,7 +198,6 @@ export default function Register({handleClose}) {
                                       "upload_preset",
                                       "x75zrl2a"
                                     );
-
                                     const response = await axios.post(
                                       "https://api.cloudinary.com/v1_1/dws4qq5ak/image/upload",
                                       formData
@@ -243,7 +227,6 @@ export default function Register({handleClose}) {
                                   <Typography>Archivo seleccionado:</Typography>
                                   <Typography>{fileName}</Typography>
                                 </Box>
-
                                 <IconButton
                                   aria-label="delete"
                                   onClick={() => {
@@ -315,7 +298,6 @@ export default function Register({handleClose}) {
                         >
                           Continuar
                         </Button>
-
                         {index === 0 ? 
                         <Button
                           variant="contained"
@@ -325,7 +307,6 @@ export default function Register({handleClose}) {
                           Cancelar
                         </Button>
                         : null }
-
                       </Box>
                     </>
                   ) : null}
@@ -394,7 +375,6 @@ export default function Register({handleClose}) {
                       }}
                     >
                       <Box>
-                        {/* <Field name='phone' as={TextField} sx={styles.container.form.field} label="Teléfono" helperText={<ErrorMessage name="phone" />} error={!!(props.errors.phone && props.touched.phone)} /> */}
                         <PhoneNumberInput
                           name="phone"
                           label="Número de teléfono"
@@ -430,7 +410,6 @@ export default function Register({handleClose}) {
                           ]}
                         />
                       </Box>
-                
                       <Box>
                         <Select
                           name="gender"

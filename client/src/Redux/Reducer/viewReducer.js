@@ -13,7 +13,6 @@ import {
     PUT_SUPERVISOR_CHARGE,
     PUT_SUPERVISOR_EDIT,
     PUT_COMPANION_EDIT,
-    GET_SUPERVISOR_MATCH,
     GET_ALL_SUPERVISORS_PER_SHIFT,
     GET_ALL_COMPANIONS_PER_SHIFT,
     DELETE_SUPERVISOR_SHIFT,
@@ -31,7 +30,6 @@ const initialState = {
     allSupervisorShiftAssign: [],
     allCompanionShiftAssign: [],
     viewUser: {},
-    SupervisorMatch: {},
     supervisorsPerShift: [],
     companionsPerShift: [],
 }
@@ -149,11 +147,6 @@ const viewReducer = (state = initialState, { type, payload }) => {
                     allCompanions: [...state.allCompanions],
                 };
             }
-         case GET_SUPERVISOR_MATCH:
-                 return{
-                  ...state,
-                  SupervisorMatch: payload
-        }
         case GET_ALL_SUPERVISORS_PER_SHIFT:
             return{
                 ...state,
