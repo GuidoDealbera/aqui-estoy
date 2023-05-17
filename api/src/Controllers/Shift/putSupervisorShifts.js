@@ -29,8 +29,8 @@ const putSupervisorShifts = async (req, res) => {
       
       if(startTime && endTime){
         let adjustedEndTime = endTime;
-        if (endTime === "01:00") {
-          adjustedEndTime = "25:00";
+        if (endTime === "00:00") {
+          adjustedEndTime = "24:00";
         }
         await Promise.all(
           shifts.map(async (shift) => {
