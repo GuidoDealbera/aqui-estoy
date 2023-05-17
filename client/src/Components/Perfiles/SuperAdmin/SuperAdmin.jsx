@@ -36,24 +36,19 @@ const SuperAdmin = (props) => {
         return <CreateUser />;
     }
   };
-
   const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);
   };
-
   const handleMenuClick = (event) => {
     setMenuAnchorEl(event.currentTarget);
   };
-
   const handleMenuClose = () => {
     setMenuAnchorEl(null);
   };
-
   const handleMenuItemClick = (event, newValue) => {
     setActiveTab(newValue);
     handleMenuClose();
   };
-
   const renderTabs = () => (
     <Box sx={{display: "flex", justifyContent: "center"}}>
     <Tabs value={activeTab} onChange={handleTabChange} variant="scrollable" scrollButtons>
@@ -128,7 +123,6 @@ const mapStateToProps = (state) => {
     user: state.auth.user,
   };
 };
-
 const mapDispatchToProps = (dispatch) => {
   return {
     loginSuccess: (userData) => dispatch(loginSuccess(userData)),
@@ -138,4 +132,3 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SuperAdmin);
-git s
