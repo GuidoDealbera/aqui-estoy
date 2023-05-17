@@ -40,7 +40,7 @@ const CalendarSuperAdminPopOut = (props) => {
           {companion.name} 
         </Typography>
         { (companion.rol === "Companion1" || companion.rol === "Companion2") &&
-          <Button onClick={() => handleDeleteCompanion(companion.id, props.shift.shiftId)}   style={{
+          <Button onClick={() => handleDeleteCompanion(companion.id, props.shift.originalShift.shiftId)}   style={{
             backgroundColor: "grey",
             color: "white",
             fontSize: "12px",

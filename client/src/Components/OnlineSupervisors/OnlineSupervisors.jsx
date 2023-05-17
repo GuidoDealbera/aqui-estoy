@@ -35,7 +35,7 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 
 export default function OnlineSupervisors({onClose}) {
   const { supervisorsOnline} = useSelector((state) => state.auth);
-  return supervisorsOnline.length && (
+  return  (
     <Box
       sx={{
         display: "flex",
@@ -48,7 +48,7 @@ export default function OnlineSupervisors({onClose}) {
         borderRadius: "20px"
       }}
     >
-      {supervisorsOnline.Supervisors?.map((sol) => {
+      {supervisorsOnline.Supervisors?.length > 0 ? supervisorsOnline.Supervisors?.map((sol) => {
         return (
           <Box
             key={sol.id}
@@ -82,14 +82,23 @@ export default function OnlineSupervisors({onClose}) {
             </StyledBadge>
             <WhatsAppIcon sx={{ color: "green", paddingLeft: "8px" }} />
             </Box>
-          </Box>
-        );
-      })}
       <Box sx={{display: "flex", justifyContent: "flex-end"}}>
       <Button variant="contained" sx={{...styles.buttons, width: "40%",marginTop: 2, textAlign: "end"}} onClick={onClose}>
         Aceptar
       </Button>
       </Box>
+          </Box>
+        ) 
+      }) : (
+        <Box>
+          <Typography variant="h5" sx={{color: "black"}}>En este momento no hay supervisores disponibles</Typography>
+          <Box sx={{display: "flex", justifyContent: "flex-end"}}>
+      <Button variant="contained" sx={styles.buttons} onClick={onClose}>
+        Aceptar
+      </Button>
+      </Box>
+        </Box>
+      )};
     </Box>
   );
 }

@@ -5,7 +5,7 @@ const styles = {
     container: {
         display: "flex",
         justifyContent: "center",
-        marginTop: "5%"   
+        marginTop: "2%"   
     },
     header: {
         color: "#19154E",
