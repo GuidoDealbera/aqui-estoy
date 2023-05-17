@@ -39,11 +39,11 @@ const LoginForm = ({ handleMouseLeave }) => {
   const dispatch = useDispatch();
 
   const { user } = useSelector((state) => state.auth)
-  const { name, id } = user
+  const { name, id, lastName, profilePhoto, birthdayDate, nationality, country, phone, profession, studies, gender, CityTimeZoneId } = user
   useEffect(() => {
     if (Object.entries(user).length) {
       dispatch(loginSuccess(user))
-      if (name) {
+      if (name && lastName && profilePhoto && birthdayDate && nationality && country && phone && profession && studies && gender && CityTimeZoneId) {
         navigate(`/profile/${id}`)
       } else {
         navigate("/register")
