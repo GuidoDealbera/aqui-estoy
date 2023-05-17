@@ -5,6 +5,8 @@ import { styled } from "@mui/material/styles";
 import { Select, Typography, MenuItem, Menu, Button, Switch, FormControlLabel } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { putSpecificCompanionShift,putGeneralCompanionShift } from "../../../../Redux/Actions/postPutActions";
+import { toast } from "sonner";
+import { toastWarning } from "../../../../Redux/Actions/alertStyle";
 
 const StyledInputContainer = styled("div")(({ theme }) => ({
   marginBottom: theme.spacing(2),
@@ -60,7 +62,7 @@ const toggleHandler = () => {
       max: 0,
     })
     }else{
-      alert("Debe seleccionar un horario")
+      toast.error("Debe seleccionar un horario", toastWarning)
     }
   }
   const handleGeneralCompanionSubmit = (event)=>{
@@ -68,7 +70,7 @@ const toggleHandler = () => {
     if(maxCompanions.max >= 0){
     dispatch(putGeneralCompanionShift(maxCompanions))
     }else{
-      alert("El máximo no puede ser menor a 0")
+      toast.error("El máximo no puede ser menor a 0", toastWarning)
     }
   }
   //  agregar el código para actualizar la configuración en tu base de datos o estado de Redux
