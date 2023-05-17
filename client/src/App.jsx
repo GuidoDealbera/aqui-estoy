@@ -23,21 +23,6 @@ import {
 } from "./Redux/Actions/viewActions";
 axios.defaults.baseURL = import.meta.env.VITE_SERVER_URL;
 
-//axios.defaults.baseURL = 'aquiestoyapi-production.up.railway.app';
-// axios.defaults.baseURL = 'http://localhost:3001';
-
-// const PrivateRoute = ({ element: Element, ...rest }) => {
-//   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-//   const navigate = useNavigate();
-
-//   if (isAuthenticated) {
-//     return <Route {...rest} element={<Element />} />;
-//   } else {
-//     return <Navigate to="/" state={{ from: rest.location }} />;
-//   }
-// };
-// const { user } = useSelector((state) => state.auth);
-
 const App = () => {
   const dispatch = useDispatch();
   const user = JSON.parse(sessionStorage.getItem("user"));
@@ -45,9 +30,6 @@ const App = () => {
   const RequireAuth = () => {
     return user ? <Outlet /> : <Navigate to={"/"} />;
   };
-
-  
-
   useEffect(() => {
     dispatch(getAllCompanions());
     dispatch(getAllSupervisors());
@@ -57,14 +39,13 @@ const App = () => {
     dispatch(getAllSupervisorsPerShift());
     dispatch(getAllCompanionsPerShift());
   }, [dispatch, user]);
-
   return (
     <div>
       <NavBar />
       <Routes>
-        <Route exact path="/" element={<Landing />} />
-        <Route path="/password-recovery" element={<PasswordRecovery />} />
-        <Route element={<RequireAuth />}>
+          <Route exact path="/" element={<Landing />} />
+          <Route path="/password-recovery" element={<PasswordRecovery />} />
+          <Route element={<RequireAuth />}>
           <Route path="/register" element={<Register />} />
           <Route path="/CompanionsAtCharge" element={<CompanionsAtCharge />} />
           <Route path="/profile/:id" element={<Profiles />} />
@@ -78,6 +59,5 @@ const App = () => {
     </div>
   );
 };
-
 export default App;
 
