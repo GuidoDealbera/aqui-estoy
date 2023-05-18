@@ -111,12 +111,16 @@ const GeneralSettings = () => {
   const handleGeneralCompanionSubmit = (event) => {
     event.preventDefault();
     if (maxCompanions.max >= 0) {
+      if(maxCompanions.endTime < maxCompanions.startTime){
+        toast.error("La hora máxima no puede ser mayor a la hora de inicio", toastWarning);
+      } else{
       dispatch(putGeneralCompanionShift(maxCompanions));
       setMaxCompanions({
         endTime:'',
         startTime:'',
         max: 0
       });
+    }
     } else {
       toast.error("El máximo no puede ser menor a 0", toastWarning);
     }
@@ -168,12 +172,16 @@ const GeneralSettings = () => {
   const handleGeneralSupervisorSubmit = (event) => {
     event.preventDefault();
     if (maxSupervisors.max >= 0) {
+      if(maxSupervisors.endTime < maxSupervisors.startTime){
+        toast.error("La hora máxima no puede ser mayor a la hora de inicio", toastWarning);
+      }else{
       dispatch(putGeneralSupervisorShift(maxSupervisors));
       setMaxSupervisors({
         endTime:'',
         startTime:'',
         max: 0
       });
+    }
     } else {
       toast.error("El máximo no puede ser menor a 0", toastWarning);
     }
@@ -246,12 +254,18 @@ const GeneralSettings = () => {
                       .sort((a, b) => a.id - b.id)
                       .map((shift) => {
                         if (shift.day == specificMaxSupervisors.day) {
+                          let newtime;
+                          if(shift.time.split("-")[1] === "00:00"){
+                            newtime = shift.time.split("-")[1] = "24:00"
+                          }else{
+                            newtime = shift.time.split("-")[1]
+                          }
                           return (
                             <MenuItem
                               key={shift.id}
-                              value={shift.time.split("-")[1]}
+                              value={newtime}
                             >
-                              {shift.time.split("-")[1]}
+                              {newtime}
                             </MenuItem>
                           );
                         }
