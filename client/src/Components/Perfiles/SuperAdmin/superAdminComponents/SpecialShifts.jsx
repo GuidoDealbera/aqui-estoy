@@ -76,6 +76,7 @@ export default function SpecialShifts({ rol }) {
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
+                    cancelButtonText: 'Cancelar',
                     confirmButtonText: 'Confirmar'
                 }).then((result) => {
                     if (result.isConfirmed) {
@@ -107,6 +108,7 @@ export default function SpecialShifts({ rol }) {
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
+                cancelButtonText: 'Cancelar',
                 confirmButtonText: 'Confirmar'
             }).then((result) => {
                 if (result.isConfirmed) {
@@ -215,6 +217,7 @@ export default function SpecialShifts({ rol }) {
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
+                    cancelButtonText: 'Cancelar',
                     confirmButtonText: 'Confirmar'
                 }).then((result) => {
                     if (result.isConfirmed) {
@@ -246,6 +249,7 @@ export default function SpecialShifts({ rol }) {
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
+                cancelButtonText: 'Cancelar',
                 confirmButtonText: 'Confirmar'
             }).then((result) => {
                 if (result.isConfirmed) {

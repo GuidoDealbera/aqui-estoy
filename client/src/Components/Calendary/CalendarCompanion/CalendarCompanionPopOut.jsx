@@ -25,7 +25,7 @@ const CalendarPopOut = (props) => {
       title: "¿Confirmas tu turno?",
       showCancelButton: true,
       confirmButtonText: "Confirmar",
-      cancelButtonText: "Cancelar",
+      cancelButtonText: 'Cancelar',
     }).then((result) => {
       if (result.isConfirmed) {
         const action = user.rol === "Supervisor" || user.rol === "SuperAdmin" ? postAssignSupervisorShift : postAssignCompanionShift;

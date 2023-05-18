@@ -14,7 +14,7 @@ const PopOut = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
   boxShadow: 24,
   borderRadius: '12px',
-  padding: '40px',
+  padding: '20px',
 }));
 
 const InnerPop = styled(Box)(({ theme }) => ({
@@ -31,7 +31,7 @@ const CalendarSuperAdminPopOut = (props) => {
   });
   const { user } = useSelector((state) => state.auth);
   let supervisors = useSelector((state) => state.view.allSupervisors);
-  supervisors=supervisors.filter((sup)=>sup.name&&sup.lastName)
+  supervisors = supervisors.filter((sup) => sup.name && sup.lastName)
   supervisors = supervisors.map((supervisor) => ({
     id: supervisor.id,
     label: `${supervisor.name} ${supervisor.lastName}`
@@ -40,12 +40,12 @@ const CalendarSuperAdminPopOut = (props) => {
   const [isConfirmed, setIsConfirmed] = useState(false);
 
   const handleConfirm = () => {
-    console.log(props.shift);
     Swal.fire({
       title: '¿Estás seguro que quieres confirmar el turno?',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
+      cancelButtonText: 'Cancelar',
       confirmButtonText: 'Confirmar'
     }).then((result) => {
       if (result.isConfirmed) {
@@ -72,26 +72,29 @@ const CalendarSuperAdminPopOut = (props) => {
   return props.trigger ? (
     <PopOut>
       <InnerPop>
-      {props.children}
-        { user.rol === "SuperAdmin" &&
-        <div>              
-          <Autocomplete
-            disablePortal
-            id="combo-box"
-            options={supervisors}
-            onChange={handleChange}
-            sx={{ width: 300, marginTop: 2 }}
-            renderInput={(params) => <TextField {...params} label="Selecciona un supervisor" />}
-            isOptionEqualToValue={isOptionEqualToValue}
-          />
+        {props.children}
+        {user.rol === "SuperAdmin" &&
+          <div>
+            <Autocomplete
+              disablePortal
+              id="combo-box"
+              options={supervisors}
+              onChange={handleChange}
+              sx={{ width: "270px" }}
+              renderInput={(params) => <TextField {...params} label="Selecciona un supervisor" />}
+              isOptionEqualToValue={isOptionEqualToValue}
+            />
           </div>
         }
-        <Box sx={{marginTop: 2.5, padding: 1}}>  
-        <Button variant="contained" color="primary" sx={{marginRight: 2}} onClick={() => {
-          handleConfirm()
-          props.setTrigger(false)}}>Confirmar</Button>
-        
-        <Button variant="contained" color="secondary" onClick={() => props.setTrigger()}>Cerrar</Button>    
+        <Box sx={{ marginTop: 2.5, padding: 1, width: "270px", display: "flex", justifyContent: "space-between" }}>
+          <Button variant="contained" color="primary" sx={{ marginRight: 2 }} onClick={() => {
+            handleConfirm()
+            props.setTrigger(false)}}
+          >
+            Confirmar
+          </Button>
+
+          <Button variant="contained" color="error" sx={{ width: "114px" }} onClick={() => props.setTrigger()}>Cerrar</Button>
         </Box>
       </InnerPop>
     </PopOut>
