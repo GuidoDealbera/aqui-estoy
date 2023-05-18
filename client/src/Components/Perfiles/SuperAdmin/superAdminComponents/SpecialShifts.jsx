@@ -72,7 +72,7 @@ export default function SpecialShifts({ rol }) {
         const handleConfirm = () => {
             if (checked.length > 0) {
                 Swal.fire({
-                    title: '¿Estás seguro que quieres eliminar los turnos seleccionados?',
+                    title: '¿Estás seguro que quieres eliminar las configuraciones seleccionadas?',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
@@ -120,10 +120,10 @@ export default function SpecialShifts({ rol }) {
 
         return (
             <Box sx={{ marginTop: "20px" }}>
-                <Typography variant='h5' sx={{ marginTop: "10px", marginBottom: "10px" }}>Lista de Turnos Especiales</Typography>
-                {withRules.length === 0 ? <Box sx={{ display: "flex", alignItems: "center" }}><Typography variant='body1' sx={{ marginTop: "10px", marginBottom: "10px", marginRight: "10px" }}>No hay turnos con configuración especial</Typography><ErrorOutlineIcon /></Box> : (
+                <Typography variant='h5' sx={{ marginTop: "10px", marginBottom: "10px" }}>Lista de Turnos con Configuraciones Específicas</Typography>
+                {withRules.length === 0 ? <Box sx={{ display: "flex", alignItems: "center" }}><Typography variant='body1' sx={{ marginTop: "10px", marginBottom: "10px", marginRight: "10px" }}>No hay turnos con configuración específica</Typography><ErrorOutlineIcon /></Box> : (
                     <>
-                        <Button variant='contained' color='error' sx={{ marginTop: "10px", marginBottom: "10px" }} onClick={handleConfirm}>Eliminar turnos seleccionados</Button>
+                        <Button variant='contained' color='error' sx={{ marginTop: "10px", marginBottom: "10px" }} onClick={handleConfirm}>Eliminar configuraciones seleccionadas</Button>
                         <List>
                             {withRules.map((value) => {
                                 return (<Box key={value.shiftId}>
@@ -206,7 +206,7 @@ export default function SpecialShifts({ rol }) {
         const handleConfirm = () => {
             if (checked.length > 0) {
                 Swal.fire({
-                    title: '¿Estás seguro que quieres eliminar los turnos seleccionados?',
+                    title: '¿Estás seguro que quieres eliminar las configuraciones seleccionadas?',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
@@ -254,10 +254,10 @@ export default function SpecialShifts({ rol }) {
 
         return (
             <Box sx={{ marginTop: "20px" }}>
-                <Typography variant='h5' sx={{ marginTop: "10px", marginBottom: "10px" }}>Lista de Turnos Especiales</Typography>
-                {withRules.length === 0 ? <Box sx={{ display: "flex", alignItems: "center" }}><Typography variant='body1' sx={{ marginTop: "10px", marginBottom: "10px", marginRight: "10px" }}>No hay turnos con configuración especial</Typography><ErrorOutlineIcon /></Box> : (
+                <Typography variant='h5' sx={{ marginTop: "10px", marginBottom: "10px" }}>Lista de Turnos con Configuraciones Específicas</Typography>
+                {withRules.length === 0 ? <Box sx={{ display: "flex", alignItems: "center" }}><Typography variant='body1' sx={{ marginTop: "10px", marginBottom: "10px", marginRight: "10px" }}>No hay turnos con configuración específica</Typography><ErrorOutlineIcon /></Box> : (
                     <>
-                        <Button variant='contained' color='error' sx={{ marginTop: "10px", marginBottom: "10px" }} onClick={handleConfirm}>Eliminar turnos seleccionados</Button>
+                        <Button variant='contained' color='error' sx={{ marginTop: "10px", marginBottom: "10px" }} onClick={handleConfirm}>Eliminar configuraciones seleccionadas</Button>
                         <List>
                             {withRules.map((value) => {
                                 return (<Box key={value.shiftId}>
