@@ -83,7 +83,6 @@ export const putSupervisor = (id, supervisor) => {
   return async function (dispatch) {
     try {
       dispatch(setLoading(true));
-      console.log(supervisor.birthdayDate);
       const response = await axios.put(`/putSupervisor/${id}`, supervisor);
       dispatch({ type: PUT_SUPERVISOR, payload: response.data });
       dispatch(setLoading(false));
