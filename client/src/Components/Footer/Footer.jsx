@@ -5,6 +5,7 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import LinkIcon from "@mui/icons-material/Link";
+import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
 
 const IconButton = styled(Box)(({ theme }) => ({
   display: "flex",
@@ -49,6 +50,14 @@ export default function Footer(props) {
       <IconButton
         component={motion.a}
         href="https://aquiestoy.chat/"
+        target="_blank"
+        {...iconProps}
+      >
+        <VolunteerActivismIcon htmlColor="#00C8B2" />
+      </IconButton>
+      <IconButton
+        component={motion.a}
+        href="https://www.facebook.com/aquiestoy.chat"
         target="_blank"
         {...iconProps}
       >
