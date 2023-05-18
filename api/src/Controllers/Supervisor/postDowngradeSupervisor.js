@@ -18,6 +18,24 @@ const downgradeSupervisor = async (req, res) => {
       if (rol !== companion.rol) {
         companion.rol = rol;
       }
+
+      await Companion.update({
+        email: email,
+        rol: rol,
+        name: name,
+        lastName: lastName,
+        birthdayDate: birthdayDate,
+        profilePhoto: profilePhoto,
+        nationality: nationality,
+        country: country,
+        CityTimeZoneId: CityTimeZoneId,
+        phone: phone,
+        profession: profession,
+        studies: studies,
+        gender: gender,
+      },{where: { id: companion.id}}
+      );
+
       await companion.save();
       return res.status(200).json(companion);
     } else if (email && !supervisor.isActive) {

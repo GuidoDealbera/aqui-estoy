@@ -17,6 +17,24 @@ const rankUpCompanion = async (req, res) => {
       if (rol !== supervisor.rol) {
         supervisor.rol = rol;
       }
+
+      await Supervisor.update({
+        email: email,
+        rol: rol,
+        name: name,
+        lastName: lastName,
+        birthdayDate: birthdayDate,
+        profilePhoto: profilePhoto,
+        nationality: nationality,
+        country: country,
+        CityTimeZoneId: CityTimeZoneId,
+        phone: phone,
+        profession: profession,
+        studies: studies,
+        gender: gender,
+      },{where: { id: supervisor.id}}
+      );
+
       await supervisor.save();
       return res.status(201).json(supervisor);
     } else if (email && !companion.isActive) {
