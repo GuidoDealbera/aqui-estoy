@@ -130,7 +130,6 @@ export default function EditForm({ userID, handleClose }) {
       (user.rol === "Companion1" || user.rol === "Companion2") &&
       (rol === "Supervisor" || rol === "SuperAdmin")
     ) {
-      dispatch(putCompanionEdit(user.id, { name, isActive }));
       await axios.post(`/postRankUpCompanion`, {
         email: adminUser.email,
         password: adminUser.password,
@@ -143,7 +142,6 @@ export default function EditForm({ userID, handleClose }) {
       (user.rol === "Supervisor" || user.rol === "SuperAdmin") &&
       (rol === "Companion1" || rol === "Companion2")
     ) {
-      dispatch(putSupervisorEdit(user.id, { name, isActive }));
       await axios.post(`/postDowngradeSupervisor`, {
         email: adminUser.email,
         password: adminUser.password,
@@ -158,12 +156,12 @@ export default function EditForm({ userID, handleClose }) {
     handleClose();
   };
   const validationSchema = Yup.object().shape({
-    name: Yup.string().required("Este campo es obligatorio"),
-    lastName: Yup.string().required("Este campo es obligatorio"),
-    birthdayDate: Yup.string().required("Este campo es obligatorio"),
-    nationality: Yup.string().required("Este campo es obligatorio"),
-    country: Yup.string().required("Este campo es obligatorio"),
-    cityTimeZone: Yup.string().required("Este campo es obligatorio"),
+    name: Yup.string(),
+    lastName: Yup.string(),
+    birthdayDate: Yup.string(),
+    nationality: Yup.string(),
+    country: Yup.string(),
+    cityTimeZone: Yup.string(),
     phone: Yup.string()
       .matches(
         /^\+?[0-9\s]*[1-9][0-9]*$/,
@@ -174,26 +172,26 @@ export default function EditForm({ userID, handleClose }) {
         "El número de teléfono debe ser positivo",
         (value) => !value || parseInt(value.replace(/\s+/g, "")) > 0
       )
-      .required("Este campo es obligatorio"),
-    rol: Yup.string().required("Este campo es obligatorio"),
-    isActive: Yup.boolean().required("Este campo es obligatorio"),
-    referent: Yup.string().required("Este campo es obligatorio"),
-    studies: Yup.string().required("Este campo es obligatorio"),
-    gender: Yup.string().required("Este campo es obligatorio"),
-    profession: Yup.string().required("Este campo es obligatorio"),
+      ,
+    rol: Yup.string(),
+    isActive: Yup.boolean(),
+    referent: Yup.string(),
+    studies: Yup.string(),
+    gender: Yup.string(),
+    profession: Yup.string(),
   });
 
   return Object.entries(user).length > 0 ? (
     <Container sx={styles.container}>
       <Formik
         initialValues={{
-          name: user.name,
-          lastName: user.lastName,
-          birthdayDate: user.birthdayDate,
-          nationality: user.nationality,
-          country: user.country,
-          cityTimeZone: user.CityTimeZone?.id,
-          phone: user.phone,
+          name: user.name ? user.name : "",
+          lastName: user.lastName ? user.lastName : "",
+          birthdayDate: user.birthdayDate ? user.birthdayDate : "",
+          nationality: user.nationality ? user.nationality : "",
+          country: user.country ? user.country : "",
+          cityTimeZone: user.CityTimeZone?.id ? user.CityTimeZone.id : "",
+          phone: user.phone ? user.phone : "",
           profession: user.profession ? user.profession : "",
           studies: user.studies ? user.studies : "",
           gender: user.gender ? user.gender : "",
