@@ -417,7 +417,7 @@ export default function PanelSupervision() {
           <Typography
             variant="h6"
             component="a"
-            href={`https://wa.me/${popOutData.phone}`}
+            href={`https://wa.me/${popOutData.phone?.replace(/\D/g, '')}`}
             target="_blank"
           >
             <WhatsAppIcon

@@ -62,7 +62,7 @@ const companionEmailAccountCreated = (email, password) => {
             <p><strong>Correo Electrónico:</strong> ${email}</p>
             <p><strong>Contraseña:</strong> ${password}</p>
         </div>
-        <a href="https://aefront-production.up.railway.app/">Click aquí para ir a la plataforma! .</a>
+        <a href="https://aquiestoy.up.railway.app/">Click aquí para ir a la plataforma! .</a>
     </body>
     </html>
   `;
@@ -132,7 +132,7 @@ const supervisorEmailAccountCreated = (email, password) => {
               <p><strong>Correo Electrónico:</strong> ${email}</p>
               <p><strong>Contraseña:</strong> ${password}</p>
           </div>
-          <a href="https://aefront-production.up.railway.app/">Click aquí para ir a la plataforma! .</a>
+          <a href="https://aquiestoy.up.railway.app/">Click aquí para ir a la plataforma! .</a>
       </body>
       </html>
     `;
@@ -202,7 +202,7 @@ const superAdminEmailAccountCreated = (email, password) => {
               <p><strong>Correo Electrónico:</strong> ${email}</p>
               <p><strong>Contraseña:</strong> ${password}</p>
           </div>
-          <a href="https://aefront-production.up.railway.app/">Click aquí para ir a la plataforma! .</a>
+          <a href="https://aquiestoy.up.railway.app/">Click aquí para ir a la plataforma! .</a>
       </body>
       </html>
     `;

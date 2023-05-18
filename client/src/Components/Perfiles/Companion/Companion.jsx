@@ -104,7 +104,7 @@ export default function Companion(props) {
         <Typography variant="h7" sx={{...styles.body.info.data, fontFamily: 'poppins'}}>{newRol(user.rol)}</Typography>
         {MentorName !== 'No asignado' && (
         <Box>
-        <Typography sx={{...styles.body.info.label, marginTop: "1.5%"}}>Mentor: {user.Supervisor?.name} {user.Supervisor?.lastName}<a href={`https://wa.me/${superPhone.replace(/\D/g, '')}`} target="_blank"><WhatsAppIcon sx={styles.whatsApp}/></a></Typography>
+        <Typography sx={{...styles.body.info.label, marginTop: "1.5%"}}>Mentor: {user.Supervisor?.name} {user.Supervisor?.lastName}<a href={`https://wa.me/${superPhone?.replace(/\D/g, '')}`} target="_blank"><WhatsAppIcon sx={styles.whatsApp}/></a></Typography>
         <Typography>Hora del mentor: {horaLoc} hs</Typography>
         </Box>
         )}
