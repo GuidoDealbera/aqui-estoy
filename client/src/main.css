@@ -14,3 +14,7 @@ html, body {
 .swal2-cancel {
   font-family: Poppins;
 }
+
+.swal2-container {
+  z-index: 99999 !important;
+}
