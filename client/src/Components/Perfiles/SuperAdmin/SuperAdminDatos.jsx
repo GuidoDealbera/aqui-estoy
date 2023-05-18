@@ -52,7 +52,7 @@ export default function SuperAdminDatos(props) {
             <Typography
               sx={styles.body.info.data}
             >
-              {user.phone} <WhatsAppIcon />
+              {user.phone} <WhatsAppIcon sx={{marginLeft: "5px"}} />
             </Typography>
           </Box>
           <Box sx={styles.body.info}>

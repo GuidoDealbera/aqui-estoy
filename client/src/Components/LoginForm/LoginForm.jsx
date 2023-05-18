@@ -16,10 +16,6 @@ import {
 import { styled } from '@mui/system';
 import { loginSuccess } from '../../Redux/Actions/actions';
 
-const StyledLoginButton = styled(Button)(({ theme }) => ({
-
-}));
-
 const validationSchema = Yup.object().shape({
   email: Yup.string().email('Correo electrónico inválido').required('Requerido'),
   password: Yup.string().min(6, 'Debe tener al menos 6 caracteres').required('Requerido'),
@@ -69,7 +65,7 @@ const LoginForm = ({ handleMouseLeave }) => {
           <Container maxWidth="sm">
             <Grid container spacing={2}>
               <Grid item xs={12}>
-                <Typography variant="h5">Iniciar sesión</Typography>
+                <Typography variant="h5" sx={{marginTop: "10px"}}>Iniciar sesión</Typography>
 
               </Grid>
               <Grid item xs={12}>
@@ -113,14 +109,15 @@ const LoginForm = ({ handleMouseLeave }) => {
 
               <Grid item xs={12}>
                 <Box display="flex" justifyContent="space-between">
-                  <StyledLoginButton
+                  <Button
+                    color='primary'
                     variant="contained"
                     type="submit"
                     disabled={formik.isSubmitting}
                   >
                     Iniciar sesión
-                  </StyledLoginButton>
-                  <Button onClick={() => handleMouseLeave()}>Cancelar</Button>
+                  </Button>
+                  <Button onClick={() => handleMouseLeave()} variant='outlined'>Cancelar</Button>
                 </Box>
               </Grid>
             </Grid>

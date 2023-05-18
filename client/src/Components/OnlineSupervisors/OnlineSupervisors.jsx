@@ -1,6 +1,5 @@
 import { Avatar, Badge, Box, Button, Typography, styled } from "@mui/material";
 import { useSelector } from "react-redux";
-import Loader from "../Loader/Loader";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 
 const styles = {
@@ -34,21 +33,21 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 }));
 
 export default function OnlineSupervisors({onClose}) {
-  const { supervisorsOnline} = useSelector((state) => state.auth);
+  const {supervisorsOnline} = useSelector((state) => state.auth);
   return  (
     <Box
       sx={{
         display: "flex",
         flexDirection: "column",
         bgcolor: "white",
-        padding: "7%",
-        width: "100%",
+        padding: "5%",
+        width: "fit-content",
         height: "100%",
         position: "relative",
         borderRadius: "20px"
       }}
     >
-      {supervisorsOnline.Supervisors?.length > 0 ? supervisorsOnline.Supervisors?.map((sol) => {
+      {supervisorsOnline.Supervisors?.map((sol) => {
         return (
           <Box
             key={sol.id}
@@ -65,7 +64,7 @@ export default function OnlineSupervisors({onClose}) {
             <Typography variant="p" sx={{ alignContent: "center", marginRight: "50px" }}>
               {sol.name} {sol.lastName}
             </Typography>
-            <Box sx={{display: "flex", alignItems: "center"}}>
+            <Box sx={{display: "flex", alignItems: "flex-end", justifyContent: "center"}}>
               <StyledBadge
               overlap="circular"
               anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
@@ -75,30 +74,26 @@ export default function OnlineSupervisors({onClose}) {
               alt={sol.name}
               src={sol.profilePhoto}
               sx={{
-                //marginLeft: "50px",
                 alignItems: "center",
+                "&:hover": {
+                  cursor: "pointer",
+                  boxShadow: "0 0 3px rgb(25, 21, 78)",
+                }
               }}
             />
             </StyledBadge>
+            <a href={`https://wa.me/${sol.phone.replace(/\D/g, '')}`} target="_blank">
             <WhatsAppIcon sx={{ color: "green", paddingLeft: "8px" }} />
+            </a>
             </Box>
-      <Box sx={{display: "flex", justifyContent: "flex-end"}}>
+          </Box>
+        ) 
+      })}
+      <Box sx={{display: "flex", justifyContent: "center"}}>
       <Button variant="contained" sx={{...styles.buttons, width: "40%",marginTop: 2, textAlign: "end"}} onClick={onClose}>
         Aceptar
       </Button>
       </Box>
-          </Box>
-        ) 
-      }) : (
-        <Box>
-          <Typography variant="h5" sx={{color: "black"}}>En este momento no hay supervisores disponibles</Typography>
-          <Box sx={{display: "flex", justifyContent: "flex-end"}}>
-      <Button variant="contained" sx={styles.buttons} onClick={onClose}>
-        Aceptar
-      </Button>
-      </Box>
-        </Box>
-      )};
     </Box>
   );
 }

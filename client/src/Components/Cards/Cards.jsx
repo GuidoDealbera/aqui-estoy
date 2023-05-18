@@ -83,7 +83,7 @@ export default function MultiActionAreaCard(props) {
           Ver Perfil
         </Button>
         <a
-          href={`https://wa.me/${props.phone}`}
+          href={`https://wa.me/${props.phone.replace(/\D/g, '')}`}
           target="_blank"
           style={{ margin: 20 }}
         >

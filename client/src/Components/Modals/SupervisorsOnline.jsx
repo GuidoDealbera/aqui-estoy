@@ -3,7 +3,7 @@ import OnlineSupervisors from '../OnlineSupervisors/OnlineSupervisors';
 
 export default function SupervisorsOnline ({open, closeOpen}){
     return (
-        <Box>
+        
         <Modal
           open={open}
           onClose={closeOpen}
@@ -13,10 +13,10 @@ export default function SupervisorsOnline ({open, closeOpen}){
             justifyContent: "center",
            }}
         >
-          <Box>
+          <Box sx={{display: "flex", justifyContent: "center", width: "450px"}}>
             <OnlineSupervisors onClose={closeOpen}/>
           </Box>
         </Modal>
-        </Box>
+        
     );
 }

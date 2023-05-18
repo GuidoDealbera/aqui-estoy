@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Modal, Button, Box } from "@mui/material";
+import { Modal, Button, Box, useTheme } from "@mui/material";
 import LoginForm from "../LoginForm/LoginForm";
 
 
@@ -7,7 +7,7 @@ export default function ModalLogin ({handleMouseLeave, showLogin, setShowLogin})
     const handleClose = () => {
       setShowLogin(false);
     };
-  
+    const theme = useTheme();
     return (
       <Box>
         <Modal
@@ -21,10 +21,11 @@ export default function ModalLogin ({handleMouseLeave, showLogin, setShowLogin})
         >
           <Box sx={{ 
             backgroundColor: "white",
-            width: 400,
+            [theme.breakpoints.down("sm")]: { width: 300 },
+            [theme.breakpoints.up("sm")]: { width: 300 },
             height: "50%",
-            borderRadius: "5px",
-            padding: "30px",
+            borderRadius: "10px",
+            padding: "1%",
             }}>
             <LoginForm handleMouseLeave={handleMouseLeave}/>
           </Box>
