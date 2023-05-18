@@ -18,6 +18,9 @@ export default function SuperAdminDatos(props) {
   const handleClose = () => {
     setEdit(false)
   };
+  const newRol = (rol) => {
+    return rol === 'SuperAdmin' ? rol = "Administrador" : ""
+  }
   return Object.entries(user).length > 0 ? (
     <Box>
       <Grid
@@ -33,7 +36,7 @@ export default function SuperAdminDatos(props) {
           <Typography variant="h5">
             {user.name} {user.lastName}
           </Typography>
-          <Typography variant="h7" sx={{ ...styles.body.info.data, fontFamily: 'poppins' }}>{user.rol}</Typography>
+          <Typography variant="h7" sx={{ ...styles.body.info.data, fontFamily: 'poppins' }}>{newRol(user.rol)}</Typography>
 
           <Button startIcon={<EditIcon/>} variant="outlined" sx={{ ...styles.buttons, backgroundColor: "#00C8B2", color: "black", marginTop: "3%", "&:hover": { backgroundColor: "#008B7C" } }} onClick={() => setEdit(true)}>
             Editar perfil
