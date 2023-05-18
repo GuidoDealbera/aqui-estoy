@@ -124,9 +124,14 @@ export default function SpecialShifts({ rol }) {
                 {withRules.length === 0 ? <Box sx={{ display: "flex", alignItems: "center" }}><Typography variant='body1' sx={{ marginTop: "10px", marginBottom: "10px", marginRight: "10px" }}>No hay turnos con configuración específica</Typography><ErrorOutlineIcon /></Box> : (
                     <>
                         <Button variant='contained' color='error' sx={{ marginTop: "10px", marginBottom: "10px" }} onClick={handleConfirm}>Eliminar configuraciones seleccionadas</Button>
-                        <List>
+                        <List sx={{
+                            marginTop:"10px",
+                            overflow: 'auto',
+                            maxHeight: 500
+                        }}>
                             {withRules.map((value) => {
                                 return (<Box key={value.shiftId}>
+                                    <Divider />
                                     <ListItem
                                         secondaryAction={
                                             <IconButton onClick={() => { handleDelete(value) }}>
@@ -147,9 +152,9 @@ export default function SpecialShifts({ rol }) {
                                             <ListItemText key={value.shiftId} primary={`${value.day} (${value.time})`} />
                                         </ListItemButton>
                                     </ListItem>
-                                    <Divider />
                                 </Box>);
                             })}
+                            <Divider />
                         </List>
                     </>
                 )}
@@ -258,9 +263,14 @@ export default function SpecialShifts({ rol }) {
                 {withRules.length === 0 ? <Box sx={{ display: "flex", alignItems: "center" }}><Typography variant='body1' sx={{ marginTop: "10px", marginBottom: "10px", marginRight: "10px" }}>No hay turnos con configuración específica</Typography><ErrorOutlineIcon /></Box> : (
                     <>
                         <Button variant='contained' color='error' sx={{ marginTop: "10px", marginBottom: "10px" }} onClick={handleConfirm}>Eliminar configuraciones seleccionadas</Button>
-                        <List>
+                        <List sx={{
+                            marginTop:"10px",
+                            overflow: 'auto',
+                            maxHeight: 500
+                        }}>
                             {withRules.map((value) => {
                                 return (<Box key={value.shiftId}>
+                                    <Divider />
                                     <ListItem
                                         secondaryAction={
                                             <IconButton onClick={() => { handleDelete(value) }}>
@@ -281,9 +291,9 @@ export default function SpecialShifts({ rol }) {
                                             <ListItemText key={value.shiftId} primary={`${value.day} (${value.time})`} />
                                         </ListItemButton>
                                     </ListItem>
-                                    <Divider />
                                 </Box>);
                             })}
+                            <Divider />
                         </List>
                     </>
                 )}
