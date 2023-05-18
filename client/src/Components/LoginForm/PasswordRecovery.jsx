@@ -20,7 +20,6 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
   borderRadius: "10px",
   boxShadow: theme.shadows[3],
 }));
-
 const StyledButton = styled(Button)(({ theme }) => ({
   backgroundColor: theme.palette.primary.main,
   color: theme.palette.common.white,
@@ -28,13 +27,11 @@ const StyledButton = styled(Button)(({ theme }) => ({
     backgroundColor: theme.palette.primary.dark,
   },
 }));
-
 const validationSchema = Yup.object().shape({
   email: Yup.string()
     .email("Correo electrónico inválido")
     .required("Requerido"),
 });
-
 const PasswordRecovery = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -42,7 +39,6 @@ const PasswordRecovery = () => {
   const [email, setEmail] = useState("");
   const { passwordRecoveryInfo } = useSelector((status) => status.auth);
   const [recoveryCode, setRecoveryCode] = useState("");
-
   const submitHandler = async (values) => {
     if (step === 0) {
       const { email } = values;
@@ -71,7 +67,6 @@ const PasswordRecovery = () => {
       )
       .required("Requerido"),
   });
-
   const newPasswordValidationSchema = Yup.object().shape({
     recoveryCode: Yup.string()
       .length(
@@ -104,7 +99,7 @@ const PasswordRecovery = () => {
       }
       onSubmit={submitHandler}
     >
-      {({ isSubmitting }) => (
+      {({ isSubmitting, errors, touched }) => (
         <Form>
           <Container maxWidth="sm">
             <StyledPaper>
@@ -128,7 +123,9 @@ const PasswordRecovery = () => {
                         label="Correo electrónico"
                         name="email"
                         type="email"
-                        error={!!ErrorMessage.name}
+                        error={
+                          !!(errors.email && touched.email)
+                        }
                         helperText={<ErrorMessage name="email" />}
                       />
                     </Grid>
@@ -164,7 +161,9 @@ const PasswordRecovery = () => {
                         id="recoveryCode"
                         label="Código de recuperación"
                         name="recoveryCode"
-                        error={!!ErrorMessage.name}
+                        error={
+                          !!(errors.recoveryCode && touched.recoveryCode)
+                        }
                         helperText={<ErrorMessage name="recoveryCode" />}
                       />
                     </Grid>
@@ -201,7 +200,9 @@ const PasswordRecovery = () => {
                         label="Nueva contraseña"
                         name="password"
                         type="password"
-                        error={!!ErrorMessage.name}
+                        error={
+                          !!(errors.password && touched.password)
+                        }
                         helperText={<ErrorMessage name="password" />}
                       />
                     </Grid>
@@ -213,7 +214,7 @@ const PasswordRecovery = () => {
                         label="Confirmar nueva contraseña"
                         name="confirmPassword"
                         type="password"
-                        error={!!ErrorMessage.name}
+                        error={!!(errors.confirmPassword && touched.confirmPassword)}
                         helperText={<ErrorMessage name="confirmPassword" />}
                       />
                     </Grid>
