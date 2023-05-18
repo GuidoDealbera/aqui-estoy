@@ -17,23 +17,19 @@ export default function CompanionsAtCharge() {
   const navigate = useNavigate();
   let { companionAtCharge } = useSelector((state) => state.view);
   const { user } = useSelector((state) => state.auth);
-
   useEffect(() => {
     dispatch(getCompanionsAtCharge(user.id));
   }, []);
-
-companionAtCharge= companionAtCharge?.filter((comp)=>comp.name&&comp.lastName)
+  companionAtCharge= companionAtCharge?.filter((comp)=>comp.name&&comp.lastName)
   const myDate = new Date();
   const myTimeZone = myDate.toString().match(/([\+-][0-9]+)/)[1];
   const myHours = myDate.getHours();
   const myMinutes = myDate.getMinutes();
-
   const email = companionAtCharge.map((comp) => {
     return {
       email: comp.email,
     };
   });
-
   const handleExportEmail = () => {
     const csv = Papa.unparse(email);
     const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
@@ -54,7 +50,6 @@ companionAtCharge= companionAtCharge?.filter((comp)=>comp.name&&comp.lastName)
           Acompañantes a mi Cargo
         </Typography>
       </Grid>
-
       <Grid container 
       width={"100%"} display={"flex"} 
       justifyContent={"center"}
@@ -105,9 +100,7 @@ companionAtCharge= companionAtCharge?.filter((comp)=>comp.name&&comp.lastName)
             Number(e.CityTimeZone?.offSet.toString().slice(-6, -3)) * 100;
           let horaLoc =
             Number(myHours) + (Number(eTimeZone) - Number(myTimeZone)) / 100;
-
           horaLoc >= 24 ? (horaLoc = horaLoc - 24) : null;
-
           horaLoc =
             (horaLoc < 10 ? `0${horaLoc}` : horaLoc) +
             ":" +
