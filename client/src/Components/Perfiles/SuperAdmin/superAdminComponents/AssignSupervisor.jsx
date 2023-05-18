@@ -5,7 +5,7 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import Button from "@mui/material/Button";
-import { Grid, Typography } from "@mui/material";
+import { Divider, Grid, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import {
   postSupervisorCharge,
@@ -87,6 +87,11 @@ const AssignSupervisor = ({setActiveTab}) => {
         
      console.log(selectedSupervisor);
         console.log(selectedCompanions);
+
+        setTimeout(()=>{
+          dispatch(getAllCompanions());
+          dispatch(getAllSupervisors());
+        },1000)
        
       }
     } else {
@@ -121,10 +126,13 @@ const AssignSupervisor = ({setActiveTab}) => {
         </Typography>
         <Grid container justifyContent="center">
           <Grid item justifyContent="center" sx={{ width: "40vw" }}>
-            Nota: Al seleccionar un Supervisor, por defecto muestra los acompañantes que tiene a su cargo. <br></br><br></br>
-            <FormControl fullWidth>
-              <InputLabel>Supervisor</InputLabel>
-              <Select
+            <Typography variant="p" sx={{fontFamily:'poppins', color: 'gray'}}>
+            Nota: Al seleccionar un Supervisor, por defecto muestra los acompañantes que tiene a su cargo. 
+            </Typography>
+          
+            <FormControl sx={{marginTop: '15px'}} fullWidth>
+              <InputLabel >Supervisor</InputLabel>
+              <Select 
                 value={selectedSupervisor}
                 onChange={(e) => {
                   const selectedSupervisorId = e.target.value;
@@ -213,6 +221,7 @@ const AssignSupervisor = ({setActiveTab}) => {
   onClick={handleSelectAll}
   variant="outlined"
   sx={{
+    marginTop: '5px',
     marginRight: 1,
     backgroundColor: selectAll ? "#00C8B2" : "transparent",
     color: selectAll ? "white" : undefined,
@@ -229,6 +238,7 @@ const AssignSupervisor = ({setActiveTab}) => {
   onClick={handleRestCompanions}
   variant="outlined"
   sx={{
+    marginTop: '5px',
     marginRight: 1,
     backgroundColor: restCompanions ? "#00C8B2" : "transparent",
     color: restCompanions ? "white" : undefined,
