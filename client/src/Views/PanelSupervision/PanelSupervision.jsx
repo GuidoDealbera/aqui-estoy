@@ -124,44 +124,43 @@ export default function PanelSupervision() {
 
   return (
     <Box>
-      <Grid container 
-      width={"100%"} display={"flex"} 
-      justifyContent={"center"}
+      <Grid container
+        width={"100%"} display={"flex"}
+        justifyContent={"center"}
       // border={2}
-      
+
       >
 
-      <Grid item flex={4} margin={"2vh"}>
-      <Button
-          variant="contained"
-          size="small"
-          startIcon={<ArrowBackIcon />}
-          sx={{ ...styles.buttons, backgroundColor: "#00C8B2", color: "black", marginTop: "3%", "&:hover": { backgroundColor: "#008B7C" } }}
-          onClick={() => {
-            navigate(-1);
-          }}
-        >
-          Regresar
-        </Button>
+        <Grid item flex={4} margin={"2vh"}>
+          <Box sx={{display:"flex", flexDirection:"column", width:"120px"}}>
+            <Button
+              variant="contained"
+              size="small"
+              startIcon={<ArrowBackIcon />}
+              sx={{ ...styles.buttons, backgroundColor: "#00C8B2", color: "black", marginTop: "3%", "&:hover": { backgroundColor: "#008B7C" } }}
+              onClick={() => {
+                navigate(-1);
+              }}
+            >
+              Regresar
+            </Button>
+            <FormControl sx={{ minWidth: "100px", marginTop:"10px"}}>
+              {" "}
+              {/*Este Form Control Renderiza el Botón de los días*/}
+              <InputLabel>Día</InputLabel>
+              <Select value={day} label="Día" onChange={handleChange}>
+                <MenuItem value={0}>Lunes</MenuItem>
+                <MenuItem value={1}>Martes</MenuItem>
+                <MenuItem value={2}>Miércoles</MenuItem>
+                <MenuItem value={3}>Jueves</MenuItem>
+                <MenuItem value={4}>Viernes</MenuItem>
+                <MenuItem value={5}>Sábado</MenuItem>
+                <MenuItem value={6}>Domingo</MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
         </Grid>
-
-      <Grid item flex={6}>
-      <FormControl sx={{ minWidth: "100px", margin: "2vh" }}>
-        {" "}
-        {/*Este Form Control Renderiza el Botón de los días*/}
-        <InputLabel>Día</InputLabel>
-        <Select value={day} label="Día" onChange={handleChange}>
-          <MenuItem value={0}>Lunes</MenuItem>
-          <MenuItem value={1}>Martes</MenuItem>
-          <MenuItem value={2}>Miércoles</MenuItem>
-          <MenuItem value={3}>Jueves</MenuItem>
-          <MenuItem value={4}>Viernes</MenuItem>
-          <MenuItem value={5}>Sábado</MenuItem>
-          <MenuItem value={6}>Domingo</MenuItem>
-        </Select>
-      </FormControl>
       </Grid>
-</Grid>
 
       <Typography
         variant="h7"
@@ -269,14 +268,14 @@ export default function PanelSupervision() {
                           onClick={
                             hour === initialTime
                               ? () => {
-                                  setPopOutData({
-                                    idPersona,
-                                    name,
-                                    email,
-                                    phone,
-                                  });
-                                  setTogglePopOut(true);
-                                }
+                                setPopOutData({
+                                  idPersona,
+                                  name,
+                                  email,
+                                  phone,
+                                });
+                                setTogglePopOut(true);
+                              }
                               : null
                           }
                           key={`${name}-${hour}`}
@@ -359,14 +358,14 @@ export default function PanelSupervision() {
                           onClick={
                             hour === initialTime
                               ? () => {
-                                  setPopOutData({
-                                    idPersona,
-                                    name,
-                                    email,
-                                    phone,
-                                  });
-                                  setTogglePopOut(true);
-                                }
+                                setPopOutData({
+                                  idPersona,
+                                  name,
+                                  email,
+                                  phone,
+                                });
+                                setTogglePopOut(true);
+                              }
                               : null
                           }
                           key={`${name}-${hour}`}
