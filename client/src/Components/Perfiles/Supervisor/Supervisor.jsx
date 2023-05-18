@@ -38,7 +38,7 @@ export default function Supervisor(props) {
         </Box>
         <Box sx={styles.body.info}>
                     <Typography sx={styles.body.info.label}>Teléfono</Typography>
-                    <Typography sx={styles.body.info.data}>{user.phone} <WhatsAppIcon/></Typography>
+                    <Typography sx={styles.body.info.data}>{user.phone} <WhatsAppIcon sx={{marginLeft: "5px"}}/></Typography>
                 </Box>           
                 <Box sx={styles.body.info}>
                     <Typography sx={styles.body.info.label}>Nacionalidad</Typography>

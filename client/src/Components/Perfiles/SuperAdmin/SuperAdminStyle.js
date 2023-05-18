@@ -45,6 +45,8 @@ const styles = {
                 color: "#19154E"
             },
             data: {
+                display: "flex",
+                alignItems: "flex-end",
                 color: "gray"
             }
         },
