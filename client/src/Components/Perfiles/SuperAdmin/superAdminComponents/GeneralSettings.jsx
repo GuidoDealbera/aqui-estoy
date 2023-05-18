@@ -256,24 +256,26 @@ const GeneralSettings = () => {
                         if (shift.day == specificMaxSupervisors.day) {
                           let newtime;
                           if(shift.time.split("-")[1] === "00:00"){
-                            newtime = shift.time.split("-")[1] = "24:00"
+                            newtime = "24:00"
                           }else{
-                            newtime = shift.time.split("-")[1]
+                            newtime =shift.time.split("-")[1]
                           }
-                          return (
-                            <MenuItem
-                              key={shift.id}
-                              value={newtime}
-                            >
-                              {newtime}
-                            </MenuItem>
-                          );
+                          if(maxSupervisors.startTime < newtime){
+                          
+                            return (
+                              <MenuItem
+                                key={shift.id}
+                                value={newtime}
+                              >
+                                {newtime}
+                              </MenuItem>
+                            );
                         }
-                      })}
+                      }})}
                   </Select>
                 </label>
               </div>
-              <Button onClick={handleGeneralSupervisorSubmit}>Guardar</Button>
+              <Button variant="contained" sx={{marginTop: "10px"}} onClick={handleGeneralSupervisorSubmit}>Guardar</Button>
             </StyledInputContainer>
             <StyledInputContainer>
               <Typography variant="h6">
@@ -333,7 +335,7 @@ const GeneralSettings = () => {
                   />
                 </label>
               </div>
-              <Button onClick={handleSpecificSupervisorSubmit}>Guardar</Button>
+              <Button variant="contained" sx={{marginTop: "10px"}} onClick={handleSpecificSupervisorSubmit}>Guardar</Button>
             </StyledInputContainer>
             <Box>
               <SpecialShifts rol={'Supervisor'}/>
@@ -396,20 +398,41 @@ const GeneralSettings = () => {
                       .sort((a, b) => a.id - b.id)
                       .map((shift) => {
                         if (shift.day == specificMaxCompanions.day) {
-                          return (
-                            <MenuItem
-                              key={shift.id}
-                              value={shift.time.split("-")[1]}
-                            >
-                              {shift.time.split("-")[1]}
-                            </MenuItem>
-                          );
-                        }
-                      })}
+                            let newtime;
+                            if(shift.time.split("-")[1] === "00:00"){
+                              newtime = "24:00"
+                            }else {
+                              newtime =shift.time.split("-")[1]
+                            }
+                           
+                            if(maxCompanions.startTime < newtime){
+                              return (
+                                <MenuItem
+                                  key={shift.id}
+                                  value={newtime}
+                                >
+                                  {newtime}
+                                </MenuItem>
+                              );
+                          }else{ 
+                            if(shift.time.split("-")[1] === "01:00"){
+                              newtime = "25:00"
+                            }
+                            if(newtime === "25:00"){
+                            return (
+                              <MenuItem
+                                key={shift.id}
+                                value="01:00"
+                              >
+                                {"01:00"}
+                              </MenuItem>
+                            );
+                          }
+                        }}})}
                   </Select>
                 </label>
               </div>
-              <Button onClick={handleGeneralCompanionSubmit}>Guardar</Button>
+              <Button variant="contained" sx={{marginTop: "10px"}} onClick={handleGeneralCompanionSubmit}>Guardar</Button>
             </StyledInputContainer>
             <StyledInputContainer>
               <Typography variant="h6">
@@ -469,7 +492,7 @@ const GeneralSettings = () => {
                   />
                 </label>
               </div>
-              <Button onClick={handleSpecificCompanionSubmit}>Guardar</Button>
+              <Button variant="contained" sx={{marginTop: "10px"}} onClick={handleSpecificCompanionSubmit}>Guardar</Button>
             </StyledInputContainer>
             <Box>
               <SpecialShifts rol={'Companion'}/>
