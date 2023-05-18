@@ -327,6 +327,7 @@ export const putSpecificCompanionShift = ({day,hour,max}) => {
      const response = await axios.put(`/putCompanionShifts`, {day,hour,max});
       dispatch({ type: PUT_COMPANION_SHIFT, payload: response.data });
       dispatch(setLoading(false));
+      toast.success("Número máximo de ACOMPAÑANTES por turno específico actualizado.", toastSuccess);
     } catch (error) {
       toast.error("No se pudo actualizar el turno", toastError);
     }
@@ -339,6 +340,7 @@ export const putGeneralCompanionShift = ({max,startTime,endTime}) => {
      const response = await axios.put(`/putCompanionShifts`, {max,startTime,endTime});
       dispatch({ type: PUT_COMPANION_SHIFT, payload: response.data });
       dispatch(setLoading(false));
+      toast.success("Número máximo de ACOMPAÑANTES por turno general actualizado.", toastSuccess);
     } catch (error) {
       toast.error("No se pudieron actualizar los turnos", toastError);
     }
@@ -351,6 +353,7 @@ export const putSpecificSupervisorShift = ({day,hour,max}) => {
       const response = await axios.put(`/putSupervisorShifts`, {day,hour,max});
       dispatch({ type: PUT_SUPERVISOR_SHIFT, payload: response.data });
       dispatch(setLoading(false));
+      toast.success("Número máximo de SUPERVISORES por turno específico actualizado.", toastSuccess)
     } catch (error) {
       toast.error("No se pudo actualizar el turno", toastError);
     }
@@ -363,6 +366,7 @@ export const putGeneralSupervisorShift = ({max,startTime,endTime}) => {
       const response = await axios.put(`/putSupervisorShifts`, {max,startTime,endTime});
       dispatch({ type: PUT_SUPERVISOR_SHIFT, payload: response.data });
       dispatch(setLoading(false));
+      toast.success("Número máximo de SUPERVISORES por turno general actualizado.", toastSuccess)
     } catch (error) {
       toast.error("No se pudieron actualizar los turnos", toastError);
     }
@@ -376,6 +380,7 @@ export const putSupervisorShiftRules = (shiftId) => {
       const response = await axios.put(`/putSupervisorShiftRules`, {shiftId});
       dispatch({ type: PUT_SUPERVISOR_SHIFT_RULES, payload: response.data });
       dispatch(setLoading(false));
+      toast.success("Configuración específica eliminada", toastSuccess);
     } catch (error) {
       toast.error("No se pudo eliminar la configuración", toastError);
     }
@@ -389,6 +394,7 @@ export const putCompanionShiftRules = (shiftId) => {
       const response = await axios.put(`/putCompanionShiftRules`, {shiftId});
       dispatch({ type: PUT_COMPANION_SHIFT_RULES, payload: response.data });
       dispatch(setLoading(false));
+      toast.success("Configuración específica eliminada", toastSuccess);
     } catch (error) {
       toast.error("No se pudo eliminar la configuración", toastError);
     }
