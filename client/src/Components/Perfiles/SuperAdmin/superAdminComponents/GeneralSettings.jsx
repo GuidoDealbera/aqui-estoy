@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {putSpecificCompanionShift,putGeneralCompanionShift, putGeneralSupervisorShift, putSpecificSupervisorShift} from "../../../../Redux/Actions/postPutActions";
 import { toast } from "sonner";
 import { toastWarning } from "../../../../Redux/Actions/alertStyle";
+import SpecialShifts from "./SpecialShifts";
 
 const StyledInputContainer = styled("div")(({ theme }) => ({
   marginBottom: theme.spacing(2),
@@ -183,7 +184,7 @@ const GeneralSettings = () => {
   return (
     <>
       <Box sx={{ display: "flex", justifyContent: "center" }}>
-      <Stack direction="row" spacing={1} alignItems="center">
+      <Stack direction="row" spacing={1} alignItems="center" sx={{marginTop:"20px"}}>
         <Typography>Acompañantes</Typography>
         <AntSwitch  inputProps={{ 'aria-label': 'ant design' }} checked={toggle} onChange={toggleHandler}/>
         <Typography>Supervisores</Typography>
@@ -320,6 +321,9 @@ const GeneralSettings = () => {
               </div>
               <Button onClick={handleSpecificSupervisorSubmit}>Guardar</Button>
             </StyledInputContainer>
+            <Box>
+              <SpecialShifts rol={'Supervisor'}/>
+            </Box>
           </Box>
         </Box>
       ) : (
@@ -453,6 +457,9 @@ const GeneralSettings = () => {
               </div>
               <Button onClick={handleSpecificCompanionSubmit}>Guardar</Button>
             </StyledInputContainer>
+            <Box>
+              <SpecialShifts rol={'Companion'}/>
+            </Box>
           </Box>
         </Box>
       )}

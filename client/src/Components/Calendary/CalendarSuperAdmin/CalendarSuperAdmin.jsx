@@ -51,7 +51,7 @@ const CalendarSupervisor = () => {
       case 2:
         return {
           ...shift,
-          day: "Miercoles",
+          day: "Miércoles",
         };
       case 3:
         return {
@@ -66,7 +66,7 @@ const CalendarSupervisor = () => {
       case 5:
         return {
           ...shift,
-          day: "Sabado",
+          day: "Sábado",
         };
       case 6:
         return {
@@ -81,10 +81,10 @@ const CalendarSupervisor = () => {
   const days = [
     "Lunes",
     "Martes",
-    "Miercoles",
+    "Miércoles",
     "Jueves",
     "Viernes",
-    "Sabado",
+    "Sábado",
     "Domingo",
   ];
 

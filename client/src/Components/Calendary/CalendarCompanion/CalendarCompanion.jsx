@@ -59,7 +59,7 @@ const CalendarCompanion = () => {
       case 2:
         return {
           ...shift,
-          day: "Miercoles",
+          day: "Miércoles",
         };
       case 3:
         return {
@@ -74,7 +74,7 @@ const CalendarCompanion = () => {
       case 5:
         return {
           ...shift,
-          day: "Sabado",
+          day: "Sábado",
         };
       case 6:
         return {
@@ -89,10 +89,10 @@ const CalendarCompanion = () => {
   const days = [
     "Lunes",
     "Martes",
-    "Miercoles",
+    "Miércoles",
     "Jueves",
     "Viernes",
-    "Sabado",
+    "Sábado",
     "Domingo",
   ];
   let hours = [];
