@@ -26,7 +26,7 @@ import { useDispatch, useSelector } from "react-redux";
 import CountrySelect from "../../Views/Register/registerComponents/CountrySelect";
 import TimezoneSelect from "../../Views/Register/registerComponents/TimeZoneSelect";
 import { toast } from "sonner";
-import { toastSuccess } from "../../Redux/Actions/alertStyle";
+import { toastError, toastSuccess } from "../../Redux/Actions/alertStyle";
 import { Container } from "@mui/system";
 import DatePicker from "../../Views/Register/registerComponents/DatePicker";
 import CustomSelect from "../../Views/Register/registerComponents/Select";
@@ -158,12 +158,29 @@ export default function EditForm({ userID, handleClose }) {
     handleClose();
   };
   const validationSchema = Yup.object().shape({
+    name: Yup.string().required("Este campo es obligatorio"),
+    lastName: Yup.string().required("Este campo es obligatorio"),
+    birthdayDate: Yup.string().required("Este campo es obligatorio"),
+    nationality: Yup.string().required("Este campo es obligatorio"),
+    country: Yup.string().required("Este campo es obligatorio"),
+    cityTimeZone: Yup.string().required("Este campo es obligatorio"),
+    phone: Yup.string()
+      .matches(
+        /^\+?[0-9\s]*[1-9][0-9]*$/,
+        "El número de teléfono debe contener solo números y espacios en blanco"
+      )
+      .test(
+        "is-positive",
+        "El número de teléfono debe ser positivo",
+        (value) => !value || parseInt(value.replace(/\s+/g, "")) > 0
+      )
+      .required("Este campo es obligatorio"),
     rol: Yup.string().required("Este campo es obligatorio"),
     isActive: Yup.boolean().required("Este campo es obligatorio"),
     referent: Yup.string().required("Este campo es obligatorio"),
-    studies: Yup.string(),
-    gender: Yup.string(),
-    profession: Yup.string(),
+    studies: Yup.string().required("Este campo es obligatorio"),
+    gender: Yup.string().required("Este campo es obligatorio"),
+    profession: Yup.string().required("Este campo es obligatorio"),
   });
 
   return Object.entries(user).length > 0 ? (
@@ -246,8 +263,8 @@ export default function EditForm({ userID, handleClose }) {
                           </MenuItem>
                           <MenuItem value="SuperAdmin">SuperAdmin</MenuItem>
                           <MenuItem value="Supervisor">Supervisor</MenuItem>
-                          <MenuItem value="Companion1">Acompañante 1</MenuItem>
-                          <MenuItem value="Companion2">Acompañante 2</MenuItem>
+                          <MenuItem value="Companion1">Acompañante Inicial</MenuItem>
+                          <MenuItem value="Companion2">Acompañante Avanzado</MenuItem>
                         </Field>
                         <ErrorMessage name="rol">
                           {(msg) => (
@@ -498,6 +515,9 @@ export default function EditForm({ userID, handleClose }) {
                             type="submit"
                             color="success"
                             sx={{ width: "113.86px" }}
+                            onClick={() => {
+                              (Object.keys(props.errors).length !== 0) && toast.error("Hay campos vacíos, por favor revíselos", toastError)
+                            }}
                           >
                             Finalizar
                           </Button>
