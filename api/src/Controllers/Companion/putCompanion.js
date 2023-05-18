@@ -24,12 +24,7 @@ const putCompanion = async (req, res) => {
   } = req.body;
   //Requiere el id del usuario enviado por parametro
   const { id } = req.params;
-  let newDate = birthdayDate ? new Date(birthdayDate) : undefined;
-  const timezone = await CityTimeZone.findByPk(cityTimeZone);
-  if (timezone) {
-    const companion = await Companion.findByPk(id);
-    await companion.setCityTimeZone(timezone.id);
-  }
+  
   try {
     //Modifica los datos del Acompañante con los datos enviados desde el front
     await Companion.update(
@@ -37,7 +32,6 @@ const putCompanion = async (req, res) => {
         name,
         lastName,
         profilePhoto,
-        birthdayDate: newDate,
         nationality,
         country,
         phone,
@@ -52,8 +46,20 @@ const putCompanion = async (req, res) => {
         returning: true, // Agregamos este parámetro para que devuelva el objeto actualizado
       }
     );
+    const companion = await Companion.findByPk(id);
+    let newDate = birthdayDate !== companion.birthdayDate ? new Date(birthdayDate) : companion.birthdayDate;
+    if(companion.birthdayDate !== newDate && newDate){
+      companion.birthdayDate = newDate;
+     await companion.save();
+    }
+    
+  const timezone = await CityTimeZone.findByPk(cityTimeZone);
+  if (timezone) {
+    
+    await companion.setCityTimeZone(timezone.id);
+  }
     // Encuentra el acompañante actualizado
-    const companion = await Companion.findByPk(id, {
+    const companionUpdated = await Companion.findByPk(id, {
       include: [
         {
           model: CompanionShift,
@@ -69,7 +75,7 @@ const putCompanion = async (req, res) => {
       ],
     });
     // Devuelve el acompañante actualizado
-   return res.status(200).json(companion);
+   return res.status(200).json(companionUpdated);
   } catch (error) {
    return res.status(400).json(error.message);
   }

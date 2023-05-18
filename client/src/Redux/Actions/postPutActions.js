@@ -83,6 +83,7 @@ export const putSupervisor = (id, supervisor) => {
   return async function (dispatch) {
     try {
       dispatch(setLoading(true));
+      console.log(supervisor.birthdayDate);
       const response = await axios.put(`/putSupervisor/${id}`, supervisor);
       dispatch({ type: PUT_SUPERVISOR, payload: response.data });
       dispatch(setLoading(false));
@@ -173,7 +174,7 @@ export const postAssignCompanionShift = (idCompanion, idShift, rol) => {
     }  else if (status === 404) {
       toast.error("Turno completo, seleccione otro turno", toastError)
   } 
-  };
+  }
 }}
 }; 
 
