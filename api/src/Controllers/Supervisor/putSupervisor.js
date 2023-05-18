@@ -25,7 +25,6 @@ const putSupervisor = async (req, res) => {
   } = req.body;
   //Recibe id por params
   const { id } = req.params;
-  let newDate = birthdayDate ? new Date(birthdayDate) : undefined;
   const timezone = await CityTimeZone.findByPk(cityTimeZone);
   try {
     //Realiza un update del supervisor con ese id en la bd
@@ -34,7 +33,6 @@ const putSupervisor = async (req, res) => {
         name,
         lastName,
         profilePhoto,
-        birthdayDate: newDate,
         nationality,
         country,
         phone,
@@ -46,9 +44,15 @@ const putSupervisor = async (req, res) => {
       },
       { where: { id: id } }
     );
-
+    const supervisor = await Supervisor.findByPk(id);
+    
+    let newDate = birthdayDate !== supervisor.birthdayDate? new Date(birthdayDate) : supervisor.birthdayDate;
+    if(supervisor.birthdayDate !== newDate && newDate){
+      supervisor.birthdayDate = newDate;
+     await supervisor.save();
+    }
     if (timezone) {
-      const supervisor = await Supervisor.findByPk(id);
+      
       await supervisor.setCityTimeZone(timezone.id);
     }
     // Encuentra el supervisor actualizado

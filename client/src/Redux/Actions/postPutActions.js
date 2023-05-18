@@ -175,7 +175,7 @@ export const postAssignCompanionShift = (idCompanion, idShift, rol) => {
     }  else if (status === 404) {
       toast.error("Turno completo, seleccione otro turno", toastError)
   } 
-  };
+  }
 }}
 }; 
 
@@ -394,3 +394,4 @@ export const putCompanionShiftRules = (shiftId) => {
     }
   };
 };
+
