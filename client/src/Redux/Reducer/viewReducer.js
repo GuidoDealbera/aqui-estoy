@@ -19,6 +19,8 @@ import {
     DELETE_COMPANION_SHIFT,
     PUT_COMPANION_SHIFT,
     PUT_SUPERVISOR_SHIFT,
+    PUT_SUPERVISOR_SHIFT_RULES,
+    PUT_COMPANION_SHIFT_RULES,
 } from "../Actions/action-types";
 //Acá van los POST modificando a allCompanions y allSupervisors
 const initialState = {
@@ -148,64 +150,76 @@ const viewReducer = (state = initialState, { type, payload }) => {
                 };
             }
         case GET_ALL_SUPERVISORS_PER_SHIFT:
-            return{
+            return {
                 ...state,
-                supervisorsPerShift: payload               
+                supervisorsPerShift: payload
             }
         case GET_ALL_COMPANIONS_PER_SHIFT:
-            return{
+            return {
                 ...state,
                 companionsPerShift: payload
             }
-            case DELETE_SUPERVISOR_SHIFT:
-                const shiftIndex = state.supervisorsPerShift.findIndex(shift => shift.shiftId === payload.idShift);
-                if (shiftIndex !== -1) {
-                  const updatedShift = {
+        case DELETE_SUPERVISOR_SHIFT:
+            const shiftIndex = state.supervisorsPerShift.findIndex(shift => shift.shiftId === payload.idShift);
+            if (shiftIndex !== -1) {
+                const updatedShift = {
                     ...state.supervisorsPerShift[shiftIndex],
                     shiftSupervisors: state.supervisorsPerShift[shiftIndex].shiftSupervisors.filter(supervisor => supervisor.id !== action.payload.id)
-                  };
-                  const updatedSupervisorsPerShift = [
+                };
+                const updatedSupervisorsPerShift = [
                     ...state.supervisorsPerShift.slice(0, shiftIndex),
                     updatedShift,
                     ...state.supervisorsPerShift.slice(shiftIndex + 1)
-                  ];
-                  return {
+                ];
+                return {
                     ...state,
                     supervisorsPerShift: updatedSupervisorsPerShift,
-          
-                  };
-                }
-                return state;
 
-                case DELETE_COMPANION_SHIFT:
-                    const shiftIndex1 = state.companionsPerShift.findIndex(shift => shift.shiftId === payload.idShift);
-                if (shiftIndex1 !== -1) {
-                  const updatedShift = {
+                };
+            }
+            return state;
+
+        case DELETE_COMPANION_SHIFT:
+            const shiftIndex1 = state.companionsPerShift.findIndex(shift => shift.shiftId === payload.idShift);
+            if (shiftIndex1 !== -1) {
+                const updatedShift = {
                     ...state.companionsPerShift[shiftIndex1],
                     shiftCompanions: state.companionsPerShift[shiftIndex1].shiftCompanions.filter(companion => companion.id !== action.payload.id)
-                  };
-                  const updatedCompanionsPerShift = [
+                };
+                const updatedCompanionsPerShift = [
                     ...state.companionsPerShift.slice(0, shiftIndex1),
                     updatedShift,
                     ...state.companionsPerShift.slice(shiftIndex1 + 1)
-                  ];
-                  return {
+                ];
+                return {
                     ...state,
                     companionsPerShift: updatedCompanionsPerShift,
-          
-                  };
-                }
-                return state;
-            case PUT_COMPANION_SHIFT:
-                return {
-                    ...state,
-                    companionsPerShift: payload
-                }
-            case PUT_SUPERVISOR_SHIFT:
-                return {
-                        ...state,
-                        supervisorsPerShift: payload
-                }
+
+                };
+            }
+            return state;
+        case PUT_COMPANION_SHIFT:
+            return {
+                ...state,
+                companionsPerShift: payload
+            }
+        case PUT_SUPERVISOR_SHIFT:
+            return {
+                ...state,
+                supervisorsPerShift: payload
+            }
+            
+        case PUT_COMPANION_SHIFT_RULES:
+            return {
+                ...state,
+                companionsPerShift: payload
+            }
+        case PUT_SUPERVISOR_SHIFT_RULES:
+            return {
+                ...state,
+                supervisorsPerShift: payload
+            }
+            
         default:
             return {
                 ...state
