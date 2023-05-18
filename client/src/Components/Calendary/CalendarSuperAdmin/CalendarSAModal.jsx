@@ -39,6 +39,7 @@ export default function CalendarSAModal({ trigger, setTrigger, shift }) {
               <Typography sx={{fontSize:"21px"}}>
                 Asignados en este turno
               </Typography>
+              <Box sx={{maxHeight:"120px", overflow:"auto"}}>
               {shift.shiftSupervisors?.map((supervisor) => (
                 <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "270px" }} key={supervisor.id}>
                   <Typography variant="h6" sx={{ fontFamily: "poppins", color: "grey" }} onClick={() => navigate(`/profile/${supervisor.id}/view`)}>
@@ -74,6 +75,7 @@ export default function CalendarSAModal({ trigger, setTrigger, shift }) {
                   </Box>
                 </Box>
               ))}
+              </Box>
             </Box>
           ) : (
             ""
