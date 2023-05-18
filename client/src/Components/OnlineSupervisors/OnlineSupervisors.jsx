@@ -82,7 +82,7 @@ export default function OnlineSupervisors({onClose}) {
               }}
             />
             </StyledBadge>
-            <a href={`https://wa.me/${sol.phone.replace(/\D/g, '')}`} target="_blank">
+            <a href={`https://wa.me/${sol.phone?.replace(/\D/g, '')}`} target="_blank">
             <WhatsAppIcon sx={{ color: "green", paddingLeft: "8px" }} />
             </a>
             </Box>

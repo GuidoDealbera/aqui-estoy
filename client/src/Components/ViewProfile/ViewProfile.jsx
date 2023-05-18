@@ -95,7 +95,7 @@ export default function ViewProfile() {
             <Typography sx={styles.body.info.label}>Teléfono</Typography>
             <Typography
               component="a"
-              href={`https://wa.me/${phone.replace(/\D/g, '')}`}
+              href={`https://wa.me/${phone?.replace(/\D/g, '')}`}
               target="_blank"
               sx={styles.body.info.data}
             >
