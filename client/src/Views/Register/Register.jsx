@@ -33,6 +33,7 @@ import DatePicker from "./registerComponents/DatePicker";
 import Select from "./registerComponents/Select";
 import PhoneNumberInput from "./registerComponents/CustomPhoneNumber";
 import CustomStepper from "./registerComponents/Stepper";
+import Loader from "../../Components/Loader/Loader";
 
 const styles = {
   container: {
@@ -67,7 +68,6 @@ const styles = {
     },
   },
 };
-
 const StyledPaper = styled(Paper)(({ theme }) => ({
   borderRadius: "10px",
   boxShadow: theme.shadows[3],
@@ -77,44 +77,39 @@ export default function Register() {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
-
-  const [index, setIndex] = useState(0); //Estado del "paginado" de los inputs (Mirar Figma).
-
+  const [loader, setLoader] = useState(false)
+  const [index, setIndex] = useState(0);
   const [fileName, setFileName] = useState("");
   const [loading, setLoading] = useState(false);
   const [previewImage, setPreviewImage] = useState(null);
-
   const clickHandler = (event) => {
-    //Handler que modifica el estado de arriba.
     const { target } = event;
     const { name } = target;
     switch (name) {
       case "Siguiente":
         setIndex(index + 1);
         break;
-
       case "Anterior":
         setIndex(index - 1);
         break;
-
       default:
         break;
     }
   };
-
   const submitHandler = (values) => {
-    //Submit Handler del formulario (Aún no interactúa con el Back-End)
     if (user.rol === "Companion1" || user.rol === "Companion2") {
-      dispatch(putCompanion(user.id, values)); //trae el id del user y lo actualiza
+      dispatch(putCompanion(user.id, values));
     } else {
       dispatch(putSupervisor(user.id, values));
     }
     toast.success("Datos actualizados", toastSuccess);
-    navigate(`/profile/${user.id}`);
+    setLoader(true);
+    setTimeout(() => {
+      setLoader(false)
+      navigate(`/profile/${user.id}`);
+    }, 1000)
   };
-
   const validationSchema = Yup.object().shape({
-    //Validaciones de Yup (Aún en desarrollo)
     profilePhoto: Yup.string()
       .url("URL de la imágen inválida")
       .required("Este campo es obligatorio"),
@@ -144,11 +139,10 @@ export default function Register() {
     profession: Yup.string().required("Este campo es obligatorio"),
   });
 
-  return (
+  return !loader ? (
     <Container sx={styles.container}>
       <Formik
         initialValues={{
-          //Valores iniciales de Formik, la equivalencia Vanilla sería ir almacenando los datos en el estado local...
           profilePhoto: user.profilePhoto ? user.profilePhoto : "",
           name: user.name ? user.name : "",
           lastName: user.lastName ? user.lastName : "",
@@ -521,5 +515,7 @@ export default function Register() {
         }}
       </Formik>
     </Container>
+  ) : (
+    <Loader/>
   );
 }

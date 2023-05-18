@@ -33,6 +33,9 @@ const App = () => {
   const RequireRol = ({ rol, rol2 }) => {
     return user.rol === rol || user.rol === rol2 ? <Outlet /> : <Navigate to={"/"} />;
   };
+  const RequireData = ({user}) => {
+    return (user.name && user.lastName && user.profilePhoto && user.country && user.CityTimeZoneId && user.profession && user.studies && user.phone && user.gender) ? <Outlet /> : <Navigate to={"/register"}/>
+  }
   useEffect(() => {
     dispatch(getAllCompanions());
     dispatch(getAllSupervisors());
@@ -54,8 +57,10 @@ const App = () => {
             <Route path="/calendarSuperAdmin" element={<CalendarSuperAdmin />} />
             <Route path="/CompanionsAtCharge" element={<CompanionsAtCharge />} />
           </Route>
-          <Route path="/register" element={<Register />} />
+          <Route element={<RequireData user={user}/>}>
           <Route path="/profile/:id" element={<Profiles />} />
+          </Route>
+          <Route path="/register" element={<Register />} />
           <Route path="/calendarCompanion" element={<CalendarCompanion />} />
           <Route path="/profile/:id/view" element={<ViewProfile />} />
         </Route>

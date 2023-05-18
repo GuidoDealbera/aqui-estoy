@@ -14,6 +14,8 @@ import {
   PUT_SUPERVISOR_EDIT,
   PUT_COMPANION_SHIFT,
   PUT_SUPERVISOR_SHIFT,
+  PUT_SUPERVISOR_SHIFT_RULES,
+  PUT_COMPANION_SHIFT_RULES,
 } from "./action-types";
 import axios from "axios";
 import { toast } from "sonner";
@@ -366,3 +368,30 @@ export const putGeneralSupervisorShift = ({max,startTime,endTime}) => {
     }
   };
 };
+
+export const putSupervisorShiftRules = (shiftId) => {
+  return async function (dispatch) {
+    try {
+      dispatch(setLoading(true));
+      const response = await axios.put(`/putSupervisorShiftRules`, {shiftId});
+      dispatch({ type: PUT_SUPERVISOR_SHIFT_RULES, payload: response.data });
+      dispatch(setLoading(false));
+    } catch (error) {
+      toast.error("No se pudo eliminar la configuración", toastError);
+    }
+  };
+};
+
+export const putCompanionShiftRules = (shiftId) => {
+  return async function (dispatch) {
+    try {
+      dispatch(setLoading(true));
+      const response = await axios.put(`/putCompanionShiftRules`, {shiftId});
+      dispatch({ type: PUT_COMPANION_SHIFT_RULES, payload: response.data });
+      dispatch(setLoading(false));
+    } catch (error) {
+      toast.error("No se pudo eliminar la configuración", toastError);
+    }
+  };
+};
+

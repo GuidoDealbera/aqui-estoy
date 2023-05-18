@@ -2,3 +2,15 @@ html, body {
     margin: 0;
     padding: 0;
   }
+
+.swal2-title {
+  font-family: Poppins;
+}
+
+.swal2-confirm {
+  font-family: Poppins;
+}
+
+.swal2-cancel {
+  font-family: Poppins;
+}
