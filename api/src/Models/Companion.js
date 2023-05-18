@@ -48,9 +48,12 @@ module.exports = (sequelize) => {
       gender: {
         type: DataTypes.STRING,
       },
-      isSuperCompanion: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: false,
+      rol: {
+        type: DataTypes.STRING,
+        defaultValue: "Companion1",
+        validate: {
+          isIn: [['Companion1', 'Companion2']],
+        },
       },
       isActive:{
         type: DataTypes.BOOLEAN,

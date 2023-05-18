@@ -33,4 +33,16 @@
     background-color: #f8d7da;
     color: #721c24;
   }
+  .reserved{
+    background-color: #721c24;
+    color: #dee2e6;
+    border-radius: 1em;
+  }
+  .cell {
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
   
+  .cell:hover {
+    background-color: #d3d3d3;  // Cambia este color al que prefieras para el hover
+  }

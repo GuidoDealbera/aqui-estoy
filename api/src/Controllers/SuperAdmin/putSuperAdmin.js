@@ -1,4 +1,4 @@
-const { Supervisor } = require("../../db");
+const { Supervisor, SupervisorShift, Companion } = require("../../db");
 const bcrypt = require("bcrypt");
 
 //Controlador para convertir un usuario tipo Supervisor a SuperAdmin
@@ -9,12 +9,22 @@ const putSuperAdmin = async (req, res) => {
     //Busca el supervisor en bd
     const supervisor = await Supervisor.findOne({
       where: { id: id },
+      include: [
+        {
+          model: Companion,
+        },
+        {
+          model: SupervisorShift,
+          attributes: ["id", "day", "time", "timezone"],
+          through: { attributes: [] },
+        },
+      ]
     });
     if (!supervisor) {
       return res.status(404).send("Supervisor no encontrado");
     }
     //Se setea isSuperAdmin en el valor opuesto(esto permite bajar un superAdmin en caso de error)
-    supervisor.isSuperAdmin = !supervisor.isSuperAdmin;
+    supervisor.rol = "SuperAdmin"
     //Actualiza el supervisor en bd con el nuevo valor de isSuperAdmin
     await supervisor.save();
     //Retorna un supervisor con todos sus datos
@@ -36,11 +46,11 @@ const requireSuperAdmin = async (req, res, next) => {
     return res.status(401).json({ error: "Credenciales inválidas" });
   }
   //Comprueba sus datos contra los datos en la bd
-  const match = await bcrypt.compare(password, user.password);
+  const match = password === user.password ? true : false;
   if (!match) {
     return res.status(401).json({ error: "Credenciales inválidas" });
   }
-  if (!user.isSuperAdmin) {
+  if (user.rol !== "SuperAdmin") {
     return res.status(401).send("No autorizado");
   }
   // Si el usuario es un SuperAdmin y la contraseña es correcta,

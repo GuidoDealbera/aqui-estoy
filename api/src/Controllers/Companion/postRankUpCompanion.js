@@ -1,36 +1,71 @@
 const { Companion } = require("../../db");
 const { Supervisor } = require("../../db");
 const bcrypt = require("bcrypt");
-
+const passwordGenerator = require("../passwordGenerator");
+const axios = require("axios")
 const rankUpCompanion = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { id, rol } = req.body;
     const companion = await Companion.findOne({ where: { id: id } });
-    const { email } = companion;
     companion.isActive = false;
     await companion.save();
+    const { email,name,lastName,birthdayDate,gender,studies,profession,phone,
+      profilePhoto,nationality,country,CityTimeZoneId } = companion;
     const supervisor = await Supervisor.findOne({ where: { email: email } });
     if (supervisor) {
       supervisor.isActive = true;
+      if (rol !== supervisor.rol) {
+        supervisor.rol = rol;
+      }
+
+      await Supervisor.update({
+        email: email,
+        rol: rol,
+        name: name,
+        lastName: lastName,
+        birthdayDate: birthdayDate,
+        profilePhoto: profilePhoto,
+        nationality: nationality,
+        country: country,
+        CityTimeZoneId: CityTimeZoneId,
+        phone: phone,
+        profession: profession,
+        studies: studies,
+        gender: gender,
+      },{where: { id: supervisor.id}}
+      );
+
       await supervisor.save();
-      res.status(201).json(supervisor);
-      return;
+      return res.status(201).json(supervisor);
     } else if (email && !companion.isActive) {
-      const { newPassword } = req.body;
-      // Generar hash de la contraseña
-      const passwordHash = await bcrypt.hashSync(newPassword, 10);
-      //Crear el Supervisor con el email ingresado y password hasheada y si es superAdmin o no
+      const newPassword = passwordGenerator(8);
+      const passwordHash = bcrypt.hashSync(newPassword, 10);
       const newSupervisor = await Supervisor.create({
         email: email,
         password: passwordHash,
-        isSuperAdmin: false,
+        rol: rol,
+        name: name,
+        lastName: lastName,
+        birthdayDate: birthdayDate,
+        profilePhoto: profilePhoto,
+        nationality: nationality,
+        country: country,
+        CityTimeZoneId: CityTimeZoneId,
+        phone: phone,
+        profession: profession,
+        studies: studies,
+        gender: gender,
       });
+      const user = {
+        email:newSupervisor.email,password:newPassword,rol:newSupervisor.rol
+      }
+      await axios.post("/postCreatedAccount", user);
+      // await axios.post("http://localhost:3001/postCreatedAccount", user);
+
+      return res.status(201).json({ newSupervisor, newPassword });
       //Retorna un objeto de tipo Supervisor con todos sus datos
-      res.status(201).json(newSupervisor);
-      return;
     } else {
-      res.status(400).json({ error: "Faltan datos obligatorios" });
-      return;
+      return res.status(400).json({ error: "Faltan datos obligatorios" });
     }
   } catch (error) {
     res.status(500).json({ error: "Error del servidor Rank Up Companion" });

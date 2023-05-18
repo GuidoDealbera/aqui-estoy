@@ -1,16 +1,16 @@
-const { Supervisor } = require("../../db");
-const deleteCompanionShift = async (req, res) => {
+const { Supervisor, SupervisorShift } = require("../../db");
+const deleteSupervisorShift = async (req, res) => {
   try {
     const { id, idShift } = req.body;
-    const supervisor = await Supervisor.findOne({ where: { id: id } });
-    if (supervisor) {
-      supervisor.removeSupervisorShift(idShift);
-      res.status(200).json("Turno eliminado");
-    } else {
-      res.status(400).json("el Supervisor no existe");
-    }
-  } catch (error) {
-    res.status(400).json(error.message);
+    let supervisor = await Supervisor.findOne({ where: { id: id } , include: { model: SupervisorShift} });
+     await supervisor.removeSupervisorShift(idShift);
+      supervisor.save();
+      supervisor = await Supervisor.findOne({ where: { id: id } , include: { model: SupervisorShift} });
+    
+      return res.status(200).json(supervisor);   
+ 
+    } catch (error) {
+   return res.status(400).json(error.message);
   }
 };
-module.exports = deleteCompanionShift;
+module.exports = deleteSupervisorShift;

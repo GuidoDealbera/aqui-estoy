@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import axios from "axios"
 import { useDispatch, useSelector } from "react-redux"
-import { getOneCompanion, getOneSupervisor } from '../../Redux/Actions/viewActions';
+import { getBothRoles } from '../../Redux/Actions/viewActions';
 import { useNavigate } from "react-router-dom"
 import {
   TextField,
@@ -12,14 +12,9 @@ import {
   Grid,
   Typography,
   Container,
-  ToggleButtonGroup,
-  ToggleButton,
 } from '@mui/material';
 import { styled } from '@mui/system';
-
-const StyledLoginButton = styled(Button)(({ theme }) => ({
-
-}));
+import { loginSuccess } from '../../Redux/Actions/actions';
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email('Correo electrónico inválido').required('Requerido'),
@@ -27,40 +22,36 @@ const validationSchema = Yup.object().shape({
 });
 
 const LoginForm = ({ handleMouseLeave }) => {
-  
-  const [rol, setRol] = useState("Acompañante")
-
-  const handleRoleChange = (event, newRole) => {
-    if (newRole !== null) {
-      setRol(newRole);
-    }
-  }
 
   const navigate = useNavigate()
 
+  const redirectToPasswordRecovery = () => {
+
+    console.log('Navegando a /password-recovery');
+    handleMouseLeave();  // Esto cerrará la ventana de inicio de sesión
+    navigate('/password-recovery');
+  };
+
   const dispatch = useDispatch();
 
-  const {user} = useSelector((state) => state.auth)
-  const {name, id} = user
+  const { user } = useSelector((state) => state.auth)
+  const { name, id, lastName, profilePhoto, birthdayDate, nationality, country, phone, profession, studies, gender, CityTimeZoneId } = user
   useEffect(() => {
-    if(Object.entries(user).length){
-      if (name) {
+    if (Object.entries(user).length) {
+      dispatch(loginSuccess(user))
+      if (name && lastName && profilePhoto && birthdayDate && nationality && country && phone && profession && studies && gender && CityTimeZoneId) {
         navigate(`/profile/${id}`)
       } else {
         navigate("/register")
       }
       handleMouseLeave()
-    } 
+    }
   }, [user])
   const submitHandler = async (values) => {
-    
+
     const { email, password } = values;
-    
-    if (rol === "Supervisor") {
-      dispatch(getOneSupervisor(email, password)) //Register
-    } else { // Companion
-      dispatch(getOneCompanion(email, password))
-    }
+
+    dispatch(getBothRoles(email, password))
   }
 
   return (
@@ -69,65 +60,64 @@ const LoginForm = ({ handleMouseLeave }) => {
       validationSchema={validationSchema}
       onSubmit={submitHandler}
     >
-      {({ isSubmitting }) => (
+      {(formik) => (
         <Form>
           <Container maxWidth="sm">
             <Grid container spacing={2}>
               <Grid item xs={12}>
-                <Typography variant="h5">Iniciar sesión</Typography>
-                <ToggleButtonGroup
-                  value={rol}
-                  exclusive
-                  onChange={handleRoleChange}
-                  aria-label="rol"
-                >
-                  <ToggleButton value="Acompañante" aria-label="Acompañante">
-                    Acompañante
-                  </ToggleButton>
-                  <ToggleButton value="Supervisor" aria-label="Supervisor">
-                    Supervisor
-                  </ToggleButton>
-                </ToggleButtonGroup>
+                <Typography variant="h5" sx={{marginTop: "10px"}}>Iniciar sesión</Typography>
+
               </Grid>
               <Grid item xs={12}>
-  <Field
-    as={TextField}
-    fullWidth
-    id="email"
-    label="Correo electrónico"
-    name="email"
-    type="email"
+                <Field
+                  as={TextField}
+                  fullWidth
+                  id="email"
+                  label="Correo electrónico"
+                  name="email"
+                  type="email"
 
-    error={!!(ErrorMessage.name)}
-    helperText={<ErrorMessage name="email" />}
+                  error={!!(formik.errors.email && formik.touched.email)}
+                  helperText={<ErrorMessage name="email" />}
 
-  />
-</Grid>
-<Grid item xs={12}>
-  <Field
-    as={TextField}
-    fullWidth
-    id="password"
-    label="Contraseña"
-    name="password"
-    type="password"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Field
+                  as={TextField}
+                  fullWidth
+                  id="password"
+                  label="Contraseña"
+                  name="password"
+                  type="password"
 
-    error={!!(ErrorMessage.name)}
-    helperText={<ErrorMessage name="password" />}
+                  error={!!(formik.errors.password && formik.touched.password)}
+                  helperText={<ErrorMessage name="password" />}
 
-  />
-</Grid>
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Typography
+                  variant="body2"
+                  component="p"
+                  sx={{ cursor: 'pointer', color: 'primary.main' }}
+                  onClick={redirectToPasswordRecovery}
+                >
+                  ¿Olvidaste tu contraseña?
+                </Typography>
+              </Grid>
 
               <Grid item xs={12}>
                 <Box display="flex" justifyContent="space-between">
-                  <StyledLoginButton
+                  <Button
+                    color='primary'
                     variant="contained"
                     type="submit"
-                    disabled={isSubmitting}
+                    disabled={formik.isSubmitting}
                   >
                     Iniciar sesión
-                  </StyledLoginButton>
-                  <Button onClick={() => handleMouseLeave()}>Cancelar</Button>
+                  </Button>
+                  <Button onClick={() => handleMouseLeave()} variant='outlined'>Cancelar</Button>
                 </Box>
               </Grid>
             </Grid>

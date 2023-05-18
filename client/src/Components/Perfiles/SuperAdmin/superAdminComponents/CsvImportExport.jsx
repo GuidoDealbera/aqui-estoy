@@ -1,68 +1,139 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import Papa from "papaparse";
-import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
+import { Grid, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  postSupervisor,
+  postCompanion,
+} from "../../../../Redux/Actions/postPutActions";
+import Tooltip from "@mui/material/Tooltip";
+
+//el archivo CSV debe contener las siguientes columnas:
+// correo : un email
+// clave : con minimo 6 caracteres
+// rol : a-acomp1 b-acomp2 s-supervisor t-superadmin
+// El usuario se crea siempre activo
 
 const CsvImportExport = () => {
+  const dispatch = useDispatch();
   const fileInput = useRef(null);
   let companionsData = useSelector((state) => state.view.allCompanions);
   let supervisorsData = useSelector((state) => state.view.allSupervisors);
+  const [csvErrors, setCsvErrors] = useState({});
+  // const [csvPswErrors, setCsvPswErrors] = useState([]);
   let usrRol = null;
 
   //Aqui se limpia la info para exportar los campos deseados
-  companionsData = companionsData.map((usr) => {
-    usr.isSuperCompanion ? (usrRol = "Companion2") : (usrRol = "Companion1");
+  const companionsData2 = companionsData.map((usr) => {
+    usr.isSuperCompanion
+      ? (usrRol = "Acompañante Avanzado")
+      : (usrRol = "Acompañante Inicial");
     return {
-      name: usr.name,
-      lastName: usr.lastName,
-      email: usr.email,
-      birthdayDate: usr.birthdayDate,
-      nationality: usr.nationality,
-      country: usr.country,
-      phone: usr.phone,
-      profession: usr.profession,
-      studies: usr.studies,
-      gender: usr.gender,
+      nombre: usr.name,
+      apellido: usr.lastName,
+      correo: usr.email,
+      nacimiento: usr.birthdayDate,
+      nacionalidad: usr.nationality,
+      ubicacion: usr.residence,
+      telefono: usr.phone,
+      profesion: usr.profession,
+      estudios: usr.studies,
+      genero: usr.gender,
       rol: usrRol,
+      activo: usr.isActive ? "si" : "no",
     };
   });
-  supervisorsData = supervisorsData.map((usr) => {
-    usr.isSuperAdmin ? (usrRol = "Superadmin") : "Supervisor";
+  const supervisorsData2 = supervisorsData.map((usr) => {
+    usr.isSuperAdmin ? (usrRol = "Super Admin") : (usrRol = "Supervisor");
     return {
-      name: usr.name,
-      lastName: usr.lastName,
-      email: usr.email,
-      birthdayDate: usr.birthdayDate,
-      nationality: usr.nationality,
-      country: usr.country,
-      phone: usr.phone,
-      profession: usr.profession,
-      studies: usr.studies,
-      gender: usr.gender,
+      nombre: usr.name,
+      Aapellido: usr.lastName,
+      correo: usr.email,
+      nacimiento: usr.birthdayDate,
+      nacionalidad: usr.nationality,
+      ubicacion: usr.country,
+      telefono: usr.phone,
+      profesion: usr.profession,
+      estudios: usr.studies,
+      genero: usr.gender,
       rol: usrRol,
+      activo: usr.isActive ? "si" : "no",
     };
   });
-  const usersData = [...companionsData, ...supervisorsData];
+  const usersData = [...companionsData2, ...supervisorsData2];
 
   //--------------------------------------------------------------------
+
+  let errors = {};
+
+  //----------------------------UPLOAD CSV-----------------------------
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
+    console.log('ingresando a upload');
     Papa.parse(file, {
       header: true,
       complete: (results) => {
-        console.log("Datos del archivo CSV importado:", results.data);
-        // agregar el código para guardar los datos importados en tu base de datos o estado de Redux
+        let newPeople = results.data;
+        //array de obj con acompanantes y supervisores
+        //{clave: "xxx6", correo: "xxx@xxx.xx", rol: "a||A||s||S"}
+
+        newPeople.forEach((usr) => {
+          if (usr.clave.length > 5 || usr.clave.length === 0) {
+            if (usr.rol.toLowerCase() === "a") {
+              //acompañante 1
+              dispatch(
+                postCompanion({
+                  email: usr.correo,
+                  // isActive: true,
+                  rol: "Companion1",
+                  password: usr.clave,
+                })
+              );
+            } else if (usr.rol.toLowerCase() === "b") {
+              //acompañante 2
+              dispatch(
+                postCompanion({
+                  email: usr.correo,
+                  // isActive: true,
+                  rol: "Companion2",
+                  password: usr.clave,
+                })
+              );
+            } else if (usr.rol.toLowerCase() === "s") {
+              //supervisor
+              dispatch(
+                postSupervisor({
+                  email: usr.correo,
+                  // isActive: true,
+                  rol: "Supervisor",
+                  password: usr.clave,
+                })
+              );
+            } else if (usr.rol.toLowerCase() === "t") {
+              //super admin
+              dispatch(
+                postSupervisor({
+                  email: usr.correo,
+                  // isActive: true,
+                  rol: "SuperAdmin",
+                  password: usr.clave,
+                })
+              );
+            } else {
+              errors[usr.correo] = "Error en el rol del usuario";
+            }
+          } else {
+            errors[usr.correo] = "Error en la contraseña";
+          }
+        });
+        setCsvErrors(errors);
       },
     });
   };
 
-  //--------------------------------------------------------------------
+  //-------------------------------DOWNLOAD CSV-------------------------------------
   const handleExportCsv = () => {
     const csv = Papa.unparse(usersData);
     const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
@@ -76,49 +147,112 @@ const CsvImportExport = () => {
     document.body.removeChild(link);
   };
 
-  //--------------------------------------------------------------------
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setUserData({ ...userData, [name]: value });
-  };
-
-  //--------------------------------------------------------------------
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // implementar la lógica para crear el usuario, como llamar a una API o usar acciones de Redux
-    console.log(userData);
-  };
-
   return (
     <Box>
-      <h2>Importar/Exportar CSV</h2>
-      <form onSubmit={handleSubmit}>
-        <Box marginBottom={2}>
-          <input
-            type="file"
-            accept=".csv"
-            ref={fileInput}
-            onChange={handleFileUpload}
-            style={{ display: "none" }}
-            id="csv-input"
-          />
-          <label htmlFor="csv-input">
-            <TextField
-              label="Seleccionar archivo CSV"
-              fullWidth
-              InputProps={{ readOnly: true }}
-              onClick={(e) =>
-                fileInput.current ? fileInput.current.click() : null
-              }
+      <Typography variant="h5" sx={{ textAlign: "center", margin: "2vw" }}>
+        Importar/Exportar Información de usuarios por CSV
+      </Typography>
+
+      <Grid container justifyContent="center">
+        <Grid item>
+          <Box marginBottom={2} justifyContent={"center"}>
+            <input
+              type="file"
+              accept=".csv"
+              ref={fileInput}
+              onChange={handleFileUpload}
+              style={{ display: "none" }}
+              id="csv-input"
             />
-          </label>
-        </Box>
-        <Box marginBottom={2}>
-          <Button variant="contained" onClick={handleExportCsv} color="primary">
-            Exportar CSV
-          </Button>
-        </Box>
-      </form>
+
+            <Tooltip title="Importa lo datos para la creación de nuevos usuarios de la plataforma">
+              <Button
+                sx={{ margin: "1vw" }}
+                variant="contained"
+                onClick={(e) =>
+                  fileInput.current ? fileInput.current.click() : null
+                }
+                color="primary"
+              >
+                Importar CSV
+              </Button>
+            </Tooltip>
+
+            <Tooltip title="Exporta los datos de los usuarios actuales de la plataforma">
+              <Button
+                variant="contained"
+                onClick={handleExportCsv}
+                color="primary"
+              >
+                Exportar CSV
+              </Button>
+            </Tooltip>
+          </Box>
+        </Grid>
+      </Grid>
+
+      <Grid container justifyContent={"space-evenly"} padding={"2vw"}>
+        {Object.keys(csvErrors).length === 0 ? (
+          <Grid
+            item
+            border={1}
+            borderRadius={5}
+            boxShadow={3}
+            borderColor={"lightGray"}
+            width={"70vw"}
+            padding={"1vw"}
+            color={"gray"}
+          >
+            <Typography textAlign={"center"}>
+              ESTRUCTURA DEL ARCHIVO CSV PARA IMPORTACIÓN:
+            </Typography>
+            <Typography>
+              El archivo debe contener tres columnas con los nombres: correo,
+              rol y clave. (sus nombres en letras minúsculas).
+            </Typography>
+            <Typography>
+              La información de cada columna es como se describe a continuación:
+            </Typography>
+            <br />
+            <Typography>correo : el correo electrónico del usuario</Typography>
+            <br />
+
+            <Typography>
+              clave : la contraseña puede estalecerse o dejarse en blanco y el
+              sistema la asignará automaticamente. El usuario recibirá un correo
+              con su contraseña.
+            </Typography>
+            <br />
+            <Typography>
+              rol : puede tener los valores valores a, b, s, t, asi::
+            </Typography>
+            <Typography>a -Acompañante Inicial</Typography>
+            <Typography>b -Acompañante Avanzado</Typography>
+            <Typography>s -Supervisor</Typography>
+            <Typography>t -Super Admin</Typography>
+          </Grid>
+        ) : (
+          <Grid
+            item
+            border={1}
+            borderColor={"red"}
+            borderRadius={5}
+            boxShadow={3}
+          >
+            <Typography width={"70vw"} textAlign={"center"} color={"red"}>
+              HUBO ERRORES IMPORTANDO ALGUNOS USUARIOS:
+            </Typography>
+            <br></br>
+            {Object.keys(csvErrors).map((em) => {
+              return (
+                <Typography width={"70vw"} textAlign={"center"} color={"red"}>
+                  {em} : {csvErrors[em]}
+                </Typography>
+              );
+            })}
+          </Grid>
+        )}
+      </Grid>
     </Box>
   );
 };

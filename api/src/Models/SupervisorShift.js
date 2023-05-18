@@ -29,7 +29,16 @@ module.exports = (sequelize) => {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-    },
+      
+      maxSupervisors :{
+        type: DataTypes.INTEGER,
+        defaultValue : 2,
+      },
+      hasRules :{
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+      }
+          },
     { timestamps: false }
   );
 }

@@ -1,58 +1,71 @@
 const { Companion } = require("../../db");
 const { Supervisor } = require("../../db");
 const bcrypt = require("bcrypt");
+const passwordGenerator = require("../passwordGenerator")
+const axios = require("axios")
 
 const downgradeSupervisor = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { id, rol } = req.body;
     const supervisor = await Supervisor.findOne({ where: { id: id } });
-    const { email } = supervisor;
     supervisor.isActive = false;
     await supervisor.save();
-    const { newPassword, rol } = req.body;
+    const { email,name,lastName,birthdayDate,gender,studies,profession,phone,
+      profilePhoto,nationality,country,CityTimeZoneId } = supervisor;
     const companion = await Companion.findOne({ where: { email: email } });
     if (companion) {
       companion.isActive = true;
-      await companion.save();
-      const response = {
-        ...companion.toJSON(),
+      if (rol !== companion.rol) {
+        companion.rol = rol;
+      }
+
+      await Companion.update({
+        email: email,
         rol: rol,
-      };
-      res.status(200).json(response);
-      return;
-    } else if (email && !supervisor.isActive && rol === "Companion1") {
-      // Generar hash de la contraseña
-      const passwordHash = await bcrypt.hashSync(newPassword, 10);
-      //Crear el Supervisor con el email ingresado y password hasheada y si es superAdmin o no
+        name: name,
+        lastName: lastName,
+        birthdayDate: birthdayDate,
+        profilePhoto: profilePhoto,
+        nationality: nationality,
+        country: country,
+        CityTimeZoneId: CityTimeZoneId,
+        phone: phone,
+        profession: profession,
+        studies: studies,
+        gender: gender,
+      },{where: { id: companion.id}}
+      );
+
+      await companion.save();
+      return res.status(200).json(companion);
+    } else if (email && !supervisor.isActive) {
+      const newPassword = passwordGenerator(8);
+      const passwordHash = bcrypt.hashSync(newPassword, 10);
       const newCompanion = await Companion.create({
         email: email,
         password: passwordHash,
-        isSuperCompanion: false,
+        rol: rol,
+        name: name,
+        lastName: lastName,
+        birthdayDate: birthdayDate,
+        profilePhoto: profilePhoto,
+        nationality: nationality,
+        country: country,
+        phone: phone,
+        profession: profession,
+        studies: studies,
+        gender: gender,
+        CityTimeZoneId: CityTimeZoneId
       });
       //Retorna un objeto de tipo Supervisor con todos sus datos
-      const response = {
-        ...newCompanion.toJSON(),
-        rol: rol,
-      };
-      res.status(200).json(response);
-      return;
-    } else if (email && !supervisor.isActive && rol === "Companion2") {
-      const passwordHash = await bcrypt.hashSync(newPassword, 10);
-       const newCompanion = await Companion.create({
-        email: email,
-        password: passwordHash,
-        isSuperCompanion: true,
-      });
-      //Retorna un objeto de tipo Supervisor con todos sus datos
-      const response = {
-        ...newCompanion.toJSON(),
-        rol: rol,
-      };
-      res.status(200).json(response);
-      return;
+      const user = {
+        email:newCompanion.email,password:newPassword,rol:newCompanion.rol
+      }
+      await axios.post("/postCreatedAccount", user);
+      // await axios.post("http://localhost:3001/postCreatedAccount", user);
+      return res.status(201).json({newCompanion, newPassword});
     } else {
-      res.status(400).json({ error: "Faltan datos obligatorios" });
-      return;
+      return res.status(400).json({ error: "Faltan datos obligatorios" });
     }
   } catch (error) {
     res.status(500).json({ error: "Error del servidor Downgrade Supervisor" });

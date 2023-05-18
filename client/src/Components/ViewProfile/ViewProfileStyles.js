@@ -20,9 +20,9 @@ const styles = {
         height: "400px",
         avatar: {
             margin: "30px",
-            height: "100px",
-            width: "100px",
-        },
+            height: "150px",
+            width: "150px",
+          },
     },
     body: {
         borderRadius: "10px",
@@ -45,6 +45,9 @@ const styles = {
                 color: "#19154E"
             },
             data: {
+                display: "flex",
+                padding: "5px",
+                alignItems: "center",
                 color: "gray"
             }
         },

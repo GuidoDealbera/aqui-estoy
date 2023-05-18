@@ -1,112 +1,84 @@
-import { Button, Box, Avatar, Typography, Grid, Container } from "@mui/material";
-import { useNavigate } from 'react-router-dom'
+import { Button, Box, Avatar, Typography, Grid, useTheme, ListItemIcon, ListItemText } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import Loader from "../../Loader/Loader";
+import styles from './SupervisorStyles'
+import WhatsAppIcon from '@mui/icons-material/WhatsApp'
+import EditIcon from '@mui/icons-material/Edit';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import GroupsIcon from "@mui/icons-material/Groups";
+import DateRangeIcon from '@mui/icons-material/DateRange';
+import ProfileEdit from "../../Modals/ProfileEdit";
+import { useState } from "react";
 
 export default function Supervisor(props) {
+  const theme = useTheme();
+  const navigate = useNavigate();
+  const { user } = props;
+  const [edit, setEdit] = useState(false);
+  const handleClose = () => {
+    setEdit(false)
+  }
+  const myDate = new Date();
+  const myHours = myDate.getHours();
+  const myMinutes = myDate.getMinutes();
 
-  const navigate = useNavigate()
-
-  const {user} = props;
-
-  const estilos = {
-    color: "#151515",
-    background: "#C8E8C7",
-    borderRadius: "10px",
-    width: "100%",
-    height: "80%"
-  };
-  
-  return (
-    <Grid
-      container
-      sx={{
-        background: "linear-gradient(to right top, #ffffff, #ffffff, #00C8B2)",
-      }}
-      height="100%"
-    >
-      <Grid
-        item
-        sx={{
-          flexDirection: "column",
-          marginTop: "1rem",
-        }}
-        xs={12}
-        md={3.5}
-      >
-        <Grid item marginTop={7}>
-          <Avatar
-            alt={user.name}
-            src={user.profileImage}
-            sx={{ width: 190, height: 190 }}
-          />
-          <Typography variant="h3">
-            {user.name?.charAt(0).toUpperCase() +
-              user.name?.slice(1) +
-              ", " +
-              user.lastName?.charAt(0).toUpperCase() +
-              user.lastName?.slice(1)}
-          </Typography>
+  return Object.entries(user).length > 0 ? (
+    <Box>
+      <Grid container sx={{...styles.container, [theme.breakpoints.down('sm')]: { paddingTop: 0 }}}>
+        <Grid item sx={styles.header} sm={10} md={5}>
+        <Avatar sx={styles.header.avatar} src={user.profilePhoto} />
+        <Typography variant="h5">{user.name} {user.lastName}</Typography>
+        <Typography variant="h7" sx={{...styles.body.info.data, fontFamily: 'poppins'}}>{user.rol}</Typography>
+        <Button startIcon={<EditIcon/>} sx={{...styles.buttons, backgroundColor: "#00C8B2",color: "black", "&:hover":{backgroundColor: "#008B7C"}}} onClick={()=>setEdit(true)}>Editar perfil</Button>
         </Grid>
-
-        <Typography variant="h5" marginTop={2}>
-          {user.birthDate}
-        </Typography>
-        <Typography variant="h5" marginTop={1}>
-          {user.nacionality}
-        </Typography>
-        <Typography variant="h5" marginTop={1}>
-          {user.country}
-        </Typography>
-        <Typography variant="h5" marginTop={1}>
-          {user.timeZone}
-        </Typography>
-        <Typography variant="h5" marginTop={1}>
-          {user.email}
-        </Typography>
-        <Typography variant="h5" marginTop={1}>
-          {user.phone}
-        </Typography>
-        <Typography variant="h5" marginTop={1}>
-          {user.profession}
-        </Typography>
-        <Typography variant="h5" marginTop={1}>
-          {user.studies}
-        </Typography>
-        <Typography variant="h5" marginTop={1}>
-          {user.gender}
-        </Typography>
-        <Button onClick={()=>{navigate("/panel-supervision")}} variant="contained" style={{background:"#FFEDD7", color:"#151515"}}>Panel de supervision</Button>
+        <Grid item sx={styles.body} sm={10} md={5}>
+        <Box sx={{ ...styles.body.info, borderTop: "none" }} id="primero">
+          <Typography sx={styles.body.info.label}>Correo electrónico</Typography>
+          <Typography sx={styles.body.info.data}>{user.email}</Typography>
+        </Box>
+        <Box sx={styles.body.info}>
+                    <Typography sx={styles.body.info.label}>Teléfono</Typography>
+                    <Typography sx={styles.body.info.data}>{user.phone} <WhatsAppIcon sx={{marginLeft: "5px"}}/></Typography>
+                </Box>           
+                <Box sx={styles.body.info}>
+                    <Typography sx={styles.body.info.label}>Nacionalidad</Typography>
+                    <Typography sx={styles.body.info.data}>{user.nationality}</Typography>
+                </Box>
+                <Box sx={styles.body.info}>
+                    <Typography sx={styles.body.info.label}>Reside en</Typography>
+                    <Typography sx={styles.body.info.data}>{user.country}</Typography>
+                </Box>
+                <Box sx={styles.body.info}>
+                    <Typography sx={styles.body.info.label}>Huso horario</Typography>
+                    <Typography sx={styles.body.info.data}>{user.CityTimeZone?.offSet}</Typography>
+                </Box>
+                <Box sx={styles.body.info}>
+                    <Typography sx={styles.body.info.label}>Profesión</Typography>
+                    <Typography sx={styles.body.info.data}>{user.profession}</Typography>
+                </Box>
+                <Box sx={styles.body.info}>
+                    <Typography sx={styles.body.info.label}>Nivel de estudios alcanzado</Typography>
+                    <Typography sx={styles.body.info.data}>{user.studies}</Typography>
+                </Box>
+                <Box sx={styles.body.info}>
+                    <Typography sx={styles.body.info.label}>Fecha de nacimiento</Typography>
+                    <Typography sx={styles.body.info.data}>{user.birthdayDate}</Typography>
+                </Box>
+                <Box sx={styles.body.info}>
+                    <Typography sx={styles.body.info.label}>Género</Typography>
+                    <Typography sx={styles.body.info.data}>{user.gender}</Typography>
+                </Box>
       </Grid>
-      <Grid
-        container
-        
-        xs={12}
-        md={8.5}
-        sx={{
-          marginTop: "1rem",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-around",
-        }}
-      >
-        <Grid container sx={{
-        justifyContent: "space-around",
-      }}>
-          <Grid item md={5}  xs={12} height="100%" >
-            <Button variant="contained" style={estilos}>
-              Disponibilidad de turnos de voluntariado
-            </Button>
-          </Grid>
-          <Grid item md={5} xs={12} height="100%" >
-            <Button variant="contained" style={estilos}>Horarios de supervisión</Button>
-          </Grid>
-          <Grid item md={5} xs={12} height="100%" >
-            <Button onClick={()=>{navigate("/companionsAtCharge")}} variant="contained" style={estilos} >Personas a cargo</Button>
-          </Grid>
-          <Grid item md={5} xs={12} height="100%" >
-            <Button variant="contained" style={estilos}>Centro de aprendizaje</Button>
-          </Grid>
-        </Grid>
       </Grid>
-    </Grid>
+      <Box sx={styles.box}>
+          <Button startIcon={<CalendarMonthIcon/>} sx={styles.buttons} onClick={() => {navigate("/calendarSuperAdmin")}}>Calendario Supervisores</Button>
+          <Button startIcon={<CalendarMonthIcon/>} sx={styles.buttons} onClick={() => {navigate("/calendarCompanion")}}>Calendario Acompañantes</Button>
+          <Button startIcon={<GroupsIcon/>} sx={styles.buttons} onClick={() => {navigate("/companionsAtCharge")}}>Acompañantes a mi cargo</Button>
+          <Button startIcon={<DateRangeIcon/>} sx={styles.buttons} onClick={() => {navigate("/panel-supervision")}}>Panel de supervisión</Button>
+        </Box>
+        {edit && <ProfileEdit edit={edit} handleClose={handleClose} />}
+    </Box>
+  ) : (
+    <Loader />
   );
 }

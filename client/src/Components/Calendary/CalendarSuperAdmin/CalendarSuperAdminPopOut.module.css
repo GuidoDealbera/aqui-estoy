@@ -16,3 +16,11 @@ padding: 5em;
 background-color: beige;
 border-radius: 3em;
 }
+.cell {
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .cell:hover {
+    background-color: #272727;  // Cambia este color al que prefieras para el hover
+  }
