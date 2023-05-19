@@ -132,7 +132,7 @@ export default function PanelSupervision() {
       >
 
         <Grid item flex={4} margin={"2vh"}>
-          <Box sx={{display:"flex", flexDirection:"column", width:"120px"}}>
+          <Box sx={{ display: "flex", flexDirection: "column", width: "120px" }}>
             <Button
               variant="contained"
               size="small"
@@ -144,8 +144,7 @@ export default function PanelSupervision() {
             >
               Regresar
             </Button>
-            <FormControl sx={{ minWidth: "100px", marginTop:"10px"}}>
-              {" "}
+            <FormControl sx={{ minWidth: "100px", marginTop: "10px" }}>
               {/*Este Form Control Renderiza el Botón de los días*/}
               <InputLabel>Día</InputLabel>
               <Select value={day} label="Día" onChange={handleChange}>
@@ -169,11 +168,10 @@ export default function PanelSupervision() {
         Horarios dispuestos en la zona horaria: {user.CityTimeZone.offSet}{" "}
         {user.CityTimeZone.zoneName}
       </Typography>
-      <TableContainer component={Paper}>
-        <Table Table sx={{ minWidth: 650, fontSize: "small" }} size="small">
-          <Box border={"solid"} borderRadius={"10px"} sx={{ margin: "10px" }}>
+      <Box border={"solid"} borderRadius={"10px"} sx={{ margin: "10px" }}>
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 650, fontSize: "small" }} size="small">
             <TableHead>
-              {" "}
               {/* Head de la Tabla (Texto de Disponibilidad Horaria y Celdas Horarias) */}
               <TableRow>
                 <TableCell align="center" colSpan={25}>
@@ -213,11 +211,7 @@ export default function PanelSupervision() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {" "}
-              {/* La Tabla en cuestión */}
-              <TableRow>
-                {" "}
-                {/* Row para las leyendas */}
+              <TableRow key="leyendas-horas">
                 <TableCell
                   sx={{
                     border: "solid 1px #e6e6e6",
@@ -245,23 +239,14 @@ export default function PanelSupervision() {
                 })}
               </TableRow>
               {supervisorCells[day].map((turno) => {
-                {
-                  /* Aca se renderizan todos los turnos en cuestión */
-                }
                 const { name, email, phone, time, idPersona } = turno;
                 const initialTime = parseInt(time.split("-")[0]);
                 const finalTime = parseInt(time.split("-")[1]);
-                const duration =
-                  finalTime !== 0 ? finalTime - initialTime : 24 - initialTime;
+                const duration = finalTime !== 0 ? finalTime - initialTime : 24 - initialTime;
                 return (
-                  <TableRow sx={{ height: "15px" }}>
-                    {" "}
-                    {/* Retorno una nueva Table Row por cada turno */}
+                  <TableRow sx={{ height: "15px" }} key={`turno-${time}-${idPersona}`}>
                     <TableCell></TableCell>
                     {Array.from(Array(24 - duration + 1).keys()).map((hour) => {
-                      {
-                        /* Renderizo las celdas */
-                      }
                       return (
                         <TableCell
                           size="small"
@@ -308,7 +293,7 @@ export default function PanelSupervision() {
                 );
               })}
               <TableRow>
-                {" "}
+
                 {/* Row para las leyendas */}
                 <TableCell
                   sx={{
@@ -345,8 +330,8 @@ export default function PanelSupervision() {
                 const duration =
                   finalTime !== 0 ? finalTime - initialTime : 24 - initialTime;
                 return (
-                  <TableRow>
-                    {" "}
+                  <TableRow key={`turno-${time}-${idPersona}`}>
+
                     {/* Retorno una nueva Table Row por cada turno */}
                     <TableCell></TableCell>
                     {Array.from(Array(24 - duration + 1).keys()).map((hour) => {
@@ -398,9 +383,9 @@ export default function PanelSupervision() {
                 );
               })}
             </TableBody>
-          </Box>
-        </Table>
-      </TableContainer>
+          </Table>
+        </TableContainer >
+      </Box>
       <PopOut setTrigger={setTogglePopOut} trigger={togglePopOut}>
         <Button>
           <Typography
@@ -434,6 +419,6 @@ export default function PanelSupervision() {
           </Typography>
         </Button>
       </PopOut>
-    </Box>
+    </Box >
   );
 }
