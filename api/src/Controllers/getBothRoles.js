@@ -43,7 +43,7 @@ const getBothRoles = async (req, res) => {
     if (supervisor && supervisor.isActive) {
       return res.status(200).json(supervisor);
     }
-    
+
     else {
       return res.status(400).json("Los datos ingresados son incorrectos");
     }
@@ -66,7 +66,12 @@ const requireLogin = async (req, res, next) => {
       }
     }
     if (supervisor && !supervisor.isActive) {
+      const match = await bcrypt.compare(password, supervisor.password);
+      if(match){
       return res.status(400).json("Cuenta inactiva comuniquese con el administrador");
+      }else{
+        return res.status(401).json("Error en los datos ingresados");
+         }
     }
     
     const companion = await Companion.findOne({
@@ -80,10 +85,15 @@ const requireLogin = async (req, res, next) => {
       }
     }
     if (companion && !companion.isActive) {
+      const match = await bcrypt.compare(password, companion.password);
+      if(match){
       return res.status(400).json("Cuenta inactiva comuniquese con el administrador");
+      }else{
+        return res.status(401).json("Error en los datos ingresados");
+         }
     }else{
-   return res.status(401).json("Error en los datos ingresados");
-    }
+      return res.status(401).json("Error en los datos ingresados");
+       }
   } catch (error) {
    return res.status(500).json("Error interno del servidor");
   }
