@@ -6,7 +6,7 @@ import WhatsAppIcon from '@mui/icons-material/WhatsApp'
 import EditIcon from '@mui/icons-material/Edit';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import GroupsIcon from "@mui/icons-material/Groups";
-import DateRangeIcon from '@mui/icons-material/DateRange';
+import PowerInputIcon from "@mui/icons-material/PowerInput";
 import ProfileEdit from "../../Modals/ProfileEdit";
 import { useState } from "react";
 
@@ -74,7 +74,7 @@ export default function Supervisor(props) {
           <Button startIcon={<CalendarMonthIcon/>} sx={styles.buttons} onClick={() => {navigate("/calendarSuperAdmin")}}>Calendario Supervisores</Button>
           <Button startIcon={<CalendarMonthIcon/>} sx={styles.buttons} onClick={() => {navigate("/calendarCompanion")}}>Calendario Acompañantes</Button>
           <Button startIcon={<GroupsIcon/>} sx={styles.buttons} onClick={() => {navigate("/companionsAtCharge")}}>Acompañantes a mi cargo</Button>
-          <Button startIcon={<DateRangeIcon/>} sx={styles.buttons} onClick={() => {navigate("/panel-supervision")}}>Panel de supervisión</Button>
+          <Button startIcon={<PowerInputIcon/>} sx={styles.buttons} onClick={() => {navigate("/panel-supervision")}}>Panel de supervisión</Button>
         </Box>
         {edit && <ProfileEdit edit={edit} handleClose={handleClose} />}
     </Box>
