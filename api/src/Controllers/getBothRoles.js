@@ -98,7 +98,7 @@ const requireLogin = async (req, res, next) => {
         return;
       }
     }
-    res.status(400).json("Error en los datos ingresados");
+    res.status(401).json("Error en los datos ingresados");
   } catch (error) {
     res.status(500).json("Error interno del servidor");
   }
