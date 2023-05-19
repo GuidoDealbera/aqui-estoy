@@ -90,79 +90,79 @@ export default function Companion(props) {
   }
   return !loading ? (
     <Box>
-    <Grid
-      container
-      sx={{
-        ...styles.container,
-        [theme.breakpoints.down("sm")]: { paddingTop: 0 },
-      }}
-      maxWidth="false"
-    >
-      <Grid item sx={styles.header} sm={10} md={5}>
-        <Avatar sx={styles.header.avatar} src={user.profilePhoto} />
-        <Typography variant="h5">{user.name} {user.lastName}</Typography>
-        <Typography variant="h7" sx={{...styles.body.info.data, fontFamily: 'poppins'}}>{newRol(user.rol)}</Typography>
-        {MentorName !== 'No asignado' && (
-        <Box>
-        <Typography sx={{...styles.body.info.label, marginTop: "1.5%"}}>Mentor: {user.Supervisor?.name} {user.Supervisor?.lastName}<a href={`https://wa.me/${superPhone?.replace(/\D/g, '')}`} target="_blank"><WhatsAppIcon sx={styles.whatsApp}/></a></Typography>
-        <Typography>Hora del mentor: {horaLoc} hs</Typography>
-        </Box>
-        )}
-        <Button startIcon={<EditIcon/>} sx={{...styles.buttons, backgroundColor: "#00C8B2",color: "black", "&:hover":{backgroundColor: "#008B7C"}}} onClick={()=>setEdit(true)}>Editar perfil</Button>
+      <Grid
+        container
+        sx={{
+          ...styles.container,
+          [theme.breakpoints.down("sm")]: { paddingTop: 0 },
+        }}
+        maxWidth="false"
+      >
+        <Grid item sx={styles.header} sm={10} md={5}>
+          <Avatar sx={styles.header.avatar} src={user.profilePhoto} />
+          <Typography variant="h5">{user.name} {user.lastName}</Typography>
+          <Typography variant="h7" sx={{ ...styles.body.info.data, fontFamily: 'poppins' }}>{newRol(user.rol)}</Typography>
+          {MentorName !== 'No asignado' && (
+            <Box>
+              <Typography sx={{ ...styles.body.info.label, marginTop: "1.5%" }}>Referente: {user.Supervisor?.name} {user.Supervisor?.lastName}<a href={`https://wa.me/${superPhone?.replace(/\D/g, '')}`} target="_blank"><WhatsAppIcon sx={styles.whatsApp} /></a></Typography>
+              <Typography>Hora del referente: {horaLoc} hs</Typography>
+            </Box>
+          )}
+          <Button startIcon={<EditIcon />} sx={{ ...styles.buttons, backgroundColor: "#00C8B2", color: "black", "&:hover": { backgroundColor: "#008B7C" } }} onClick={() => setEdit(true)}>Editar perfil</Button>
+        </Grid>
+        <Grid item sx={styles.body} sm={10} md={5}>
+          <Box sx={{ ...styles.body.info, borderTop: "none" }} id="primero">
+            <Typography sx={styles.body.info.label}>Correo electrónico</Typography>
+            <Typography sx={styles.body.info.data}>{user.email}</Typography>
+          </Box>
+          <Box sx={styles.body.info}>
+            <Typography sx={styles.body.info.label}>Teléfono</Typography>
+            <Typography sx={styles.body.info.data}>{user.phone} <WhatsAppIcon sx={{ marginLeft: "5px" }} /></Typography>
+          </Box>
+          <Box sx={styles.body.info}>
+            <Typography sx={styles.body.info.label}>Nacionalidad</Typography>
+            <Typography sx={styles.body.info.data}>{user.nationality}</Typography>
+          </Box>
+          <Box sx={styles.body.info}>
+            <Typography sx={styles.body.info.label}>Reside en</Typography>
+            <Typography sx={styles.body.info.data}>{user.country}</Typography>
+          </Box>
+          <Box sx={styles.body.info}>
+            <Typography sx={styles.body.info.label}>Huso horario</Typography>
+            <Typography sx={styles.body.info.data}>{user.CityTimeZone?.offSet}</Typography>
+          </Box>
+          <Box sx={styles.body.info}>
+            <Typography sx={styles.body.info.label}>Profesión</Typography>
+            <Typography sx={styles.body.info.data}>{user.profession}</Typography>
+          </Box>
+          <Box sx={styles.body.info}>
+            <Typography sx={styles.body.info.label}>Nivel de estudios alcanzado</Typography>
+            <Typography sx={styles.body.info.data}>{user.studies}</Typography>
+          </Box>
+          <Box sx={styles.body.info}>
+            <Typography sx={styles.body.info.label}>Fecha de nacimiento</Typography>
+            <Typography sx={styles.body.info.data}>{user.birthdayDate}</Typography>
+          </Box>
+          <Box sx={styles.body.info}>
+            <Typography sx={styles.body.info.label}>Género</Typography>
+            <Typography sx={styles.body.info.data}>{user.gender}</Typography>
+          </Box>
+        </Grid>
       </Grid>
-      <Grid item sx={styles.body} sm={10} md={5}>
-        <Box sx={{ ...styles.body.info, borderTop: "none" }} id="primero">
-          <Typography sx={styles.body.info.label}>Correo electrónico</Typography>
-          <Typography sx={styles.body.info.data}>{user.email}</Typography>
-        </Box>
-        <Box sx={styles.body.info}>
-                    <Typography sx={styles.body.info.label}>Teléfono</Typography>
-                    <Typography sx={styles.body.info.data}>{user.phone} <WhatsAppIcon sx={{marginLeft: "5px"}}/></Typography>
-                </Box>           
-                <Box sx={styles.body.info}>
-                    <Typography sx={styles.body.info.label}>Nacionalidad</Typography>
-                    <Typography sx={styles.body.info.data}>{user.nationality}</Typography>
-                </Box>
-                <Box sx={styles.body.info}>
-                    <Typography sx={styles.body.info.label}>Reside en</Typography>
-                    <Typography sx={styles.body.info.data}>{user.country}</Typography>
-                </Box>
-                <Box sx={styles.body.info}>
-                    <Typography sx={styles.body.info.label}>Huso horario</Typography>
-                    <Typography sx={styles.body.info.data}>{user.CityTimeZone?.offSet}</Typography>
-                </Box>
-                <Box sx={styles.body.info}>
-                    <Typography sx={styles.body.info.label}>Profesión</Typography>
-                    <Typography sx={styles.body.info.data}>{user.profession}</Typography>
-                </Box>
-                <Box sx={styles.body.info}>
-                    <Typography sx={styles.body.info.label}>Nivel de estudios alcanzado</Typography>
-                    <Typography sx={styles.body.info.data}>{user.studies}</Typography>
-                </Box>
-                <Box sx={styles.body.info}>
-                    <Typography sx={styles.body.info.label}>Fecha de nacimiento</Typography>
-                    <Typography sx={styles.body.info.data}>{user.birthdayDate}</Typography>
-                </Box>
-                <Box sx={styles.body.info}>
-                    <Typography sx={styles.body.info.label}>Género</Typography>
-                    <Typography sx={styles.body.info.data}>{user.gender}</Typography>
-                </Box>
-      </Grid>
-    </Grid>
-    <Box sx={styles.box}>
-    <Button startIcon={<AssignmentIcon/>} sx={styles.buttons} onClick={() => navigate("/calendarCompanion")}>Reserva de turnos</Button>
-    <Button startIcon={<PersonIcon/>} sx={{...styles.buttons, width: "230px", paddingLeft: 0}} onClick={handleOpen}>Supervisores Online        
-      <StyledBadge 
-     overlap="circular"
-     anchor={{ vertical: 'bottom', horizontal: 'right' }}
-     variant="dot"
-     sx={{paddingLeft: "8px"}}
-    />
-    </Button>
-    <Button startIcon={<Diversity3Icon/>} href="https://app.go4clic.com/aqui-estoy-1" sx={styles.buttons}>Centro de aprendizaje</Button>
-    </Box>
-    {edit && <ProfileEdit edit={edit} handleClose={handleClose} />}
-    {open && <SupervisorsOnline open={open} closeOpen={closeOpen}/>}
+      <Box sx={styles.box}>
+        <Button startIcon={<AssignmentIcon />} sx={styles.buttons} onClick={() => navigate("/calendarCompanion")}>Reserva de turnos</Button>
+        <Button startIcon={<PersonIcon />} sx={{ ...styles.buttons, width: "230px", paddingLeft: 0 }} onClick={handleOpen}>Supervisores Online
+          <StyledBadge
+            overlap="circular"
+            anchor={{ vertical: 'bottom', horizontal: 'right' }}
+            variant="dot"
+            sx={{ paddingLeft: "8px" }}
+          />
+        </Button>
+        <Button startIcon={<Diversity3Icon />} href="https://app.go4clic.com/aqui-estoy-1" sx={styles.buttons}>Centro de aprendizaje</Button>
+      </Box>
+      {edit && <ProfileEdit edit={edit} handleClose={handleClose} />}
+      {open && <SupervisorsOnline open={open} closeOpen={closeOpen} />}
     </Box>
   ) : (
     <Loader />
