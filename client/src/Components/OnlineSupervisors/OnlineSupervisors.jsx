@@ -1,6 +1,14 @@
-import { Avatar, Badge, Box, Button, Typography, styled } from "@mui/material";
+import { Avatar, Badge, Box, Button, Icon, Typography, styled } from "@mui/material";
 import { useSelector } from "react-redux";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+
+const style = {
+  customSize: {
+    fontSize: "350%",
+    color: "#C93838"
+  },
+};
 
 const styles = {
   buttons: {
@@ -47,7 +55,8 @@ export default function OnlineSupervisors({onClose}) {
         borderRadius: "20px"
       }}
     >
-      {supervisorsOnline.Supervisors?.map((sol) => {
+      {supervisorsOnline.Supervisors.length > 0 ?
+      supervisorsOnline.Supervisors?.map((sol) => {
         return (
           <Box
             key={sol.id}
@@ -88,9 +97,14 @@ export default function OnlineSupervisors({onClose}) {
             </Box>
           </Box>
         ) 
-      })}
+      }) : (
+        <Box sx={{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
+        <ErrorOutlineIcon sx={style.customSize}/>
+        <Typography variant="h5">En este momento no hay ningun Supervisor conectado, por favor intentalo nuevamente mas tarde</Typography>
+        </Box>
+      )}
       <Box sx={{display: "flex", justifyContent: "center"}}>
-      <Button variant="contained" sx={{...styles.buttons, width: "40%",marginTop: 2, textAlign: "end"}} onClick={onClose}>
+      <Button variant="contained" sx={{...styles.buttons, width: supervisorsOnline.Supervisors?.length > 0 ? "30%" : "25%",marginTop: 2, textAlign: "end"}} onClick={onClose}>
         Aceptar
       </Button>
       </Box>

@@ -4,7 +4,7 @@ import { Grid, Paper, TableContainer, Typography } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import ModalEdit from "../../../Modals/ModalEdit";
-import AutoFixHighIcon from "@mui/icons-material/AutoFixHigh";
+import EditIcon from '@mui/icons-material/Edit';
 import {
   getAllCompanions,
   getAllSupervisors,
@@ -95,7 +95,7 @@ function UsersViewEdit(props) {
       sortable: false,
       width: 60,
       renderCell: () => (
-        <AutoFixHighIcon onClick={handleEdit} style={{ cursor: "pointer" }} />
+        <EditIcon onClick={handleEdit} style={{ cursor: "pointer" }} />
       ),
     },
     {

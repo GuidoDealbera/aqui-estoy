@@ -105,7 +105,16 @@ export const getBothRoles = (email, password) => {
       dispatch({ type: "GET_BOTH_ROLES", payload: response.data });
       dispatch(setLoading(false));
     } catch (error) {
-      toast.error("No se pudo cargar el USUARIO", toastError);
+      if (error.response) {
+        const { status } = error.response;
+        if (status === 400) {
+          toast.error("Cuenta inactiva, comuníquese con el Administrador", toastError);
+      } else if (status === 500) {
+        toast.error("Ups! Hubo un error, inténtelo nuevamente más tarde", toastError)
+    }  else if (status === 401) {
+      toast.error("Correo electrónico y/o contraseña incorrecta, revise los datos", toastError)
+  } 
+  }
     }
   };
 };
