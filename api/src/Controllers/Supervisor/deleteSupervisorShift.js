@@ -6,9 +6,7 @@ const deleteSupervisorShift = async (req, res) => {
      await supervisor.removeSupervisorShift(idShift);
       supervisor.save();
       supervisor = await Supervisor.findOne({ where: { id: id } , include: { model: SupervisorShift} });
-    
       return res.status(200).json(supervisor);   
- 
     } catch (error) {
    return res.status(400).json(error.message);
   }

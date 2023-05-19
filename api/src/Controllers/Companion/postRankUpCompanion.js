@@ -60,10 +60,8 @@ const rankUpCompanion = async (req, res) => {
         email:newSupervisor.email,password:newPassword,rol:newSupervisor.rol
       }
       await axios.post("/postCreatedAccount", user);
-      // await axios.post("http://localhost:3001/postCreatedAccount", user);
 
       return res.status(201).json({ newSupervisor, newPassword });
-      //Retorna un objeto de tipo Supervisor con todos sus datos
     } else {
       return res.status(400).json({ error: "Faltan datos obligatorios" });
     }

@@ -10,9 +10,7 @@ const postCompanion = async (req, res) => {
     if (email) {
       const { password } = req.body;
       if (password) {
-        // Generar hash de la contraseña
         const passwordHash = bcrypt.hashSync(password, 10);
-        //Crear el acompañante con el email ingresado y password hasheada
         const newCompanion = await Companion.create({
           email: email,
           password: passwordHash,
@@ -24,7 +22,6 @@ const postCompanion = async (req, res) => {
           rol: newCompanion.rol,
         };
         axios.post("/postCreatedAccount", user);
-        // axios.post("http://localhost:3001/postCreatedAccount", user);
         return res.status(201).json(newCompanion);
       } else {
         let pass = passwordGenerator(8)
@@ -40,7 +37,6 @@ const postCompanion = async (req, res) => {
           rol: newCompanion.rol,
         };
         axios.post("/postCreatedAccount", user);
-        // axios.post("http://localhost:3001/postCreatedAccount", user);
         return res.status(201).json(newCompanion);
       }
     } else {

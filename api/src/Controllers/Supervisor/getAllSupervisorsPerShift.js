@@ -7,9 +7,8 @@ const getAllSupervisorsPerShift = async (req, res) => {
         model: Supervisor,
         through: { attributes: [] },
       },
-      order: [["id", "ASC"]], // Ordenar por ID de menor a mayor
+      order: [["id", "ASC"]],
     });
-
     const shiftsWithCount = shifts.map((shift) => ({
       shiftId: shift.id,  
       day: shift.day,
@@ -19,10 +18,9 @@ const getAllSupervisorsPerShift = async (req, res) => {
       maxSupervisors: shift.maxSupervisors,
       hasRules: shift.hasRules,
     }));
-
-    res.status(200).json(shiftsWithCount);
+   return res.status(200).json(shiftsWithCount);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+   return res.status(400).json({ error: error.message });
   }
 };
 

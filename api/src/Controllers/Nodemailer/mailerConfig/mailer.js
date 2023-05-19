@@ -8,7 +8,7 @@ const mailer = async () => {
   const oauth2Client = new OAuth2(
     CLIENT_ID,
     CLIENT_SECRET,
-    REDIRECT_URI // Esta URL no importa en realidad, solo es necesaria para OAuth2
+    REDIRECT_URI
   );
 
   oauth2Client.setCredentials({
@@ -17,9 +17,7 @@ const mailer = async () => {
       rejectUnauthorized: false,
     },
   });
-
   const accessToken = await oauth2Client.getAccessToken();
-
   const transporter = nodemailer.createTransport({
     service: "gmail",
     port: 587,

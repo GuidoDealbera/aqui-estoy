@@ -49,15 +49,11 @@ const { Companion, Supervisor, SupervisorShift, CompanionShift, CityTimeZone } =
 
 //* RELATIONS N-1:
 Supervisor.hasMany(Companion);
-
-// En el modelo Companion
 Companion.belongsTo(Supervisor);
-
 CityTimeZone.hasMany(Companion);
 Companion.belongsTo(CityTimeZone);
 CityTimeZone.hasMany(Supervisor);
 Supervisor.belongsTo(CityTimeZone);
-//* RELATIONS N-N SHIFT:
 Companion.belongsToMany(CompanionShift, { through: "CompaShift" });
 CompanionShift.belongsToMany(Companion, { through: "CompaShift" });
 

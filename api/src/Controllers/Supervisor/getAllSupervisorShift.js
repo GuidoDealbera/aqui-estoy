@@ -11,11 +11,9 @@ const getAllSupervisorShift = async (req, res) => {
         },
       ],
     });
-    res.status(200).json(response);
+   return res.status(200).json(response);
   } catch (error) {
-    res
-      .status(500)
-      .send("Error del servidor al obtener turnos de supervisores");
+   return res.status(500).send("Error del servidor al obtener turnos de supervisores");
   }
 };
 module.exports = getAllSupervisorShift;

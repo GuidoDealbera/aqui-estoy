@@ -18,7 +18,6 @@ const downgradeSupervisor = async (req, res) => {
       if (rol !== companion.rol) {
         companion.rol = rol;
       }
-
       await Companion.update({
         email: email,
         rol: rol,
@@ -35,7 +34,6 @@ const downgradeSupervisor = async (req, res) => {
         gender: gender,
       },{where: { id: companion.id}}
       );
-
       await companion.save();
       return res.status(200).json(companion);
     } else if (email && !supervisor.isActive) {
@@ -57,12 +55,11 @@ const downgradeSupervisor = async (req, res) => {
         gender: gender,
         CityTimeZoneId: CityTimeZoneId
       });
-      //Retorna un objeto de tipo Supervisor con todos sus datos
+
       const user = {
         email:newCompanion.email,password:newPassword,rol:newCompanion.rol
       }
       await axios.post("/postCreatedAccount", user);
-      // await axios.post("http://localhost:3001/postCreatedAccount", user);
       return res.status(201).json({newCompanion, newPassword});
     } else {
       return res.status(400).json({ error: "Faltan datos obligatorios" });

@@ -1,9 +1,6 @@
 const mailer = require("../mailerConfig/mailer");
 const { Supervisor, Companion } = require("../../../db");
-const {
-  passwordRecoveryCode,
-  wrongMail,
-} = require("../htmlMails/MailPassword");
+const {passwordRecoveryCode,wrongMail} = require("../htmlMails/MailPassword");
 const getPasswordRecoveryCode = async (req, res) => {
   try {
     let mailOptions = {};
@@ -20,7 +17,7 @@ const getPasswordRecoveryCode = async (req, res) => {
       typeUser = "Supervisor";
       mailOptions = {
         from: "aquiestoy.notificacion@gmail.com",
-        to: email, // //! ACA PUEDEN CAMBIAR ESTE PARAMETRO POR SU PROPIO MAIL PARA PROBAR
+        to: email,
         subject: "Recupera tu cuenta en Aqui Estoy!",
         html: passwordRecoveryCode(code),
       };
@@ -30,7 +27,7 @@ const getPasswordRecoveryCode = async (req, res) => {
       typeUser = "Companion";
       mailOptions = {
         from: "aquiestoy.notificacion@gmail.com",
-        to: email, // //! ACA PUEDEN CAMBIAR ESTE PARAMETRO POR SU PROPIO MAIL PARA PROBAR
+        to: email,
         subject: "Recupera tu cuenta en Aqui Estoy!",
         html: passwordRecoveryCode(code),
       };
@@ -38,7 +35,7 @@ const getPasswordRecoveryCode = async (req, res) => {
     if (!companion && !supervisor) {
       mailOptions = {
         from: "aquiestoy.notificacion@gmail.com",
-        to: email, // //! ACA PUEDEN CAMBIAR ESTE PARAMETRO POR SU PROPIO MAIL PARA PROBAR
+        to: email,
         subject: "Error al recuperar tu cuenta",
         html: wrongMail(email),
       };

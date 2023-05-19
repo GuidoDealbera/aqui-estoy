@@ -17,7 +17,6 @@ const putCompanionShifts = async (req, res) => {
       shift.maxCompanions = max;
       shift.hasRules = true;
       await shift.save();
-      
     } else {
       shifts = await CompanionShift.findAll({
         include: {
@@ -26,7 +25,6 @@ const putCompanionShifts = async (req, res) => {
         },
         order: [["id", "ASC"]],
       });
-      
       if(startTime && endTime){
         let adjustedEndTime = endTime;
         if (endTime === "01:00") {

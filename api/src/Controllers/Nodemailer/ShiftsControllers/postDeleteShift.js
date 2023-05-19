@@ -1,17 +1,11 @@
 const mailer = require("../mailerConfig/mailer");
-const {
-  Supervisor,
-  Companion,
-  SupervisorShift,
-  CompanionShift,
-} = require("../../../db");
+const {Supervisor,Companion,SupervisorShift,CompanionShift} = require("../../../db");
 const { deleteShift } = require("../htmlMails/MailShifts");
 const postDeleteShift = async (req, res) => {
   try {
     const transporter = await mailer();
     let mailOptions = {};
     const { idUser, idShift, rol } = req.body;
-    console.log(idUser);
     if (rol === "Companion") {
       const companion = await Companion.findOne({ where: { id: idUser } });
       const shift = await CompanionShift.findOne({ where: { id: idShift } });
@@ -44,7 +38,7 @@ const postDeleteShift = async (req, res) => {
       }
       mailOptions = {
         from: "aquiestoy.notificacion@gmail.com",
-        to: companion.email, // //! ACA PUEDEN CAMBIAR ESTE PARAMETRO POR SU PROPIO MAIL PARA PROBAR
+        to: companion.email,
         subject: "Se ha eliminado un turno de tu agenda de Aqui Estoy!",
         html: deleteShift(day, shift.time),
       };
@@ -89,7 +83,7 @@ const postDeleteShift = async (req, res) => {
       }
       mailOptions = {
         from: "aquiestoy.notificacion@gmail.com",
-        to: supervisor.email, // //! ACA PUEDEN CAMBIAR ESTE PARAMETRO POR SU PROPIO MAIL PARA PROBAR
+        to: supervisor.email,
         subject: "Se ha eliminado un turno de tu agenda de Aqui Estoy!",
         html: deleteShift(day, shift.time),
       };

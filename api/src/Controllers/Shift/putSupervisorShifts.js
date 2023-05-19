@@ -17,7 +17,6 @@ const putSupervisorShifts = async (req, res) => {
       shift.maxSupervisors = max;
       shift.hasRules = true;
       await shift.save();
-      
     } else {
       shifts = await SupervisorShift.findAll({
         include: {
@@ -26,7 +25,6 @@ const putSupervisorShifts = async (req, res) => {
         },
         order: [["id", "ASC"]],
       });
-      
       if(startTime && endTime){
         let adjustedEndTime = endTime;
         if (endTime === "00:00") {
