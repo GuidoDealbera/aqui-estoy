@@ -16,7 +16,6 @@ conn.sync({ force: false }).then(async () => {
   await fillSupervisorShifts();
   await postCityTimeZone();
   server.listen(port, () => {
-    console.log("%s listening at 3001");
   });
   const url = SERVER_URL;
   const options = {

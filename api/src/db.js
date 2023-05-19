@@ -3,12 +3,10 @@ require("dotenv").config();
 const fs = require("fs");
 const path = require("path");
 
-// const { DB_USER, DB_PASSWORD, DB_HOST , DB_CONEX} = process.env;
 const { DB_CONEX } = process.env;
 
 const sequelize = new Sequelize(
   DB_CONEX,
-  // `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/aquiestoydb`,
 
   {
     logging: false,
@@ -18,11 +16,8 @@ const sequelize = new Sequelize(
 
 const basename = path.basename(__filename);
 
-console.log(basename);
-
 const modelDefiners = [];
 
-// Leemos todos los archivos de la carpeta Models, los requerimos y agregamos al arreglo modelDefiners
 fs.readdirSync(path.join(__dirname, "/Models"))
   .filter(
     (file) =>
@@ -32,9 +27,7 @@ fs.readdirSync(path.join(__dirname, "/Models"))
     modelDefiners.push(require(path.join(__dirname, "/Models", file)));
   });
 
-// Injectamos la conexion (sequelize) a todos los modelos
 modelDefiners.forEach((model) => model(sequelize));
-// Capitalizamos los nombres de los modelos ie: product => Product
 let entries = Object.entries(sequelize.models);
 let capsEntries = entries.map((entry) => [
   entry[0][0].toUpperCase() + entry[0].slice(1),
@@ -42,12 +35,9 @@ let capsEntries = entries.map((entry) => [
 ]);
 sequelize.models = Object.fromEntries(capsEntries);
 
-//*MODELS:
-
 const { Companion, Supervisor, SupervisorShift, CompanionShift, CityTimeZone } =
   sequelize.models;
 
-//* RELATIONS N-1:
 Supervisor.hasMany(Companion);
 Companion.belongsTo(Supervisor);
 CityTimeZone.hasMany(Companion);
