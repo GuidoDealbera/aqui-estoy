@@ -159,7 +159,7 @@ export default function Companion(props) {
             sx={{ paddingLeft: "8px" }}
           />
         </Button>
-        <Button startIcon={<Diversity3Icon />} href="https://app.go4clic.com/aqui-estoy-1" sx={styles.buttons}>Centro de aprendizaje</Button>
+        <Button startIcon={<Diversity3Icon />} href="https://app.go4clic.com/aqui-estoy-1" target="_blank" sx={styles.buttons}>Centro de aprendizaje</Button>
       </Box>
       {edit && <ProfileEdit edit={edit} handleClose={handleClose} />}
       {open && <SupervisorsOnline open={open} closeOpen={closeOpen} />}
