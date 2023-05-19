@@ -8,7 +8,6 @@ const putUserPassword = async (req, res) => {
     const { typeUser, email, password } = req.body;
     const passwordHash = await bcrypt.hashSync(password, 10);
     let mailOptions = {};
-
     if (typeUser === "Companion") {
       const companion = await Companion.findOne({ where: { email: email } });
       if (companion && companion.isActive) {
@@ -18,11 +17,10 @@ const putUserPassword = async (req, res) => {
         );
         mailOptions = {
           from: "aquiestoy.notificacion@gmail.com",
-          to: email, // //! ACA PUEDEN CAMBIAR ESTE PARAMETRO POR SU PROPIO MAIL PARA PROBAR
+          to: email,
           subject: "Tu contraseña ha sido cambiada",
           html: passwordHasChange(email, password),
         };
-
         transporter.sendMail(mailOptions, (error, info) => {
           try {
             return info;
@@ -42,7 +40,7 @@ const putUserPassword = async (req, res) => {
         );
         mailOptions = {
           from: "aquiestoy.notificacion@gmail.com",
-          to: email, // //! ACA PUEDEN CAMBIAR ESTE PARAMETRO POR SU PROPIO MAIL PARA PROBAR
+          to: email,
           subject: "Tu contraseña ha sido cambiada",
           html: passwordHasChange(email, password),
         };

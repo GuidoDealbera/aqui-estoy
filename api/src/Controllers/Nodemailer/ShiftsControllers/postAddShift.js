@@ -1,10 +1,5 @@
 const mailer = require("../mailerConfig/mailer");
-const {
-  Supervisor,
-  Companion,
-  SupervisorShift,
-  CompanionShift,
-} = require("../../../db");
+const {Supervisor,Companion,SupervisorShift,CompanionShift} = require("../../../db");
 const { addShift } = require("../htmlMails/MailShifts");
 const postAddShift = async (req, res) => {
   try {
@@ -14,7 +9,6 @@ const postAddShift = async (req, res) => {
     if (rol === "Companion") {
       const companion = await Companion.findOne({ where: { id: idUser } });
       const shift = await CompanionShift.findOne({ where: { id: idShift } });
-
       let day = "";
       switch (shift.day) {
         case 0:
@@ -45,13 +39,12 @@ const postAddShift = async (req, res) => {
 
       mailOptions = {
         from: "aquiestoy.notificacion@gmail.com",
-        to: companion.email, // //! ACA PUEDEN CAMBIAR ESTE PARAMETRO POR SU PROPIO MAIL PARA PROBAR
+        to: companion.email,
         subject: "Se ha añadido un nuevo turno en tu agenda de Aqui Estoy!",
         html: addShift(day, shift.time),
       };
       transporter.sendMail(mailOptions, (error, info) => {
         try {
-          console.log(error.message);
           return info;
         } catch (error) {
           return error.message;
@@ -85,22 +78,19 @@ const postAddShift = async (req, res) => {
         case 6:
           day = "Domingo";
           break;
-
         default:
           break;
       }
       mailOptions = {
         from: "aquiestoy.notificacion@gmail.com",
-        to: supervisor.email, // //! ACA PUEDEN CAMBIAR ESTE PARAMETRO POR SU PROPIO MAIL PARA PROBAR
+        to: supervisor.email,
         subject: "Se ha añadido un nuevo turno en tu agenda de Aqui Estoy!",
         html: addShift(day, shift.time),
       };
       transporter.sendMail(mailOptions, (error, info) => {
         try {
-          console.log(info);
           return info;
         } catch (error) {
-          console.log(error.message);
           return error.message;
         }
       });

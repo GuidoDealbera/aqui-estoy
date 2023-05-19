@@ -1,9 +1,6 @@
 const mailer = require("../mailerConfig/mailer");
-const {
-  superAdminEmailAccountCreated,
-  companionEmailAccountCreated,
-  supervisorEmailAccountCreated,
-} = require("../htmlMails/MailCreatedAccount");
+const {superAdminEmailAccountCreated,companionEmailAccountCreated,
+  supervisorEmailAccountCreated} = require("../htmlMails/MailCreatedAccount");
 const postCreatedAccount = async (req, res) => {
   try {
     const transporter = await mailer();
@@ -12,8 +9,7 @@ const postCreatedAccount = async (req, res) => {
     if (rol === "Companion1" || rol === "Companion2") {
       mailOptionsUserCreated = {
         from: "aquiestoy.notificacion@gmail.com",
-
-        to: email, // //! ACA PUEDEN CAMBIAR ESTE PARAMETRO POR SU PROPIO MAIL PARA PROBAR
+        to: email,
         subject: "Cuenta creada en Aqui Estoy!",
         html: companionEmailAccountCreated(email, password),
       };
@@ -21,9 +17,7 @@ const postCreatedAccount = async (req, res) => {
     if (rol === "Supervisor") {
       mailOptionsUserCreated = {
         from: "aquiestoy.notificacion@gmail.com",
-
-        to: email, // //! ACA PUEDEN CAMBIAR ESTE PARAMETRO POR SU PROPIO MAIL PARA PROBAR
-
+        to: email,
         subject: "Cuenta creada en Aqui Estoy!",
         html: supervisorEmailAccountCreated(email, password),
       };
@@ -31,14 +25,11 @@ const postCreatedAccount = async (req, res) => {
     if (rol === "SuperAdmin") {
       mailOptionsUserCreated = {
         from: "aquiestoy.notificacion@gmail.com",
-
-        to: email, // //! ACA PUEDEN CAMBIAR ESTE PARAMETRO POR SU PROPIO MAIL PARA PROBAR
-
+        to: email,
         subject: "Cuenta creada en Aqui Estoy!",
         html: superAdminEmailAccountCreated(email, password),
       };
     }
-
     await transporter.sendMail(mailOptionsUserCreated, (error, info) => {
       try {
         return info;

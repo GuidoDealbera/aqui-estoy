@@ -9,8 +9,5 @@ const passwordGenerator=(length)=> {
     
     return password;
   }
-  //Para probar el generador usar Quokka
-/*const newPass = passwordGenerator(8)
-console.log(newPass);*/
-
+  
 module.exports = passwordGenerator

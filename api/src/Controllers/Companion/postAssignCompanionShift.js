@@ -67,7 +67,6 @@ const assignCompanionShift = async (req, res) => {
       return res.json(updatedCompanion);
     }
   } catch (error) {
-    console.error(error);
     res.status(500).send("Error al asignar turno");
   }
 };

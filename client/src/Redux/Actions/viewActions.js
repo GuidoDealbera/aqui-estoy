@@ -3,8 +3,6 @@ import {
   GET_ALL_COMPANIONS,
   GET_ALL_SUPERVISORS,
   GET_COMPANIONS_AT_CHARGE,
-  GET_ONE_COMPANION,
-  GET_ONE_SUPERVISOR,
   GET_ALL_SUPERVISOR_SHIFT,
   GET_ALL_COMPANION_SHIFT,
   GET_ALL_COMPANION_SHIFT_ASSIGN,
@@ -55,44 +53,6 @@ export const getCompanionsAtCharge = (idSupervisor) => {
       dispatch(setLoading(false));
     } catch (error) {
       toast.error("No se pudieron cargar los ACOMPAÑANTES A CARGO", toastError);
-    }
-  };
-};
-
-export const getOneCompanion = (email, password) => {
-  return async function (dispatch) {
-    try {
-      dispatch(setLoading(true));
-      const response = await axios.post(
-        "/getOneCompanion",
-        { email, password },
-        {
-          headers: { "Content-Type": "application/json" },
-        }
-      );
-      dispatch({ type: GET_ONE_COMPANION, payload: response.data });
-      dispatch(setLoading(false));
-    } catch (error) {
-      toast.error("No se pudo cargar el ACOMPAÑANTE", toastError);
-    }
-  };
-};
-
-export const getOneSupervisor = (email, password) => {
-  return async function (dispatch) {
-    try {
-      dispatch(setLoading(true));
-      const response = await axios.post(
-        "/getOneSupervisor",
-        { email, password },
-        {
-          headers: { "Content-Type": "application/json" },
-        }
-      );
-      dispatch({ type: GET_ONE_SUPERVISOR, payload: response.data });
-      dispatch(setLoading(false));
-    } catch (error) {
-      toast.error("No se pudo cargar el SUPERVISOR", toastError);
     }
   };
 };
