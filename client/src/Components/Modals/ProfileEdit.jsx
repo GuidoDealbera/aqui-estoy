@@ -3,7 +3,6 @@ import EditInfo from '../../Views/Register/EditInfo'
 
 export default function ProfileEdit ({edit, handleClose}){
     return (
-      
         <Modal
           open={edit}
           onClose={handleClose}
@@ -17,6 +16,5 @@ export default function ProfileEdit ({edit, handleClose}){
             <EditInfo handleClose={handleClose}/>
           </Box>
         </Modal>
-      
     );
 }
