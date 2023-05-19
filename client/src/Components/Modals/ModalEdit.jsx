@@ -4,7 +4,6 @@ import { useSelector } from "react-redux";
 
 export default function ModalEdit ({edit, handleClose, userID}){
     return (
-      
         <Modal
           open={edit}
           onClose={handleClose}

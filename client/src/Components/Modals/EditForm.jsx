@@ -42,7 +42,6 @@ const styles = {
     alignItems: "center",
     marginBottom: "50px",
     form: {
-      // height: "450px",
       height: "70vh",
       overflow: "auto",
       width: "350px",
@@ -67,14 +66,11 @@ const styles = {
     },
   },
 };
-
 const StyledPaper = styled(Paper)(({ theme }) => ({
   borderRadius: "10px",
   boxShadow: theme.shadows[3],
 }));
 
-
-//------------------COMPONENT------------------------
 export default function EditForm({ userID, handleClose }) {
   const dispatch = useDispatch();
   const { allCompanions, allSupervisors } = useSelector((state) => state.view);
@@ -90,7 +86,6 @@ export default function EditForm({ userID, handleClose }) {
       dispatch(postSupervisorCharge(supervisorSelected, [userID]));
     }
   };
-
   useEffect(() => {
     let allUsers = [...allCompanions, ...allSupervisors];
     setUser(allUsers.find((user) => user.id === userID));

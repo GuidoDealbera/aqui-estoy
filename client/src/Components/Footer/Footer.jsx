@@ -18,12 +18,10 @@ const IconButton = styled(Box)(({ theme }) => ({
   borderRadius: "50%",
   backgroundColor: "transparent",
   transition: "background-color 0.3s",
-
   "&:hover": {
     backgroundColor: "rgba(0, 0, 0, 0.1)",
   },
 }));
-
 const iconVariants = {
   hover: { scale: 1.2, rotate: 360 },
   tap: { scale: 0.95 },
@@ -32,13 +30,11 @@ const iconVariants = {
 export default function Footer(props) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-
   const iconProps = {
     whileHover: "hover",
     whileTap: "tap",
     variants: iconVariants,
   };
-
   return (
     <Box
       bgcolor="#151515"

@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Modal, Button, Box, useTheme } from "@mui/material";
 import LoginForm from "../LoginForm/LoginForm";
 
-
 export default function ModalLogin ({handleMouseLeave, showLogin, setShowLogin}){
     const handleClose = () => {
       setShowLogin(false);
