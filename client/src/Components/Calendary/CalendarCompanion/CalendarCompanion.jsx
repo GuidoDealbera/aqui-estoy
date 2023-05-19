@@ -219,7 +219,7 @@ const CalendarCompanion = () => {
                   let countText = companionCount;
                   if (companionCount && maxCompanions) {
                     countText =
-                      "Disponibles:  " + (maxCompanions - companionCount);
+                      "Disponibles:  " + (maxCompanions - companionCount) + '/' + maxCompanions;
                   }
 
                   // Determinar color de disponibilidad y estilos en línea
@@ -286,7 +286,7 @@ const CalendarCompanion = () => {
                           )}{" "}
                         </>
                       ) : (
-                        countText || "Disponibles:  " + maxCompanions
+                        countText || "Disponibles:  " + (maxCompanions - companionCount) + '/' + maxCompanions
                       )}
                     </TableCell>
                   ) : (
@@ -297,7 +297,7 @@ const CalendarCompanion = () => {
                         onClick={() => handleClickCell(hour, day)}
                         style={cellStyle}
                       >
-                        {countText || "Disponibles:  " + maxCompanions}
+                        {countText || "Disponibles:  " + (maxCompanions - companionCount) + '/' + maxCompanions}
                       </TableCell>
                     )
                   );
