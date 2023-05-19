@@ -34,6 +34,7 @@ import Loader from "../../Loader/Loader";
 const CalendarCompanion = () => {
   const [togglePopOut, setTogglePopOut] = useState(false);
   const [shift, setShift] = useState({});
+  const [confirmDelete, setConfirmDelete] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { loading } = useSelector((state) => state.auth);
@@ -116,7 +117,7 @@ const CalendarCompanion = () => {
     );
 
     if (user.rol === "Companion1" && user.CompanionShifts?.length > 0) {
-      return; // Si Companion1 ya tiene un turno reservado, no hacer nada
+      return toast.error("Ya cuentas con un turno reservado", toastWarning); // Si Companion1 ya tiene un turno reservado, no hacer nada
     }
     if (
       (user.rol === "SuperAdmin" || user.rol === "Supervisor") &&
