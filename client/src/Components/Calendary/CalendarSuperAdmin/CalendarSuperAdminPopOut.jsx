@@ -36,6 +36,8 @@ const CalendarSuperAdminPopOut = (props) => {
     id: supervisor.id,
     label: `${supervisor.name} ${supervisor.lastName}`
   })).filter((supervisor) => supervisor.label.trim() !== "");
+  
+
   const dispatch = useDispatch();
   const [isConfirmed, setIsConfirmed] = useState(false);
 

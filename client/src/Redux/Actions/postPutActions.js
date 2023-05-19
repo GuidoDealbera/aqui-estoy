@@ -16,6 +16,7 @@ import {
   PUT_SUPERVISOR_SHIFT,
   PUT_SUPERVISOR_SHIFT_RULES,
   PUT_COMPANION_SHIFT_RULES,
+  POST_ASSIGN_COMPANION_SHIFTSA
 } from "./action-types";
 import axios from "axios";
 import { toast } from "sonner";
@@ -163,6 +164,41 @@ export const postAssignCompanionShift = (idCompanion, idShift, rol) => {
         })
       );
       dispatch({ type: POST_ASSIGN_COMPANION_SHIFT, payload: response });
+      dispatch(setLoading(false));
+      toast.success("Tu turno ha sido confirmado", toastSuccess);
+    } catch (error) {
+      if (error.response) {
+        const { status } = error.response;
+        if (status === 400) {
+          toast.error("Ya cuentas con un turno asignado", toastError);
+      } else if (status === 500) {
+        toast.error("Error interno del servidor", toastError)
+    }  else if (status === 404) {
+      toast.error("Turno completo, seleccione otro turno", toastError)
+  } 
+  }
+}}
+}; 
+
+export const postAssignCompanionShiftSA = (idCompanion, idShift, rol) => {
+  return async function (dispatch) {
+    try {
+      dispatch(setLoading(true));
+      const response = (
+        await axios.post(`/postAssignCompanionShift/${idCompanion}`, {
+          idShift,
+          rol,
+        })
+      ).data;
+
+      dispatch(
+        addShiftEmail({
+          id: idCompanion,
+          idShift: idShift,
+          rol: "Companion",
+        })
+      );
+      dispatch({ type: POST_ASSIGN_COMPANION_SHIFTSA, payload: response });
       dispatch(setLoading(false));
       toast.success("Tu turno ha sido confirmado", toastSuccess);
     } catch (error) {
