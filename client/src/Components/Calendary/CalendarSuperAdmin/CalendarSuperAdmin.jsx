@@ -16,7 +16,8 @@ import {
   Paper,
   Button,
   Grid,
-  Typography
+  Typography,
+  Box,
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { toast } from "sonner";
@@ -182,7 +183,7 @@ const CalendarSupervisor = () => {
                   const maxSupervisors = found ? found.maxSupervisors : 0;
                   let countText = supervisorCount;
                   if (supervisorCount && maxSupervisors) {
-                    countText =  "Disponibles:  " + (maxSupervisors - supervisorCount) + '/' + maxSupervisors;                   
+                    countText =  "Disponibles:  " + (maxSupervisors - supervisorCount) + ' de ' + maxSupervisors;                   
                   }
                   // Determinar color de disponibilidad y estilos en línea
                   let cellStyle = {};
@@ -208,7 +209,10 @@ const CalendarSupervisor = () => {
                       onClick={() => handleClickCell(hour, day)}
                       style={cellStyle}
                     >
-                      {countText ||  "Disponibles:  " + (maxSupervisors - supervisorCount) + '/' + maxSupervisors}
+                       <Box>
+                          <Typography>Disponibles: </Typography>
+                          <Typography> {(maxSupervisors - supervisorCount) + ' de ' + maxSupervisors}</Typography>
+                         </Box>
                     </TableCell>
                   );
                 })}
