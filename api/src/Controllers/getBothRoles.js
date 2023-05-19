@@ -43,12 +43,8 @@ const getBothRoles = async (req, res) => {
     if (supervisor && supervisor.isActive) {
       return res.status(200).json(supervisor);
     }
-    if (companion && !companion.isActive) {
-      return res.status(400).json("Cuenta inactiva comuniquese con el administrador");
-    }
-    if (supervisor && !supervisor.isActive) {
-      return res.status(400).json("Cuenta inactiva comuniquese con el administrador");
-    } else {
+    
+    else {
       return res.status(400).json("Los datos ingresados son incorrectos");
     }
   } catch (error) {
@@ -69,6 +65,10 @@ const requireLogin = async (req, res, next) => {
         return;
       }
     }
+    if (supervisor && !supervisor.isActive) {
+      return res.status(400).json("Cuenta inactiva comuniquese con el administrador");
+    }
+    
     const companion = await Companion.findOne({
       where: { email: email },
     });
@@ -79,7 +79,11 @@ const requireLogin = async (req, res, next) => {
         return;
       }
     }
+    if (companion && !companion.isActive) {
+      return res.status(400).json("Cuenta inactiva comuniquese con el administrador");
+    }else{
    return res.status(401).json("Error en los datos ingresados");
+    }
   } catch (error) {
    return res.status(500).json("Error interno del servidor");
   }
