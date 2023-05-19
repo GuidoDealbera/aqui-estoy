@@ -21,6 +21,7 @@ import {
     PUT_SUPERVISOR_SHIFT,
     PUT_SUPERVISOR_SHIFT_RULES,
     PUT_COMPANION_SHIFT_RULES,
+    POST_ASSIGN_COMPANION_SHIFTSA
 } from "../Actions/action-types";
 //Acá van los POST modificando a allCompanions y allSupervisors
 const initialState = {
@@ -219,6 +220,13 @@ const viewReducer = (state = initialState, { type, payload }) => {
                 ...state,
                 supervisorsPerShift: payload
             }
+        case POST_ASSIGN_COMPANION_SHIFTSA:
+            const shiftIndex2 = state.allCompanions.findIndex(comp => comp.id === payload.id);       
+                return {
+                    ...state,
+                    allCompanions: [...state.allCompanions.filter(c=> c.id !== payload.id),  state.allCompanions[shiftIndex2] = payload]
+                };
+        
             
         default:
             return {

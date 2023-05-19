@@ -119,19 +119,11 @@ const CalendarCompanion = () => {
     if (user.rol === "Companion1" && user.CompanionShifts?.length > 0) {
       return toast.error("Ya cuentas con un turno reservado", toastWarning); // Si Companion1 ya tiene un turno reservado, no hacer nada
     }
-    if (
-      (user.rol === "SuperAdmin" || user.rol === "Supervisor") &&
-      found &&
-      !found.shiftCompanions?.length
-    ) {
-      return toast.error(
-        "Los acompanantes reservan sus propios turnos",
-        toastWarning
-      );
-    } else {
-      setTogglePopOut(!togglePopOut);
-      setShift(found);
-    }
+    if (user.rol !== "Companion1" || (user.rol === "Companion1" && user.CompanionShifts?.length === 0)) {
+
+        setTogglePopOut(!togglePopOut);
+        setShift(found);
+      }     
   };
 
   const handleDeleteShift = (idShift) => {
