@@ -3,10 +3,11 @@ import s from "./CalendarCompanionSAPopOut.module.css";
 import { postAssignSupervisorShift } from "../../../Redux/Actions/postPutActions";
 import { Autocomplete, Button, TextField, Box, Typography, IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { deleteCompanionShift } from "../../../Redux/Actions/postPutActions";
+import { getAllCompanionsPerShift } from "../../../Redux/Actions/viewActions";
 
 
 const CalendarSuperAdminPopOut = (props) => {
@@ -15,6 +16,11 @@ const CalendarSuperAdminPopOut = (props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { togglePopOut, setTogglePopOut } = props;
+
+  
+  useEffect(() => {
+    dispatch(getAllCompanionsPerShift());
+  }, [togglePopOut]);
 
 
   const handleDeleteCompanion = (companionId, shiftId) => {
