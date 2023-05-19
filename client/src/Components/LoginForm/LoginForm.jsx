@@ -22,18 +22,12 @@ const validationSchema = Yup.object().shape({
 });
 
 const LoginForm = ({ handleMouseLeave }) => {
-
   const navigate = useNavigate()
-
   const redirectToPasswordRecovery = () => {
-
-    console.log('Navegando a /password-recovery');
-    handleMouseLeave();  // Esto cerrará la ventana de inicio de sesión
+    handleMouseLeave();
     navigate('/password-recovery');
   };
-
   const dispatch = useDispatch();
-
   const { user } = useSelector((state) => state.auth)
   const { name, id, lastName, profilePhoto, birthdayDate, nationality, country, phone, profession, studies, gender, CityTimeZoneId } = user
   useEffect(() => {
@@ -48,9 +42,7 @@ const LoginForm = ({ handleMouseLeave }) => {
     }
   }, [user])
   const submitHandler = async (values) => {
-
     const { email, password } = values;
-
     dispatch(getBothRoles(email, password))
   }
 
