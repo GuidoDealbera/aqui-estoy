@@ -86,16 +86,23 @@ const CalendarSuperAdminPopOut = (props) => {
             />
           </div>
         }
-        <Box sx={{ marginTop: 2.5, padding: 1, width: "270px", display: "flex", justifyContent: "space-between" }}>
-          <Button variant="contained" color="primary" sx={{ marginRight: 2 }} onClick={() => {
-            handleConfirm()
-            props.setTrigger(false)}}
-          >
-            Confirmar
-          </Button>
+        {user.rol === "SuperAdmin" ? (
+          <Box sx={{ marginTop: 2.5, padding: 1, width: "270px", display: "flex", justifyContent: "space-between" }}>
+            <Button variant="contained" color="primary" sx={{ marginRight: 2 }} onClick={() => {
+              handleConfirm()
+              props.setTrigger(false)
+            }}
+            >
+              Confirmar
+            </Button>
 
-          <Button variant="contained" color="error" sx={{ width: "114px" }} onClick={() => props.setTrigger()}>Cerrar</Button>
-        </Box>
+            <Button variant="contained" color="error" sx={{ width: "114px" }} onClick={() => props.setTrigger()}>Cerrar</Button>
+          </Box>
+        ) : (
+          <Box sx={{ marginTop: 2.5, padding: 1, width: "270px", display: "flex", justifyContent: "flex-end" }}>
+            <Button variant="contained" color="primary" sx={{ width: "114px" }} onClick={() => props.setTrigger()}>Aceptar</Button>
+          </Box>
+        )}
       </InnerPop>
     </PopOut>
   ) : null;
