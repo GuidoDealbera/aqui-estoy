@@ -17,11 +17,9 @@
     background: #00C8B2;
     animation: 2s prog linear infinite;
   }
-  
   @keyframes prog {
     to  {   width: 100%;}
   }
-  
   .div{
     justify-content: center;
   }

@@ -42,7 +42,6 @@ export default function CompanionsAtCharge() {
     link.click();
     document.body.removeChild(link);
   };
-
   return (
     <Grid container>
       <Grid item xs={12}>
@@ -71,7 +70,6 @@ export default function CompanionsAtCharge() {
           Regresar
         </Button>
         </Grid>
-
         <Grid item 
         flex={6}
         >
@@ -105,7 +103,6 @@ export default function CompanionsAtCharge() {
             (horaLoc < 10 ? `0${horaLoc}` : horaLoc) +
             ":" +
             (myMinutes < 10 ? `0${myMinutes}` : myMinutes);
-
           return (
             <Grid item xs={11} sm={6} md={4} lg={3} key={e.id}>
               <Cards

@@ -71,7 +71,7 @@ const CsvImportExport = () => {
   //----------------------------UPLOAD CSV-----------------------------
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
-    console.log('ingresando a upload');
+  
     Papa.parse(file, {
       header: true,
       complete: (results) => {

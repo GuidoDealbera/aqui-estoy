@@ -1,11 +1,8 @@
-// IMPORTACIONES DE REACT
 import React from "react";
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-// IMPORTACIONES PARA TRAER EL USUARIO
 import { useDispatch, useSelector } from "react-redux";
 import { getUserById } from "../../Redux/Actions/viewActions";
-// IMPORTACIONES DE MUI/ESTILOS
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import { Avatar, Typography, Box, Grid, Button } from "@mui/material";
 import { useTheme } from "@mui/material";
@@ -18,7 +15,6 @@ export default function ViewProfile() {
   const newRol = (rol) => {
     return rol === 'Companion1' ? rol = 'Acompañante Inicial' : rol = 'Acompañante Avanzado'
   }
-
   const { viewUser } = useSelector((state) => state.view);
   const {
     name,
@@ -33,29 +29,15 @@ export default function ViewProfile() {
     profession,
     rol
   } = viewUser;
-
   const dispatch = useDispatch();
   const params = useParams();
   const { id } = params;
-
   useEffect(() => {
     dispatch(getUserById(id));
   }, []);
 
   return (
     <Box>
-      {/* <Grid item flex={4} margin={"2vh"}>
-        <Button
-          variant="contained"
-          size="small"
-          startIcon={<ArrowBackIcon />}
-          onClick={() => {
-            navigate(-1);
-          }}
-        >
-          Regresar
-        </Button>
-      </Grid> */}
       <Grid
         container
         maxHeight={"80vh"}

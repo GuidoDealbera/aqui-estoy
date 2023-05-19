@@ -2,8 +2,7 @@ import { Modal, Box, Button } from "@mui/material";
 import OnlineSupervisors from '../OnlineSupervisors/OnlineSupervisors';
 
 export default function SupervisorsOnline ({open, closeOpen}){
-    return (
-        
+    return (  
         <Modal
           open={open}
           onClose={closeOpen}
@@ -17,6 +16,5 @@ export default function SupervisorsOnline ({open, closeOpen}){
             <OnlineSupervisors onClose={closeOpen}/>
           </Box>
         </Modal>
-        
     );
 }

@@ -8,10 +8,8 @@ import {
   Box,
   Button,
   Grid,
-  Hidden,
   Menu,
   MenuItem,
-  IconButton,
   AppBar,
   Toolbar,
   Avatar,
@@ -21,7 +19,6 @@ import {
   ListItemIcon,
   useTheme,
 } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logOut } from "../../Redux/Actions/viewActions";
@@ -59,7 +56,6 @@ const NavButton = (props) => (
       color: "rgb(25, 21, 78)",
       textTransform: "none",
       fontWeight: "bold",
-      //position: "relative",
       "&:hover": {
         backgroundColor: "rgba(0, 0, 0, 0.1)",
       },
@@ -140,7 +136,6 @@ export default function NavBar(props) {
   };
   const handleMenuItemClick = (name) => {
     handleMenuClose();
-    // ...
   };
   return (
     <AppBar
