@@ -2,12 +2,15 @@ import { useState } from "react";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import { styled } from "@mui/material/styles";
-import {Select,Typography,MenuItem,Button,Switch,Stack} from "@mui/material";
+import { Select, Typography, MenuItem, Button, Switch, Stack } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import {putSpecificCompanionShift,putGeneralCompanionShift, putGeneralSupervisorShift, putSpecificSupervisorShift} from "../../../../Redux/Actions/postPutActions";
+import { putSpecificCompanionShift, putGeneralCompanionShift, putGeneralSupervisorShift, putSpecificSupervisorShift } from "../../../../Redux/Actions/postPutActions";
 import { toast } from "sonner";
 import { toastWarning } from "../../../../Redux/Actions/alertStyle";
 import SpecialShifts from "./SpecialShifts";
+import TimezoneMiddlewareSettings from "./TimezoneMiddlewareSettings";
+import TimezoneMiddlewareCompanion from "./TimezoneMiddlewareCompanion";
+import TimezoneMiddlewareSupervisor from "./TimezoneMiddlewareSupervisor";
 
 const StyledInputContainer = styled("div")(({ theme }) => ({
   marginBottom: theme.spacing(2),
@@ -60,8 +63,11 @@ const AntSwitch = styled(Switch)(({ theme }) => ({
 }));
 
 const GeneralSettings = () => {
+
+  const user = useSelector(state => state.auth.user)
+
   const dispatch = useDispatch();
-  const companionShifts = useSelector((state) => state.view.allCompanionShift);
+  const companionShifts = useSelector((state) => state.view.companionsPerShift);
   companionShifts.sort((a, b) => a.id - b.id);
   // Datos de ejemplo, reemplaza esto con las configuraciones reales de tu aplicación
   const [toggle, setToggle] = useState(false);
@@ -95,10 +101,18 @@ const GeneralSettings = () => {
       [name]: value,
     });
   };
-  const handleSpecificCompanionSubmit = (event) => {
+  const handleSpecificCompanionSubmit = async (event) => {
     event.preventDefault();
     if (specificMaxCompanions.hour !== "") {
-      dispatch(putSpecificCompanionShift(specificMaxCompanions));
+      const result = companionShifts.find((shift) => shift.time === specificMaxCompanions.hour && shift.day === parseInt(specificMaxCompanions.day))
+      const parsedShift = TimezoneMiddlewareCompanion([result], user.CityTimeZone.offSet)
+      const { day, time } = parsedShift[0];
+      const newTime = {
+        day,
+        hour: time,
+        max: specificMaxCompanions.max
+      }
+      dispatch(putSpecificCompanionShift(newTime));
       setSpecificMaxCompanions({
         day: "",
         hour: "",
@@ -111,22 +125,27 @@ const GeneralSettings = () => {
   const handleGeneralCompanionSubmit = (event) => {
     event.preventDefault();
     if (maxCompanions.max >= 0) {
-      if(maxCompanions.endTime < maxCompanions.startTime){
-        toast.error("La hora máxima no puede ser mayor a la hora de inicio", toastWarning);
-      } else{
-      dispatch(putGeneralCompanionShift(maxCompanions));
+      if (maxCompanions.endTime !== '' && maxCompanions.startTime !== '') {
+        const parsedResult = TimezoneMiddlewareSettings(maxCompanions, user.CityTimeZone.offSet, 'Companion');
+        console.log(parsedResult);
+        if (parsedResult.endTime === "01:00") {
+          parsedResult.endTime === "25:00"
+        }
+        dispatch(putGeneralCompanionShift(parsedResult));
+      } else {
+        dispatch(putGeneralCompanionShift(maxCompanions));
+      }
       setMaxCompanions({
-        endTime:'',
-        startTime:'',
+        endTime: '',
+        startTime: '',
         max: 0
       });
-    }
     } else {
       toast.error("El máximo no puede ser menor a 0", toastWarning);
     }
   };
-//Codigo para vista de supervisores
-  const supervisorShifts = useSelector((state) => state.view.allSupervisorShift);
+  //Codigo para vista de supervisores
+  const supervisorShifts = useSelector((state) => state.view.supervisorsPerShift);
   supervisorShifts.sort((a, b) => a.id - b.id);
 
   const [maxSupervisors, setMaxSupervisors] = useState({
@@ -159,7 +178,15 @@ const GeneralSettings = () => {
   const handleSpecificSupervisorSubmit = (event) => {
     event.preventDefault();
     if (specificMaxSupervisors.hour !== "") {
-      dispatch(putSpecificSupervisorShift(specificMaxSupervisors));
+      const result = supervisorShifts.find((shift) => shift.time === specificMaxSupervisors.hour && shift.day === parseInt(specificMaxSupervisors.day))
+      const parsedShift = TimezoneMiddlewareSupervisor([result], user.CityTimeZone.offSet)
+      const { day, time } = parsedShift[0];
+      const newTime = {
+        day,
+        hour: time,
+        max: specificMaxSupervisors.max
+      }
+      dispatch(putSpecificSupervisorShift(newTime));
       setSpecificMaxSupervisors({
         day: "",
         hour: "",
@@ -172,31 +199,32 @@ const GeneralSettings = () => {
   const handleGeneralSupervisorSubmit = (event) => {
     event.preventDefault();
     if (maxSupervisors.max >= 0) {
-      if(maxSupervisors.endTime < maxSupervisors.startTime){
-        toast.error("La hora máxima no puede ser mayor a la hora de inicio", toastWarning);
-      }else{
-      dispatch(putGeneralSupervisorShift(maxSupervisors));
+      if (maxSupervisors.endTime !== '' && maxSupervisors.startTime !== '') {
+        const parsedResult = TimezoneMiddlewareSettings(maxSupervisors, user.CityTimeZone.offSet, 'Supervisor');
+        dispatch(putGeneralSupervisorShift(parsedResult));
+      } else {
+        dispatch(putGeneralSupervisorShift(maxSupervisors));
+      }
       setMaxSupervisors({
-        endTime:'',
-        startTime:'',
+        endTime: '',
+        startTime: '',
         max: 0
       });
-    }
     } else {
       toast.error("El máximo no puede ser menor a 0", toastWarning);
     }
   };
-//Fin vista supervisores
+  //Fin vista supervisores
   //  agregar el código para actualizar la configuración en tu base de datos o estado de Redux
 
   return (
     <>
       <Box sx={{ display: "flex", justifyContent: "center" }}>
-      <Stack direction="row" spacing={1} alignItems="center" sx={{marginTop:"20px"}}>
-        <Typography>Acompañantes</Typography>
-        <AntSwitch  inputProps={{ 'aria-label': 'ant design' }} checked={toggle} onChange={toggleHandler}/>
-        <Typography>Supervisores</Typography>
-      </Stack>
+        <Stack direction="row" spacing={1} alignItems="center" sx={{ marginTop: "20px" }}>
+          <Typography>Acompañantes</Typography>
+          <AntSwitch inputProps={{ 'aria-label': 'ant design' }} checked={toggle} onChange={toggleHandler} />
+          <Typography>Supervisores</Typography>
+        </Stack>
       </Box>
       {toggle ? (
         <Box>
@@ -255,13 +283,13 @@ const GeneralSettings = () => {
                       .map((shift) => {
                         if (shift.day == specificMaxSupervisors.day) {
                           let newtime;
-                          if(shift.time.split("-")[1] === "00:00"){
+                          if (shift.time.split("-")[1] === "00:00") {
                             newtime = "24:00"
-                          }else{
-                            newtime =shift.time.split("-")[1]
+                          } else {
+                            newtime = shift.time.split("-")[1]
                           }
-                          if(maxSupervisors.startTime < newtime){
-                          
+                          if (maxSupervisors.startTime < newtime) {
+
                             return (
                               <MenuItem
                                 key={shift.id}
@@ -270,12 +298,13 @@ const GeneralSettings = () => {
                                 {newtime}
                               </MenuItem>
                             );
+                          }
                         }
-                      }})}
+                      })}
                   </Select>
                 </label>
               </div>
-              <Button variant="contained" sx={{marginTop: "10px"}} onClick={handleGeneralSupervisorSubmit}>Guardar</Button>
+              <Button variant="contained" sx={{ marginTop: "10px" }} onClick={handleGeneralSupervisorSubmit}>Guardar</Button>
             </StyledInputContainer>
             <StyledInputContainer>
               <Typography variant="h6">
@@ -335,10 +364,10 @@ const GeneralSettings = () => {
                   />
                 </label>
               </div>
-              <Button variant="contained" sx={{marginTop: "10px"}} onClick={handleSpecificSupervisorSubmit}>Guardar</Button>
+              <Button variant="contained" sx={{ marginTop: "10px" }} onClick={handleSpecificSupervisorSubmit}>Guardar</Button>
             </StyledInputContainer>
             <Box>
-              <SpecialShifts rol={'Supervisor'}/>
+              <SpecialShifts rol={'Supervisor'} />
             </Box>
           </Box>
         </Box>
@@ -398,41 +427,43 @@ const GeneralSettings = () => {
                       .sort((a, b) => a.id - b.id)
                       .map((shift) => {
                         if (shift.day == specificMaxCompanions.day) {
-                            let newtime;
-                            if(shift.time.split("-")[1] === "00:00"){
-                              newtime = "24:00"
-                            }else {
-                              newtime =shift.time.split("-")[1]
-                            }
-                           
-                            if(maxCompanions.startTime < newtime){
-                              return (
-                                <MenuItem
-                                  key={shift.id}
-                                  value={newtime}
-                                >
-                                  {newtime}
-                                </MenuItem>
-                              );
-                          }else{ 
-                            if(shift.time.split("-")[1] === "01:00"){
-                              newtime = "25:00"
-                            }
-                            if(newtime === "25:00"){
+                          let newtime;
+                          if (shift.time.split("-")[1] === "00:00") {
+                            newtime = "24:00"
+                          } else {
+                            newtime = shift.time.split("-")[1]
+                          }
+
+                          if (maxCompanions.startTime < newtime) {
                             return (
                               <MenuItem
                                 key={shift.id}
-                                value="01:00"
+                                value={newtime}
                               >
-                                {"01:00"}
+                                {newtime}
                               </MenuItem>
                             );
+                          } else {
+                            if (shift.time.split("-")[1] === "01:00") {
+                              newtime = "25:00"
+                            }
+                            if (newtime === "25:00") {
+                              return (
+                                <MenuItem
+                                  key={shift.id}
+                                  value="01:00"
+                                >
+                                  {"01:00"}
+                                </MenuItem>
+                              );
+                            }
                           }
-                        }}})}
+                        }
+                      })}
                   </Select>
                 </label>
               </div>
-              <Button variant="contained" sx={{marginTop: "10px"}} onClick={handleGeneralCompanionSubmit}>Guardar</Button>
+              <Button variant="contained" sx={{ marginTop: "10px" }} onClick={handleGeneralCompanionSubmit}>Guardar</Button>
             </StyledInputContainer>
             <StyledInputContainer>
               <Typography variant="h6">
@@ -492,10 +523,10 @@ const GeneralSettings = () => {
                   />
                 </label>
               </div>
-              <Button variant="contained" sx={{marginTop: "10px"}} onClick={handleSpecificCompanionSubmit}>Guardar</Button>
+              <Button variant="contained" sx={{ marginTop: "10px" }} onClick={handleSpecificCompanionSubmit}>Guardar</Button>
             </StyledInputContainer>
             <Box>
-              <SpecialShifts rol={'Companion'}/>
+              <SpecialShifts rol={'Companion'} />
             </Box>
           </Box>
         </Box>

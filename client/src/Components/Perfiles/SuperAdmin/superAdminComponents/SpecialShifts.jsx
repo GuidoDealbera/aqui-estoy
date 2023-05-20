@@ -151,7 +151,7 @@ export default function SpecialShifts({ rol }) {
                                                     disableRipple
                                                 />
                                             </ListItemIcon>
-                                            <ListItemText key={value.shiftId} primary={`${value.day} (${value.time})`} />
+                                            <ListItemText key={value.shiftId} primary={`${value.day} (${value.time}) | Cantidad máxima: ${value.maxSupervisors} personas`} />
                                         </ListItemButton>
                                     </ListItem>
                                 </Box>);
@@ -292,7 +292,7 @@ export default function SpecialShifts({ rol }) {
                                                     disableRipple
                                                 />
                                             </ListItemIcon>
-                                            <ListItemText key={value.shiftId} primary={`${value.day} (${value.time})`} />
+                                            <ListItemText key={value.shiftId} primary={`${value.day} (${value.time}) | Cantidad máxima: ${value.maxCompanions} personas`} />
                                         </ListItemButton>
                                     </ListItem>
                                 </Box>);
