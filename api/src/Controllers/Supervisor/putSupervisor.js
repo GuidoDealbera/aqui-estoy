@@ -18,10 +18,22 @@ const putSupervisor = async (req, res) => {
   } = req.body;
   const { id } = req.params;
   try {
+    let firstName = name.split(" ")[0].charAt(0).toUpperCase() + name.split(" ")[0].slice(1);
+    let secondName = "";
+    if (name.split(" ")[1]) {
+      secondName = name.split(" ")[1].charAt(0).toUpperCase() + name.split(" ")[1].slice(1);
+    }
+    let fullName = firstName + " " + secondName
+    let firstLastName = lastName.split(" ")[0].charAt(0).toUpperCase() + lastName.split(" ")[0].slice(1);
+    let secondLastName = "";
+    if (lastName.split(" ")[1]) {
+      secondLastName = lastName.split(" ")[1].charAt(0).toUpperCase() + lastName.split(" ")[1].slice(1);
+    }
+    let fullLastName = firstLastName + " " + secondLastName
     await Supervisor.update(
       {
-        name,
-        lastName,
+        name: fullName,
+        lastName: fullLastName,
         profilePhoto,
         nationality,
         country,
