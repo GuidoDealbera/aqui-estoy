@@ -17,7 +17,7 @@ const putCompanion = async (req, res) => {
     rol
   } = req.body;
   const { id } = req.params;
-  
+  console.log(isActive);
   try {
     await Companion.update(
       {
@@ -42,12 +42,13 @@ const putCompanion = async (req, res) => {
     let newDate = birthdayDate !== companion.birthdayDate ? new Date(birthdayDate) : companion.birthdayDate;
     if(companion.birthdayDate !== newDate && newDate){
       companion.birthdayDate = newDate;
-     await companion.save();
+      await companion.save();
     }
-    
+    if(isActive === false){
+      await companion.setCompanionShifts([]);
+    }
   const timezone = await CityTimeZone.findByPk(cityTimeZone);
   if (timezone) {
-    
     await companion.setCityTimeZone(timezone.id);
   }
     const companionUpdated = await Companion.findByPk(id, {
