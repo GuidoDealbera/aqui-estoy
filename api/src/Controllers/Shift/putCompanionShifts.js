@@ -26,16 +26,16 @@ const putCompanionShifts = async (req, res) => {
         order: [["id", "ASC"]],
       });
       if(startTime && endTime){
-        let adjustedEndTime = endTime;
-        if (endTime === "01:00") {
-          adjustedEndTime = "25:00";
-        }
         await Promise.all(
           shifts.map(async (shift) => {
             if (!shift.hasRules) {
               const [shiftStartTime, shiftEndTime] = shift.time.split('-');
-             
-              if (shiftStartTime >= startTime && shiftEndTime <= adjustedEndTime) {
+              const start = parseInt(shiftStartTime, 10);
+              const end = parseInt(shiftEndTime, 10);
+              const selectedStart = parseInt(startTime, 10);
+              const selectedEnd = parseInt(endTime, 10);
+              
+              if ((start >= selectedStart && start <= selectedEnd-2)) {
                 shift.maxCompanions = max;
                 await shift.save();
               }
