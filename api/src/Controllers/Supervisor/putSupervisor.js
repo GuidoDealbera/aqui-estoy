@@ -17,7 +17,6 @@ const putSupervisor = async (req, res) => {
     rol
   } = req.body;
   const { id } = req.params;
-  const timezone = await CityTimeZone.findByPk(cityTimeZone);
   try {
     await Supervisor.update(
       {
@@ -33,7 +32,10 @@ const putSupervisor = async (req, res) => {
         isActive: isActive !== null && isActive !== undefined ? isActive : true,
         rol
       },
-      { where: { id: id } }
+      { 
+        where: { id: id },
+        returning: true,
+     }
     );
     const supervisor = await Supervisor.findByPk(id);
     
@@ -42,8 +44,11 @@ const putSupervisor = async (req, res) => {
       supervisor.birthdayDate = newDate;
      await supervisor.save();
     }
+    if(isActive === false){
+      await supervisor.setSupervisorShifts([]);
+    }
+    const timezone = await CityTimeZone.findByPk(cityTimeZone);
     if (timezone) {
-      
       await supervisor.setCityTimeZone(timezone.id);
     }
     const supervisorUpdated = await Supervisor.findByPk(id, {
