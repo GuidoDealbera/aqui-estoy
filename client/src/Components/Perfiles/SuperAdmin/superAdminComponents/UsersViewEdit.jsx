@@ -17,7 +17,6 @@ function UsersViewEdit(props) {
   let usrRol = null;
   const [edit, setEdit] = useState(false);
   const [rowID, setRowID] = useState("");
-
   const handleEdit = () => {
     setEdit(true);
   };
@@ -28,7 +27,6 @@ function UsersViewEdit(props) {
     dispatch(getAllCompanions());
     dispatch(getAllSupervisors());
   }, [dispatch]);
-  //Aqui se limpia la info para exportar los campos deseados
   companionsData = companionsData.map((usr) => {
     let mentor = `${usr.Supervisor?.name} ${usr.Supervisor?.lastName}`;
     mentor.toString() === "undefined undefined"
@@ -38,7 +36,7 @@ function UsersViewEdit(props) {
     usr.rol === "Companion2"
       ? (usrRol = "Acompañante Avanzado")
       : (usrRol = "Acompañante Inicial");
-
+    
     return {
       id: usr.id,
       name: usr.name || " ",
@@ -53,7 +51,7 @@ function UsersViewEdit(props) {
       gender: usr.gender || " ",
       rol: usrRol || " ",
       isActiveText: usr.isActive ? "Si" : "No",
-      //referente: `${usr.Supervisor?.name} ${usr.Supervisor?.lastName}` || " "
+      shifts: usr.CompanionShifts?.length || 0,
       referente: mentor,
     };
   });
@@ -67,7 +65,7 @@ function UsersViewEdit(props) {
     usr.rol === "SuperAdmin"
       ? (usrRol = "Super Admin")
       : (usrRol = "Supervisor");
-
+      
     return {
       id: usr.id,
       name: usr.name || " ",
@@ -82,6 +80,7 @@ function UsersViewEdit(props) {
       gender: usr.gender || " ",
       rol: usrRol || " ",
       isActiveText: usr.isActive ? "Si" : "No",
+      shifts: usr.SupervisorShifts?.length || 0,
       referente: mentor,
     };
   });
@@ -139,6 +138,14 @@ function UsersViewEdit(props) {
       description: "",
       sortable: false,
       width: 150,
+    },
+    {
+      field: "shifts",
+      headerName: "TURNOS",
+      description: "Cantidad de turnos",
+      sortable: true,
+      width: 80,
+      align: "center"
     },
     {
       field: "referente",
