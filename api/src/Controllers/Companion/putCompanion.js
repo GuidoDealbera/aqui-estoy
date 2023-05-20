@@ -17,7 +17,7 @@ const putCompanion = async (req, res) => {
     rol
   } = req.body;
   const { id } = req.params;
-  console.log(isActive);
+
   try {
     await Companion.update(
       {
