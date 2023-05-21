@@ -3,6 +3,7 @@ import s from "./CalendarCompanionSAPopOut.module.css";
 import { postAssignCompanionShiftSA } from "../../../Redux/Actions/postPutActions";
 import { Autocomplete, Button, TextField, Box, Typography, IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
@@ -18,7 +19,7 @@ const CalendarSuperAdminPopOut = (props) => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { togglePopOut, setTogglePopOut } = props;
+  const { shift, togglePopOut, setTogglePopOut } = props;
   const [companionId, setCompanionId] = useState({
     name: "",
     id: ""
@@ -40,6 +41,7 @@ const CalendarSuperAdminPopOut = (props) => {
   const [isConfirmed, setIsConfirmed] = useState(false);
 
   const handleConfirm = () => {
+    if(companionId.id){
     Swal.fire({
       title: '¿Estás seguro que quieres confirmar el turno?',
       showCancelButton: true,
@@ -49,7 +51,8 @@ const CalendarSuperAdminPopOut = (props) => {
       confirmButtonText: 'Confirmar'
     }).then((result) => {
       if (result.isConfirmed) {
-        setIsConfirmed(true);    
+        setIsConfirmed(true);
+            
           let findComp = companions.find((c)=> companionId.name === c.label)
   
           if(findComp.rol !== 'Companion1' || findComp.CompanionShifts === 0){
@@ -57,12 +60,16 @@ const CalendarSuperAdminPopOut = (props) => {
             } else{
               toast.error('Este acompañante no puede tener más de un turno',toastWarning)
             }
+          
           props.setTrigger();        
       } 
     });
+  }else {
+    toast.error("Seleccione un acompañante", toastWarning)
+  }
   };
 
- // const isOptionEqualToValue = (option, value) => option.id === value.id && option.label === value.label;
+  const isOptionEqualToValue = (option, value) => option.id === value.id && option.label === value.label;
 
   const handleChange = (event, value) => {
     if (value) {
@@ -77,11 +84,6 @@ const CalendarSuperAdminPopOut = (props) => {
       });
     }
   };
-  
-
-
-
-  
   useEffect(() => {
     dispatch(getAllCompanionsPerShift());
   }, [togglePopOut]);
@@ -102,8 +104,15 @@ const CalendarSuperAdminPopOut = (props) => {
     // Cerrar el pop-out después de eliminar el companion
     setTogglePopOut(false);
   };
+  const handlePopOut = () => {
+    setTogglePopOut(false);
+    setCompanionId({
+      name: "",
+      id: ""
+    });
+  }
   return props.trigger ? (
-    <Box className={s.popOut} onClick={() => setTogglePopOut(false)}>
+    <Box className={s.popOut} onClick={handlePopOut}>
       <Box className={s.innerPop}>
 
         <Box>
@@ -112,7 +121,7 @@ const CalendarSuperAdminPopOut = (props) => {
               <Typography variant="h6">Asignados en este turno:</Typography>
               <Box sx={{overflow: "auto", maxHeight:"200px"}}>
                 {props.shift.shiftCompanions?.map((companion) => (
-                  <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "260px" }}>
+                  <Box key={companion.id} sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "260px" }}>
                     <Typography variant="p" sx={{ fontFamily: "poppins", color: "grey", margin: "1%" }}
                       key={companion.id}
                       onClick={(e) => {
@@ -153,6 +162,7 @@ const CalendarSuperAdminPopOut = (props) => {
             ''
           )}
         </Box>
+        {shift.maxCompanions > shift.companionCount && 
         <Box sx={{ display: "flex", justifyContent: "center", marginTop: "30px" }}>
         <Box sx={{ width: "270px" }}>
               <Typography sx={{fontSize:"21px"}}>Nuevo turno a asignar:</Typography>
@@ -161,10 +171,10 @@ const CalendarSuperAdminPopOut = (props) => {
                 <Typography sx={{padding:"8px", paddingRight:"0px"}}>{props.shift.time}</Typography>
               </Box>
             </Box>
-          
-         
-        </Box>
-    
+        </Box> 
+          }
+        
+        {shift.maxCompanions > shift.companionCount ? 
         <InnerPop>
         {props.children}
       
@@ -172,16 +182,16 @@ const CalendarSuperAdminPopOut = (props) => {
             <Autocomplete
               disablePortal
               id="combo-box"
-              options={companions}
+              options={["Selecciona un acompañante" ,...companions]}
               value={companionId.name}
               onChange={handleChange}
               sx={{ width: "270px" }}
-              renderInput={(params) => <TextField {...params} label="Selecciona un companion" />}
-            //  isOptionEqualToValue={isOptionEqualToValue}
+              renderInput={(params) => <TextField {...params} label="Selecciona" />}
+              isOptionEqualToValue={isOptionEqualToValue}
             />
           </div>
         
-       
+        
           <Box sx={{ marginTop: 2.5, padding: 1, width: "270px", display: "flex", justifyContent: "space-between" }}>
             <Button variant="contained" color="primary" sx={{ marginRight: 2 }} onClick={() => {
               handleConfirm()
@@ -195,8 +205,19 @@ const CalendarSuperAdminPopOut = (props) => {
           </Box>
        
       </InnerPop>
- 
 
+:  (
+  <Box sx={{ marginTop: 2.5, padding: 1, width: "270px", display: "flex", flexDirection: "column", textAlign: "center" }}>
+    <Box>
+    <ErrorOutlineIcon color="error" sx={{fontSize: "50px", display: shift.companionCount === 0 ? null : "none"}}/>
+    <Typography variant="h6" sx={{display: shift.companionCount === 0 ? null : "none"}}>Este turno no está disponible</Typography>
+    </Box>
+    <Box sx={{display: "flex", justifyContent: "center", marginTop: "10%"}}>
+    <Button variant="contained" color="primary" sx={{ width: "114px" }} onClick={() => props.setTrigger()}>Aceptar</Button>
+    </Box>
+  </Box>
+)
+}
       </Box>
     </Box>
   ) : null;

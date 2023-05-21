@@ -80,7 +80,7 @@ export default function CalendarSAModal({ trigger, setTrigger, shift }) {
           ) : (
             ""
           )}
-          {user.rol === "SuperAdmin" && (
+          {user.rol === "SuperAdmin" && shift.maxSupervisors > shift.supervisorCount && (
             <Box sx={{ width: "270px" }}>
               <Typography sx={{fontSize:"21px"}}>Nuevo turno a asignar:</Typography>
               <Box sx={{display:"flex", justifyContent:"space-between", marginTop:"5px", marginBottom:"5px"}}>
