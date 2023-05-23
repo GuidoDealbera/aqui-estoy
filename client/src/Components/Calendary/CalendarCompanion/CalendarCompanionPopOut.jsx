@@ -4,13 +4,12 @@ import {
   postAssignCompanionShift,
 } from "../../../Redux/Actions/postPutActions";
 import Swal from 'sweetalert2'
-import { Button, Typography } from "@mui/material";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
+import { Box, Button, Typography, Dialog, DialogContent, DialogActions } from "@mui/material";
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import { useEffect, useState } from "react";
 
 const CalendarPopOut = (props) => {
+  const {shift} = props;
   const [open, setOpen] = useState(props.trigger);
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -42,6 +41,8 @@ const CalendarPopOut = (props) => {
 
   return (
     <Dialog open={open} onClose={() => {props.setTrigger(false); setOpen(false);}}>
+      {shift.maxCompanions > shift.companionCount ? (
+        <Box>
       <DialogContent>
         <Typography variant="p" sx={{fontFamily: "poppins"}}>
         {props.children}
@@ -54,7 +55,22 @@ const CalendarPopOut = (props) => {
 <Button className="cancelButton" onClick={() => {props.setTrigger(false); setOpen(false);}} variant="outlined" color="secondary">
   Cancelar
 </Button>
+      </DialogActions> </Box>) : (
+        <Box>
+      <DialogContent>
+        <Box sx={{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
+        <ErrorOutlineIcon color="error" sx={{fontSize: "50px"}}/>
+        <Typography variant="h5" sx={{marginTop: "3%"}}>
+        Este turno no está disponible
+        </Typography>
+        </Box>
+      </DialogContent>
+      <DialogActions sx={{justifyContent: "center"}}>
+        <Button className="cancelButton" onClick={() => {props.setTrigger(false); setOpen(false);}} variant="contained" color="primary">
+            Aceptar
+        </Button>
       </DialogActions>
+      </Box>)}
     </Dialog>
   );
 };
