@@ -58,7 +58,13 @@ const putSupervisor = async (req, res) => {
     }
     if(isActive === false){
       await supervisor.setSupervisorShifts([]);
+      const companions = await Companion.findAll({ where: { SupervisorId: supervisor.id } });
+      for (const companion of companions) {
+      companion.SupervisorId = null;
+      await companion.save();
+      }
     }
+    
     const timezone = await CityTimeZone.findByPk(cityTimeZone);
     if (timezone) {
       await supervisor.setCityTimeZone(timezone.id);
