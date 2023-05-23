@@ -55,7 +55,15 @@ const downgradeSupervisor = async (req, res) => {
         gender: gender,
         CityTimeZoneId: CityTimeZoneId
       });
-
+      if(!supervisor.isActive){
+        await supervisor.setSupervisorShifts([]);
+        await supervisor.setCompanions([])
+      }
+      const companions = await Companion.findAll({ where: { SupervisorId: supervisor.id } });
+      for (const companion of companions) {
+      companion.SupervisorId = null;
+      await companion.save();
+      }
       const user = {
         email:newCompanion.email,password:newPassword,rol:newCompanion.rol
       }

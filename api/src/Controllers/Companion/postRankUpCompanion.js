@@ -56,6 +56,9 @@ const rankUpCompanion = async (req, res) => {
         studies: studies,
         gender: gender,
       });
+      if(!companion.isActive){
+        await companion.setCompanionShifts([]);
+      }
       const user = {
         email:newSupervisor.email,password:newPassword,rol:newSupervisor.rol
       }
