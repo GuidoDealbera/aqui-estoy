@@ -27,7 +27,7 @@ const CalendarSuperAdminPopOut = (props) => {
   let companions = useSelector((state) => state.view.allCompanions);
   const { user } = useSelector((state) => state.auth);
  
-  companions = companions.filter((sup) => sup.name && sup.lastName)
+  companions = companions.filter((com) => com.name && com.lastName && com.isActive)
  
   companions = companions.map((companion) => ({
     id: companion.id,

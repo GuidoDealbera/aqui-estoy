@@ -33,7 +33,7 @@ const CalendarSuperAdminPopOut = (props) => {
   });
   const { user } = useSelector((state) => state.auth);
   let supervisors = useSelector((state) => state.view.allSupervisors);
-  supervisors = supervisors.filter((sup) => sup.name && sup.lastName)
+  supervisors = supervisors.filter((sup) => sup.name && sup.lastName && sup.isActive)
   supervisors = supervisors.map((supervisor) => ({
     id: supervisor.id,
     label: `${supervisor.name} ${supervisor.lastName}`
