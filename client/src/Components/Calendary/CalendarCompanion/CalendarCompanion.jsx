@@ -287,10 +287,14 @@ const CalendarCompanion = () => {
                           )}
                         </Box>
                       ) : (
+                        maxCompanions >= companionCount ? ( 
                         <Box>
-                          <Typography>Disponibles: </Typography>
-                          <Typography> {(maxCompanions - companionCount) + ' de ' + maxCompanions}</Typography>
-                         </Box> 
+                          <Typography>{maxCompanions > companionCount ? "Disponibles: " : "No disponible"}</Typography>
+                          <Typography sx={{display: maxCompanions === companionCount ? "none" : null}}> {(maxCompanions - companionCount) + ' de ' + maxCompanions}</Typography>
+                         </Box> ) : (
+                          <Typography>No disponible</Typography>
+                         ) 
+
                       )}
                     </TableCell>
                   ) : (
